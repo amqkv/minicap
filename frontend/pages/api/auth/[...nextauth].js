@@ -1,5 +1,6 @@
 import CredentialsProvider from 'next-auth/providers/credentials';
 import nextAuth from 'next-auth';
+import { serverURL } from '@frontend/config/index';
 
 export default nextAuth({
   providers: [
@@ -10,29 +11,20 @@ export default nextAuth({
         password: { label: 'Password', type: 'password' },
       },
 
-      authorize: credentials => {
-        if (credentials.username === 'john' && credentials.password === 'test') {
-          return {
-            id: 2,
-            name: 'john',
-            email: 'fakemeial@gmail.com',
-          };
+      async authorize(credentials, req) {
+        const res = await fetch(serverURL + '/login', {
+          method: 'POST',
+          body: JSON.stringify(credentials),
+          headers: { 'Content-Type': 'application/json' },
+        });
+
+        const user = await res.json();
+
+        if (res.ok && user) {
+          return user;
         }
         return null;
       },
-      // async authorize(credentials, req) {
-      //   const res = await fetch('/', {
-      //     method: 'POST',
-      //     body: JSON.stringify(credentials),
-      //     headers: { 'Content-Type': 'application/json' },
-      //   });
-      //   const user = await res.json();
-
-      //   if (res.ok && user) {
-      //     return user;
-      //   }
-      // return null;
-      // },
     }),
   ],
   callbacks: {
