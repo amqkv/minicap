@@ -12,7 +12,7 @@ export default nextAuth({
       },
 
       async authorize(credentials, req) {
-        const res = await fetch(serverURL + '/login', {
+        const res = await fetch(serverURL + '/users/login', {
           method: 'POST',
           body: JSON.stringify(credentials),
           headers: { 'Content-Type': 'application/json' },
