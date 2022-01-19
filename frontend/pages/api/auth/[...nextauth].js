@@ -31,6 +31,7 @@ export default nextAuth({
     jwt: ({ token, user }) => {
       if (user) {
         token.id = user.id;
+        token.type = user.type;
       }
 
       return token;
@@ -38,6 +39,7 @@ export default nextAuth({
     session: ({ session, token }) => {
       if (token) {
         session.id = token.id;
+        session.user.type = token.type;
       }
 
       return session;

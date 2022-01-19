@@ -11,11 +11,13 @@ export const getServerSideProps: GetServerSideProps = async context => {
 
 export default function Home() {
   const { data: session } = useSession();
+  console.log(session);
 
   if (session) {
     return (
       <>
-        Signed in as {session.user.email} <br />
+        Signed in as {session.user.name} <br />
+        type: {session.user.type}
         <button onClick={() => signOut()}>Sign out</button>
       </>
     );
