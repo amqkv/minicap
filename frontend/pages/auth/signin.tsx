@@ -11,7 +11,6 @@ import {
   TabPanel,
   TabPanels,
 } from "@chakra-ui/react";
-import { useState } from "react";
 import { mainColor } from "@frontend/utils/constants";
 import Input from "@frontend/components/inputs/InputFactory";
 
@@ -25,11 +24,10 @@ export async function getServerSideProps(context: any) {
 }
 
 export default function SignIn({ csrfToken }: any) {
-  const [show, setShow] = useState(false);
 
   return (
     <Flex p="50px">
-      <Box w="50%" h="100%" p="20px">
+      <Box w="60%" h="100%" p="20px" display={{base: 'none', md: 'initial'}}>
         <Img
           src="https://i.imgur.com/DAXn8BT.png"
           w="100%"
@@ -37,7 +35,7 @@ export default function SignIn({ csrfToken }: any) {
         />
       </Box>
 
-      <Box w="50%" h="100%" p="20px">
+      <Box w={{base: '100%', md: '40%'}} h="100%" p="20px">
         <Tabs isFitted isLazy colorScheme="pink">
           <TabList>
             <Tab>Sign in</Tab>
