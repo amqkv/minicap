@@ -1,7 +1,7 @@
 import { useSession, signIn, signOut, getSession } from "next-auth/react";
 import { GetServerSideProps } from "next";
 import LoginLogoutButton from "@frontend/components/LoginLogoutButton";
-import { Flex, Heading, Container } from "@chakra-ui/react";
+import { Box, Img, Flex, Heading, Container } from "@chakra-ui/react";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
@@ -24,26 +24,28 @@ export default function Home() {
     );
   }
   return (
-
     <>
-      <Flex position={"relative"} width={"50%"} height={"100%"}>
-        <Container>
-          TODO
-        </Container>
-      </Flex>
-
       <Flex
-        width={"50%"}
-        height={"100%"}
-        alignItems={"center"}
-        justifyContent={"center"}
-        display={"flex"}
+        p="30px"
       >
-        <Flex direction="column" background="gray.100" p={20} rounded={6}>
-          <Heading mb={6}>Login to your account</Heading>
+        <Box direction="column" background="white.100" w="50%" p={20} rounded={6}>
+          <Heading mb={8}>Some description</Heading>
+          <p>
+            Some more description here lmao badabing badaboom hehe hihi hoho
+            Ideally long enough to take 3-4 lines like this So that it looks
+            legit and better lololololololollolollololol
+          </p>
+          <LoginLogoutButton/>
+        </Box>
 
-          <LoginLogoutButton />
-        </Flex>
+        <Box
+          w="50%"
+          h="100%"
+          p="20px"
+          display={{ base: "none", md: "initial" }}
+        >
+          <Img src="https://imgur.com/omMyzrd.png" w="100%" h="100%" alt="Visitor picture" />
+        </Box>
       </Flex>
     </>
   );
