@@ -4,23 +4,23 @@ router.use(express.json());
 
 
 router.post('/login', (req, res) => {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
   
-    if (username === 'doctor' && password === 'test') {
+    if (email === 'doctor' && password === 'test') {
       res.status(200).json({
         id: 1,
         name: 'doctorName',
         email: 'doctor@gmail.com',
         type: 'doctor',
       });
-    } else if (username === 'patient' && password === 'test') {
+    } else if (email === 'patient' && password === 'test') {
       res.status(200).json({
         id: 2,
         name: 'patient',
         email: 'patient@gmail.com',
         type: 'patient',
       });
-    } else if (username === 'admin' && password === 'test') {
+    } else if (email === 'admin' && password === 'test') {
       res.status(200).json({
         id: 3,
         name: 'admin',

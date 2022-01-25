@@ -7,7 +7,7 @@ export default nextAuth({
     CredentialsProvider({
       name: 'Credentials',
       credentials: {
-        username: { label: 'Email', type: 'text', placeholder: 'email' },
+        email: { label: 'Email', type: 'text', placeholder: 'email' },
         password: { label: 'Password', type: 'password' },
       },
 
@@ -50,7 +50,7 @@ export default nextAuth({
     secret: 'test',
     encryption: true,
   },
-  // pages: {
-  //   signIn: 'auth/sigin',
-  // },
+  pages: {
+    signIn: '/auth/signin',
+  },
 });
