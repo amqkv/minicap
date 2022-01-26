@@ -5,6 +5,7 @@ const db = require('../config/database');
 const User = db.define('User', {
     UserId: {
         primaryKey: true,
+        autoIncrement: true,
         type: Sequelize.INTEGER
     },
     FirstName: {
@@ -20,6 +21,9 @@ const User = db.define('User', {
         type: Sequelize.STRING
     },
     Email: {
+        type: Sequelize.STRING
+    },
+    Password: {
         type: Sequelize.STRING
     },
     Address: {

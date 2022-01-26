@@ -1,12 +1,21 @@
+require("dotenv").config();
+
 const express = require('express');
 const app = express();
 const port = 3001;
 const path = require('path');
+const bodyParser = require("body-parser");
 
 //Database
 const db = require('./config/database');
 
 app.use(express.json());
+
+// parse requests of content-type - application/json
+app.use(bodyParser.json());
+
+// parse requests of content-type - application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //Route declaration
 const indexRouter = require('./routes/index').router;
