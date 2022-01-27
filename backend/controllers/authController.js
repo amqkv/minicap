@@ -6,15 +6,15 @@ const bcrypt = require("bcryptjs");
 function register(req,res) {
     //Save user to database
     const newUser = User.create({
-        FirstName: req.body.firstname,
-        LastName: req.body.lastname,
+        FirstName: req.body.firstName,
+        LastName: req.body.lastName,
         Gender: req.body.gender,
-        Birthdate: req.body.birthdate,
+        Birthdate: req.body.birthDate,
         Address: req.body.address,
         City: req.body.city,
         Email: req.body.email,
         Password: bcrypt.hashSync(req.body.password, 8),
-        PhoneNumber: req.body.phonenumber
+        PhoneNumber: req.body.phoneNumber
     }).then(user => {
         if(user) {
             console.log("new user created");

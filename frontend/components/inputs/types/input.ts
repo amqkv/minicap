@@ -2,9 +2,7 @@ export interface InputProps {
   placeholder?: string;
   name: string;
   label: string;
-  options?: String[];
+  options?: string[];
+  error?: boolean;
 }
 
-export interface InputFactoryProps extends InputProps {
-  type: string;
-}

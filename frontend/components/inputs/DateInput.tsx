@@ -6,8 +6,8 @@ export default function StandardInput({ name, label }: InputProps) {
 
   return (
     <>
-      <Text marginTop="10px">{label}</Text>
-      <input className='chakra-input css-1cxpn8z' type="date" name={name} value={today} max={today} />
+      <Text margin='10px 0'>{label}</Text>
+      <input className='chakra-input css-1cxpn8z' type="date" name={name} max={today} />
     </>
   );
 }

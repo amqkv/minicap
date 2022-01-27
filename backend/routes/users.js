@@ -6,8 +6,6 @@ const jwt = require('jsonwebtoken');
 const authController = require('../controllers/authController');
 const authJwt = require('../middleware/authJwt');
 
-
-
 router.use(express.json());
 
 //Get the authenticated user
