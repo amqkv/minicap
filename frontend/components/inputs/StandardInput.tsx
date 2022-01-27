@@ -1,16 +1,11 @@
 import { Input, Text } from "@chakra-ui/react";
-
-interface StandardInputProps {
-  name: string;
-  label: string;
-  placeholder: string;
-}
+import { InputProps } from "@frontend/components/inputs/types/input";
 
 export default function StandardInput({
   name,
   label,
   placeholder,
-}: StandardInputProps) {
+}: InputProps) {
   return (
     <>
       <Text marginTop="10px">{label}</Text>
@@ -19,7 +14,6 @@ export default function StandardInput({
         placeholder={placeholder}
         size="md"
         marginBottom={"10px"}
-        
       />
     </>
   );

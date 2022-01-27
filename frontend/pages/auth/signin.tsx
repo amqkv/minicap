@@ -13,12 +13,12 @@ export async function getServerSideProps(context: any) {
 
 export default function SignIn({ csrfToken }: any) {
   return (
-    <Flex p="50px">
+    <Flex p={{base: "0px", md: "50px"}}>
       <Box w="55%" h="100%" p="20px" display={{ base: "none", md: "initial" }}>
         <Img src="https://i.imgur.com/DAXn8BT.png" w="100%" alt="Login picture" />
       </Box>
 
-      <Box w={{ base: "100%", md: "45%" }} h="100%" p="20px">
+      <Box w={{ base: "100%", md: "45%" }} h="100%" p={{base: "10px", md: "20px"}}>
         <Tabs isFitted isLazy colorScheme="pink">
           <TabList>
             <Tab>Sign in</Tab>
@@ -33,7 +33,6 @@ export default function SignIn({ csrfToken }: any) {
                 </Heading>
 
                 <form method="post" action="/api/auth/callback/credentials">
-                  {/* This input is useless? or used to send back to the backend */}
                   <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
                   <Input name="email" placeholder="Enter Email" label="Email" type="standard" />
                   <Input name="password" placeholder="Enter Password" label="Password" type="password" />
@@ -52,24 +51,23 @@ export default function SignIn({ csrfToken }: any) {
               </Box>
             </TabPanel>
             <TabPanel>
-              <Box marginBottom={"10px"}>
+            <Box marginBottom={"10px"}>
                 <Heading as="h2" marginBottom="20px" display={"inline-block"} fontWeight={600} textAlign={"center"}>
                   Create your account
                 </Heading>
                 <form>
                   <Box display={"flex"} flexDirection={"row"} flexWrap={"wrap"} w={"100%"}>
                     <Box display={"flex"} flexDirection={"column"} flexBasis="100%" flex="1" marginLeft={"10px"}>
-                      <Input name="First Name" placeholder="" label="First Name" type="standard" />
-                      <Input name="Email" placeholder="" label="Email" type="standard" />
-                      <Input name="Password" placeholder="" label="Password" type="password" />
-                      <Input name="DateOfBirth" placeholder="" label="Date of Birth" type="standard" />
-
+                      <Input name="First Name"  label="First Name" type="standard" />
+                      <Input name="Email"  label="Email" type="standard" />
+                      <Input name="Password" label="Password" type="password" />
+                      <Input name="DateOfBirth" label="Date of Birth" type="date"/>
                     </Box>
                     <Box display={"flex"} flexDirection={"column"} flexBasis="100%" flex="1" marginLeft={"10px"}>
-                      <Input name="Last Name" placeholder="" label="Last Name" type="standard" />
-                      <Input name="Gender" placeholder="" label="Gender" type="gender" />
-                      <Input name="Confirm Password" placeholder="" label="Confirm Password" type="password" />
-                      <Input name="Account role" placeholder="" label="Account Role" type="role" />
+                      <Input name="Last Name" label="Last Name" type="standard" />
+                      <Input name='Gender' label='Gender' options={['Male', 'Female', 'Rather not say']} type='dropdown'/>
+                      <Input name="Confirm Password"  label="Confirm Password" type="password" />
+                      <Input name='Account role' label='Account role' options={['Doctor', 'Health Official', 'Immigration Officer', 'Patient']} type='dropdown'/>
                     </Box>
                   </Box>
                   <Box marginTop="20px" alignItems={"center"} justifyContent={"center"}>

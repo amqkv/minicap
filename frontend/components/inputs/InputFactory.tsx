@@ -1,46 +1,19 @@
-import {
-  Text,
-  Input,
-  InputGroup,
-  Button,
-  InputRightElement,
-  Box,
-} from "@chakra-ui/react";
-import { mainColor } from "@frontend/utils/constants";
-import { useState } from "react";
 import PasswordInput from "@frontend/components/inputs/PasswordInput";
 import StandardInput from "@frontend/components/inputs/StandardInput";
-import RoleInput from "@frontend/components/inputs/AccountRoleInput";
-import GenderInput from "@frontend/components/inputs/GenderInput";
+import DateInput from "@frontend/components/inputs/DateInput";
+import DropdownInput from "@frontend/components/inputs/DropdownInput";
 
-export interface InputProps {
-  name: string;
-  label: string;
-  placeholder: string;
-}
+import { InputFactoryProps } from "@frontend/components/inputs/types/input";
 
-interface InputFactoryProps extends InputProps {
-  type: string;
-}
-
-export default function InputFactory({
-  name,
-  label,
-  placeholder,
-  type,
-}: InputFactoryProps) {
+export default function InputFactory({ name, label, placeholder, type, options }: InputFactoryProps) {
   if (type === "password") {
-    return (
-      <PasswordInput name={name} label={label} placeholder={placeholder} />
-    );
+    return <PasswordInput name={name} label={label} placeholder={placeholder} />;
   } else if (type === "standard") {
-    return (
-      <StandardInput name={name} label={label} placeholder={placeholder} />
-    );
-  } else if (type === "role") {
-    return <RoleInput name={name} label={label} placeholder={placeholder} />;
-  } else if (type === "gender") {
-    return <GenderInput name={name} label={label} placeholder={placeholder} />;
+    return <StandardInput name={name} label={label} placeholder={placeholder} />;
+  } else if (type === "dropdown") {
+    return <DropdownInput name={name} label={label} options={options} />;
+  } else if (type === "date") {
+    return <DateInput name={name} label={label} />;
   } else {
     return null;
   }

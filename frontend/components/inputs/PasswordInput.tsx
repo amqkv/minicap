@@ -7,7 +7,7 @@ import {
 } from "@chakra-ui/react";
 import { mainColor } from "@frontend/utils/constants";
 import { useState } from "react";
-import { InputProps } from "@frontend/components/inputs/InputFactory";
+import { InputProps } from "@frontend/components/inputs/types/input";
 
 export default function PasswordInput({
   name,

@@ -26,7 +26,8 @@ a {
 *[data-focus],
 input:focus,
 button:focus,
-a:focus {
+a:focus,
+select:focus {
   border: none !important;
   box-shadow: 0 0 0 2px $main-color !important;
 }
