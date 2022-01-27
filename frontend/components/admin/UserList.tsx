@@ -2,7 +2,11 @@ import { Box, List, ListItem, useColorModeValue } from '@chakra-ui/react';
 import classes from './UserList.module.css';
 import UserRowCard from './UserRowCard';
 
-const UserList = () => {
+interface AppProps {
+  onOpen: () => void;
+}
+
+const UserList = ({ onOpen }: AppProps) => {
   return (
     <Box overflow={'visible'}>
       <h2 className={classes.titleFont}>Doctor (80)</h2>
@@ -24,14 +28,10 @@ const UserList = () => {
           },
         }}
       >
-        <UserRowCard />
-        <UserRowCard />
-        <UserRowCard />
-        <UserRowCard />
-        <UserRowCard />
-        <UserRowCard />
-        <UserRowCard />
-        <UserRowCard />
+        <UserRowCard onOpen={onOpen} />
+        <UserRowCard onOpen={onOpen} />
+        <UserRowCard onOpen={onOpen} />
+        <UserRowCard onOpen={onOpen} />
       </List>
     </Box>
   );

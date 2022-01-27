@@ -1,7 +1,9 @@
 import { Box, ListItem } from '@chakra-ui/react';
 import classes from './UserRowCard.module.css';
-
-const UserRowCard = () => {
+interface AppProps {
+  onOpen: () => void;
+}
+const UserRowCard = ({ onOpen }: AppProps) => {
   return (
     <Box paddingEnd={4} py={2}>
       <ListItem>
@@ -11,6 +13,7 @@ const UserRowCard = () => {
           rounded={'md'}
           paddingStart={14}
           py={3}
+          onClick={onOpen}
         >
           <p className={classes.rowFont}>Last Name, First Name</p>
         </Box>
