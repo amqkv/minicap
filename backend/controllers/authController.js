@@ -41,8 +41,11 @@ function logIn(req, res) {
                 message: "Invalid password"
             });
         }
+        console.log("Log In Successful !");
         var accessToken = jwt.sign({email: req.body.email}, process.env.ACCESS_TOKEN_SECRET);
+
         res.json({ accessToken: accessToken });
+
     }).catch(err => {
         res.status(500).send("ERROR: "+err);
     });

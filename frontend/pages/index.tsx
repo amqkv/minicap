@@ -17,8 +17,8 @@ export default function Home() {
   if (session) {
     return (
       <>
-        Signed in as {session.user.name} <br />
-        type: {session.user.type} <br />
+        Signed in as {session.user.FirstName} <br />
+        type: {session.user.Gender} <br />
         <LoginLogoutButton />
       </>
     );
