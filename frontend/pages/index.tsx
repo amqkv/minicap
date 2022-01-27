@@ -13,15 +13,21 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 export default function Home() {
   const { data: session } = useSession();
+  const fun = useSession()
+  console.log("DAB", fun)
+  console.log(session)
+  // console.log(session.user)
 
   if (session) {
-    return (
-      <>
-        Signed in as {session.user.name} <br />
-        type: {session.user.type} <br />
-        <LoginLogoutButton />
-      </>
-    );
+  console.log(session.user)
+
+    // return (
+    //   <>
+    //     Signed in as {session.user.FirstName} <br />
+    //     type: {session.user.Gender} <br />
+    //     <LoginLogoutButton />
+    //   </>
+    // );
   }
   return (
     <>
