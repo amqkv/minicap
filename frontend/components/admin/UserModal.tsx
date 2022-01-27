@@ -12,20 +12,24 @@ import {
   Box,
   Center,
 } from '@chakra-ui/react';
+import UserInfoSimple from '@frontend/models/UserInfoSimple';
 import classes from './UserModal.module.css';
 
 interface appProps {
+  userInfo: UserInfoSimple;
   isOpen: boolean;
   onClose: () => void;
 }
 
-const UserModal = ({ isOpen, onClose }: appProps) => {
+const UserModal = ({ userInfo, isOpen, onClose }: appProps) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
       <ModalContent maxW={'45rem'}>
         <ModalHeader px={6} paddingTop={4} paddingBottom={0}>
-          <p className={classes.modalHeader}>LastName, First Name</p>
+          <p className={classes.modalHeader}>
+            {userInfo.lastName}, {userInfo.firstName}
+          </p>
         </ModalHeader>
         <ModalBody pt={0}>
           <Box my={1} className={classes.selectionFont}>

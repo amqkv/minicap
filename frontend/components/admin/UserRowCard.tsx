@@ -1,9 +1,17 @@
 import { Box, ListItem } from '@chakra-ui/react';
+import UserInfoSimple from '@frontend/models/UserInfoSimple';
 import classes from './UserRowCard.module.css';
 interface AppProps {
+  onUserSelect: ({}: UserInfoSimple) => void;
+  UserInfoSimple: UserInfoSimple;
   onOpen: () => void;
 }
-const UserRowCard = ({ onOpen }: AppProps) => {
+const UserRowCard = ({ onUserSelect, UserInfoSimple, onOpen }: AppProps) => {
+  const onClickHandler = () => {
+    onUserSelect(UserInfoSimple);
+    onOpen();
+  };
+
   return (
     <Box paddingEnd={4} py={2}>
       <ListItem>
@@ -13,9 +21,11 @@ const UserRowCard = ({ onOpen }: AppProps) => {
           rounded={'md'}
           paddingStart={14}
           py={3}
-          onClick={onOpen}
+          onClick={onClickHandler}
         >
-          <p className={classes.rowFont}>Last Name, First Name</p>
+          <p className={classes.rowFont}>
+            {UserInfoSimple.lastName}, {UserInfoSimple.firstName}
+          </p>
         </Box>
       </ListItem>
     </Box>
