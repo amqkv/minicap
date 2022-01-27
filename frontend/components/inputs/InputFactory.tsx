@@ -4,6 +4,7 @@ import {
   InputGroup,
   Button,
   InputRightElement,
+  Box,
 } from "@chakra-ui/react";
 import { mainColor } from "@frontend/utils/constants";
 import { useState } from "react";

@@ -1,4 +1,4 @@
-import { Text, Select } from "@chakra-ui/react";
+import { Text, Select} from "@chakra-ui/react";
 
 interface GenderInputProps {
   name: string;
@@ -13,8 +13,8 @@ export default function StandardInput({
 }: GenderInputProps) {
   return (
     <>
-      <Text>{label}</Text>
-      <Select placeholder=" ">
+      <Text marginTop="10px">{label}</Text>
+      <Select marginBottom={"10px"} placeholder=" " size={"md"}>
         <option value="Male">Male</option>
         <option value="Female">Female</option>
         <option value="undefined">Rather not say</option>

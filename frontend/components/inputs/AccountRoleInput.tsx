@@ -13,8 +13,8 @@ export default function StandardInput({
 }: RoleInputProps) {
   return (
     <>
-      <Text>{label}</Text>
-      <Select placeholder=" ">
+      <Text marginTop="10px">{label}</Text>
+      <Select marginBottom={"10px"} placeholder=" " size={"md"}>
         <option value="doctor">Doctor</option>
         <option value="patient">Patient</option>
         <option value="health official">Health official</option>

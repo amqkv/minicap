@@ -13,12 +13,13 @@ export default function StandardInput({
 }: StandardInputProps) {
   return (
     <>
-      <Text>{label}</Text>
+      <Text marginTop="10px">{label}</Text>
       <Input
         name={name}
         placeholder={placeholder}
         size="md"
-        marginTop={"10px"}
+        marginBottom={"10px"}
+        
       />
     </>
   );

@@ -18,7 +18,7 @@ export default function PasswordInput({
 
   return (
     <>
-      <Text marginTop="20px">{label}</Text>
+      <Text marginTop="10px">{label}</Text>
       <InputGroup size="md">
         <Input
           name={name}
@@ -26,6 +26,7 @@ export default function PasswordInput({
           type={show ? "text" : "password"}
           placeholder={placeholder}
           marginTop={"10px"}
+          marginBottom={"10px"}
         />
         <InputRightElement width="4.5rem" marginTop="10px">
           <Button
