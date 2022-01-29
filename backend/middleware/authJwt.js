@@ -1,6 +1,4 @@
 const jwt = require("jsonwebtoken");
-const User = require("../models/User");
-const db = require('../config/database');
 
 //Middleware for token verification
 function verifyToken(req, res, next) {
