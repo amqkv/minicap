@@ -28,7 +28,7 @@ const UserModal = ({ userInfo, isOpen, onClose }: appProps) => {
       <ModalContent maxW={'45rem'}>
         <ModalHeader px={6} paddingTop={4} paddingBottom={0}>
           <p className={classes.modalHeader}>
-            {userInfo.lastName}, {userInfo.firstName}
+            {userInfo.LastName}, {userInfo.FirstName}
           </p>
         </ModalHeader>
         <ModalBody pt={0}>

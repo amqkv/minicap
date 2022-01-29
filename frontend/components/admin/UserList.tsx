@@ -23,14 +23,16 @@ const UserList = ({
   UsersInfoSimple,
 }: AppProps) => {
   console.log(UsersInfoSimple);
-
   return (
     <GridItem>
       <Box overflow={'visible'}>
-        <h2 className={classes.titleFont}>{userRole} (80)</h2>
+        <h2 className={classes.titleFont}>
+          {userRole} ({UsersInfoSimple.length})
+        </h2>
         <List
           overflowY="scroll"
           overflow={'auto'}
+          minHeight="26vh"
           maxHeight="26vh"
           py={2}
           m={0}
@@ -49,7 +51,7 @@ const UserList = ({
           {UsersInfoSimple.map((userInfo) => {
             return (
               <UserRowCard
-                key={userInfo.key}
+                key={userInfo.AccountId}
                 onUserSelect={onUserSelect}
                 onOpen={onOpen}
                 UserInfoSimple={userInfo}

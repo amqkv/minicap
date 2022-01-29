@@ -24,7 +24,7 @@ const UserRowCard = ({ onUserSelect, UserInfoSimple, onOpen }: AppProps) => {
           onClick={onClickHandler}
         >
           <p className={classes.rowFont}>
-            {UserInfoSimple.lastName}, {UserInfoSimple.firstName}
+            {UserInfoSimple.LastName}, {UserInfoSimple.FirstName}
           </p>
         </Box>
       </ListItem>
