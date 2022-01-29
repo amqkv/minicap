@@ -12,7 +12,6 @@ import {
   TabList,
   TabPanel,
   TabPanels,
-  Select,
   useToast,
   UseToastOptions,
 } from "@chakra-ui/react";
@@ -41,6 +40,8 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
+  const [phoneError, setPhoneError] = useState(false);
+  const [postalError, setPostalError] = useState(false);
 
   async function handleSignIn(event: any) {
     event.preventDefault();
@@ -64,15 +65,19 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
 
   async function handleSignUp(event: any) {
     event.preventDefault();
-
+    console.log("HELLOOOOOOOOOOOOOO");
     const firstName = event.target[0].value;
     const email = event.target[1].value;
     const password = event.target[2].value;
     const dateOfBirth = event.target[4].value;
-    const lastName = event.target[5].value;
-    const gender = event.target[6].value;
-    const confirmPassword = event.target[7].value;
-    const accountRole = event.target[9].value;
+    const address = event.target[5].value;
+    const postalCode = event.target[6].value;
+    const lastName = event.target[7].value;
+    const gender = event.target[8].value;
+    const confirmPassword = event.target[9].value;
+    const accountRole = event.target[11].value;
+    const city = event.target[12].value;
+    const phoneNumber = event.target[13].value;
 
     const errorPopupProps: UseToastOptions = {
       title: "Error!",
@@ -105,6 +110,20 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
       setEmailError(false);
     }
 
+    if(!/^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/.test(postalCode)){
+      setPostalError(true);
+      error = true;
+    } else {
+      setPasswordError(false);
+    }
+
+    if(!/^((\+1)?[\s-]?)?\(?[2-9]\d\d\)?[\s-]?[2-9]\d\d[\s-]?\d\d\d\d/.test(phoneNumber)){
+      setPhoneError(true);
+      error = true;
+    } else {
+      setPhoneError(false);
+    }
+
     let today = new Date().toISOString().slice(0, 10);
 
     if (error) {
@@ -117,10 +136,13 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
       !lastName ||
       !gender ||
       !confirmPassword ||
-      !accountRole
+      !accountRole ||
+      !city ||
+      !address || !postalCode || !phoneNumber
     ) {
       callErrorPopup({ ...errorPopupProps, description: missingFieldDescription });
     } else {
+      //      const { ok } = (await signIn("credentials", { redirect: false, email, password })) as any;
       const res = await fetch(serverURL + "/users/register", {
         method: "POST",
         body: JSON.stringify({
@@ -128,11 +150,12 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
           lastName: lastName,
           gender: gender,
           birthDate: dateOfBirth,
-          address: "",
-          city: "",
+          address: address,
+          city: city,
           email: email,
           password: password,
-          phoneNumber: "",
+          phoneNumber: phoneNumber,
+          postalCode: postalCode
           // role: accountRole;
         }),
         headers: { "Content-Type": "application/json" },
@@ -195,6 +218,8 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
                         error={passwordError}
                       />
                       <DateInput name="DateOfBirth" label="Date of Birth" />
+                      <StandardInput name="Address" placeholder="Enter Address" label="Address" />
+                      <StandardInput name="PostalCode" placeholder="Enter Postal Code" label="Postal Code" error={postalError}/>
                     </Box>
                     <Box display={"flex"} flexDirection={"column"} flexBasis="100%" flex="1" marginLeft={"10px"}>
                       <StandardInput name="Last Name" placeholder="Enter Last Name" label="Last Name" />
@@ -216,6 +241,8 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
                         label="Account Role"
                         options={["Doctor", "Health Official", "Immigration Officer", "Patient"]}
                       />
+                      <StandardInput name="City" placeholder="Enter City" label="City" />
+                      <StandardInput name="PhoneNumber" placeholder="Enter Phone Number" label="Phone Number" error={phoneError}/>
                     </Box>
                   </Box>
                   <Box marginTop="20px" alignItems={"center"} justifyContent={"center"}>

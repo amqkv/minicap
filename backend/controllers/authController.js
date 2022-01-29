@@ -14,7 +14,8 @@ function register(req,res) {
         City: req.body.city,
         Email: req.body.email,
         Password: bcrypt.hashSync(req.body.password, 8),
-        PhoneNumber: req.body.phoneNumber
+        PhoneNumber: req.body.phoneNumber,
+        PostalCode: req.body.postalCode
     }).then(user => {
         if(user) {
             console.log("new user created");
