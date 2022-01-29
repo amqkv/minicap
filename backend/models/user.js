@@ -3,7 +3,7 @@ const db = require('../config/database');
 
 //User model associated with Database User table
 const User = db.define('User', {
-    UserId: {
+    AccountId: {
         primaryKey: true,
         autoIncrement: true,
         type: Sequelize.INTEGER
@@ -17,7 +17,7 @@ const User = db.define('User', {
     Gender: {
         type: Sequelize.STRING
     },
-    Birthdate: {
+    DateOfBirth: {
         type: Sequelize.STRING
     },
     Email: {
@@ -36,6 +36,9 @@ const User = db.define('User', {
         type: Sequelize.STRING
     }, 
     PostalCode: {
+        type: Sequelize.STRING
+    },
+    Role: {
         type: Sequelize.STRING
     }
 }, {

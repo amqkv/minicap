@@ -85,8 +85,17 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
       isClosable: true,
       position: "top",
     };
+
+    const successPopupProps: UseToastOptions = {
+      title: "Success!",
+      status: "success",
+      isClosable: true,
+      position: "top"
+    }
+
     const errorDescription = `There is an error with your email or password. Try again`;
     const missingFieldDescription = "There is a missing field in the form. Try again";
+    const successDescription = 'User has been created. Please login.'
     let error = false;
 
     if (password !== confirmPassword) {
@@ -110,12 +119,12 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
       setEmailError(false);
     }
 
-    if(!/^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/.test(postalCode)){
-      setPostalError(true);
-      error = true;
-    } else {
-      setPasswordError(false);
-    }
+    // if(!/^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/.test(postalCode)){
+    //   setPostalError(true);
+    //   error = true;
+    // } else {
+    //   setPasswordError(false);
+    // }
 
     if(!/^((\+1)?[\s-]?)?\(?[2-9]\d\d\)?[\s-]?[2-9]\d\d[\s-]?\d\d\d\d/.test(phoneNumber)){
       setPhoneError(true);
@@ -155,11 +164,12 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
           email: email,
           password: password,
           phoneNumber: phoneNumber,
-          postalCode: postalCode
-          // role: accountRole;
+          postalCode: postalCode,
+          role: accountRole
         }),
         headers: { "Content-Type": "application/json" },
       });
+      callErrorPopup({ ...successPopupProps, description: successDescription });
       // console.log(res);
     }
   }

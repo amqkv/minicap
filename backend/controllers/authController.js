@@ -1,5 +1,4 @@
 const User = require("../models/user");
-const db = require('../config/database');
 const jwt = require('jsonwebtoken');
 const bcrypt = require("bcryptjs");
 
@@ -9,13 +8,14 @@ function register(req,res) {
         FirstName: req.body.firstName,
         LastName: req.body.lastName,
         Gender: req.body.gender,
-        Birthdate: req.body.birthDate,
+        DateOfBirth: req.body.dateOfBirth,
         Address: req.body.address,
         City: req.body.city,
         Email: req.body.email,
         Password: bcrypt.hashSync(req.body.password, 8),
         PhoneNumber: req.body.phoneNumber,
-        PostalCode: req.body.postalCode
+        PostalCode: req.body.postalCode,
+        Role: req.body.accountRole
     }).then(user => {
         if(user) {
             console.log("new user created");
