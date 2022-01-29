@@ -1,13 +1,13 @@
-import { Checkbox, Stack, Button, CheckboxGroup, Flex } from '@chakra-ui/react';
+import { Checkbox, Stack, Button, CheckboxGroup, Flex, useForceUpdate } from '@chakra-ui/react';
 import { serverURL } from '@frontend/config/index';
 import { useEffect, useState } from 'react';
 
 function getCheckedBoxes(requiredDetails: any) {
   let detailName = [];
-  for(let i = 0; i < requiredDetails.length; i++){
-    let key = Object.keys(requiredDetails[i])[0]
-    if(requiredDetails[i][key]){
-      detailName.push(key)
+  for (let i = 0; i < requiredDetails.length; i++) {
+    let key = Object.keys(requiredDetails[i])[0];
+    if (requiredDetails[i][key]) {
+      detailName.push(key);
     }
   }
   return detailName;
@@ -15,9 +15,7 @@ function getCheckedBoxes(requiredDetails: any) {
 
 async function onSave() {
   // <TODO> - send updated state to the backend
-
 }
-
 
 export default function PatientDetailsToProvideForm() {
   const [requiredDetails, setRequiredDetails]: any = useState([{}]);
@@ -37,25 +35,16 @@ export default function PatientDetailsToProvideForm() {
               });
             }
           }
+
           setRequiredDetails(temp);
         });
       })
       .catch((err) => console.log(err));
   }, []);
 
-  function setCheckedItems(
-    index: number,
-    key: string,
-    newCheckedState: boolean,
-    requiredDetails: any
-  ) {
-    let temp = [
-      ...requiredDetails.slice(0, index),
-      {[key] : newCheckedState},
-      ...requiredDetails.slice(index + 1)
-    ]
-    console.log(temp)
-    // setRequiredDetails(temp)
+  function setCheckedItems(index: number, key: string, newCheckedState: boolean, requiredDetails: any) {
+    let temp = [...requiredDetails.slice(0, index), { [key]: newCheckedState }, ...requiredDetails.slice(index + 1)];
+    console.log(temp);
   }
 
   let checkboxes = [];
@@ -67,14 +56,7 @@ export default function PatientDetailsToProvideForm() {
         value={key}
         isChecked={requiredDetails[i][key]}
         colorScheme="red"
-        onChange={(e) =>
-          setCheckedItems(
-            i,
-            key,
-            e.target.checked,
-            requiredDetails
-          )
-        }
+        onChange={(e) => setCheckedItems(i, key, e.target.checked, requiredDetails)}
       >
         {key}
       </Checkbox>
@@ -84,9 +66,7 @@ export default function PatientDetailsToProvideForm() {
   return (
     <div className="patient-details_form">
       <Stack spacing={5} direction="row">
-        <CheckboxGroup defaultValue={getCheckedBoxes(requiredDetails)}>
-          {checkboxes}
-        </CheckboxGroup>
+        <CheckboxGroup defaultValue={getCheckedBoxes(requiredDetails)}>{checkboxes}</CheckboxGroup>
       </Stack>
       <Flex justify="flex-end">
         <Button colorScheme="red" onClick={onSave}>
