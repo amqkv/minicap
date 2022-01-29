@@ -1,59 +1,82 @@
-import {
-  Checkbox,
-  Stack,
-  Button,
-  CheckboxGroup,
-  extendTheme,
-  Flex,
-  Box,
-} from '@chakra-ui/react';
+import { Checkbox, Stack, Button, CheckboxGroup, Flex } from '@chakra-ui/react';
+import { serverURL } from '@frontend/config/index';
+import { useEffect, useState } from 'react';
 
-// <TODO> Fetch details required from backend
-let requiredDetails = [
-  { detail: 'Weight', required: true },
-  { detail: 'Temperature', required: true },
-  { detail: 'Symptoms', required: true },
-  { detail: 'Chronic Illnesses', required: false },
-];
-let updatedState = requiredDetails;
-
-function getCheckedBoxes() {
+function getCheckedBoxes(requiredDetails: any) {
   let detailName = [];
-  for (
-    let i = 0;
-    i < requiredDetails.filter((elm) => elm.required == true).length;
-    i++
-  ) {
-    detailName.push(
-      requiredDetails.filter((elm) => elm.required == true)[i].detail
-    );
+  for(let i = 0; i < requiredDetails.length; i++){
+    let key = Object.keys(requiredDetails[i])[0]
+    if(requiredDetails[i][key]){
+      detailName.push(key)
+    }
   }
   return detailName;
 }
 
-function setCheckedItems(detail: string, newCheckedState: boolean) {
-  updatedState[updatedState.findIndex((elm) => elm.detail == detail)].required =
-    newCheckedState;
+async function onSave() {
+  // <TODO> - send updated state to the backend
+
 }
 
-function onSave() {
-  // <TODO> - send updated state to the backend
-  console.log(updatedState);
-}
 
 export default function PatientDetailsToProvideForm() {
+  const [requiredDetails, setRequiredDetails]: any = useState([{}]);
+
+  // On first render - fetch the form data
+  useEffect(() => {
+    fetch(serverURL + '/patients/getRequiredDetails/1')
+      .then((res) => {
+        res.json().then((data) => {
+          let keys = Object.keys(data[0]);
+          let temp = [];
+          console.log(data[0].Id);
+          for (let i = 1; i < keys.length; i++) {
+            if (keys[i].includes('Required')) {
+              temp.push({
+                [keys[i].replace('Required', '')]: data[0][keys[i]],
+              });
+            }
+          }
+          setRequiredDetails(temp);
+        });
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  function setCheckedItems(
+    index: number,
+    key: string,
+    newCheckedState: boolean,
+    requiredDetails: any
+  ) {
+    let temp = [
+      ...requiredDetails.slice(0, index),
+      {[key] : newCheckedState},
+      ...requiredDetails.slice(index + 1)
+    ]
+    console.log(temp)
+    // setRequiredDetails(temp)
+  }
+
   let checkboxes = [];
   for (let i = 0; i < requiredDetails.length; i++) {
+    let key = Object.keys(requiredDetails[i])[0];
     checkboxes.push(
       <Checkbox
-        key={requiredDetails[i].detail}
-        value={requiredDetails[i].detail}
+        key={key}
+        value={key}
+        isChecked={requiredDetails[i][key]}
         colorScheme="red"
         onChange={(e) =>
-          setCheckedItems(requiredDetails[i].detail, e.target.checked)
+          setCheckedItems(
+            i,
+            key,
+            e.target.checked,
+            requiredDetails
+          )
         }
       >
-        {requiredDetails[i].detail}
+        {key}
       </Checkbox>
     );
   }
@@ -61,7 +84,7 @@ export default function PatientDetailsToProvideForm() {
   return (
     <div className="patient-details_form">
       <Stack spacing={5} direction="row">
-        <CheckboxGroup defaultValue={getCheckedBoxes()}>
+        <CheckboxGroup defaultValue={getCheckedBoxes(requiredDetails)}>
           {checkboxes}
         </CheckboxGroup>
       </Stack>
