@@ -1,6 +1,6 @@
 # Description
 
-Implements/fixes [SOEN-#](url to Jira ticket)
+Implements/fixes [SOEN-#](URL to Jira ticket)
 
 - Change 1
 - Change 2
