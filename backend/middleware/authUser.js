@@ -4,15 +4,6 @@ const users = require("../routes/users");
 
 var signedUser;
 
-//Role initialization
-const ROLE = {
-    ADMIN: 'Admin',
-    DOCTOR: 'Doctor',
-    HEALTH_OFFICIAL: 'HealthOfficial',
-    IMMIGRATION_OFFICER: 'ImmigrationOfficer',
-    PATIENT: 'Patient',
-}
-
 //Middleware to set the signed in user
 async function setUser(req, res, next) {
     const userId = req.body.accountId;
@@ -50,7 +41,6 @@ function verifyRole(role) {
 }
 
 module.exports = {
-    ROLE,
     verifyUser,
     verifyRole,
     setUser

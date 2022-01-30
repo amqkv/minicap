@@ -2,6 +2,7 @@ const User = require("../models/user");
 const db = require('../config/database');
 const jwt = require('jsonwebtoken');
 const bcrypt = require("bcryptjs");
+const constants = require("../utils/constants");
 
 //Save user to database
 function register(req,res) {
@@ -16,7 +17,8 @@ function register(req,res) {
         Password: bcrypt.hashSync(req.body.password, 8),
         PhoneNumber: req.body.phoneNumber,
         PostalCode: req.body.postalCode,
-        Role: req.body.role
+        Role: req.body.role,
+        Confirmed: req.body.role == constants.ROLE.PATIENT
     }).then(user => {
         if(user) {
             console.log("new user created");
