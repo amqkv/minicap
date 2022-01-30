@@ -16,7 +16,8 @@ export async function getServerSideProps() {
   };
 }
 
-let patient = {
+// <TODO> Get current patient's actual information from backend
+const patient = {
   basicInformation: {
     firstName: 'Dragun',
     lastName: 'Di Zenuts',

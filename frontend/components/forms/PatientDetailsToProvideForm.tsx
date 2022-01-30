@@ -38,7 +38,7 @@ export default function PatientDetailsToProvideForm({ requiredDetails }: any) {
 
   let checkboxes = [];
   for (let i = 0; i < requiredDetails.length; i++) {
-    let key = Object.keys(requiredDetails[i])[0];
+    const key = Object.keys(requiredDetails[i])[0];
     checkboxes.push(
       <Checkbox
         key={key}
