@@ -1,5 +1,20 @@
 import PatientDetailsToProvideForm from '@frontend/components/forms/PatientDetailsToProvideForm';
 import { Box, Flex, Heading, Text, Image, Divider } from '@chakra-ui/react';
+import { serverURL } from '@frontend/config/index';
+
+export async function getServerSideProps() {
+  let requiredDetails: any = [];
+  try {
+    // <TODO> Get current patient ID (the one that gets clicked on)
+    const response: any = await fetch(serverURL + '/patients/getRequiredDetails/1');
+    requiredDetails = await response.json();
+  } catch {}
+  return {
+    props: {
+      requiredDetails,
+    },
+  };
+}
 
 let patient = {
   basicInformation: {
@@ -19,7 +34,7 @@ let patient = {
   ],
 };
 
-export default function PatientInfo() {
+export default function PatientInfo({ requiredDetails }: any) {
   return (
     <div className="patient-info">
       <div className="section basic-details">
@@ -33,11 +48,7 @@ export default function PatientInfo() {
             />
           </Box>
           <Box flex="3.5">
-            <Heading size="lg">
-              {patient.basicInformation.firstName +
-                ' ' +
-                patient.basicInformation.lastName}
-            </Heading>
+            <Heading size="lg">{patient.basicInformation.firstName + ' ' + patient.basicInformation.lastName}</Heading>
             <Text fontSize="xl">{patient.basicInformation.gender}</Text>
             <Text fontSize="xl">
               <b>Age: </b>
@@ -55,13 +66,11 @@ export default function PatientInfo() {
           <Heading size="lg"> Desired Details</Heading>
         </div>
         <div className="form-container">
-          <PatientDetailsToProvideForm />
+          <PatientDetailsToProvideForm requiredDetails={requiredDetails} />
         </div>
       </div>
       <Divider />
-      <div className="section updated-details">
-        {/* <TODO> Insert updated detals history */}
-      </div>
+      <div className="section updated-details">{/* <TODO> Insert updated details history */}</div>
     </div>
   );
 }
