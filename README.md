@@ -1,8 +1,15 @@
 # Getting Started
 
 To run the application
- - cd frontend folder & npm run dev
- - cd backend folder & npm run dev
+### Frontend
+ - Navigate to the frontend folder with `cd frontend`
+ - Install dependencies with `npm i` 
+ - Run `npm run dev`
+
+### Backend
+ - Navigate to the backend folder with `cd backend`
+ - Install dependencies with `npm i` 
+ - Run `npm run dev`
 
 ## Branch Name Convention
 All branch names must be of the following format: `jira-ticket-number_feature-name`  
