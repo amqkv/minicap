@@ -63,7 +63,6 @@ function getAuthUser(req, res) {
           email: req.user.email
         }
     }).then(user => {
-          console.log("user: ", user);
           res.json(user);
     })
       .catch(err => console.log(err))
