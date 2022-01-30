@@ -10,7 +10,7 @@ function updateRole(req, res) {
         }
     }).then(result => {
         console.log("Role successfully updated !");
-        res.json("Role succesfully updated !");
+        res.status(200).send("Role successfully updated !");
     }).catch(err => {
         res.status(500).send("Error:"+err);
     })
