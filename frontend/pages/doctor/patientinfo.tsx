@@ -37,8 +37,8 @@ const patient = {
 
 export default function PatientInfo({ requiredDetails }: any) {
   return (
-    <div className="patient-info">
-      <div className="section basic-details">
+    <Box className="patient-info">
+      <Box m="14px" className="section basic-details">
         <Flex>
           <Box flex="1">
             <Image
@@ -60,18 +60,20 @@ export default function PatientInfo({ requiredDetails }: any) {
             </Text>
           </Box>
         </Flex>
-      </div>
+      </Box>
       <Divider />
-      <div className="section desired-details">
-        <div className="header">
+      <Box m="14px" className="section desired-details">
+        <Box mb="10px" className="header">
           <Heading size="lg"> Desired Details</Heading>
-        </div>
-        <div className="form-container">
+        </Box>
+        <Box className="form-container">
           <PatientDetailsToProvideForm requiredDetails={requiredDetails} />
-        </div>
-      </div>
+        </Box>
+      </Box>
       <Divider />
-      <div className="section updated-details">{/* <TODO> Insert updated details history */}</div>
-    </div>
+      <Box m="14px" className="section updated-details">
+        {/* <TODO> Insert updated details history */}
+      </Box>
+    </Box>
   );
 }

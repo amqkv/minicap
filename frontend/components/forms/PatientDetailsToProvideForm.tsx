@@ -1,5 +1,6 @@
-import { Checkbox, Stack, Button, CheckboxGroup, Flex } from '@chakra-ui/react';
+import { Checkbox, Stack, Button, CheckboxGroup, Flex, Box } from '@chakra-ui/react';
 import { serverURL } from '@frontend/config/index';
+// import '@frontend/styles/doctor.css';
 
 function getCheckedBoxes(requiredDetails: any) {
   let detailName = [];
@@ -14,18 +15,11 @@ function getCheckedBoxes(requiredDetails: any) {
 
 async function onSave(requiredDetails: any) {
   // <TODO> - get patient id
-  let data = { Patient_PatientId: 1 };
-  let key = '';
+  let patientId = 1;
 
-  // Renaming the detail names
-  for (let i = 0; i < requiredDetails.length; i++) {
-    key = Object.keys(requiredDetails[i])[0];
-    data = { ...data, [key + 'Required']: requiredDetails[i][key] };
-  }
-
-  fetch(serverURL + '/patients/updateRequiredDetails', {
+  fetch(serverURL + '/patients/' + patientId + '/updateRequiredDetails/', {
     method: 'POST',
-    body: JSON.stringify(data),
+    body: JSON.stringify(requiredDetails),
     headers: { 'Content-Type': 'application/json' },
   }).catch((err) => console.log(err));
 }
@@ -36,32 +30,32 @@ export default function PatientDetailsToProvideForm({ requiredDetails }: any) {
     requiredDetails = temp;
   }
 
-  let checkboxes = [];
-  for (let i = 0; i < requiredDetails.length; i++) {
-    const key = Object.keys(requiredDetails[i])[0];
-    checkboxes.push(
-      <Checkbox
-        key={key}
-        value={key}
-        isChecked={requiredDetails[i][key]}
-        colorScheme="red"
-        onChange={(e) => setCheckedItems(i, key, e.target.checked)}
-      >
-        {key}
-      </Checkbox>
-    );
-  }
-
   return (
-    <div className="patient-details_form">
+    <Box>
       <Stack spacing={5} direction="row">
-        <CheckboxGroup defaultValue={getCheckedBoxes(requiredDetails)}>{checkboxes}</CheckboxGroup>
+        {/* <CheckboxGroup defaultValue={getCheckedBoxes(requiredDetails)}>{checkboxes}</CheckboxGroup> */}
+        <CheckboxGroup defaultValue={getCheckedBoxes(requiredDetails)}>
+          {requiredDetails.map((requiredDetail: any, index: number) => {
+            let key = Object.keys(requiredDetail);
+            return (
+              <Checkbox
+                key={key[0]}
+                value={key[0]}
+                isChecked={requiredDetail[key[0]]}
+                colorScheme="red"
+                onChange={(e) => setCheckedItems(index, key[0], e.target.checked)}
+              >
+                {key[0]}
+              </Checkbox>
+            );
+          })}
+        </CheckboxGroup>
       </Stack>
       <Flex justify="flex-end">
         <Button colorScheme="red" onClick={() => onSave(requiredDetails)}>
           Save
         </Button>
       </Flex>
-    </div>
+    </Box>
   );
 }

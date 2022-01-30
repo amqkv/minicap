@@ -20,6 +20,7 @@ const RequiredDetails = db.define(
       type: Sequelize.BOOLEAN,
     },
     Patient_PatientId: {
+      foreignKey: true,
       type: Sequelize.INTEGER,
     },
   },

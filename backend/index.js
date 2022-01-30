@@ -33,12 +33,6 @@ app.set('view engine', 'jade');
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/patients', patientsRouter);
-
-// CORS headers
-app.use(function (req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  next();
-});
 app.use('/admins', adminsRouter);
 
 //test DB
