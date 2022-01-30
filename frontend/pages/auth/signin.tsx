@@ -21,7 +21,22 @@ import PasswordInput from "@frontend/components/inputs/PasswordInput";
 import StandardInput from "@frontend/components/inputs/StandardInput";
 import DateInput from "@frontend/components/inputs/DateInput";
 import DropdownInput from "@frontend/components/inputs/DropdownInput";
-import { serverURL } from "@frontend/config/index";
+import {
+  validPassword,
+  validEmail,
+  //  validPhoneNumber,
+  validPostalCode,
+  allFieldsFilled,
+} from "@frontend/utils/validation";
+import { signUp } from "@frontend/functions/signUp";
+import {
+  registerGeneralErrorPopup,
+  registerSuccessPopup,
+  signinErrorPopup,
+  registerEmailErrorPopup,
+} from "@frontend/utils/popups";
+
+const today = new Date().toISOString().slice(0, 10);
 
 export async function getServerSideProps(context: any) {
   return {
@@ -33,15 +48,15 @@ export async function getServerSideProps(context: any) {
 
 export default function SignIn({ csrfToken }: { csrfToken: string }) {
   const router = useRouter();
-  const errorPopup = useToast();
-  const callErrorPopup = (props: UseToastOptions) =>
-    !errorPopup.isActive("error") && errorPopup({ ...props, id: "error" });
+  const toast = useToast();
+  const callPopup = (props: UseToastOptions) => !toast.isActive("popup") && toast({ ...props, id: "popup" });
 
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
-  const [phoneError, setPhoneError] = useState(false);
+  // const [phoneError, setPhoneError] = useState(false);
   const [postalError, setPostalError] = useState(false);
+  const [tabIndex, setTabIndex] = useState(0);
 
   async function handleSignIn(event: any) {
     event.preventDefault();
@@ -51,126 +66,73 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
 
     if (email && password) {
       const { ok } = (await signIn("credentials", { redirect: false, email, password })) as any;
-      ok && router.push("/") && errorPopup.closeAll();
-      !ok &&
-        errorPopup({
-          title: "Error!",
-          description: `There was an error in login. Try again`,
-          status: "error",
-          isClosable: true,
-          position: "top",
-        });
+
+      ok && router.push("/") && toast.closeAll();
+      !ok && callPopup(signinErrorPopup);
     }
   }
 
-  async function handleSignUp(event: any) {
+  async function handleRegister(event: any) {
     event.preventDefault();
-    console.log("HELLOOOOOOOOOOOOOO");
-    const firstName = event.target[0].value;
-    const email = event.target[1].value;
-    const password = event.target[2].value;
-    const dateOfBirth = event.target[4].value;
-    const address = event.target[5].value;
-    const postalCode = event.target[6].value;
-    const lastName = event.target[7].value;
-    const gender = event.target[8].value;
-    const confirmPassword = event.target[9].value;
-    const accountRole = event.target[11].value;
-    const city = event.target[12].value;
-    const phoneNumber = event.target[13].value;
 
-    const errorPopupProps: UseToastOptions = {
-      title: "Error!",
-      status: "error",
-      isClosable: true,
-      position: "top",
+    const registerValues = {
+      firstName: event.target[0].value,
+      email: event.target[1].value,
+      password: event.target[2].value,
+      dateOfBirth: event.target[4].value,
+      address: event.target[5].value,
+      postalCode: event.target[6].value,
+      lastName: event.target[7].value,
+      gender: event.target[8].value,
+      confirmPassword: event.target[9].value,
+      accountRole: event.target[11].value,
+      city: event.target[12].value,
+      phoneNumber: event.target[13].value,
     };
 
-    const successPopupProps: UseToastOptions = {
-      title: "Success!",
-      status: "success",
-      isClosable: true,
-      position: "top"
-    }
-
-    const errorDescription = `There is an error with your email or password. Try again`;
-    const missingFieldDescription = "There is a missing field in the form. Try again";
-    const successDescription = 'User has been created. Please login.'
     let error = false;
 
-    if (password !== confirmPassword) {
+    if (registerValues.password !== registerValues.confirmPassword) {
       setConfirmPasswordError(true);
       error = true;
-    } else {
-      setConfirmPasswordError(false);
-    }
+    } else setConfirmPasswordError(false);
 
-    if (!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(password)) {
+    if (!validPassword(registerValues.password)) {
       setPasswordError(true);
       error = true;
-    } else {
-      setPasswordError(false);
-    }
+    } else setPasswordError(false);
 
-    if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+    if (!validEmail(registerValues.email)) {
       setEmailError(true);
       error = true;
-    } else {
-      setEmailError(false);
-    }
+    } else setEmailError(false);
 
-    // if(!/^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/.test(postalCode)){
-    //   setPostalError(true);
+    if (!validPostalCode(registerValues.postalCode)) {
+      setPostalError(true);
+      error = true;
+    } else setPostalError(false);
+
+    // if someone wants to do phone validation need to find regex that accepts 5141234567
+    // if (!validPhoneNumber(registerValues.phoneNumber)) {
+    //   setPhoneError(true);
     //   error = true;
     // } else {
-    //   setPasswordError(false);
+    //   setPhoneError(false);
     // }
 
-    if(!/^((\+1)?[\s-]?)?\(?[2-9]\d\d\)?[\s-]?[2-9]\d\d[\s-]?\d\d\d\d/.test(phoneNumber)){
-      setPhoneError(true);
-      error = true;
+    if (error || !allFieldsFilled(registerValues)) {
+      callPopup(registerGeneralErrorPopup);
     } else {
-      setPhoneError(false);
-    }
+      try {
+        const { ok } = await signUp(registerValues);
 
-    let today = new Date().toISOString().slice(0, 10);
-
-    if (error) {
-      callErrorPopup({ ...errorPopupProps, description: errorDescription });
-    } else if (
-      !firstName ||
-      !email ||
-      !password ||
-      dateOfBirth === today ||
-      !lastName ||
-      !gender ||
-      !confirmPassword ||
-      !accountRole ||
-      !city ||
-      !address || !postalCode || !phoneNumber
-    ) {
-      callErrorPopup({ ...errorPopupProps, description: missingFieldDescription });
-    } else {
-      //      const { ok } = (await signIn("credentials", { redirect: false, email, password })) as any;
-      const res = await fetch(serverURL + "/users/register", {
-        method: "POST",
-        body: JSON.stringify({
-          firstName: firstName,
-          lastName: lastName,
-          gender: gender,
-          birthDate: dateOfBirth,
-          address: address,
-          city: city,
-          email: email,
-          password: password,
-          phoneNumber: phoneNumber,
-          postalCode: postalCode,
-          role: accountRole
-        }),
-        headers: { "Content-Type": "application/json" },
-      });
-      callErrorPopup({ ...successPopupProps, description: successDescription });
-      // console.log(res);
+        if (ok) {
+          callPopup(registerSuccessPopup);
+          setTabIndex(0);
+        } else throw "Error";
+      } catch (errr) {
+        callPopup(registerEmailErrorPopup);
+      }
     }
   }
 
@@ -180,8 +142,8 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
         <Img src="https://i.imgur.com/DAXn8BT.png" w="100%" alt="Login picture" />
       </Box>
 
-      <Box w={{ base: "100%", md: "45%" }} h="100%" p={{ base: "10px", md: "20px" }}>
-        <Tabs isFitted isLazy colorScheme="pink">
+      <Box w={{ base: "100%", md: "45%" }} h="100%" p={{ base: "5px", md: "20px" }}>
+        <Tabs isFitted isLazy colorScheme="pink" index={tabIndex} onChange={(index) => setTabIndex(index)}>
           <TabList>
             <Tab>Sign in</Tab>
             <Tab>Register</Tab>
@@ -216,7 +178,7 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
                 <Heading as="h2" marginBottom="20px" display={"inline-block"} fontWeight={600} textAlign={"center"}>
                   Create your account
                 </Heading>
-                <form onSubmit={handleSignUp}>
+                <form onSubmit={handleRegister}>
                   <Box display={"flex"} flexDirection={"row"} flexWrap={"wrap"} w={"100%"}>
                     <Box display={"flex"} flexDirection={"column"} flexBasis="100%" flex="1" marginLeft={"10px"}>
                       <StandardInput name="First Name" placeholder="Enter First Name" label="First Name" />
@@ -229,7 +191,12 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
                       />
                       <DateInput name="DateOfBirth" label="Date of Birth" />
                       <StandardInput name="Address" placeholder="Enter Address" label="Address" />
-                      <StandardInput name="PostalCode" placeholder="Enter Postal Code" label="Postal Code" error={postalError}/>
+                      <StandardInput
+                        name="PostalCode"
+                        placeholder="Enter Postal Code"
+                        label="Postal Code"
+                        error={postalError}
+                      />
                     </Box>
                     <Box display={"flex"} flexDirection={"column"} flexBasis="100%" flex="1" marginLeft={"10px"}>
                       <StandardInput name="Last Name" placeholder="Enter Last Name" label="Last Name" />
@@ -252,7 +219,12 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
                         options={["Doctor", "Health Official", "Immigration Officer", "Patient"]}
                       />
                       <StandardInput name="City" placeholder="Enter City" label="City" />
-                      <StandardInput name="PhoneNumber" placeholder="Enter Phone Number" label="Phone Number" error={phoneError}/>
+                      <StandardInput
+                        name="PhoneNumber"
+                        placeholder="Enter Phone Number"
+                        label="Phone Number"
+                        // error={phoneError}
+                      />
                     </Box>
                   </Box>
                   <Box marginTop="20px" alignItems={"center"} justifyContent={"center"}>
