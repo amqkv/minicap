@@ -24,10 +24,10 @@ jobs:
             backend/package-lock.json
       - name: Install Node  (Should usually be cached unless refreshed)
         run: |
-        cd frontend
-        npm install
-        cd ../backend
-        npm install
+          cd frontend
+          npm install
+          cd ../backend
+          npm install
 
       - name: frontend tests
         run: |
