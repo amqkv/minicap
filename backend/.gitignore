@@ -1,4 +1,6 @@
 node_modules/
+requests.rest
+package-lock.json
 
 # testing
 /coverage

@@ -7,7 +7,7 @@ export default nextAuth({
     CredentialsProvider({
       name: 'Credentials',
       credentials: {
-        username: { label: 'Email', type: 'text', placeholder: 'email' },
+        email: { label: 'Email', type: 'text', placeholder: 'email' },
         password: { label: 'Password', type: 'password' },
       },
 
@@ -18,10 +18,15 @@ export default nextAuth({
           headers: { 'Content-Type': 'application/json' },
         });
 
-        const user = await res.json();
+        let user = await res.json();
 
         if (res.ok && user) {
-          return user;
+
+          const fetchUser = await fetch(serverURL + "/users/getUser", {
+            headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + user.accessToken }
+          })
+          user = Object.assign(user, await fetchUser.json())
+          return user
         }
         return null;
       },
@@ -31,15 +36,17 @@ export default nextAuth({
     jwt: ({ token, user }) => {
       if (user) {
         token.id = user.id;
-        token.type = user.type;
       }
 
-      return token;
+      return { token, user }
     },
     session: ({ session, token }) => {
+      const user = token.token.user;
+      delete user.Password
+
       if (token) {
         session.id = token.id;
-        session.user.type = token.type;
+        session.user = user
       }
 
       return session;
@@ -50,7 +57,7 @@ export default nextAuth({
     secret: 'test',
     encryption: true,
   },
-  // pages: {
-  //   signIn: 'auth/sigin',
-  // },
+  pages: {
+    signIn: '/auth/signin',
+  },
 });
