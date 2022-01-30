@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins&family=Red+Hat+Text:wght@300;400&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Poppins&family=Red+Hat+Text:wght@300;400&display=swap');
 
 $main-color: #fd9993;
 
@@ -15,7 +15,7 @@ a {
 
 * {
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 * {
@@ -30,4 +30,3 @@ a:focus {
   border: none !important;
   box-shadow: 0 0 0 2px $main-color !important;
 }
-
