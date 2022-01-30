@@ -20,10 +20,10 @@ jobs:
           node-version: 14 #idk our node version
           cache: 'npm'
           cache-dependency-path: |
-            frontend/
-            backend/
+            frontend/package-lock.json
+            backend/package-lock.json
       - name: Install Node  (Should usually be cached unless refreshed)
-      - run: |
+        run: |
         cd frontend
         npm install
         cd ../backend
