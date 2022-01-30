@@ -22,8 +22,8 @@ jobs:
           cache-dependency-path: |
             frontend/
             backend/
-      -name: Install Node  (Should usually be cached unless refreshed)
-      -run: |
+      - name: Install Node  (Should usually be cached unless refreshed)
+      - run: |
         cd frontend
         npm install
         cd ../backend
