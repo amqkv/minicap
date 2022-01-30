@@ -23,6 +23,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const indexRouter = require('./routes/index').router;
 const usersRouter = require('./routes/users').router;
 const patientsRouter = require('./routes/patients').router;
+const adminsRouter = require('./routes/admins').router;
 
 //View engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -38,6 +39,7 @@ app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   next();
 });
+app.use('/admins', adminsRouter);
 
 //test DB
 db.authenticate()
