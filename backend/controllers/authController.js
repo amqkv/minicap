@@ -1,9 +1,10 @@
 const User = require("../models/user");
 const jwt = require('jsonwebtoken');
 const bcrypt = require("bcryptjs");
+const constants = require("../utils/constants");
 
+//Save user to database
 function register(req,res) {
-    //Save user to database
     const newUser = User.create({
         FirstName: req.body.firstName,
         LastName: req.body.lastName,
@@ -15,7 +16,8 @@ function register(req,res) {
         Password: bcrypt.hashSync(req.body.password, 8),
         PhoneNumber: req.body.phoneNumber,
         PostalCode: req.body.postalCode,
-        Role: req.body.accountRole
+        Role: req.body.accountRole,
+        Confirmed: req.body.accountRole === constants.ROLE.PATIENT
     }).then(user => {
         if(user) {
             console.log("new user created");
@@ -26,6 +28,7 @@ function register(req,res) {
     });
 }
 
+//Log In user
 function logIn(req, res) {
     User.findOne({ 
         where: {
@@ -52,9 +55,20 @@ function logIn(req, res) {
     });
 }
 
-const authController = {
-    register: register,
-    logIn: logIn
+//Get authenticated user
+function getAuthUser(req, res) {
+    User.findOne({
+        where: {
+          email: req.user.email
+        }
+    }).then(user => {
+          res.json(user);
+    })
+      .catch(err => console.log(err))
 }
 
-module.exports = authController;
+module.exports = {
+    register,
+    logIn,
+    getAuthUser
+};

@@ -1,0 +1,42 @@
+name: CI v1
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allow manual action
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14 #idk our node version
+          cache: 'npm'
+          cache-dependency-path: |
+            frontend/package-lock.json
+            backend/package-lock.json
+      - name: Install Node  (Should usually be cached unless refreshed)
+        run: |
+          cd frontend
+          npm install
+          cd ../backend
+          npm install
+
+      - name: frontend tests
+        run: |
+          cd frontend
+          npm test
+          
+
+      # Runs a set of commands using the runners shell
+      - name: backend tests
+        run: |
+          cd backend
+          npm test

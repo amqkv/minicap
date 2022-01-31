@@ -40,6 +40,9 @@ const User = db.define('User', {
     },
     Role: {
         type: Sequelize.STRING
+    },
+    Confirmed: {
+        type: Sequelize.STRING
     }
 }, {
     timestamps: false
