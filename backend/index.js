@@ -10,6 +10,7 @@ const cors = require('cors');
 //Database
 const db = require('./config/database');
 
+app.use(cors())
 app.use(express.json());
 app.use(cors());
 

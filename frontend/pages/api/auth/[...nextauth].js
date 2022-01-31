@@ -36,13 +36,14 @@ export default nextAuth({
     jwt: ({ token, user }) => {
       if (user) {
         token.id = user.id;
+        token.user = user
       }
 
-      return { token, user }
+      return token
     },
     session: ({ session, token }) => {
-      const user = token.token.user;
-      delete user.Password
+      const user = token.user
+      delete user.Password;
 
       if (token) {
         session.id = token.id;

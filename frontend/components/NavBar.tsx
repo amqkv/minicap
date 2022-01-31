@@ -18,7 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import NextLink from "next/link";
-import { mainColor, websiteName } from "@frontend/utils/constants";
+import { MAIN_COLOR, WEBSITE_NAME } from "@frontend/utils/constants";
 
 interface NavLinkProps {
   children?: ReactNode;
@@ -39,7 +39,7 @@ const NavLink = ({ children, url }: NavLinkProps) => (
       rounded={"md"}
       _hover={{
         textDecoration: "underline",
-        textDecorationColor: mainColor,
+        textDecorationColor: MAIN_COLOR,
       }}
     >
       {children}
@@ -70,7 +70,7 @@ export default function Simple() {
               <Flex>
                 <Avatar size={"md"} src={"https://i.imgur.com/nBBi6wd.png"} />
                 <Heading as="h3" size="lg" alignSelf={"center"}>
-                  {websiteName}
+                  {WEBSITE_NAME}
                 </Heading>
               </Flex>
               {/* </MenuButton> */}
