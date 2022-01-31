@@ -1,6 +1,11 @@
+#node modules
 node_modules/
+
+#rest file to test requests
 requests.rest
-package-lock.json
 
 # testing
 /coverage
+
+# secret variables
+.env
