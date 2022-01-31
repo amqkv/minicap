@@ -1,6 +1,6 @@
-// export function validPhoneNumber(phoneNumber: string) {
-//   return /^((\+1)?[\s-]?)?\(?[2-9]\d\d\)?[\s-]?[2-9]\d\d[\s-]?\d\d\d\d/.test(phoneNumber);
-// }
+export function validPhoneNumber(phoneNumber: string) {
+  return /^\d{3}[-. ]?\d{3}[-. ]?\d{4}$/.test(phoneNumber);
+}
 
 export function validPassword(password: string) {
   return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(password);

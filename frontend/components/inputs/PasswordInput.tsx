@@ -1,5 +1,5 @@
 import { InputGroup, Input, InputRightElement, Button, Text, InputLeftElement, Tooltip } from "@chakra-ui/react";
-import { mainColor } from "@frontend/utils/constants";
+import { MAIN_COLOR } from "@frontend/utils/constants";
 import { useState } from "react";
 import { InputProps } from "@frontend/components/inputs/types/input";
 import { WarningIcon } from "@chakra-ui/icons";
@@ -26,7 +26,7 @@ export default function PasswordInput({ name, label, placeholder, error }: Input
             size="sm"
             onClick={() => setShow(!show)}
             color={"white"}
-            backgroundColor={mainColor}
+            backgroundColor={MAIN_COLOR}
             _hover={{ opacity: "80%" }}
           >
             {show ? "Hide" : "Show"}

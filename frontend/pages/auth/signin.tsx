@@ -1,5 +1,5 @@
 import { getCsrfToken, signIn } from "next-auth/react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import {
   Flex,
@@ -16,7 +16,7 @@ import {
   UseToastOptions,
 } from "@chakra-ui/react";
 
-import { mainColor } from "@frontend/utils/constants";
+import { MAIN_COLOR, USER_ROLES } from "@frontend/utils/constants";
 import PasswordInput from "@frontend/components/inputs/PasswordInput";
 import StandardInput from "@frontend/components/inputs/StandardInput";
 import DateInput from "@frontend/components/inputs/DateInput";
@@ -24,7 +24,7 @@ import DropdownInput from "@frontend/components/inputs/DropdownInput";
 import {
   validPassword,
   validEmail,
-  //  validPhoneNumber,
+  validPhoneNumber,
   validPostalCode,
   allFieldsFilled,
 } from "@frontend/utils/validation";
@@ -35,8 +35,6 @@ import {
   signinErrorPopup,
   registerEmailErrorPopup,
 } from "@frontend/utils/popups";
-
-const today = new Date().toISOString().slice(0, 10);
 
 export async function getServerSideProps(context: any) {
   return {
@@ -54,7 +52,7 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
-  // const [phoneError, setPhoneError] = useState(false);
+  const [phoneError, setPhoneError] = useState(false);
   const [postalError, setPostalError] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -74,6 +72,7 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
 
   async function handleRegister(event: any) {
     event.preventDefault();
+    console.log(typeof event);
 
     const registerValues = {
       firstName: event.target[0].value,
@@ -112,13 +111,12 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
       error = true;
     } else setPostalError(false);
 
-    // if someone wants to do phone validation need to find regex that accepts 5141234567
-    // if (!validPhoneNumber(registerValues.phoneNumber)) {
-    //   setPhoneError(true);
-    //   error = true;
-    // } else {
-    //   setPhoneError(false);
-    // }
+    if (!validPhoneNumber(registerValues.phoneNumber)) {
+      setPhoneError(true);
+      error = true;
+    } else {
+      setPhoneError(false);
+    }
 
     if (error || !allFieldsFilled(registerValues)) {
       callPopup(registerGeneralErrorPopup);
@@ -163,7 +161,7 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
                     marginTop="20px"
                     w="40%"
                     color={"white"}
-                    backgroundColor={mainColor}
+                    backgroundColor={MAIN_COLOR}
                     _hover={{ opacity: "80%" }}
                     alignItems={"center"}
                     type="submit"
@@ -216,14 +214,14 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
                         placeholder="Select Account Role"
                         name="Account Role"
                         label="Account Role"
-                        options={["Doctor", "Health Official", "Immigration Officer", "Patient"]}
+                        options={USER_ROLES}
                       />
                       <StandardInput name="City" placeholder="Enter City" label="City" />
                       <StandardInput
                         name="PhoneNumber"
                         placeholder="Enter Phone Number"
                         label="Phone Number"
-                        // error={phoneError}
+                        error={phoneError}
                       />
                     </Box>
                   </Box>
@@ -231,7 +229,7 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
                     <Button
                       w="40%"
                       color={"white"}
-                      backgroundColor={mainColor}
+                      backgroundColor={MAIN_COLOR}
                       _hover={{ opacity: "80%" }}
                       type="submit"
                     >
