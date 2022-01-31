@@ -25,13 +25,12 @@ const UserList = ({
   console.log(UsersInfoSimple);
   return (
     <GridItem>
-      <Box overflow={'visible'}>
+      <Box>
         <h2 className={classes.titleFont}>
           {userRole} ({UsersInfoSimple.length})
         </h2>
         <List
           overflowY="scroll"
-          overflow={'auto'}
           minHeight="26vh"
           maxHeight="26vh"
           py={2}
@@ -39,7 +38,7 @@ const UserList = ({
           alignItems={'left'}
           sx={{
             '&::-webkit-scrollbar': {
-              width: '2.5px',
+              width: '5px',
               borderRadius: '8px',
               backgroundColor: `#D5D4D4`,
             },

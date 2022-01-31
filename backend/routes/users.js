@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const authController = require('../controllers/authController');
+const adminController = require('../controllers/adminController');
+const userController = require('../controllers/userController');
 const authJwt = require('../middleware/authJwt');
 
 router.use(express.json());
@@ -12,6 +14,7 @@ router.get('/getUser', authJwt.verifyToken, (req, res) => {
 });
 
 router.get('/role', userController.getAllRoles);
+router.post('/role', adminController.updateRole);
 
 //Register
 router.post('/register', (req, res) => {

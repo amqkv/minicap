@@ -13,18 +13,15 @@ const getAllRoles = async (req, res, next) => {
     Patient: [],
     Doctor: [],
     HealthOfficial: [],
-    ImmigrationOfficial: [],
+    ImmigrationOfficer: [],
     Admin: [],
   };
 
   roles.map((user) => {
-    console.log(user.Role);
     if (rolesObject.hasOwnProperty(user.Role)) {
-      console.log('im in');
       rolesObject[user.Role].push(user);
     }
   });
-  console.log(rolesObject);
   res.json(rolesObject);
 };
 

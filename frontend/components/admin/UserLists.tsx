@@ -5,6 +5,7 @@ import {
   useDisclosure,
   Button,
   Spinner,
+  SimpleGrid,
 } from '@chakra-ui/react';
 import { Fragment, useState, useEffect } from 'react';
 import UserList from './UserList';
@@ -51,15 +52,17 @@ const UserLists = () => {
       {isError && <p> THere is an error </p>}
 
       {!!userRoles && (
-        <Box px={7} py={20}>
-          <Grid
-            templateColumns="repeat(2,1fr)"
+        <Box px={{ base: 0, sm: 1, md: 4, lg: 1 }} py={20}>
+          <SimpleGrid
+            columns={{ sm: 1, md: 2, lg: 2, xl: 2 }}
             gap="8"
-            overflowY="scroll"
+            overflowY={{ base: 'auto', md: 'scroll' }}
+            overflowX={'hidden'}
             maxHeight="70vh"
+            paddingX={4}
             sx={{
               '&::-webkit-scrollbar': {
-                width: '2.5px',
+                width: '5px',
                 borderRadius: '8px',
                 backgroundColor: `#D5D4D4`,
               },
@@ -79,7 +82,7 @@ const UserLists = () => {
                 />
               );
             })}
-          </Grid>
+          </SimpleGrid>
         </Box>
       )}
       <UserModal isOpen={isOpen} onClose={onClose} userInfo={userSelected} />

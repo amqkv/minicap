@@ -41,3 +41,17 @@
 
   color: white;
 }
+
+@media (max-width: 768px) {
+  .modalHeader {
+    text-align: center;
+  }
+  .selectionFont {
+    text-align: center;
+  }
+  .applyButton {
+    align-items: center;
+    display: grid;
+    margin: auto;
+  }
+}
