@@ -1,8 +1,10 @@
 # Description
 
-Please include a summary of the change and which issue is fixed. Please also include relevant motivation and context. List any dependencies that are required for this change.
+Implements/fixes [SOEN-#](URL to Jira ticket)
 
-Fixes [SOEN-#](url to Jira ticket)
+- Change 1
+- Change 2
+- Change 3
 
 ## Type of change
 
@@ -14,11 +16,13 @@ Fixes [SOEN-#](url to Jira ticket)
 # How Has This Been Tested?
 
 Please describe the tests that you ran to verify your changes. Provide instructions so we can reproduce. Please also list any relevant details for your test configuration
+
 - [ ] Test A
 - [ ] Test B
-
+- [ ] Test C
 
 # Screenshots
-Original      | Updated
-:--------------:|:--------------:
-** original screenshot ** | ** updated screenshot ** |
+
+|         Original          |         Updated          |
+| :-----------------------: | :----------------------: |
+| ** original screenshot ** | ** updated screenshot ** |

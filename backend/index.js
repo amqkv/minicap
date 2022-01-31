@@ -5,11 +5,13 @@ const app = express();
 const port = 3001;
 const path = require('path');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 //Database
 const db = require('./config/database');
 
 app.use(express.json());
+app.use(cors());
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
@@ -20,6 +22,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //Route declaration
 const indexRouter = require('./routes/index').router;
 const usersRouter = require('./routes/users').router;
+const patientsRouter = require('./routes/patients').router;
+const adminsRouter = require('./routes/admins').router;
 
 //View engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -28,6 +32,8 @@ app.set('view engine', 'jade');
 //Route utilization
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/patients', patientsRouter);
+app.use('/admins', adminsRouter);
 
 //test DB
 db.authenticate()

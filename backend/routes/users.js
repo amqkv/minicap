@@ -1,9 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../config/database');
 const User = require('../models/User');
-const jwt = require('jsonwebtoken');
-const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
 const authJwt = require('../middleware/authJwt');
 
@@ -11,16 +8,7 @@ router.use(express.json());
 
 //Get the authenticated user
 router.get('/getUser', authJwt.verifyToken, (req, res) => {
-  User.findOne({
-    where: {
-      email: req.user.email,
-    },
-  })
-    .then((user) => {
-      console.log(user);
-      res.json(user);
-    })
-    .catch((err) => console.log(err));
+  authController.getAuthUser(req, res);
 });
 
 router.get('/role', userController.getAllRoles);
