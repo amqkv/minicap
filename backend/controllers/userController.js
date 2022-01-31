@@ -3,25 +3,28 @@ const db = require('../config/database');
 
 const getAllRoles = async (req, res, next) => {
   const roles = await db.query(
-    'SELECT AccountId, FirstName, LastName, Role FROM [User]t',
+    'SELECT AccountId, FirstName, LastName, Role FROM MinicapDatabase.dbo.Users t',
     {
       logging: console.log,
       type: QueryTypes.SELECT,
     }
   );
-
   let rolesObject = {
     Patient: [],
     Doctor: [],
     HealthOfficial: [],
     ImmigrationOfficial: [],
-    WebAdmin: [],
+    Admin: [],
   };
 
   roles.map((user) => {
-    rolesObject[user.Role].push(user);
+    console.log(user.Role);
+    if (rolesObject.hasOwnProperty(user.Role)) {
+      console.log('im in');
+      rolesObject[user.Role].push(user);
+    }
   });
-
+  console.log(rolesObject);
   res.json(rolesObject);
 };
 
