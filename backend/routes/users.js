@@ -14,7 +14,7 @@ router.get('/getUser', authJwt.verifyToken, (req, res) => {
 });
 
 router.get('/role', userController.getAllRoles);
-router.post('/role', adminController.updateRole);
+router.patch('/role', adminController.updateRole);
 
 //Register
 router.post('/register', (req, res) => {

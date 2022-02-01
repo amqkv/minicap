@@ -5,7 +5,6 @@ import classes from './UserRowCard.module.css';
 interface AppProps {
   onUserSelect: ({}: UserInfoSimple) => void;
   UserInfoSimple: UserInfoSimple;
-  onOpen: () => void;
 }
 
 const breakpoints = createBreakpoints({
@@ -15,10 +14,11 @@ const breakpoints = createBreakpoints({
   xl: '80em',
   '2xl': '96em',
 });
-const UserRowCard = ({ onUserSelect, UserInfoSimple, onOpen }: AppProps) => {
+
+// TODO Generalize Card component to reuse with Doctor-Patient Admin page
+const UserRowCard = ({ onUserSelect, UserInfoSimple }: AppProps) => {
   const onClickHandler = () => {
     onUserSelect(UserInfoSimple);
-    onOpen();
   };
 
   return (
@@ -35,17 +35,6 @@ const UserRowCard = ({ onUserSelect, UserInfoSimple, onOpen }: AppProps) => {
         <p className={classes.rowFont}>
           {UserInfoSimple.LastName}, {UserInfoSimple.FirstName}
         </p>
-        {/* <Text
-          fontFamily={'Poppins'}
-          fontStyle={'18px'}
-          fontSize={'normal'}
-          fontWeight={600}
-          lineHeight={'42px'}
-          letterSpacing={'0em'}
-          textAlign={'left'}
-        >
-          {UserInfoSimple.LastName}, {UserInfoSimple.FirstName}
-        </Text> */}
       </Box>
     </ListItem>
   );

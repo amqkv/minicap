@@ -12,17 +12,10 @@ import UserRowCard from './UserRowCard';
 interface AppProps {
   userRole: string;
   onUserSelect: ({}: UserInfoSimple) => void;
-  onOpen: () => void;
   UsersInfoSimple: UserInfoSimple[];
 }
 
-const UserList = ({
-  userRole,
-  onUserSelect,
-  onOpen,
-  UsersInfoSimple,
-}: AppProps) => {
-  console.log(UsersInfoSimple);
+const UserList = ({ userRole, onUserSelect, UsersInfoSimple }: AppProps) => {
   return (
     <GridItem>
       <Box>
@@ -52,7 +45,6 @@ const UserList = ({
               <UserRowCard
                 key={userInfo.AccountId}
                 onUserSelect={onUserSelect}
-                onOpen={onOpen}
                 UserInfoSimple={userInfo}
               />
             );

@@ -12,8 +12,6 @@ import {
   Box,
   Center,
   CloseButton,
-  Grid,
-  GridItem,
   Flex,
 } from '@chakra-ui/react';
 import { createBreakpoints } from '@chakra-ui/theme-tools';
@@ -43,10 +41,11 @@ const UserModal = ({ userInfo, isOpen, onClose }: appProps) => {
   const roleSelectHandler = (event: string) => {
     setRole(event);
   };
-  const RoleSubmitHandler = async () => {
+
+  const roleSubmitHandler = async () => {
     onClose();
     const response = await fetch('/api/users/role', {
-      method: 'POST',
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -56,6 +55,7 @@ const UserModal = ({ userInfo, isOpen, onClose }: appProps) => {
         NewRole: role,
       }),
     });
+    // Call for other fetches with SWR to revalidate the data using this route
     mutate('/api/users/role');
   };
 
@@ -96,7 +96,7 @@ const UserModal = ({ userInfo, isOpen, onClose }: appProps) => {
         <ModalFooter>
           <Button
             backgroundColor={'#FF4545BD'}
-            onClick={RoleSubmitHandler}
+            onClick={roleSubmitHandler}
             className={classes.applyButton}
           >
             <Box className={classes.buttonFont}>Apply</Box>

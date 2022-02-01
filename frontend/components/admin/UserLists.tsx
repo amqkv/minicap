@@ -1,49 +1,32 @@
-import {
-  Grid,
-  GridItem,
-  Box,
-  useDisclosure,
-  Button,
-  Spinner,
-  SimpleGrid,
-} from '@chakra-ui/react';
-import { Fragment, useState, useEffect } from 'react';
+import { Box, useDisclosure, Spinner, SimpleGrid } from '@chakra-ui/react';
+import { Fragment, useState } from 'react';
 import UserList from './UserList';
 import UserInfoSimple from '@frontend/models/UserInfoSimple';
 import UserModal from './UserModal';
 import useRole from '@frontend/hooks/userRole';
 
-// for (let i = 0; i < 5; i++) {
-//   let userArray: UserInfoSimple[] = [];
-//   for (let j = 0; j < 6; j++) {
-//     let user: UserInfoSimple = {
-//       key: i * 5 + j,
-//       firstName: `First ${i * 5 + j} `,
-//       lastName: `Last ${i}`,
-//     };
-//     userArray.push(user);
-//   }
-//   DUMMY_ARRAY[`Role${i}`] = userArray;
-// }
-
 const UserLists = () => {
-  const { userRoles, isLoading, isError } = useRole();
+  const { userRoles, isLoading, isError } = useRole(); // Custom Hook to Fetch the user/role data
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure(); // Hook to deal with the modal visibility
+
   const [userSelected, setUserSelected] = useState<UserInfoSimple>({
     AccountId: 0,
     FirstName: '',
     LastName: '',
     Role: '',
   });
+
+  // Array with the roles to be used as keys
   let keys: string[] = [];
-  console.log(userRoles);
   if (!!userRoles) {
     keys = Object.keys(userRoles);
   }
 
+  //Function to be passed to bubble up the user selected  and open a modal with their info
   const userSelectedHandler = (user: UserInfoSimple) => {
     setUserSelected(user);
+    onOpen();
   };
 
   return (
@@ -71,6 +54,7 @@ const UserLists = () => {
               },
             }}
           >
+            {/* User List created for each role */}
             {keys.map((key) => {
               return (
                 <UserList
@@ -78,7 +62,6 @@ const UserLists = () => {
                   userRole={key}
                   UsersInfoSimple={userRoles[key]}
                   onUserSelect={userSelectedHandler}
-                  onOpen={onOpen}
                 />
               );
             })}
