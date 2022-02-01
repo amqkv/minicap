@@ -15,6 +15,7 @@ export default function Home() {
   const { data: session } = useSession();
 
   if (session) {
+
     return (
       <>
         Signed in as {session.user.FirstName} <br />

@@ -1,25 +1,16 @@
-import { Input, Text } from "@chakra-ui/react";
+import { WarningIcon } from "@chakra-ui/icons";
+import { Input, InputGroup, InputLeftElement, Text  } from "@chakra-ui/react";
+import { InputProps } from "@frontend/components/inputs/types/input";
+import { useState } from "react";
 
-interface StandardInputProps {
-  name: string;
-  label: string;
-  placeholder: string;
-}
-
-export default function StandardInput({
-  name,
-  label,
-  placeholder,
-}: StandardInputProps) {
+export default function StandardInput({ name, label, placeholder, error }: InputProps) {
   return (
     <>
-      <Text>{label}</Text>
-      <Input
-        name={name}
-        placeholder={placeholder}
-        size="md"
-        marginTop={"10px"}
-      />
+      <Text margin="10px 0">{label}</Text>
+      <InputGroup size="md">
+        {error && <InputLeftElement children={<WarningIcon color="red.500" />} />}
+        <Input name={name} placeholder={placeholder} size="md" marginBottom={"10px"} />
+      </InputGroup>
     </>
   );
 }

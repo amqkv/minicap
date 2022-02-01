@@ -34,7 +34,7 @@ const User = db.define('User', {
     },
     PhoneNumber: {
         type: Sequelize.STRING
-    },
+    }, 
     PostalCode: {
         type: Sequelize.STRING
     },
