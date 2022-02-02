@@ -19,10 +19,10 @@
     "jsonwebtoken": "^8.5.1",
     "mssql": "^7.3.0",
     "sequelize": "^5.22.3",
-    "tedious": "^14.1.0"
+    "tedious": "^14.2.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15",
-    "jest": "^27.4.7"
+    "jest": "^27.4.7",
+    "nodemon": "^2.0.15"
   }
 }

@@ -60,7 +60,7 @@ const UserLists = () => {
                 <UserList
                   key={key}
                   userRole={key}
-                  UsersInfoSimple={userRoles[key]}
+                  usersInfoSimple={userRoles[key]}
                   onUserSelect={userSelectedHandler}
                 />
               );

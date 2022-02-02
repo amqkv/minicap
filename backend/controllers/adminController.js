@@ -2,18 +2,16 @@ const User = require('../models/user');
 
 //Update role of a user
 function updateRole(req, res) {
-  console.log(req.body);
-
-  if (req.body.NewRole == req.body.OldRole) {
+  if (req.body.newRole === req.body.oldRole) {
     res.status(200);
   } else {
     User.update(
       {
-        Role: req.body.NewRole,
+        Role: req.body.newRole,
       },
       {
         where: {
-          AccountId: req.body.AccountId,
+          AccountId: req.body.accountId,
         },
       }
     )

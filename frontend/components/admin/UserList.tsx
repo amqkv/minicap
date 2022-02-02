@@ -12,15 +12,15 @@ import UserRowCard from './UserRowCard';
 interface AppProps {
   userRole: string;
   onUserSelect: ({}: UserInfoSimple) => void;
-  UsersInfoSimple: UserInfoSimple[];
+  usersInfoSimple: UserInfoSimple[];
 }
 
-const UserList = ({ userRole, onUserSelect, UsersInfoSimple }: AppProps) => {
+const UserList = ({ userRole, onUserSelect, usersInfoSimple }: AppProps) => {
   return (
     <GridItem>
       <Box>
         <h2 className={classes.titleFont}>
-          {userRole} ({UsersInfoSimple.length})
+          {userRole} ({usersInfoSimple.length})
         </h2>
         <List
           overflowY="scroll"
@@ -40,12 +40,12 @@ const UserList = ({ userRole, onUserSelect, UsersInfoSimple }: AppProps) => {
             },
           }}
         >
-          {UsersInfoSimple.map((userInfo) => {
+          {usersInfoSimple.map((userInfo) => {
             return (
               <UserRowCard
                 key={userInfo.AccountId}
                 onUserSelect={onUserSelect}
-                UserInfoSimple={userInfo}
+                userInfoSimple={userInfo}
               />
             );
           })}

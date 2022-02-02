@@ -4,7 +4,7 @@ import UserInfoSimple from '@frontend/models/UserInfoSimple';
 import classes from './UserRowCard.module.css';
 interface AppProps {
   onUserSelect: ({}: UserInfoSimple) => void;
-  UserInfoSimple: UserInfoSimple;
+  userInfoSimple: UserInfoSimple;
 }
 
 const breakpoints = createBreakpoints({
@@ -16,9 +16,9 @@ const breakpoints = createBreakpoints({
 });
 
 // TODO Generalize Card component to reuse with Doctor-Patient Admin page
-const UserRowCard = ({ onUserSelect, UserInfoSimple }: AppProps) => {
+const UserRowCard = ({ onUserSelect, userInfoSimple }: AppProps) => {
   const onClickHandler = () => {
-    onUserSelect(UserInfoSimple);
+    onUserSelect(userInfoSimple);
   };
 
   return (
@@ -33,7 +33,7 @@ const UserRowCard = ({ onUserSelect, UserInfoSimple }: AppProps) => {
         onClick={onClickHandler}
       >
         <p className={classes.rowFont}>
-          {UserInfoSimple.LastName}, {UserInfoSimple.FirstName}
+          {userInfoSimple.LastName}, {userInfoSimple.FirstName}
         </p>
       </Box>
     </ListItem>

@@ -44,15 +44,15 @@ const UserModal = ({ userInfo, isOpen, onClose }: appProps) => {
 
   const roleSubmitHandler = async () => {
     onClose();
-    const response = await fetch('/api/users/role', {
+    await fetch('/api/users/role', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        AccountId: userInfo.AccountId,
-        OldRole: userInfo.Role,
-        NewRole: role,
+        accountId: userInfo.AccountId,
+        oldRole: userInfo.Role,
+        newRole: role,
       }),
     });
     // Call for other fetches with SWR to revalidate the data using this route

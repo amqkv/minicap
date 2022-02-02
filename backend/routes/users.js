@@ -13,7 +13,7 @@ router.get('/getUser', authJwt.verifyToken, (req, res) => {
   authController.getAuthUser(req, res);
 });
 
-router.get('/role', userController.getAllRoles);
+router.get('/role', userController.getAllUserRoles);
 router.patch('/role', adminController.updateRole);
 
 //Register
