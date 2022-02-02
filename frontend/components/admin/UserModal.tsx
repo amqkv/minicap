@@ -25,6 +25,7 @@ interface appProps {
   userInfo: UserInfoSimple;
   isOpen: boolean;
   onClose: () => void;
+  sessionId: Number;
 }
 
 const breakpoints = createBreakpoints({
@@ -35,7 +36,7 @@ const breakpoints = createBreakpoints({
   '2xl': '96em',
 });
 
-const UserModal = ({ userInfo, isOpen, onClose }: appProps) => {
+const UserModal = ({ userInfo, isOpen, onClose, sessionId }: appProps) => {
   const [role, setRole] = useState('');
 
   const roleSelectHandler = (event: string) => {
@@ -44,13 +45,14 @@ const UserModal = ({ userInfo, isOpen, onClose }: appProps) => {
 
   const roleSubmitHandler = async () => {
     onClose();
-    await fetch('/api/users/role', {
+    await fetch('/api/admin/user-role', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        accountId: userInfo.AccountId,
+        accountId: sessionId,
+        userId: userInfo.AccountId,
         oldRole: userInfo.Role,
         newRole: role,
       }),

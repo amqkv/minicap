@@ -5,7 +5,11 @@ import UserInfoSimple from '@frontend/models/UserInfoSimple';
 import UserModal from './UserModal';
 import useRole from '@frontend/hooks/userRole';
 
-const UserLists = () => {
+interface appProps {
+  sessionId: Number;
+}
+
+const UserLists = ({ sessionId }: appProps) => {
   const { userRoles, isLoading, isError } = useRole(); // Custom Hook to Fetch the user/role data
 
   const { isOpen, onOpen, onClose } = useDisclosure(); // Hook to deal with the modal visibility
@@ -68,7 +72,12 @@ const UserLists = () => {
           </SimpleGrid>
         </Box>
       )}
-      <UserModal isOpen={isOpen} onClose={onClose} userInfo={userSelected} />
+      <UserModal
+        isOpen={isOpen}
+        onClose={onClose}
+        userInfo={userSelected}
+        sessionId={sessionId}
+      />
     </Fragment>
   );
 };

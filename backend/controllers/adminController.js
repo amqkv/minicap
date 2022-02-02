@@ -11,7 +11,7 @@ function updateRole(req, res) {
       },
       {
         where: {
-          AccountId: req.body.accountId,
+          AccountId: req.body.userId,
         },
       }
     )

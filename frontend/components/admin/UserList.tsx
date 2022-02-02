@@ -1,10 +1,4 @@
-import {
-  Box,
-  List,
-  ListItem,
-  useColorModeValue,
-  GridItem,
-} from '@chakra-ui/react';
+import { Box, List, GridItem } from '@chakra-ui/react';
 import UserInfoSimple from '@frontend/models/UserInfoSimple';
 import classes from './UserList.module.css';
 import UserRowCard from './UserRowCard';

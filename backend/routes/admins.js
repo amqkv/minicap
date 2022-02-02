@@ -18,7 +18,6 @@ router.get(
 );
 
 //Update user roles as admin
-//TODO Fix route, 401 status code
 router.patch(
   '/update-role',
   authUser.verifyUser,
