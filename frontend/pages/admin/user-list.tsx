@@ -1,5 +1,4 @@
-import { Box } from '@chakra-ui/react';
-import UserLists from '@frontend/components/admin/UserLists';
+import UserLists from '@frontend/components/admin/user-lists';
 import { useSession, getSession } from 'next-auth/react';
 
 export async function getServerSideProps(context: any) {

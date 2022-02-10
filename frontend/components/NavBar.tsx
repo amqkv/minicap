@@ -1,24 +1,8 @@
-import { ReactNode } from "react";
-import {
-  Box,
-  Flex,
-  Avatar,
-  HStack,
-  Link,
-  Heading,
-  IconButton,
-  Button,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  MenuDivider,
-  useDisclosure,
-  Stack,
-} from "@chakra-ui/react";
-import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
-import NextLink from "next/link";
-import { MAIN_COLOR, WEBSITE_NAME } from "@frontend/utils/constants";
+import { ReactNode } from 'react';
+import { Box, Flex, Avatar, HStack, Link, Heading, IconButton, Menu, useDisclosure, Stack } from '@chakra-ui/react';
+import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
+import NextLink from 'next/link';
+import { MAIN_COLOR, WEBSITE_NAME } from '@frontend/utils/constants';
 
 interface NavLinkProps {
   children?: ReactNode;
@@ -26,9 +10,9 @@ interface NavLinkProps {
 }
 
 const Links = [
-  { text: "HOME", url: "#" },
-  { text: "ABOUT", url: "#" },
-  { text: "CONTACT", url: "#" },
+  { text: 'HOME', url: '#' },
+  { text: 'ABOUT', url: '#' },
+  { text: 'CONTACT', url: '#' },
 ];
 
 const NavLink = ({ children, url }: NavLinkProps) => (
@@ -36,9 +20,9 @@ const NavLink = ({ children, url }: NavLinkProps) => (
     <Link
       px={2}
       py={1}
-      rounded={"md"}
+      rounded={'md'}
       _hover={{
-        textDecoration: "underline",
+        textDecoration: 'underline',
         textDecorationColor: MAIN_COLOR,
       }}
     >
@@ -53,12 +37,8 @@ export default function Simple() {
   return (
     <>
       <Box px={4}>
-        <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
-          <Flex
-            alignItems={"center"}
-            width={"100%"}
-            justifyContent={"space-between"}
-          >
+        <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
+          <Flex alignItems={'center'} width={'100%'} justifyContent={'space-between'}>
             <Menu>
               {/* <MenuButton
                 as={Button}
@@ -68,18 +48,14 @@ export default function Simple() {
                 minW={0}
               > */}
               <Flex>
-                <Avatar size={"md"} src={"https://i.imgur.com/nBBi6wd.png"} />
-                <Heading as="h3" size="lg" alignSelf={"center"}>
+                <Avatar size={'md'} src={'https://i.imgur.com/nBBi6wd.png'} />
+                <Heading as="h3" size="lg" alignSelf={'center'}>
                   {WEBSITE_NAME}
                 </Heading>
               </Flex>
               {/* </MenuButton> */}
-              <HStack spacing={8} alignItems={"flex-end"}>
-                <HStack
-                  as={"nav"}
-                  spacing={4}
-                  display={{ base: "none", md: "flex" }}
-                >
+              <HStack spacing={8} alignItems={'flex-end'}>
+                <HStack as={'nav'} spacing={4} display={{ base: 'none', md: 'flex' }}>
                   {Links.map(({ text, url }) => (
                     <NavLink key={text} url={url}>
                       {text}
@@ -96,17 +72,17 @@ export default function Simple() {
             </Menu>
           </Flex>
           <IconButton
-            size={"md"}
+            size={'md'}
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-            aria-label={"Open Menu"}
-            display={{ md: "none" }}
+            aria-label={'Open Menu'}
+            display={{ md: 'none' }}
             onClick={isOpen ? onClose : onOpen}
           />
         </Flex>
 
         {isOpen ? (
-          <Box pb={4} display={{ md: "none" }}>
-            <Stack as={"nav"} spacing={4}>
+          <Box pb={4} display={{ md: 'none' }}>
+            <Stack as={'nav'} spacing={4}>
               {Links.map(({ text, url }) => (
                 <NavLink key={text} url={url as any}>
                   {text}

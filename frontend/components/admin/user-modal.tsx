@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react';
 import { createBreakpoints } from '@chakra-ui/theme-tools';
 
-import UserInfoSimple from '@frontend/models/UserInfoSimple';
+import UserInfoSimple from '@frontend/models/user-info-simple';
 import { useState } from 'react';
 import { mutate } from 'swr';
 import classes from './UserModal.module.css';
@@ -80,11 +80,7 @@ const UserModal = ({ userInfo, isOpen, onClose, sessionId }: appProps) => {
           </Box>
           <Center>
             <RadioGroup name="role" onChange={roleSelectHandler} my={2}>
-              <Stack
-                direction={['column', 'column', 'row', 'row']}
-                spacing={5}
-                className={classes.roleFont}
-              >
+              <Stack direction={['column', 'column', 'row', 'row']} spacing={5} className={classes.roleFont}>
                 <Radio value="Patient">Patient</Radio>
                 <Radio value="Doctor">Doctor</Radio>
                 <Radio value="HealthOfficial">Health Official</Radio>
@@ -96,11 +92,7 @@ const UserModal = ({ userInfo, isOpen, onClose, sessionId }: appProps) => {
         </ModalBody>
 
         <ModalFooter>
-          <Button
-            backgroundColor={'#FF4545BD'}
-            onClick={roleSubmitHandler}
-            className={classes.applyButton}
-          >
+          <Button backgroundColor={'#FF4545BD'} onClick={roleSubmitHandler} className={classes.applyButton}>
             <Box className={classes.buttonFont}>Apply</Box>
           </Button>
         </ModalFooter>
