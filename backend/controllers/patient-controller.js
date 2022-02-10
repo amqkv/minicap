@@ -1,4 +1,4 @@
-const RequiredDetails = require('../models/RequiredDetails');
+const RequiredDetails = require('../models/required-details');
 
 function getRequiredDetails(req, res) {
   RequiredDetails.findAll({
