@@ -15,7 +15,6 @@ import {
   useToast,
   UseToastOptions,
 } from '@chakra-ui/react';
-
 import { MAIN_COLOR, USER_ROLES } from '@frontend/utils/constants';
 import PasswordInput from '@frontend/components/inputs/password-input';
 import StandardInput from '@frontend/components/inputs/standard-input';

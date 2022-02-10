@@ -15,7 +15,6 @@ import {
   Flex,
 } from '@chakra-ui/react';
 import { createBreakpoints } from '@chakra-ui/theme-tools';
-
 import UserInfoSimple from '@frontend/models/user-info-simple';
 import { useState } from 'react';
 import { mutate } from 'swr';
