@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require("bcryptjs");
 const constants = require("../utils/constants");
 const Patient = require("../models/patient");
-const e = require("express");
 
 //Save user to database
 async function register(req,res) {
