@@ -24,15 +24,13 @@ async function register(req,res) {
         if (user) {
             console.log("New user created");
             res.json(user);
-
-            //Add User to Patient table if the user is a Patient
             if (user.Role === constants.ROLE.PATIENT) {
-                console.log("USER IS A PATIENTTTTT");
                 const newPatient = Patient.create({
                     User_AccountId: user.AccountId
                 }).then(patient => {
                     if (patient) {
                         console.log("Patient added to table");
+                        res.status(200);
                     } else {
                         res.status(400).send('error in adding patient to table');
                     }
