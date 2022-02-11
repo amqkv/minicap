@@ -1,6 +1,6 @@
-import { getCsrfToken, signIn } from "next-auth/react";
-import React, { useState } from "react";
-import { useRouter } from "next/router";
+import { getCsrfToken, signIn } from 'next-auth/react';
+import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import {
   Flex,
   Box,
@@ -14,27 +14,26 @@ import {
   TabPanels,
   useToast,
   UseToastOptions,
-} from "@chakra-ui/react";
-
-import { MAIN_COLOR, USER_ROLES } from "@frontend/utils/constants";
-import PasswordInput from "@frontend/components/inputs/PasswordInput";
-import StandardInput from "@frontend/components/inputs/StandardInput";
-import DateInput from "@frontend/components/inputs/DateInput";
-import DropdownInput from "@frontend/components/inputs/DropdownInput";
+} from '@chakra-ui/react';
+import { MAIN_COLOR, USER_ROLES } from '@frontend/utils/constants';
+import PasswordInput from '@frontend/components/inputs/password-input';
+import StandardInput from '@frontend/components/inputs/standard-input';
+import DateInput from '@frontend/components/inputs/date-input';
+import DropdownInput from '@frontend/components/inputs/dropdown-input';
 import {
   validPassword,
   validEmail,
   validPhoneNumber,
   validPostalCode,
   allFieldsFilled,
-} from "@frontend/utils/validation";
-import { signUp } from "@frontend/functions/signUp";
+} from '@frontend/utils/validation';
+import { signUp } from '@frontend/functions/sign-up';
 import {
   registerGeneralErrorPopup,
   registerSuccessPopup,
   signinErrorPopup,
   registerEmailErrorPopup,
-} from "@frontend/utils/popups";
+} from '@frontend/utils/popups';
 
 export async function getServerSideProps(context: any) {
   return {
@@ -47,7 +46,7 @@ export async function getServerSideProps(context: any) {
 export default function SignIn({ csrfToken }: { csrfToken: string }) {
   const router = useRouter();
   const toast = useToast();
-  const callPopup = (props: UseToastOptions) => !toast.isActive("popup") && toast({ ...props, id: "popup" });
+  const callPopup = (props: UseToastOptions) => !toast.isActive('popup') && toast({ ...props, id: 'popup' });
 
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
@@ -63,9 +62,9 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
     const password = event.target[2].value;
 
     if (email && password) {
-      const { ok } = (await signIn("credentials", { redirect: false, email, password })) as any;
+      const { ok } = (await signIn('credentials', { redirect: false, email, password })) as any;
 
-      ok && router.push("/") && toast.closeAll();
+      ok && router.push('/') && toast.closeAll();
       !ok && callPopup(signinErrorPopup);
     }
   }
@@ -127,7 +126,7 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
         if (ok) {
           callPopup(registerSuccessPopup);
           setTabIndex(0);
-        } else throw "Error";
+        } else throw 'Error';
       } catch (errr) {
         callPopup(registerEmailErrorPopup);
       }
@@ -135,12 +134,12 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
   }
 
   return (
-    <Flex p={{ base: "0px", md: "50px" }}>
-      <Box w="55%" h="100%" p="20px" display={{ base: "none", md: "initial" }}>
+    <Flex p={{ base: '0px', md: '50px' }}>
+      <Box w="55%" h="100%" p="20px" display={{ base: 'none', md: 'initial' }}>
         <Img src="https://i.imgur.com/DAXn8BT.png" w="100%" alt="Login picture" />
       </Box>
 
-      <Box w={{ base: "100%", md: "45%" }} h="100%" p={{ base: "5px", md: "20px" }}>
+      <Box w={{ base: '100%', md: '45%' }} h="100%" p={{ base: '5px', md: '20px' }}>
         <Tabs isFitted isLazy colorScheme="pink" index={tabIndex} onChange={(index) => setTabIndex(index)}>
           <TabList>
             <Tab>Sign in</Tab>
@@ -149,8 +148,8 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
 
           <TabPanels>
             <TabPanel>
-              <Box w="100%" border={"none"}>
-                <Heading as="h2" marginBottom="20px" display={"inline-block"} fontWeight={600} textAlign={"center"}>
+              <Box w="100%" border={'none'}>
+                <Heading as="h2" marginBottom="20px" display={'inline-block'} fontWeight={600} textAlign={'center'}>
                   Login to your account
                 </Heading>
                 <form onSubmit={handleSignIn}>
@@ -160,10 +159,10 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
                   <Button
                     marginTop="20px"
                     w="40%"
-                    color={"white"}
+                    color={'white'}
                     backgroundColor={MAIN_COLOR}
-                    _hover={{ opacity: "80%" }}
-                    alignItems={"center"}
+                    _hover={{ opacity: '80%' }}
+                    alignItems={'center'}
                     type="submit"
                   >
                     Login
@@ -172,13 +171,13 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
               </Box>
             </TabPanel>
             <TabPanel>
-              <Box marginBottom={"10px"}>
-                <Heading as="h2" marginBottom="20px" display={"inline-block"} fontWeight={600} textAlign={"center"}>
+              <Box marginBottom={'10px'}>
+                <Heading as="h2" marginBottom="20px" display={'inline-block'} fontWeight={600} textAlign={'center'}>
                   Create your account
                 </Heading>
                 <form onSubmit={handleRegister}>
-                  <Box display={"flex"} flexDirection={"row"} flexWrap={"wrap"} w={"100%"}>
-                    <Box display={"flex"} flexDirection={"column"} flexBasis="100%" flex="1" marginLeft={"10px"}>
+                  <Box display={'flex'} flexDirection={'row'} flexWrap={'wrap'} w={'100%'}>
+                    <Box display={'flex'} flexDirection={'column'} flexBasis="100%" flex="1" marginLeft={'10px'}>
                       <StandardInput name="First Name" placeholder="Enter First Name" label="First Name" />
                       <StandardInput name="Email" placeholder="Enter Email" label="Email" error={emailError} />
                       <PasswordInput
@@ -196,13 +195,13 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
                         error={postalError}
                       />
                     </Box>
-                    <Box display={"flex"} flexDirection={"column"} flexBasis="100%" flex="1" marginLeft={"10px"}>
+                    <Box display={'flex'} flexDirection={'column'} flexBasis="100%" flex="1" marginLeft={'10px'}>
                       <StandardInput name="Last Name" placeholder="Enter Last Name" label="Last Name" />
                       <DropdownInput
                         placeholder="Select Gender"
                         name="Gender"
                         label="Gender"
-                        options={["Male", "Female", "Rather not say"]}
+                        options={['Male', 'Female', 'Rather not say']}
                       />
                       <PasswordInput
                         name="Confirm Password"
@@ -225,12 +224,12 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
                       />
                     </Box>
                   </Box>
-                  <Box marginTop="20px" alignItems={"center"} justifyContent={"center"}>
+                  <Box marginTop="20px" alignItems={'center'} justifyContent={'center'}>
                     <Button
                       w="40%"
-                      color={"white"}
+                      color={'white'}
                       backgroundColor={MAIN_COLOR}
-                      _hover={{ opacity: "80%" }}
+                      _hover={{ opacity: '80%' }}
                       type="submit"
                     >
                       Signup

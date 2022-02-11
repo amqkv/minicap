@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const RequiredDetails = require('../models/RequiredDetails');
-const patientController = require('../controllers/patientController');
+const RequiredDetails = require('../models/required-details');
+const patientController = require('../controllers/patient-controller');
 
 router.use(express.json());
 

@@ -1,6 +1,6 @@
-import { serverURL } from "@frontend/config/index";
+import { serverURL } from '@frontend/config/index';
 
-interface signUpParameters {
+interface SignUpParameters {
   firstName: string;
   lastName: string;
   gender: string;
@@ -26,9 +26,9 @@ export async function signUp({
   phoneNumber,
   postalCode,
   accountRole,
-}: signUpParameters) {
-  return await fetch(serverURL + "/users/register", {
-    method: "POST",
+}: SignUpParameters) {
+  return await fetch(serverURL + '/users/register', {
+    method: 'POST',
     body: JSON.stringify({
       firstName: firstName,
       lastName: lastName,
@@ -42,6 +42,6 @@ export async function signUp({
       postalCode: postalCode,
       role: accountRole,
     }),
-    headers: { "Content-Type": "application/json" },
+    headers: { 'Content-Type': 'application/json' },
   });
 }
