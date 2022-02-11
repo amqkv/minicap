@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const authUser = require('../middleware/authUser');
-const adminController = require('../controllers/adminController');
+const authUser = require('../middleware/auth-user');
+const adminController = require('../controllers/admin-controller');
 const constants = require('../utils/constants');
 
 router.use(express.json());
@@ -24,6 +24,16 @@ router.patch(
   authUser.verifyRole(constants.ROLE.ADMIN),
   (req, res) => {
     adminController.updateRole(req, res);
+  }
+);
+
+//Assign a patient to a doctor as admin
+router.patch(
+  '/assign-patient',
+  authUser.verifyUser,
+  authUser.verifyRole(constants.ROLE.ADMIN),
+  (req, res) => {
+    adminController.assignPatientDoctor(req, res);
   }
 );
 

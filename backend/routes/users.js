@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
-const authController = require('../controllers/authController');
-const adminController = require('../controllers/adminController');
-const userController = require('../controllers/userController');
-const authJwt = require('../middleware/authJwt');
+const authController = require('../controllers/auth-controller');
+const adminController = require('../controllers/admin-controller');
+const userController = require('../controllers/user-controller');
+const authJwt = require('../middleware/auth-jwt');
 
 router.use(express.json());
 
