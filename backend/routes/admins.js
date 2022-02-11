@@ -8,24 +8,14 @@ router.use(express.json());
 router.use(authUser.setUser);
 
 //Admin test page
-router.get(
-  '/',
-  authUser.verifyUser,
-  authUser.verifyRole(constants.ROLE.ADMIN),
-  (req, res) => {
-    res.send('If you can access this then you are an admin !');
-  }
-);
+router.get('/', authUser.verifyUser, authUser.verifyRole(constants.ROLE.ADMIN), (req, res) => {
+  res.send('If you can access this then you are an admin !');
+});
 
 //Update user roles as admin
-router.patch(
-  '/update-role',
-  authUser.verifyUser,
-  authUser.verifyRole(constants.ROLE.ADMIN),
-  (req, res) => {
-    adminController.updateRole(req, res);
-  }
-);
+router.patch('/update-role', authUser.verifyUser, authUser.verifyRole(constants.ROLE.ADMIN), (req, res) => {
+  adminController.updateRole(req, res);
+});
 
 //Assign a patient to a doctor as admin
 router.patch(

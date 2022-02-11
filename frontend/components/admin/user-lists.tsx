@@ -1,9 +1,9 @@
 import { Box, useDisclosure, Spinner, SimpleGrid } from '@chakra-ui/react';
 import { Fragment, useState } from 'react';
-import UserList from './UserList';
-import UserInfoSimple from '@frontend/models/UserInfoSimple';
-import UserModal from './UserModal';
-import useRole from '@frontend/hooks/userRole';
+import UserList from './user-list';
+import UserInfoSimple from '@frontend/models/user-info-simple';
+import UserModal from './user-modal';
+import useRole from '@frontend/hooks/user-role';
 
 interface appProps {
   sessionId: Number;
@@ -72,12 +72,7 @@ const UserLists = ({ sessionId }: appProps) => {
           </SimpleGrid>
         </Box>
       )}
-      <UserModal
-        isOpen={isOpen}
-        onClose={onClose}
-        userInfo={userSelected}
-        sessionId={sessionId}
-      />
+      <UserModal isOpen={isOpen} onClose={onClose} userInfo={userSelected} sessionId={sessionId} />
     </Fragment>
   );
 };
