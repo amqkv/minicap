@@ -15,7 +15,7 @@ function getCheckedBoxes(requiredDetails: any) {
 
 async function onSave(requiredDetails: any) {
   // <TODO> - get patient id
-  let patientId = 1;
+  let patientId = 2;
 
   fetch(serverURL + '/patients/' + patientId + '/updateRequiredDetails/', {
     method: 'POST',
