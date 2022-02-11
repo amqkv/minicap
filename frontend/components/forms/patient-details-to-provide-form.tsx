@@ -1,6 +1,5 @@
 import { Checkbox, Stack, Button, CheckboxGroup, Flex, Box } from '@chakra-ui/react';
 import { serverURL } from '@frontend/config/index';
-// import '@frontend/styles/doctor.css';
 
 function getCheckedBoxes(requiredDetails: any) {
   let detailName = [];
