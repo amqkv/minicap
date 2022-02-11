@@ -1,4 +1,3 @@
-import React from 'react';
 import { shallow } from 'enzyme';
 import { IconButton } from '@chakra-ui/react';
 import Logo from '@frontend/components/navigation/Logo';
