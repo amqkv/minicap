@@ -1,4 +1,7 @@
 const RequiredDetails = require('../models/RequiredDetails');
+const Patient = require('../models/Patient');
+const User = require('../models/User');
+const Sequelize = require('sequelize');
 
 function getRequiredDetails(req, res) {
   RequiredDetails.findAll({
@@ -41,7 +44,42 @@ function updateRequiredDetails(req, res) {
     .catch((err) => res.status(400).json({ message: 'Could not update details.' }));
 }
 
+function getPatientsInfo(req, res) {
+  console.log('getpatientsinfo');
+
+  Patient.findAll({
+    // <TODO> Get current doctor's ID
+    where: { Doctor_DoctorID: req.params.doctorId },
+    raw: true,
+    attributes: [
+      [Sequelize.col('Patient.PatientId'), 'patientId'],
+      [Sequelize.col('Patient.Height'), 'height'],
+      [Sequelize.col('Patient.Weight'), 'weight'],
+      [Sequelize.col('Patient.IsPrioritized'), 'isPrioritized'],
+      [Sequelize.col('Patient.LastUpdatedDate'), 'lastUpdatedDate'],
+      // Not sure if we need doctor id
+      [Sequelize.col('Patient.Doctor_DoctorID'), 'doctorID'],
+      [Sequelize.col('Patient.User_AccountId'), 'accountId'],
+      [Sequelize.col('User.FirstName'), 'firstName'],
+      [Sequelize.col('User.LastName'), 'lastName'],
+      [Sequelize.col('User.Gender'), 'gender'],
+    ],
+    include: [
+      {
+        model: User,
+        attributes: [],
+      },
+    ],
+  })
+    .then((patient) => {
+      console.log(patient);
+      res.json(patient);
+    })
+    .catch((err) => console.log(err));
+}
+
 module.exports = {
   getRequiredDetails,
   updateRequiredDetails,
+  getPatientsInfo,
 };
