@@ -15,7 +15,7 @@ import {
   Stack,
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
-import { WEBSITE_NAME, USER_ROLES } from '@frontend/utils/constants';
+import { USER_ROLES } from '@frontend/utils/constants';
 import NavLink from '@frontend/components/navigation/NavLink';
 import { useSession } from 'next-auth/react';
 import Logo from '@frontend/components/navigation/Logo';
@@ -34,7 +34,7 @@ const Links = [
   },
 ];
 
-export default function Simple() {
+export default function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { data: session } = useSession();
   const userRole = session?.user?.Role;
@@ -52,7 +52,7 @@ export default function Simple() {
                 cursor={"pointer"}
                 minW={0}
               > */}
-                <Logo/>
+              <Logo />
               {/* </MenuButton> */}
               <HStack spacing={8} alignItems={'flex-end'}>
                 <HStack as={'nav'} spacing={4} display={{ base: 'none', md: 'flex' }}>

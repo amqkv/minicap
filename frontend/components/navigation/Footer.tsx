@@ -1,4 +1,4 @@
-import { Box, Stack, Text, ButtonGroup, ButtonGroupProps, IconButton } from '@chakra-ui/react';
+import { Box, Stack, Text, ButtonGroup, IconButton } from '@chakra-ui/react';
 import { PhoneIcon, EmailIcon, QuestionIcon } from '@chakra-ui/icons';
 import * as React from 'react';
 import Logo from '@frontend/components/navigation/Logo';
