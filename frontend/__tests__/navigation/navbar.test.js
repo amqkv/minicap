@@ -1,4 +1,4 @@
-import { shallow, render } from "enzyme";
+import { shallow } from "enzyme";
 import NavBar from "@frontend/components/navigation/navbar";
 import { useSession } from "next-auth/react";
 import Logo from "@frontend/components/navigation/logo";
