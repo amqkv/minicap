@@ -1,6 +1,6 @@
 import { Box, List, GridItem } from '@chakra-ui/react';
 import UserInfoSimple from '@frontend/models/user-info-simple';
-import classes from './UserList.module.css';
+import classes from './user-modal.module.css';
 import UserRowCard from './user-row-card';
 
 interface AppProps {

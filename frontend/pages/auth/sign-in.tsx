@@ -15,7 +15,7 @@ import {
   useToast,
   UseToastOptions,
 } from '@chakra-ui/react';
-import { MAIN_COLOR, USER_ROLES } from '@frontend/utils/constants';
+import { MAIN_COLOR, USER_ROLES_SIGN_IN } from '@frontend/utils/constants';
 import PasswordInput from '@frontend/components/inputs/password-input';
 import StandardInput from '@frontend/components/inputs/standard-input';
 import DateInput from '@frontend/components/inputs/date-input';
@@ -236,7 +236,7 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
                         placeholder="Select Account Role"
                         name="Account Role"
                         label="Account Role"
-                        options={USER_ROLES_SIGNIN}
+                        options={USER_ROLES_SIGN_IN}
                       />
                       <StandardInput name="City" placeholder="Enter City" label="City" />
                       <StandardInput
