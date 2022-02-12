@@ -21,12 +21,11 @@ export default nextAuth({
         let user = await res.json();
 
         if (res.ok && user) {
-
-          const fetchUser = await fetch(serverURL + "/users/getUser", {
-            headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + user.accessToken }
-          })
-          user = Object.assign(user, await fetchUser.json())
-          return user
+          const fetchUser = await fetch(serverURL + '/users/getUser', {
+            headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + user.accessToken },
+          });
+          user = Object.assign(user, await fetchUser.json());
+          return user;
         }
         return null;
       },
@@ -36,18 +35,18 @@ export default nextAuth({
     jwt: ({ token, user }) => {
       if (user) {
         token.id = user.id;
-        token.user = user
+        token.user = user;
       }
 
-      return token
+      return token;
     },
     session: ({ session, token }) => {
-      const user = token.user
+      const user = token.user;
       delete user.Password;
 
       if (token) {
         session.id = token.id;
-        session.user = user
+        session.user = user;
       }
 
       return session;
@@ -59,6 +58,6 @@ export default nextAuth({
     encryption: true,
   },
   pages: {
-    signIn: '/auth/signin',
+    signIn: '/auth/sign-in',
   },
 });

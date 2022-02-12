@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'enzyme';
 
-import LoginLogoutButton from '../components/LoginLogoutButton';
+import LoginLogoutButton from '../components/login-logout-button';
 
 describe('test the login/logout button', () => {
   it('renders the button', async () => {

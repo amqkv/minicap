@@ -1,4 +1,4 @@
-import UserInfoSimple from '@frontend/models/UserInfoSimple';
+import UserInfoSimple from '@frontend/models/user-info-simple';
 import useSWR from 'swr';
 
 // Hook to fetch data , with some new functionalities for data fetching like revalidation. Check SWR for more info
