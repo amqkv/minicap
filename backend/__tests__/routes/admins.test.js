@@ -1,5 +1,12 @@
 const request = require("supertest");
 const app = require("../../index");
+const db = require("../../config/database");
+
+afterAll((done) => {
+  //Closing DB connection allows Jest to exit
+  db.close();
+  done();
+});
 
 describe("PATCH: Assign a patient to a doctor", () => {
   it("Patient has been assigned to a doctor", () => {
