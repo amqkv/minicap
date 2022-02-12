@@ -3,7 +3,7 @@ const app = require("../../index");
 const db = require("../../config/database");
 
 afterAll(function () {
-  sequelize.close();
+  db.close();
 });
 
 describe("PATCH: Assign a patient to a doctor", () => {
