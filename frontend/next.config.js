@@ -11,6 +11,10 @@ const nextConfig = {
         source: '/api/admin/user-role',
         destination: `http://localhost:3001/admins/update-role`,
       },
+      {
+        source: '/api/admin/pending-users',
+        destination: `http://localhost:3001/admins/pending`,
+      },
     ];
   },
 };

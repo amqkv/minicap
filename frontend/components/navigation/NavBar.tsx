@@ -15,24 +15,11 @@ import {
   Stack,
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
-import { USER_ROLES } from '@frontend/utils/constants';
 import NavLink from '@frontend/components/navigation/NavLink';
 import { useSession } from 'next-auth/react';
 import Logo from '@frontend/components/navigation/Logo';
+import {Links} from '@frontend/components/navigation/NavBarStructure';
 
-const Links = [
-  { text: 'HOME', url: '/' },
-  {
-    text: 'USER LIST',
-    url: '/admin/user-list',
-    roleRequired: USER_ROLES.admin,
-  },
-  {
-    text: 'PATIENT INFO',
-    url: '/doctor/patientinfo',
-    roleRequired: USER_ROLES.doctor,
-  },
-];
 
 export default function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
