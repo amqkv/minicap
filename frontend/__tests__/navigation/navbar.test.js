@@ -1,7 +1,7 @@
 import { shallow, render } from "enzyme";
-import NavBar from "@frontend/components/navigation/NavBar";
+import NavBar from "@frontend/components/navigation/navbar";
 import { useSession } from "next-auth/react";
-import Logo from "@frontend/components/navigation/Logo";
+import Logo from "@frontend/components/navigation/logo";
 import NavLink from "@frontend/components/navigation/navlink";
 import { USER_ROLES } from "@frontend/utils/constants";
 
