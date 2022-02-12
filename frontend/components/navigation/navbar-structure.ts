@@ -1,4 +1,4 @@
-import { USER_ROLES } from '@frontend/utils/constants';
+import { USER_ROLES } from "@frontend/utils/constants";
 
 export interface link {
   text: string;
@@ -7,20 +7,20 @@ export interface link {
 }
 
 export const links: link[] = [
-  { text: 'HOME', url: '/' },
+  { text: "HOME", url: "/" },
   {
-    text: 'USER LIST',
-    url: '/admin/user-list',
+    text: "USER LIST",
+    url: "/admin/user-list",
     roleRequired: USER_ROLES.admin,
   },
   {
-    text: 'APPROVE USERS',
-    url: '/admin/approve-users',
+    text: "APPROVE USERS",
+    url: "/admin/approve-users",
     roleRequired: USER_ROLES.admin,
   },
   {
-    text: 'PATIENT INFO',
-    url: '/doctor/patientinfo',
+    text: "PATIENT INFO",
+    url: "/doctor/patientinfo",
     roleRequired: USER_ROLES.doctor,
   },
 ];
