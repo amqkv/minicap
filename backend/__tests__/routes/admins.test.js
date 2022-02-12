@@ -2,10 +2,6 @@ const request = require("supertest");
 const app = require("../../index");
 const db = require("../../config/database");
 
-beforeAll((done) => {
-  done();
-});
-
 afterAll((done) => {
   // Closing the DB connection allows Jest to exit successfully.
   db.close();
