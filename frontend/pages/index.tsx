@@ -2,6 +2,8 @@ import { useSession, signIn, signOut, getSession } from 'next-auth/react';
 import { GetServerSideProps } from 'next';
 import LoginLogoutButton from '@frontend/components/LoginLogoutButton';
 import { Box, Img, Flex, Heading, Container } from '@chakra-ui/react';
+import PatientDashboard from '@frontend/pages/patient/patientDashboard';
+
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
@@ -16,11 +18,12 @@ export default function Home() {
   if (session) {
 
     return (
-      <>
-        Signed in as {session.user.FirstName} <br />
-        type: {session.user.Gender} <br />
-        <LoginLogoutButton />
-      </>
+       <PatientDashboard/>
+      // <>
+      //   Signed in as {session.user.FirstName} <br />
+      //   type: {session.user.Role} <br />
+      //   <LoginLogoutButton />
+      // </>
     );
   }
   return (

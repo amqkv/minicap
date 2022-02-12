@@ -1,4 +1,3 @@
-import { Box } from '@chakra-ui/react';
 import UserLists from '@frontend/components/admin/UserLists';
 import { useSession, getSession } from 'next-auth/react';
 
