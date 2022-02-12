@@ -15,12 +15,11 @@ import {
   useToast,
   UseToastOptions,
 } from '@chakra-ui/react';
-
-import { MAIN_COLOR, USER_ROLES_SIGNIN } from '@frontend/utils/constants';
-import PasswordInput from '@frontend/components/inputs/PasswordInput';
-import StandardInput from '@frontend/components/inputs/StandardInput';
-import DateInput from '@frontend/components/inputs/DateInput';
-import DropdownInput from '@frontend/components/inputs/DropdownInput';
+import { MAIN_COLOR, USER_ROLES_SIGN_IN } from '@frontend/utils/constants';
+import PasswordInput from '@frontend/components/inputs/password-input';
+import StandardInput from '@frontend/components/inputs/standard-input';
+import DateInput from '@frontend/components/inputs/date-input';
+import DropdownInput from '@frontend/components/inputs/dropdown-input';
 import {
   validPassword,
   validEmail,
@@ -28,7 +27,7 @@ import {
   validPostalCode,
   allFieldsFilled,
 } from '@frontend/utils/validation';
-import { signUp } from '@frontend/functions/signUp';
+import { signUp } from '@frontend/functions/sign-up';
 import {
   registerGeneralErrorPopup,
   registerSuccessPopup,
@@ -47,8 +46,7 @@ export async function getServerSideProps(context: any) {
 export default function SignIn({ csrfToken }: { csrfToken: string }) {
   const router = useRouter();
   const toast = useToast();
-  const callPopup = (props: UseToastOptions) =>
-    !toast.isActive('popup') && toast({ ...props, id: 'popup' });
+  const callPopup = (props: UseToastOptions) => !toast.isActive('popup') && toast({ ...props, id: 'popup' });
 
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
@@ -142,12 +140,7 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
       </Box>
 
       <Box w={{ base: '100%', md: '45%' }} h="100%" p={{ base: '5px', md: '20px' }}>
-        <Tabs
-          isFitted
-          isLazy
-          colorScheme="pink"
-          index={tabIndex}
-          onChange={index => setTabIndex(index)}>
+        <Tabs isFitted isLazy colorScheme="pink" index={tabIndex} onChange={(index) => setTabIndex(index)}>
           <TabList>
             <Tab>Sign in</Tab>
             <Tab>Register</Tab>
@@ -156,12 +149,7 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
           <TabPanels>
             <TabPanel>
               <Box w="100%" border={'none'}>
-                <Heading
-                  as="h2"
-                  marginBottom="20px"
-                  display={'inline-block'}
-                  fontWeight={600}
-                  textAlign={'center'}>
+                <Heading as="h2" marginBottom="20px" display={'inline-block'} fontWeight={600} textAlign={'center'}>
                   Login to your account
                 </Heading>
                 <form onSubmit={handleSignIn}>
@@ -175,7 +163,8 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
                     backgroundColor={MAIN_COLOR}
                     _hover={{ opacity: '80%' }}
                     alignItems={'center'}
-                    type="submit">
+                    type="submit"
+                  >
                     Login
                   </Button>
                 </form>
@@ -183,12 +172,7 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
             </TabPanel>
             <TabPanel>
               <Box marginBottom={'10px'}>
-                <Heading
-                  as="h2"
-                  marginBottom="20px"
-                  display={'inline-block'}
-                  fontWeight={600}
-                  textAlign={'center'}>
+                <Heading as="h2" marginBottom="20px" display={'inline-block'} fontWeight={600} textAlign={'center'}>
                   Create your account
                 </Heading>
                 <form onSubmit={handleRegister}>
@@ -252,7 +236,7 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
                         placeholder="Select Account Role"
                         name="Account Role"
                         label="Account Role"
-                        options={USER_ROLES_SIGNIN}
+                        options={USER_ROLES_SIGN_IN}
                       />
                       <StandardInput name="City" placeholder="Enter City" label="City" />
                       <StandardInput
@@ -269,7 +253,8 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
                       color={'white'}
                       backgroundColor={MAIN_COLOR}
                       _hover={{ opacity: '80%' }}
-                      type="submit">
+                      type="submit"
+                    >
                       Signup
                     </Button>
                   </Box>

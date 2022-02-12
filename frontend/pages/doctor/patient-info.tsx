@@ -1,4 +1,4 @@
-import PatientDetailsToProvideForm from '@frontend/components/forms/PatientDetailsToProvideForm';
+import PatientDetailsToProvideForm from '@frontend/components/forms/patient-details-to-provide-form';
 import { Box, Flex, Heading, Text, Image, Divider } from '@chakra-ui/react';
 import { serverURL } from '@frontend/config/index';
 

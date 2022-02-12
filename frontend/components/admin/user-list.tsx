@@ -1,7 +1,7 @@
 import { Box, List, GridItem } from '@chakra-ui/react';
-import UserInfoSimple from '@frontend/models/UserInfoSimple';
-import classes from './UserList.module.css';
-import UserRowCard from './UserRowCard';
+import UserInfoSimple from '@frontend/models/user-info-simple';
+import classes from './user-modal.module.css';
+import UserRowCard from './user-row-card';
 
 interface AppProps {
   userRole: string;
@@ -35,13 +35,7 @@ const UserList = ({ userRole, onUserSelect, usersInfoSimple }: AppProps) => {
           }}
         >
           {usersInfoSimple.map((userInfo) => {
-            return (
-              <UserRowCard
-                key={userInfo.AccountId}
-                onUserSelect={onUserSelect}
-                userInfoSimple={userInfo}
-              />
-            );
+            return <UserRowCard key={userInfo.AccountId} onUserSelect={onUserSelect} userInfoSimple={userInfo} />;
           })}
         </List>
       </Box>
