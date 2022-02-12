@@ -1,7 +1,7 @@
 import { Box, Stack, Text, ButtonGroup, IconButton } from '@chakra-ui/react';
 import { PhoneIcon, EmailIcon, QuestionIcon } from '@chakra-ui/icons';
 import * as React from 'react';
-import Logo from '@frontend/components/navigation/Logo';
+import Logo from '@frontend/components/navigation/logo';
 import { WEBSITE_NAME } from '@frontend/utils/constants';
 
 export default function Footer() {

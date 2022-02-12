@@ -1,5 +1,5 @@
 import { Flex, Avatar, Heading } from '@chakra-ui/react';
-import NavLink from '@frontend/components/navigation/NavLink';
+import NavLink from '@frontend/components/navigation/navlink';
 import { WEBSITE_NAME } from '@frontend/utils/constants';
 
 export default function Logo() {

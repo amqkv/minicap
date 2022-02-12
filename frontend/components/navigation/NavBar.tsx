@@ -15,24 +15,10 @@ import {
   Stack,
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
-import { USER_ROLES } from '@frontend/utils/constants';
-import NavLink from '@frontend/components/navigation/NavLink';
+import NavLink from '@frontend/components/navigation/navlink';
 import { useSession } from 'next-auth/react';
-import Logo from '@frontend/components/navigation/Logo';
-
-const Links = [
-  { text: 'HOME', url: '/' },
-  {
-    text: 'USER LIST',
-    url: '/admin/user-list',
-    roleRequired: USER_ROLES.admin,
-  },
-  {
-    text: 'PATIENT INFO',
-    url: '/doctor/patientinfo',
-    roleRequired: USER_ROLES.doctor,
-  },
-];
+import Logo from '@frontend/components/navigation/logo';
+import { links, link } from '@frontend/components/navigation/navbar-structure';
 
 export default function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -56,7 +42,7 @@ export default function Navbar() {
               {/* </MenuButton> */}
               <HStack spacing={8} alignItems={'flex-end'}>
                 <HStack as={'nav'} spacing={4} display={{ base: 'none', md: 'flex' }}>
-                  {Links.map(({ text, url, roleRequired }) => {
+                  {links.map(({ text, url, roleRequired }: link) => {
                     const renderLink = roleRequired === userRole || !roleRequired;
                     return (
                       renderLink && (
@@ -82,7 +68,7 @@ export default function Navbar() {
         {isOpen ? (
           <Box pb={4} display={{ md: 'none' }}>
             <Stack as={'nav'} spacing={4}>
-              {Links.map(({ text, url, roleRequired }) => {
+              {links.map(({ text, url, roleRequired }: link) => {
                 const renderLink = roleRequired === userRole || !roleRequired;
 
                 return (
