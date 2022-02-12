@@ -10,9 +10,13 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
   return (
     <SessionProvider session={session}>
       <ChakraProvider>
-        <NavBar />
-        <Component {...pageProps} />
-        <Footer />
+            <div id="App">
+                <NavBar />
+                <div id='PageContents'>
+                    <Component {...pageProps} />
+                </div>
+                <Footer />
+            </div>
       </ChakraProvider>
     </SessionProvider>
   );
