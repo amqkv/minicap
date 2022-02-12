@@ -7,11 +7,11 @@ const Patient = require("../models/patient");
  * oldRole: old role of the user
  * AccountId: AccountId of the user that the role will be modified
  */
-function updateRole(req, res) {
+async function updateRole(req, res) {
   if (req.body.newRole === req.body.oldRole) {
     res.status(200);
   } else {
-    User.update(
+    await User.update(
       {
         Role: req.body.newRole,
       },
