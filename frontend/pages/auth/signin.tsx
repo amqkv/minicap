@@ -177,54 +177,63 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
                   Create your account
                 </Heading>
                 <form onSubmit={handleRegister}>
-                  <Box display={"flex"} flexDirection={"row"} flexWrap={"wrap"} w={"100%"}>
-                    <Box display={"flex"} flexDirection={"column"} flexBasis="100%" flex="1" marginLeft={"10px"}>
-                      <StandardInput name="First Name" placeholder="Enter First Name" label="First Name" />
-                      <StandardInput name="Email" placeholder="Enter Email" label="Email" error={emailError} />
-                      <PasswordInput
-                        name="Password"
-                        placeholder="Enter Password"
-                        label="Password"
-                        error={passwordError}
-                      />
-                      <DateInput name="DateOfBirth" label="Date of Birth" />
-                      <StandardInput name="Address" placeholder="Enter Address" label="Address" />
-                      <StandardInput
-                        name="PostalCode"
-                        placeholder="Enter Postal Code"
-                        label="Postal Code"
-                        error={postalError}
-                      />
-                    </Box>
-                    <Box display={"flex"} flexDirection={"column"} flexBasis="100%" flex="1" marginLeft={"10px"}>
-                      <StandardInput name="Last Name" placeholder="Enter Last Name" label="Last Name" />
+                    <Flex flexWrap={"wrap"} flexBasis="100%"  marginLeft={"10px"}>
+                      <StandardInput style={{width:'50%'}} name="First Name" placeholder="Enter First Name" label="First Name"/>
+                      <StandardInput style={{width:'50%'}} name="Last Name" placeholder="Enter Last Name" label="Last Name" />
+                      <StandardInput style={{width:'50%'}} name="Email" placeholder="Enter Email" label="Email" error={emailError}/>
                       <DropdownInput
+                        style={{width:'50%'}}
                         placeholder="Select Gender"
                         name="Gender"
                         label="Gender"
                         options={["Male", "Female", "Rather not say"]}
                       />
                       <PasswordInput
+                      style={{width:'50%'}}
+                        name="Password"
+                        placeholder="Enter Password"
+                        label="Password"
+                        error={passwordError}
+                      />
+                       <PasswordInput
+                       style={{width:'50%'}}
                         name="Confirm Password"
                         placeholder="Enter Password Again"
                         label="Confirm Password"
                         error={confirmPasswordError}
                       />
+                      <DateInput style={{width:'50%'}} name="DateOfBirth" label="Date of Birth" />
                       <DropdownInput
+                      style={{width:'50%'}}
                         placeholder="Select Account Role"
                         name="Account Role"
                         label="Account Role"
                         options={USER_ROLES}
                       />
-                      <StandardInput name="City" placeholder="Enter City" label="City" />
+                      <StandardInput style={{width:'50%'}} name="Address" placeholder="Enter Address" label="Address" />
+                      <StandardInput style={{width:'50%'}} name="City" placeholder="Enter City" label="City" />
+
                       <StandardInput
+                      style={{width:'50%'}}
+                        name="PostalCode"
+                        placeholder="Enter Postal Code"
+                        label="Postal Code"
+                        error={postalError}
+                      />
+                      <StandardInput
+                      style={{width:'50%'}}
                         name="PhoneNumber"
                         placeholder="Enter Phone Number"
                         label="Phone Number"
                         error={phoneError}
                       />
-                    </Box>
-                  </Box>
+                    {/* </Box>
+                    <Box display={"flex"} flexDirection={"column"} flexBasis="100%" flex="1" marginLeft={"10px"}> */}
+                      
+                     
+                      
+                      
+                    </Flex>
                   <Box marginTop="20px" alignItems={"center"} justifyContent={"center"}>
                     <Button
                       w="40%"

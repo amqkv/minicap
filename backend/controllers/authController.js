@@ -17,7 +17,7 @@ function register(req,res) {
         PhoneNumber: req.body.phoneNumber,
         PostalCode: req.body.postalCode,
         Role: req.body.accountRole,
-        Confirmed: req.body.accountRole === constants.ROLE.PATIENT
+        Confirmed: req.body.accountRole === constants.ROLE.PATIENT? 'true': 'false'
     }).then(user => {
         if(user) {
             console.log("new user created");

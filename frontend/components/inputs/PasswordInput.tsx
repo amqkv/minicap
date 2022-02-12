@@ -1,17 +1,17 @@
-import { InputGroup, Input, InputRightElement, Button, Text, InputLeftElement, Tooltip } from "@chakra-ui/react";
+import { InputGroup, Input, InputRightElement, Button, Text, InputLeftElement, Tooltip, Box } from "@chakra-ui/react";
 import { MAIN_COLOR } from "@frontend/utils/constants";
 import { useState } from "react";
 import { InputProps } from "@frontend/components/inputs/types/input";
 import { WarningIcon } from "@chakra-ui/icons";
 
-export default function PasswordInput({ name, label, placeholder, error }: InputProps) {
+export default function PasswordInput({ name, label, placeholder, error, style }: InputProps) {
   const [show, setShow] = useState(false);
   const message = "Your password must contain at least one of the following: an uppercase, a lowercase, a special symbol";
   return (
-    <>
+    <Box style={style} padding="5px">
       <Text margin="10px 0">{label}</Text>
       <InputGroup size="md">
-        {error && (
+        {error && name === 'password' && (
           <InputLeftElement>
             <Tooltip aria-label='A tooltip' label={message} defaultIsOpen bg='red.500'>
               <WarningIcon color="red.500" />
@@ -33,6 +33,6 @@ export default function PasswordInput({ name, label, placeholder, error }: Input
           </Button>
         </InputRightElement>
       </InputGroup>
-    </>
+    </Box>
   );
 }
