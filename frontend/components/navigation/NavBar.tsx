@@ -41,7 +41,7 @@ export default function Navbar() {
 
   return (
     <>
-      <Box px={4}>
+      <Box as="header" px={4}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <Flex alignItems={'center'} width={'100%'} justifyContent={'space-between'}>
             <Menu>
