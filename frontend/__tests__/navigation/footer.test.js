@@ -1,7 +1,7 @@
 import { shallow } from 'enzyme';
 import { IconButton } from '@chakra-ui/react';
 import Logo from '@frontend/components/navigation/Logo';
-import Footer from '@frontend/components/navigation/footer';
+import Footer from '@frontend/components/navigation/Footer';
 
 describe('test the website footer', () => {
   it('renders the footer for the website with 1 logo', async () => {
