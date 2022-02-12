@@ -1,0 +1,57 @@
+.modalHeader {
+  font-family: Poppins;
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 54px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+.selectionFont {
+  font-family: Poppins;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 42px;
+  letter-spacing: 0em;
+  text-align: left;
+
+  color: #444444;
+}
+
+.roleFont {
+  font-family: Poppins;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 27px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+.buttonFont {
+  font-family: Poppins;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 30px;
+  letter-spacing: 0em;
+  text-align: center;
+
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .modalHeader {
+    text-align: center;
+  }
+  .selectionFont {
+    text-align: center;
+  }
+  .applyButton {
+    align-items: center;
+    display: grid;
+    margin: auto;
+  }
+}
