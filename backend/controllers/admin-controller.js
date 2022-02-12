@@ -1,5 +1,5 @@
-const User = require('../models/user');
-const Patient = require('../models/patient');
+const User = require("../models/user");
+const Patient = require("../models/patient");
 
 /**
  * Update role of user as admin
@@ -22,11 +22,11 @@ function updateRole(req, res) {
       }
     )
       .then((result) => {
-        console.log('Role successfully updated !');
-        res.status(200).send('Role successfully updated !');
+        console.log("Role successfully updated !");
+        res.status(200).send("Role successfully updated !");
       })
       .catch((err) => {
-        res.status(500).send('Error:' + err);
+        res.status(500).send("Error:" + err);
       });
   }
 }
@@ -36,28 +36,32 @@ function updateRole(req, res) {
  * PatientId: Id of the patient to be assigned
  * Doctor_DoctorId: DoctorId associated to the patient
  */
- function assignPatientDoctor(req, res) {
-  Patient.update({
-    Doctor_DoctorId: req.body.doctor_doctorId
-  },
-  {
-    where: {
-      PatientId: req.body.patientId
+function assignPatientDoctor(req, res) {
+  Patient.update(
+    {
+      Doctor_DoctorId: req.body.doctor_doctorId,
+    },
+    {
+      where: {
+        PatientId: req.body.patientId,
+      },
     }
-  }).then(patient => {
-      if(patient[0]) {
-          console.log("Patient has been assigned to doctor");
-          res.status(200).send('Patient has been assigned to a doctor');
+  )
+    .then((patient) => {
+      if (patient[0]) {
+        console.log("Patient has been assigned to doctor");
+        res.status(200).send("Patient has been assigned to a doctor");
       } else {
-          res.status(400).send('Failed to execute the assignment');
+        res.status(400).send("Failed to execute the assignment");
       }
-  }).catch(err => {
-    console.log("Error: ", err);
-    res.status(400).send('Failed to execute the assignment');
-  });  
+    })
+    .catch((err) => {
+      console.log("Error: ", err);
+      res.status(400).send("Failed to execute the assignment");
+    });
 }
 
 module.exports = {
   updateRole,
-  assignPatientDoctor
+  assignPatientDoctor,
 };
