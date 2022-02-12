@@ -53,6 +53,7 @@ function updateRole(req, res) {
       }
   }).catch(err => {
     console.log("Error: ", err);
+    res.status(400).send('Failed to execute the assignment');
   });  
 }
 

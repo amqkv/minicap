@@ -41,6 +41,6 @@ db.authenticate()
   .then(() => console.log('Database connected...'))
   .catch((err) => console.log('Error:' + err));
 
-app.listen(port, () => {
+module.exports = app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
