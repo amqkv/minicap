@@ -1,8 +1,7 @@
 export interface InputProps {
-  placeholder?: string;
-  name: string;
-  label: string;
-  options?: string[];
-  error?: boolean;
+    placeholder?: string;
+    name: string;
+    label: string;
+    options?: string[];
+    error?: boolean;
 }
-

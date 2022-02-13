@@ -8,27 +8,26 @@ const Patient = require("../models/patient");
  * AccountId: AccountId of the user that the role will be modified
  */
 async function updateRole(req, res) {
-  if (req.body.newRole === req.body.oldRole) {
-    res.status(200);
-  } else {
-    await User.update(
-      {
-        Role: req.body.newRole,
-      },
-      {
-        where: {
-          AccountId: req.body.userId,
-        },
-      }
-    )
-      .then((result) => {
-        console.log("Role successfully updated !");
-        res.status(200).send("Role successfully updated !");
-      })
-      .catch((err) => {
-        res.status(500).send("Error:" + err);
-      });
-  }
+    if (req.body.newRole === req.body.oldRole) {
+        res.status(200);
+    } else {
+        await User.update(
+            {
+                Role: req.body.newRole,
+            },
+            {
+                where: {
+                    AccountId: req.body.userId,
+                },
+            }
+        )
+            .then(result => {
+                res.status(200).send("Role successfully updated !");
+            })
+            .catch(err => {
+                res.status(500).send("Error:" + err);
+            });
+    }
 }
 
 /**
@@ -37,31 +36,31 @@ async function updateRole(req, res) {
  * Doctor_DoctorId: DoctorId associated to the patient
  */
 function assignPatientDoctor(req, res) {
-  Patient.update(
-    {
-      Doctor_DoctorId: req.body.doctor_doctorId,
-    },
-    {
-      where: {
-        PatientId: req.body.patientId,
-      },
-    }
-  )
-    .then((patient) => {
-      if (patient[0]) {
-        console.log("Patient has been assigned to doctor");
-        res.status(200).send("Patient has been assigned to a doctor");
-      } else {
-        res.status(400).send("Failed to execute the assignment");
-      }
-    })
-    .catch((err) => {
-      console.log("Error: ", err);
-      res.status(400).send("Failed to execute the assignment");
-    });
+    Patient.update(
+        {
+            Doctor_DoctorId: req.body.doctor_doctorId,
+        },
+        {
+            where: {
+                PatientId: req.body.patientId,
+            },
+        }
+    )
+        .then(patient => {
+            if (patient[0]) {
+                console.log("Patient has been assigned to doctor");
+                res.status(200).send("Patient has been assigned to a doctor");
+            } else {
+                res.status(400).send("Failed to execute the assignment");
+            }
+        })
+        .catch(err => {
+            console.log("Error: ", err);
+            res.status(400).send("Failed to execute the assignment");
+        });
 }
 
 module.exports = {
-  updateRole,
-  assignPatientDoctor,
+    updateRole,
+    assignPatientDoctor,
 };

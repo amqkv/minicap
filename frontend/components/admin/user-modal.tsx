@@ -18,7 +18,7 @@ import { createBreakpoints } from '@chakra-ui/theme-tools';
 import UserInfoSimple from '@frontend/models/user-info-simple';
 import { useState } from 'react';
 import { mutate } from 'swr';
-import classes from './UserModal.module.css';
+import classes from './user-modal.module.css';
 
 interface appProps {
   userInfo: UserInfoSimple;

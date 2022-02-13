@@ -37,7 +37,7 @@ app.use("/admins", adminsRouter);
 
 //test DB
 db.authenticate()
-  .then(() => console.log("Database connected..."))
-  .catch((err) => console.log("Error:" + err));
+    .then(() => console.log("Database connected..."))
+    .catch(err => console.log("Error:" + err));
 
 module.exports = app;
