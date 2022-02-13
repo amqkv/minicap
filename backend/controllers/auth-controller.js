@@ -21,6 +21,20 @@ function register(req, res) {
     }).then(user => {
         if (user) {
             res.json(user);
+
+            //Add User to Patient table if the user is a Patient
+            if (user.Role === constants.ROLE.PATIENT) {
+                console.log("USER IS A PATIENTTTTT");
+                const newPatient = Patient.create({
+                    User_AccountId: user.AccountId,
+                }).then(patient => {
+                    if (patient) {
+                        console.log("Patient added to table");
+                    } else {
+                        res.status(400).send("error in adding patient to table");
+                    }
+                });
+            }
         } else {
             res.status(400).send("error in registering a new user");
         }
