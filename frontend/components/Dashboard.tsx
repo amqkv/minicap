@@ -1,5 +1,6 @@
 import { Box, Text, Center, Flex, Image, Link } from "@chakra-ui/react";
-import LoginLogoutButton from "./LoginLogoutButton";
+// import LoginLogoutButton from "./LoginLogoutButton";
+import LoginLogoutButton from "./login-logout-button";
 
 export function Dashboard() {
   return (

@@ -1,17 +1,17 @@
-import { useSession, signIn, signOut, getSession } from 'next-auth/react';
+import { useSession, getSession } from 'next-auth/react';
 import { GetServerSideProps } from 'next';
-import LoginLogoutButton from '@frontend/components/LoginLogoutButton';
-import { Box, Img, Flex, Heading, Container } from '@chakra-ui/react';
+import LoginLogoutButton from '@frontend/components/login-logout-button';
+import { Box, Img, Flex, Heading } from '@chakra-ui/react';
 import PatientDashboard from '@frontend/pages/patient/patientDashboard';
 
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  return {
-    props: {
-      session: await getSession(context),
-    },
-  };
-};
+    return {
+        props: {
+            session: await getSession(context),
+        },
+    }
+}
 
 export default function Home() {
   const { data: session } = useSession();
@@ -45,20 +45,10 @@ export default function Home() {
           <LoginLogoutButton />
         </Box>
 
-        <Box
-          w="50%"
-          h="100%"
-          p="20px"
-          display={{ base: 'none', md: 'initial' }}
-        >
-          <Img
-            src="https://imgur.com/omMyzrd.png"
-            w="100%"
-            h="100%"
-            alt="Visitor picture"
-          />
-        </Box>
-      </Flex>
-    </>
-  );
+                <Box w="50%" h="100%" p='20px' display={{ base: 'none', md: 'initial' }}>
+                    <Img src="https://imgur.com/omMyzrd.png" w="100%" h="100%" alt="Visitor picture" />
+                </Box>
+            </Flex>
+        </>
+    )
 }

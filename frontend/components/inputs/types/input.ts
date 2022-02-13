@@ -6,4 +6,3 @@ export interface InputProps {
   error?: boolean;
   style?: Object;
 }
-

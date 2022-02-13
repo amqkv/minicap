@@ -1,0 +1,16 @@
+.cardShadow {
+    background: #fcfcfc;
+    box-shadow: 2px 2px 15px 0.5px #8f8f8f26;
+
+    border-radius: 5px;
+}
+
+.rowFont {
+    font-family: Poppins;
+    font-size: 1.5em;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 42px;
+    letter-spacing: 0em;
+    text-align: left;
+}
