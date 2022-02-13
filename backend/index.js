@@ -2,7 +2,6 @@ require("dotenv").config();
 
 const express = require("express");
 const app = express();
-const port = 3001;
 const path = require("path");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -41,6 +40,4 @@ db.authenticate()
     .then(() => console.log("Database connected..."))
     .catch(err => console.log("Error:" + err));
 
-app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
-});
+module.exports = app;
