@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const RequiredDetails = require('../models/required-details');
 const patientController = require('../controllers/patient-controller');
 
 router.use(express.json());
@@ -8,6 +7,8 @@ router.use(express.json());
 // Get the required details for the patient
 router.get('/getRequiredDetails/:patientId', (req, res) => {
   console.log('lol');
+  console.log(req.params.patientId);
+
   patientController.getRequiredDetails(req, res);
 });
 

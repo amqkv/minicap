@@ -6,7 +6,7 @@ export async function getServerSideProps() {
   let requiredDetails: any = [];
   try {
     // <TODO> Get current patient ID (the one that gets clicked on)
-    const response: any = await fetch(serverURL + '/patients/getRequiredDetails/1');
+    const response: any = await fetch(serverURL + '/patients/getRequiredDetails/3');
     requiredDetails = await response.json();
   } catch {}
   return {

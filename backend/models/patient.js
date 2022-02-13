@@ -1,8 +1,9 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
+const Status = require('./status');
 const User = require('./User');
 
-//User model associated with Database User table
+//Patient model associated with Database User table
 const Patient = db.define(
   'Patient',
   {
@@ -39,5 +40,11 @@ const Patient = db.define(
 );
 
 Patient.belongsTo(User, { foreignKey: 'User_AccountId' });
+// Patient.hasOne(Status, { foreignKey: 'Patient_PatientId' });
+// Patient.associate = (models) => {
+//   Patient.hasOne(models.Status, { foreignKey: 'Patient_PatientId' });
+// };
+
+// Status.belongsTo(Patient, { foreignKey: 'Patient_PatientId' });
 
 module.exports = Patient;

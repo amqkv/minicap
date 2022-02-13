@@ -14,7 +14,7 @@ function getCheckedBoxes(requiredDetails: any) {
 
 async function onSave(requiredDetails: any) {
   // <TODO> - get patient id
-  let patientId = 2;
+  let patientId = 3;
 
   fetch(serverURL + '/patients/' + patientId + '/updateRequiredDetails/', {
     method: 'POST',
@@ -32,7 +32,6 @@ export default function PatientDetailsToProvideForm({ requiredDetails }: any) {
   return (
     <Box>
       <Stack spacing={5} direction="row">
-        {/* <CheckboxGroup defaultValue={getCheckedBoxes(requiredDetails)}>{checkboxes}</CheckboxGroup> */}
         <CheckboxGroup defaultValue={getCheckedBoxes(requiredDetails)}>
           {requiredDetails.map((requiredDetail: any, index: number) => {
             let key = Object.keys(requiredDetail);
