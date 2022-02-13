@@ -6,3 +6,10 @@ export interface InputProps {
   error?: boolean;
   style?: Object;
 }
+
+export interface InputPatientProps {
+  label: string;
+  units?: string;
+  name: string;
+  style?: Object;
+}

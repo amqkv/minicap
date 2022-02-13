@@ -226,10 +226,7 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
                         label="Phone Number"
                         error={phoneError}
                       />
-        
-                             
-                      
-                      
+
                     </Flex>
                   <Box marginTop="20px" alignItems={'center'} justifyContent={'center'}>
                     <Button
