@@ -24,6 +24,7 @@ export default function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { data: session } = useSession();
   const userRole = session?.user?.Role;
+  console.log(session);
 
   return (
     <>
