@@ -11,8 +11,8 @@ interface NavLinkProps {
 
 const NavLink = ({ children, url, textDecoration }: NavLinkProps) => {
     const hoverStyling = {
-        textDecoration: textDecoration ? "underline" : "none",
         textDecorationColor: MAIN_COLOR,
+        textDecoration: textDecoration ? "underline" : "none",
     };
 
     return (
