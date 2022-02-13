@@ -4,4 +4,6 @@ export interface InputProps {
     label?: string;
     options?: string[];
     error?: boolean;
+    style?: Object;
+    inputProps?: Object;
 }
