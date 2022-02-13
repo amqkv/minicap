@@ -1,4 +1,3 @@
-import React from 'react';
 import { render } from 'enzyme';
 
 import LoginLogoutButton from '../components/login-logout-button';

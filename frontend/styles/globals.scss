@@ -31,3 +31,19 @@ select:focus {
   border: none !important;
   box-shadow: 0 0 0 2px $main-color !important;
 }
+
+#App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#PageContents {
+  flex: 1;
+}
+header {
+  position: sticky;
+  top: 0;
+}
+Footer {
+}
