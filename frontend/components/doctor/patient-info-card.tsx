@@ -1,5 +1,4 @@
-import { StarIcon } from "@chakra-ui/icons";
-import { Box, Badge, Image, Divider, Text, Flex, Heading } from "@chakra-ui/react";
+import { Box, Image, Divider, Text, Flex } from "@chakra-ui/react";
 import Patient from "@frontend/models/patient";
 
 interface AppProps {
@@ -26,11 +25,6 @@ export default function PatientInfoCard({ patient }: AppProps) {
         temperature: patient.requiredDetails.temperature,
         symptoms: patient.requiredDetails.symptoms,
     };
-    function clicked() {
-        console.log(patient);
-        console.log("status.weight.value", status.weight.value);
-        console.log("patient.status", patient.status);
-    }
 
     return (
         <Box
@@ -85,7 +79,6 @@ export default function PatientInfoCard({ patient }: AppProps) {
                     ) : null
                 )}
             </Box>
-            {/* <button onClick={clicked}>click</button> */}
             <Text color={"gray.500"} fontSize="xs" mt={2} bottom="10px" position="absolute">
                 Last updated {patient.status.lastUpdated} hrs ago
             </Text>

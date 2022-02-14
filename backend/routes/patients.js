@@ -17,7 +17,6 @@ router.post("/:patientId/updateRequiredDetails", (req, res) => {
 
 // Get all patients info for doctor's dashboard
 router.get("/getPatientsInfo/:doctorId", (req, res) => {
-    console.log(req.params.doctorId);
     patientController.getPatientsInfo(req, res);
 });
 

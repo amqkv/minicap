@@ -1,5 +1,5 @@
 import { Checkbox, Stack, Button, CheckboxGroup, Flex, Box } from "@chakra-ui/react";
-import serverURL from "@frontend/config/index.js";
+import serverURL from "@frontend/config/index";
 
 function getCheckedBoxes(requiredDetails: any) {
     let detailName = [];

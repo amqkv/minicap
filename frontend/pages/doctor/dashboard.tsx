@@ -1,17 +1,8 @@
-import { Box, Center, extendTheme, Grid, GridItem, Heading, SimpleGrid } from "@chakra-ui/react";
-import { createBreakpoints } from "@chakra-ui/theme-tools";
+import { Box, Center, Heading, SimpleGrid } from "@chakra-ui/react";
 import PatientInfoCard from "@frontend/components/doctor/patient-info-card";
 import { serverURL } from "@frontend/config";
 import Patient from "@frontend/models/patient";
 
-// const breakpoints = createBreakpoints({
-//     sm: "320px",
-//     md: "768px",
-//     lg: "960px",
-//     xl: "1200px",
-//     "2xl": "1536px",
-// });
-// const theme = extendTheme({ breakpoints });
 interface AppProps {
     patientList: Patient[];
 }

@@ -13,7 +13,6 @@ function getRequiredDetails(req, res) {
     })
         .then(requiredDetails => {
             // Renaming the detail names
-            console.log(requiredDetails);
             let temp = [];
             let keys = Object.keys(requiredDetails[0]);
             for (let i = 1; i < keys.length; i++) {

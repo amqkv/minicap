@@ -1,6 +1,6 @@
-import { Box, Flex, Heading, Text, Image, Divider } from "@chakra-ui/react";
 import PatientDetailsToProvideForm from "components/forms/patient-details-to-provide-form";
-import serverURL from "@frontend/config/index.js";
+import { Box, Flex, Heading, Text, Image, Divider } from "@chakra-ui/react";
+import serverURL from "@frontend/config/index";
 
 export async function getServerSideProps() {
     let requiredDetails: any = [];
