@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const Patient = require("../models/patient");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const constants = require("../utils/constants");
@@ -21,6 +22,19 @@ function register(req, res) {
     }).then(user => {
         if (user) {
             res.json(user);
+
+            //Add User to Patient table if the user is a Patient
+            if (user.Role === constants.ROLE.PATIENT) {
+                const newPatient = Patient.create({
+                    User_AccountId: user.AccountId,
+                }).then(patient => {
+                    if (patient) {
+                        res.status(200);
+                    } else {
+                        res.status(400).send("error in adding patient to table");
+                    }
+                });
+            }
         } else {
             res.status(400).send("error in registering a new user");
         }
