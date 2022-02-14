@@ -47,7 +47,7 @@ describe("PATCH: Assign a patient to a doctor", () => {
 
     it("AccountId is not an admin", () => {
         let data = {
-            accountId: "51",
+            accountId: "87",
             patientId: "13",
             doctor_doctorId: "3",
         };
