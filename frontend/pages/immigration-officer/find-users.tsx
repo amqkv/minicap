@@ -38,6 +38,7 @@ const UserListPage = ({ patients }: any) => {
                             errorBorderColor: "gray.400",
                         }}
                     />
+                    {/* rendering the legend component */}
                     <Legend />
                 </Flex>
                 <Box width="90%">
