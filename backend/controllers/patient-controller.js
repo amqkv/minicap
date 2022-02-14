@@ -1,7 +1,6 @@
 const RequiredDetails = require("../models/required-details");
 const db = require("../config/database");
-
-const { QueryTypes, Sequelize } = require("sequelize");
+const { QueryTypes } = require("sequelize");
 const Moment = require("moment");
 
 function getRequiredDetails(req, res) {
