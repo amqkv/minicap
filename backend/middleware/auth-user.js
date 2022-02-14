@@ -1,46 +1,44 @@
-const User = require('../models/user');
-const db = require('../config/database');
-const users = require('../routes/users');
+const User = require("../models/user");
 
 var signedUser;
 
 //Middleware to set the signed in user
 async function setUser(req, res, next) {
-  const userId = req.body.accountId;
-  if (userId) {
-    signedUser = await User.findOne({
-      where: {
-        accountId: userId,
-      },
-    }).catch((err) => console.log(err));
-  }
-  next();
+    const userId = req.body.accountId;
+    if (userId) {
+        signedUser = await User.findOne({
+            where: {
+                accountId: userId,
+            },
+        }).catch(err => console.log(err));
+    }
+    next();
 }
 
 //Middleware for signed in verification
 function verifyUser(req, res, next) {
-  if (signedUser == null) {
-    res.status(403);
-    return res.send('You need to sign in first');
-  }
+    if (signedUser == null) {
+        res.status(403);
+        return res.send("You need to sign in first");
+    }
 
-  next();
+    next();
 }
 
 //Middleware for role verification
 function verifyRole(role) {
-  return (req, res, next) => {
-    if (signedUser.Role !== role) {
-      res.status(401);
-      return res.send('Not allowed');
-    }
+    return (req, res, next) => {
+        if (signedUser.Role !== role) {
+            res.status(401);
+            return res.send("Not allowed");
+        }
 
-    next();
-  };
+        next();
+    };
 }
 
 module.exports = {
-  verifyUser,
-  verifyRole,
-  setUser,
+    verifyUser,
+    verifyRole,
+    setUser,
 };

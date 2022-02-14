@@ -1,8 +1,8 @@
 interface UserInfoSimple {
-  AccountId: number;
-  FirstName: string;
-  LastName: string;
-  Role: string;
+    AccountId: number;
+    FirstName: string;
+    LastName: string;
+    Role: string;
 }
 
 export default UserInfoSimple;

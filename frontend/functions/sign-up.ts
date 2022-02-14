@@ -1,47 +1,47 @@
-import { serverURL } from '@frontend/config/index';
+import { serverURL } from "@frontend/config/index";
 
 interface SignUpParameters {
-  firstName: string;
-  lastName: string;
-  gender: string;
-  dateOfBirth: string;
-  address: string;
-  city: string;
-  email: string;
-  password: string;
-  phoneNumber: string;
-  postalCode: string;
-  accountRole: string;
+    firstName: string;
+    lastName: string;
+    gender: string;
+    dateOfBirth: string;
+    address: string;
+    city: string;
+    email: string;
+    password: string;
+    phoneNumber: string;
+    postalCode: string;
+    accountRole: string;
 }
 
 export async function signUp({
-  firstName,
-  lastName,
-  gender,
-  dateOfBirth,
-  address,
-  city,
-  email,
-  password,
-  phoneNumber,
-  postalCode,
-  accountRole,
+    firstName,
+    lastName,
+    gender,
+    dateOfBirth,
+    address,
+    city,
+    email,
+    password,
+    phoneNumber,
+    postalCode,
+    accountRole,
 }: SignUpParameters) {
-  return await fetch(serverURL + '/users/register', {
-    method: 'POST',
-    body: JSON.stringify({
-      firstName: firstName,
-      lastName: lastName,
-      gender: gender,
-      dateOfBirth: dateOfBirth,
-      address: address,
-      city: city,
-      email: email,
-      password: password,
-      phoneNumber: phoneNumber,
-      postalCode: postalCode,
-      role: accountRole,
-    }),
-    headers: { 'Content-Type': 'application/json' },
-  });
+    return await fetch(serverURL + "/users/register", {
+        method: "POST",
+        body: JSON.stringify({
+            firstName,
+            lastName,
+            gender,
+            dateOfBirth,
+            address,
+            city,
+            email,
+            password,
+            phoneNumber,
+            postalCode,
+            accountRole,
+        }),
+        headers: { "Content-Type": "application/json" },
+    });
 }

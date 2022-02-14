@@ -15,7 +15,7 @@ import {
   useToast,
   UseToastOptions,
 } from '@chakra-ui/react';
-import { MAIN_COLOR, USER_ROLES } from '@frontend/utils/constants';
+import { MAIN_COLOR, USER_ROLES_SIGN_IN } from '@frontend/utils/constants';
 import PasswordInput from '@frontend/components/inputs/password-input';
 import StandardInput from '@frontend/components/inputs/standard-input';
 import DateInput from '@frontend/components/inputs/date-input';
@@ -177,9 +177,23 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
                 </Heading>
                 <form onSubmit={handleRegister}>
                   <Box display={'flex'} flexDirection={'row'} flexWrap={'wrap'} w={'100%'}>
-                    <Box display={'flex'} flexDirection={'column'} flexBasis="100%" flex="1" marginLeft={'10px'}>
-                      <StandardInput name="First Name" placeholder="Enter First Name" label="First Name" />
-                      <StandardInput name="Email" placeholder="Enter Email" label="Email" error={emailError} />
+                    <Box
+                      display={'flex'}
+                      flexDirection={'column'}
+                      flexBasis="100%"
+                      flex="1"
+                      marginLeft={'10px'}>
+                      <StandardInput
+                        name="First Name"
+                        placeholder="Enter First Name"
+                        label="First Name"
+                      />
+                      <StandardInput
+                        name="Email"
+                        placeholder="Enter Email"
+                        label="Email"
+                        error={emailError}
+                      />
                       <PasswordInput
                         name="Password"
                         placeholder="Enter Password"
@@ -195,8 +209,17 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
                         error={postalError}
                       />
                     </Box>
-                    <Box display={'flex'} flexDirection={'column'} flexBasis="100%" flex="1" marginLeft={'10px'}>
-                      <StandardInput name="Last Name" placeholder="Enter Last Name" label="Last Name" />
+                    <Box
+                      display={'flex'}
+                      flexDirection={'column'}
+                      flexBasis="100%"
+                      flex="1"
+                      marginLeft={'10px'}>
+                      <StandardInput
+                        name="Last Name"
+                        placeholder="Enter Last Name"
+                        label="Last Name"
+                      />
                       <DropdownInput
                         placeholder="Select Gender"
                         name="Gender"
@@ -213,7 +236,7 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
                         placeholder="Select Account Role"
                         name="Account Role"
                         label="Account Role"
-                        options={USER_ROLES}
+                        options={USER_ROLES_SIGN_IN}
                       />
                       <StandardInput name="City" placeholder="Enter City" label="City" />
                       <StandardInput

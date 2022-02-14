@@ -1,28 +1,26 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const patientController = require('../controllers/patient-controller');
+const RequiredDetails = require("../models/required-details");
+const patientController = require("../controllers/patient-controller");
 
 router.use(express.json());
 
-// Get the required details for the patient
-router.get('/getRequiredDetails/:patientId', (req, res) => {
-  console.log('lol');
-  console.log(req.params.patientId);
-
-  patientController.getRequiredDetails(req, res);
+//Get the required details for the patient
+router.get("/getRequiredDetails/:patientId", (req, res) => {
+    patientController.getRequiredDetails(req, res);
 });
 
-// Update the required details list that the patient has to fill out
-router.post('/:patientId/updateRequiredDetails', (req, res) => {
-  patientController.updateRequiredDetails(req, res);
+//Update the required details list that the patient has to fill out
+router.post("/:patientId/updateRequiredDetails", (req, res) => {
+    patientController.updateRequiredDetails(req, res);
 });
 
 // Get all patients info for doctor's dashboard
-router.get('/getPatientsInfo/:doctorId', (req, res) => {
-  console.log(req.params.doctorId);
-  patientController.getPatientsInfo(req, res);
+router.get("/getPatientsInfo/:doctorId", (req, res) => {
+    console.log(req.params.doctorId);
+    patientController.getPatientsInfo(req, res);
 });
 
 module.exports = {
-  router: router,
+    router: router,
 };

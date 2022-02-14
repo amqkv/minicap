@@ -1,10 +1,11 @@
 const User = require("../models/user");
-const jwt = require('jsonwebtoken');
+const Patient = require("../models/patient");
+const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const constants = require("../utils/constants");
 
 //Save user to database
-function register(req,res) {
+function register(req, res) {
     const newUser = User.create({
         FirstName: req.body.firstName,
         LastName: req.body.lastName,
@@ -17,58 +18,71 @@ function register(req,res) {
         PhoneNumber: req.body.phoneNumber,
         PostalCode: req.body.postalCode,
         Role: req.body.accountRole,
-        Confirmed: req.body.accountRole === constants.ROLE.PATIENT
+        Confirmed: req.body.accountRole === constants.ROLE.PATIENT ? "true" : "false",
     }).then(user => {
-        if(user) {
-            console.log("new user created");
-            res.json(user)
+        if (user) {
+            res.json(user);
+
+            //Add User to Patient table if the user is a Patient
+            if (user.Role === constants.ROLE.PATIENT) {
+                const newPatient = Patient.create({
+                    User_AccountId: user.AccountId,
+                }).then(patient => {
+                    if (patient) {
+                        res.status(200);
+                    } else {
+                        res.status(400).send("error in adding patient to table");
+                    }
+                });
+            }
         } else {
-            res.status(400).send('error in registering a new user');
+            res.status(400).send("error in registering a new user");
         }
     });
 }
 
 //Log In user
 function logIn(req, res) {
-    User.findOne({ 
+    User.findOne({
         where: {
-          Email: req.body.email
+            Email: req.body.email,
         },
-    }).then(user => {
-        if (!user) {
-          return res.status(404).send({ message: "User Not found." });
-        }
-        var passwordIsValid = bcrypt.compareSync(req.body.password, user.Password);
-        if(!passwordIsValid) {
-            return res.status(401).send({
-                accessToken: null,
-                message: "Invalid password"
-            });
-        }
-        console.log("Log In Successful !");
-        var accessToken = jwt.sign({email: req.body.email}, process.env.ACCESS_TOKEN_SECRET);
+    })
+        .then(user => {
+            if (!user) {
+                return res.status(404).send({ message: "User Not found." });
+            }
+            var passwordIsValid = bcrypt.compareSync(req.body.password, user.Password);
+            if (!passwordIsValid) {
+                return res.status(401).send({
+                    accessToken: null,
+                    message: "Invalid password",
+                });
+            }
+            var accessToken = jwt.sign({ email: req.body.email }, process.env.ACCESS_TOKEN_SECRET);
 
-        res.json({ accessToken: accessToken });
-
-    }).catch(err => {
-        res.status(500).send("ERROR: "+err);
-    });
+            res.json({ accessToken: accessToken });
+        })
+        .catch(err => {
+            res.status(500).send("ERROR: " + err);
+        });
 }
 
 //Get authenticated user
 function getAuthUser(req, res) {
     User.findOne({
         where: {
-          email: req.user.email
-        }
-    }).then(user => {
-          res.json(user);
+            email: req.user.email,
+        },
     })
-      .catch(err => console.log(err))
+        .then(user => {
+            res.json(user);
+        })
+        .catch(err => console.log(err));
 }
 
 module.exports = {
     register,
     logIn,
-    getAuthUser
+    getAuthUser,
 };
