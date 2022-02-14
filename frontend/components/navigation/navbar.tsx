@@ -19,15 +19,19 @@ import NavLink from "@frontend/components/navigation/navlink";
 import { useSession } from "next-auth/react";
 import Logo from "@frontend/components/navigation/logo";
 import { links, link } from "@frontend/components/navigation/navbar-structure";
+import LoginLogoutButton from "@frontend/components/login-logout-button";
+import { useRouter } from "next/router";
 
 export default function Navbar() {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { data: session } = useSession();
+    const { pathname } = useRouter();
+    const hideButton = !session && (pathname === "/" || pathname === "auth/sign-in?callbackUrl=http://localhost:3000/");
     const userRole = session?.user?.Role;
 
     return (
         <>
-            <Box as="header" px={4}>
+            <Box as="header" px={4} backgroundColor="white">
                 <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
                     <Flex alignItems={"center"} width={"100%"} justifyContent={"space-between"}>
                         <Menu>
@@ -52,6 +56,7 @@ export default function Navbar() {
                                             )
                                         );
                                     })}
+                                    {!hideButton && <LoginLogoutButton />}
                                 </HStack>
                             </HStack>
                         </Menu>
@@ -79,6 +84,7 @@ export default function Navbar() {
                                     )
                                 );
                             })}
+                            {!hideButton && <LoginLogoutButton />}
                         </Stack>
                     </Box>
                 ) : null}

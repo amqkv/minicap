@@ -16,7 +16,7 @@ const NavLink = ({ children, url, textDecoration }: NavLinkProps) => {
     };
 
     return (
-        <NextLink href={url} passHref>
+        <NextLink href={url}>
             <Link px={2} py={1} rounded={"md"} _hover={hoverStyling}>
                 {children}
             </Link>
