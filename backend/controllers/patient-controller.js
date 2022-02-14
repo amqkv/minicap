@@ -1,7 +1,4 @@
 const RequiredDetails = require("../models/required-details");
-const Patient = require("../models/patient");
-const User = require("../models/user");
-const Status = require("../models/status");
 const db = require("../config/database");
 
 const { QueryTypes, Sequelize } = require("sequelize");
@@ -50,8 +47,7 @@ function updateRequiredDetails(req, res) {
 }
 
 async function getPatientsInfo(req, res) {
-    console.log("getpatientsinfo");
-    const patients = await db
+    await db
         .query(
             `SELECT P.PatientId, 
               P.Height,
@@ -83,7 +79,6 @@ async function getPatientsInfo(req, res) {
         .then(patients => {
             let patientsList = [];
             patients.map(patient => {
-                console.log(patient);
                 patientsList.push({
                     patientId: patient.PatientId,
                     doctorId: patient.Doctor_DoctorID,
@@ -111,45 +106,8 @@ async function getPatientsInfo(req, res) {
                 });
             });
 
-            console.log(patientsList);
-
             res.json(patientsList);
         });
-
-    // Query with sequelize gives error - fokin aids
-    // Patient.findAll({
-    //   // <TODO> Get current doctor's ID
-    //   where: { Doctor_DoctorID: req.params.doctorId },
-    //   raw: true,
-    //   attributes: [
-    //     [Sequelize.col('Patient.PatientId'), 'patientId'],
-    //     [Sequelize.col('Patient.Height'), 'height'],
-    //     [Sequelize.col('Patient.Weight'), 'weight'],
-    //     [Sequelize.col('Patient.IsPrioritized'), 'isPrioritized'],
-    //     [Sequelize.col('Patient.LastUpdatedDate'), 'lastUpdatedDate'],
-    //     [Sequelize.col('Patient.Doctor_DoctorID'), 'doctorID'],
-    //     [Sequelize.col('Patient.User_AccountId'), 'accountId'],
-    //     [Sequelize.col('User.FirstName'), 'firstName'],
-    //     [Sequelize.col('User.LastName'), 'lastName'],
-    //     [Sequelize.col('User.Gender'), 'gender'],
-    //     [Sequelize.col('User.DateOfBirth'), 'dob'],
-    //     [Sequelize.col('Status.Temperature'), 'temperature'],
-    //     [Sequelize.col('Status.StatusTime'), 'statusTime'],
-    //     [Sequelize.col('Status.IsReviewed'), 'isReviewed'],
-    //   ],
-    //   include: [
-    //     { model: User, attributes: [] },
-    //     { model: Status, attributes: [] },
-    //   ],
-    // })
-    //   .then((patients) => {
-    //     patients.forEach((patient) => {
-    //       patient.age = Moment().diff(patients[0].dob, 'years');
-    //     });
-    //     console.log(patients);
-    //     res.json(patients);
-    //   })
-    //   .catch((err) => console.log(err));
 }
 
 module.exports = {
