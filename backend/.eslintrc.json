@@ -1,18 +1,23 @@
 {
+    "plugins": ["jest"],
     "env": {
         "commonjs": true,
         "es2021": true,
-        "node": true
+        "node": true,
+        "jest/globals": true
     },
-    "extends": [
-        "airbnb-base",
-        "prettier"
-    ],
+    "extends": ["airbnb-base", "prettier"],
     "parserOptions": {
         "ecmaVersion": "latest"
     },
     "rules": {
-        "consistent-return": "off",
-        "linebreak-style": 0
+        // Added because it's a weird rule that messes with code made in Windows and Mac
+        "linebreak-style": 0,
+        // Rules Added for jest tests
+        "jest/no-disabled-tests": "warn",
+        "jest/no-focused-tests": "error",
+        "jest/no-identical-title": "error",
+        "jest/prefer-to-have-length": "warn",
+        "jest/valid-expect": "error"
     }
 }
