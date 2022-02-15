@@ -40,7 +40,8 @@ export default function PatientInfoCard({ patient }: AppProps) {
             height="100%"
             px="6"
             py="4"
-            position="relative">
+            position="relative"
+            _hover={{ cursor: "pointer", backgroundColor: "#fafafa" }}>
             <Flex>
                 <Box flex="1.7">
                     <Image

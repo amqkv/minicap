@@ -1,7 +1,8 @@
-import { Box, Center, Heading, SimpleGrid } from "@chakra-ui/react";
+import { Box, Center, Heading, SimpleGrid, useDisclosure } from "@chakra-ui/react";
 import PatientInfoCard from "@frontend/components/doctor/patient-info-card";
 import { serverURL } from "@frontend/config";
 import Patient from "@frontend/models/patient";
+import PatientInfoModal from "components/doctor/patient-info-modal";
 
 interface AppProps {
     patientList: Patient[];
@@ -22,6 +23,8 @@ export async function getServerSideProps() {
 }
 
 export default function DoctorDashboard({ patientList }: AppProps) {
+    const { onOpen, isOpen, onClose } = useDisclosure();
+
     return (
         <Box my={10}>
             <Heading size="xl" m={10} my={8}>
@@ -30,10 +33,11 @@ export default function DoctorDashboard({ patientList }: AppProps) {
             <SimpleGrid minChildWidth="400px" rowGap={5}>
                 {patientList.map((patient: Patient) => (
                     <Center>
-                        <PatientInfoCard patient={patient} key={`patient-${patient.patientId}`} />
+                        <PatientInfoCard patient={patient} key={`patient-${patient.patientId}`} onClick={onOpen} />
                     </Center>
                 ))}
             </SimpleGrid>
+            <PatientInfoModal isOpen={isOpen} onClose={onClose} />
         </Box>
     );
 }
