@@ -4,5 +4,6 @@ test("two plus two is four", () => {
 });
 
 test("quick maths", () => {
+    // eslint-disable-next-line no-useless-concat
     expect("quick" + " maths").toBe("quick maths");
 });
