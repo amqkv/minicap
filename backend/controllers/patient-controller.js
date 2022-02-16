@@ -9,8 +9,8 @@ function getRequiredDetails(req, res) {
     })
         .then(requiredDetails => {
             // Renaming the detail names
-            let temp = [];
-            let keys = Object.keys(requiredDetails[0]);
+            const temp = [];
+            const keys = Object.keys(requiredDetails[0]);
             for (let i = 1; i < keys.length; i++) {
                 if (keys[i].includes("Required")) {
                     temp.push({
@@ -38,7 +38,7 @@ function updateRequiredDetails(req, res) {
         }
     )
         .then(res.status(200).json({ message: "Details have been updated successfully" }))
-        .catch(err => res.status(400).json({ message: "Could not update details." }));
+        .catch(() => res.status(400).json({ message: "Could not update details." }));
 }
 
 module.exports = {

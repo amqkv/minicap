@@ -5,20 +5,20 @@ import { Box, Img, Flex, Heading } from '@chakra-ui/react';
 import PatientDashboard from '@frontend/pages/patient/patientDashboard';
 
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    return {
-        props: {
-            session: await getSession(context),
-        },
-    }
-}
+export const getServerSideProps: GetServerSideProps = async context => {
+  return {
+    props: {
+      session: await getSession(context),
+    },
+  };
+};
 
 export default function Home() {
   const { data: session } = useSession();
   if (session) {
 
     return (
-       <PatientDashboard/>
+      <PatientDashboard />
       // <>
       //   Signed in as {session.user.FirstName} <br />
       //   type: {session.user.Role} <br />
@@ -45,10 +45,10 @@ export default function Home() {
           <LoginLogoutButton />
         </Box>
 
-                <Box w="50%" h="100%" p='20px' display={{ base: 'none', md: 'initial' }}>
-                    <Img src="https://imgur.com/omMyzrd.png" w="100%" h="100%" alt="Visitor picture" />
-                </Box>
-            </Flex>
-        </>
-    )
+        <Box w="50%" h="100%" p="20px" display={{ base: "none", md: "initial" }}>
+          <Img src="https://imgur.com/omMyzrd.png" w="100%" h="100%" alt="Visitor picture" />
+        </Box>
+      </Flex>
+    </>
+  );
 }

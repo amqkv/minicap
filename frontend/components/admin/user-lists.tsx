@@ -6,7 +6,7 @@ import UserModal from "./user-modal";
 import useRole from "@frontend/hooks/user-role";
 
 interface appProps {
-    sessionId: Number;
+    sessionId: number;
 }
 
 const UserLists = ({ sessionId }: appProps) => {

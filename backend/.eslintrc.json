@@ -1,0 +1,34 @@
+{
+    "plugins": ["jest"],
+    "env": {
+        "commonjs": true,
+        "es2021": true,
+        "node": true,
+        "jest/globals": true
+    },
+    // Added airbnb style guide
+    "extends": ["airbnb-base", "prettier"],
+    "parserOptions": {
+        "ecmaVersion": "latest"
+    },
+    "rules": {
+        // Added because it's a weird rule that messes with code made in Windows and Mac
+        "linebreak-style": 0,
+        // Rules Added for jest tests
+        "jest/no-disabled-tests": "warn",
+        "jest/no-focused-tests": "error",
+        "jest/no-identical-title": "error",
+        "jest/prefer-to-have-length": "warn",
+        "jest/valid-expect": "error",
+        //Next two rules messes with map() returns or functions with no return statement. Turned off for the moment
+        "consistent-return": "off",
+        "array-callback-return": "off",
+        //Added to be able to use i++ in a for loop declaration
+        "no-plusplus": [
+            "error",
+            {
+                "allowForLoopAfterthoughts": true
+            }
+        ]
+    }
+}

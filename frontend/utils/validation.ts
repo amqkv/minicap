@@ -15,7 +15,7 @@ export function validPostalCode(postalCode: string) {
 }
 
 export function allFieldsFilled(fieldObj: any) {
-    for (var key in fieldObj) {
+    for (const key in fieldObj) {
         if (fieldObj[key] === "" || fieldObj[key] === undefined || fieldObj[key] === null) return false;
     }
     return true;
