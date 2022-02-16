@@ -7,7 +7,9 @@ export default function DropdownInput({ name, label, placeholder, options }: Inp
             <Text margin="10px 0">{label}</Text>
             <Select marginBottom={"10px"} placeholder={placeholder} size={"md"}>
                 {options?.map(option => (
-                    <option value={option as any}>{option}</option>
+                    <option key={option} value={option}>
+                        {option}
+                    </option>
                 ))}
             </Select>
         </>
