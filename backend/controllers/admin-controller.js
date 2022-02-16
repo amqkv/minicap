@@ -21,11 +21,11 @@ async function updateRole(req, res) {
                 },
             }
         )
-            .then(result => {
+            .then(() => {
                 res.status(200).send("Role successfully updated !");
             })
             .catch(err => {
-                res.status(500).send("Error:" + err);
+                res.status(500).send(`Error:${err}`);
             });
     }
 }

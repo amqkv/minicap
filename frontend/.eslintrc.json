@@ -1,3 +1,6 @@
 {
-  "extends": ["next/babel", "next/core-web-vitals"]
+    // plugin for typescript eslint rules
+    "plugins": ["@typescript-eslint"],
+    // Added prettier in the extends to disable eslint rules that would interfer with prettier
+    "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended", "prettier"]
 }

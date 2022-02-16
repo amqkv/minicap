@@ -13,7 +13,7 @@ afterAll(() => {
 
 describe("PATCH: Assign a patient to a doctor", () => {
     it("Patient has been assigned to a doctor", () => {
-        let data = {
+        const data = {
             accountId: "17",
             patientId: "3",
             doctor_doctorId: "3",
@@ -22,7 +22,7 @@ describe("PATCH: Assign a patient to a doctor", () => {
     });
 
     it("PatientId not found", () => {
-        let data = {
+        const data = {
             accountId: "17",
             patientId: "0",
             doctor_doctorId: "3",
@@ -31,7 +31,7 @@ describe("PATCH: Assign a patient to a doctor", () => {
     });
 
     it("DoctorId not found", () => {
-        let data = {
+        const data = {
             accountId: "17",
             patientId: "3",
             doctor_doctorId: "0",
@@ -40,7 +40,7 @@ describe("PATCH: Assign a patient to a doctor", () => {
     });
 
     it("User is not signed in", () => {
-        let data = {
+        const data = {
             accountId: "0",
             patientId: "3",
             doctor_doctorId: "3",
@@ -49,7 +49,7 @@ describe("PATCH: Assign a patient to a doctor", () => {
     });
 
     it("AccountId is not an admin", () => {
-        let data = {
+        const data = {
             accountId: "51",
             patientId: "3",
             doctor_doctorId: "3",
