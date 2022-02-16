@@ -104,13 +104,13 @@ describe("POST: Authentication of a user (Register and Login)", () => {
         return request(app).post("/users/register").send(testUserPatient).expect(400);
     });
 
-    // it("User logs in successfully", () => {
-    //     const testUserCredentials = {
-    //         email: testUserPatient.email,
-    //         password: testUserPatient.password,
-    //     };
-    //     return request(app).post("/users/login").send(testUserCredentials).expect(200);
-    // });
+    it("User logs in successfully", () => {
+        const testUserCredentials = {
+            email: testUserPatient.email,
+            password: testUserPatient.password,
+        };
+        return request(app).post("/users/login").send(testUserCredentials).expect(200);
+    });
 
     it("User attempts to log in with wrong email", () => {
         const testUserCredentials = {
