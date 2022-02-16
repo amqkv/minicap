@@ -44,7 +44,7 @@ afterAll(async () => {
     db.close();
 });
 
-describe("POST: Register a user", () => {
+describe("POST: Authentication of a user (Register and Login)", () => {
     it("User has been registered as a Patient", () => {
         return request(app)
             .post("/users/register")
@@ -97,5 +97,29 @@ describe("POST: Register a user", () => {
 
     it("User registers with an email already in use", () => {
         return request(app).post("/users/register").send(testUserPatient).expect(400);
+    });
+
+    it("User logs in successfully", () => {
+        const testUserCredentials = {
+            email: testUserPatient.email,
+            password: testUserPatient.password,
+        };
+        return request(app).post("/users/login").send(testUserCredentials).expect(200);
+    });
+
+    it("User attempts to log in with wrong email", () => {
+        const testUserCredentials = {
+            email: "wrongemail@wrongemail.com",
+            password: testUserPatient.password,
+        };
+        return request(app).post("/users/login").send(testUserCredentials).expect(404);
+    });
+
+    it("User attempts to log in with wrong email", () => {
+        const testUserCredentials = {
+            email: testUserPatient.email,
+            password: "wrongpassword123!",
+        };
+        return request(app).post("/users/login").send(testUserCredentials).expect(401);
     });
 });
