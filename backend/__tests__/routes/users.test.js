@@ -106,8 +106,8 @@ describe("POST: Authentication of a user (Register and Login)", () => {
 
     it("User logs in successfully", () => {
         const testUserCredentials = {
-            email: "emailUsedForTest@email.com",
-            password: "testing123!",
+            email: testUserPatient.email,
+            password: testUserPatient.password,
         };
         return request(app).post("/users/login").send(testUserCredentials).expect(200);
     });
