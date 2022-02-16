@@ -62,9 +62,13 @@ function logIn(req, res) {
                     message: "Invalid password",
                 });
             }
+            console.log("I WANNA PLAY LOST ARK");
+
             var accessToken = jwt.sign({ email: req.body.email }, process.env.ACCESS_TOKEN_SECRET);
 
-            res.json({ accessToken: accessToken });
+            console.log("NEED PALADIN");
+
+            res.status(200).json({ accessToken: accessToken });
         })
         .catch(err => {
             res.status(500).send("ERROR: " + err);
