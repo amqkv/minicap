@@ -43,6 +43,7 @@ function register(req, res) {
 
 //Log In user
 function logIn(req, res) {
+    console.log("kill me");
     User.findOne({
         where: {
             Email: req.body.email,
@@ -53,7 +54,9 @@ function logIn(req, res) {
                 return res.status(404).send({ message: "User Not found." });
             }
             var passwordIsValid = bcrypt.compareSync(req.body.password, user.Password);
+            console.log("FUCK U GITHUB");
             if (!passwordIsValid) {
+                console.log("DABMASTER");
                 return res.status(401).send({
                     accessToken: null,
                     message: "Invalid password",
@@ -64,7 +67,7 @@ function logIn(req, res) {
             res.json({ accessToken: accessToken });
         })
         .catch(err => {
-            res.status(502).send("ERROR: " + err);
+            res.status(500).send("ERROR: " + err);
         });
 }
 

@@ -40,11 +40,11 @@ beforeAll(async () => {
 
 afterAll(async () => {
     //Remove testUserPatient and testUserDoctor from DB
-    // await User.destroy({
-    //     where: {
-    //         Email: [testUserPatient.email, testUserDoctor.email],
-    //     },
-    // });
+    await User.destroy({
+        where: {
+            Email: [testUserPatient.email, testUserDoctor.email],
+        },
+    });
     // Closing the DB connection allows Jest to exit successfully.
     await db.close();
 });
@@ -112,8 +112,8 @@ describe("POST: Login of a user", () => {
             email: testUserPatient.email,
             password: testUserPatient.password,
         };
-        console.log("testuserpatient email:", testUserCredentials.email);
-        console.log("testuserpatient password:", testUserCredentials.password);
+        console.log("testuserpatient email:", testUserPatient.email);
+        console.log("testuserpatient password:", testUserPatient.password);
         return request(app).post("/users/login").send(testUserCredentials).expect(200);
     });
 
