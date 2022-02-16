@@ -1,4 +1,4 @@
-interface Patient {
+export interface Patient {
     patientId: number;
     doctorId: number;
     basicInformation: {
@@ -24,4 +24,8 @@ interface Patient {
     isPrioritized: boolean;
 }
 
-export default Patient;
+export interface RequiredDetails {
+    weight: boolean;
+    temperature: boolean;
+    symptoms: boolean;
+}

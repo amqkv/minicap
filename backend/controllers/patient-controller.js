@@ -32,16 +32,19 @@ function getRequiredDetails(req, res) {
 function updateRequiredDetails(req, res) {
     RequiredDetails.update(
         {
-            WeightRequired: req.body[0].Weight,
-            TemperatureRequired: req.body[1].Temperature,
-            SymptomsRequired: req.body[2].Symptoms,
+            WeightRequired: req.body.weight ? "1" : "0",
+            TemperatureRequired: req.body.temperature ? "1" : "0",
+            SymptomsRequired: req.body.symptoms ? "1" : "0",
         },
         {
             where: { Patient_PatientId: req.params.patientId },
         }
     )
-        .then(res.status(200).json({ message: "Details have been updated successfully" }))
-        .catch(err => res.status(400).json({ message: "Could not update details." }));
+        .then(res.status(200))
+        .catch(err => {
+            console.log(err);
+            res.status(400).json({ message: "Could not update details." });
+        });
 }
 
 async function getPatientsInfo(req, res) {
@@ -96,8 +99,8 @@ async function getPatientsInfo(req, res) {
                     status: {
                         weight: { value: patient.Weight, unit: "lbs" },
                         temperature: { value: patient.Temperature, unit: "°C" },
-                        symptoms: { value: patient.Symptoms | "", unit: "" },
-                        lastUpdated: Moment().diff(patient.StatusTime, "hours"),
+                        symptoms: { value: patient.Symptoms ? patient.Symptoms : "", unit: "" },
+                        lastUpdated: Moment().diff(patient.StatusTime, "hours", true),
                     },
                     isReviewed: patient.IsReviewed,
                     isPrioritized: patient.IsPrioritized,

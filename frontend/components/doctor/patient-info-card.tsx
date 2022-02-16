@@ -1,31 +1,12 @@
 import { Box, Image, Divider, Text, Flex } from "@chakra-ui/react";
-import Patient from "@frontend/models/patient";
+import { Patient } from "@frontend/models/patient";
+import PatientStatus from "./patient-status";
 
 interface AppProps {
     patient: Patient;
 }
 
 export default function PatientInfoCard({ patient }: AppProps) {
-    const status: { [key: string]: { value: string | number; unit: string } } = {
-        weight: {
-            value: patient.status.weight.value,
-            unit: patient.status.weight.unit,
-        },
-        temperature: {
-            value: patient.status.temperature.value,
-            unit: patient.status.temperature.unit,
-        },
-        symptoms: {
-            value: patient.status.symptoms.value,
-            unit: patient.status.symptoms.unit,
-        },
-    };
-    const requiredDetails: { [key: string]: boolean } = {
-        weight: patient.requiredDetails.weight,
-        temperature: patient.requiredDetails.temperature,
-        symptoms: patient.requiredDetails.symptoms,
-    };
-
     return (
         <Box
             maxW="sm"
@@ -70,18 +51,9 @@ export default function PatientInfoCard({ patient }: AppProps) {
             </Flex>
 
             <Divider mb={3} />
-            <Box mx={2}>
-                {Object.keys(patient.status).map(statusDetail =>
-                    requiredDetails[statusDetail] ? (
-                        <Text fontSize="sm">
-                            <b>{statusDetail.charAt(0).toUpperCase() + statusDetail.slice(1)}: &nbsp;</b>
-                            {status[statusDetail].value} {status[statusDetail].unit}
-                        </Text>
-                    ) : null
-                )}
-            </Box>
+            <PatientStatus patient={patient}/>
             <Text color={"gray.500"} fontSize="xs" mt={2} bottom="10px" position="absolute">
-                Last updated {patient.status.lastUpdated} hrs ago
+                Last updated {patient.status.lastUpdated > 1 ? patient.status.lastUpdated.toFixed(0) : patient.status.lastUpdated.toFixed(1)} hrs ago
             </Text>
         </Box>
     );
