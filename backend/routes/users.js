@@ -13,6 +13,7 @@ router.get("/getUser", authJwt.verifyToken, (req, res) => {
     authController.getAuthUser(req, res);
 });
 
+//Get users matched with their role
 router.get("/role", userController.getAllUserRoles);
 
 // Register
