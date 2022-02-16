@@ -33,9 +33,9 @@ var testUserDoctor = {
     accountRole: "Doctor",
 };
 
-beforeAll(() => {
+beforeAll(async () => {
     //test DB
-    db.authenticate();
+    await db.authenticate();
 });
 
 afterAll(async () => {
@@ -106,8 +106,8 @@ describe("POST: Authentication of a user (Register and Login)", () => {
 
     it("User logs in successfully", () => {
         const testUserCredentials = {
-            email: testUserPatient.email,
-            password: testUserPatient.password,
+            email: "emailUsedForTest@email.com",
+            password: "testing123!",
         };
         return request(app).post("/users/login").send(testUserCredentials).expect(200);
     });
