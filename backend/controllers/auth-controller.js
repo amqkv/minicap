@@ -1,12 +1,12 @@
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const Patient = require("../models/patient");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
 const constants = require("../utils/constants");
 
-//Save user to database
+//  Save user to database
 function register(req, res) {
-    const newUser = User.create({
+    User.create({
         FirstName: req.body.firstName,
         LastName: req.body.lastName,
         Gender: req.body.gender,
@@ -23,9 +23,9 @@ function register(req, res) {
         if (user) {
             res.json(user);
 
-            //Add User to Patient table if the user is a Patient
+            //  Add User to Patient table if the user is a Patient
             if (user.Role === constants.ROLE.PATIENT) {
-                const newPatient = Patient.create({
+                Patient.create({
                     User_AccountId: user.AccountId,
                 }).then(patient => {
                     if (patient) {
@@ -41,34 +41,34 @@ function register(req, res) {
     });
 }
 
-//Log In user
+// Log In user
 function logIn(req, res) {
     User.findOne({
         where: {
             Email: req.body.email,
         },
     })
+        // eslint-disable-next-line consistent-return
         .then(user => {
             if (!user) {
                 return res.status(404).send({ message: "User Not found." });
             }
-            var passwordIsValid = bcrypt.compareSync(req.body.password, user.Password);
+            const passwordIsValid = bcrypt.compareSync(req.body.password, user.Password);
             if (!passwordIsValid) {
                 return res.status(401).send({
                     accessToken: null,
                     message: "Invalid password",
                 });
             }
-            var accessToken = jwt.sign({ email: req.body.email }, process.env.ACCESS_TOKEN_SECRET);
-
-            res.json({ accessToken: accessToken });
+            const accessToken = jwt.sign({ email: req.body.email }, process.env.ACCESS_TOKEN_SECRET);
+            res.status(200).json({ accessToken: accessToken });
         })
         .catch(err => {
-            res.status(500).send("ERROR: " + err);
+            res.status(500).send(`ERROR: ${err}`);
         });
 }
 
-//Get authenticated user
+//  Get authenticated user
 function getAuthUser(req, res) {
     User.findOne({
         where: {

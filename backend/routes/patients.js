@@ -2,9 +2,12 @@ const express = require("express");
 const router = express.Router();
 const patientController = require("../controllers/patient-controller");
 
+const router = express.Router();
 router.use(express.json());
 
-//Get the required details for the patient
+const patientController = require("../controllers/patient-controller");
+
+// Get the required details for the patient
 router.get("/getRequiredDetails/:patientId", (req, res) => {
     patientController.getRequiredDetails(req, res);
 });
@@ -20,5 +23,5 @@ router.get("/getPatientsInfo/:doctorId", (req, res) => {
 });
 
 module.exports = {
-    router: router,
+    router,
 };

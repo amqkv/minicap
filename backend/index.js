@@ -1,12 +1,13 @@
 require("dotenv").config();
 
 const express = require("express");
+
 const app = express();
 const path = require("path");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
-//Database
+//  Database
 const db = require("./config/database");
 
 app.use(cors());
@@ -19,25 +20,25 @@ app.use(bodyParser.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
-//Route declaration
+//  Route declaration
 const indexRouter = require("./routes/index").router;
 const usersRouter = require("./routes/users").router;
 const patientsRouter = require("./routes/patients").router;
 const adminsRouter = require("./routes/admins").router;
 
-//View engine setup
+// View engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 
-//Route utilization
+// Route utilization
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/patients", patientsRouter);
 app.use("/admins", adminsRouter);
 
-//test DB
+// test DB
 db.authenticate()
     .then(() => console.log("Database connected..."))
-    .catch(err => console.log("Error:" + err));
+    .catch(err => console.log(`Error:${err}`));
 
 module.exports = app;
