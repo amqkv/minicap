@@ -40,11 +40,11 @@ beforeAll(async () => {
 
 afterAll(async () => {
     //Remove testUserPatient and testUserDoctor from DB
-    await User.destroy({
-        where: {
-            Email: [testUserPatient.email, testUserDoctor.email],
-        },
-    });
+    // await User.destroy({
+    //     where: {
+    //         Email: [testUserPatient.email, testUserDoctor.email],
+    //     },
+    // });
     // Closing the DB connection allows Jest to exit successfully.
     db.close();
 });
