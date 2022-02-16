@@ -35,6 +35,8 @@ var testUserDoctor = {
 
 beforeAll(async () => {
     //test DB
+    jest.resetModules();
+    process.env.ACCESS_TOKEN_SECRET = "test";
     await db.authenticate();
 });
 
@@ -46,6 +48,7 @@ afterAll(async () => {
         },
     });
     // Closing the DB connection allows Jest to exit successfully.
+    delete process.env.ACCESS_TOKEN_SECRET;
     await db.close();
 });
 
