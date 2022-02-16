@@ -60,6 +60,7 @@ describe("PATCH: Assign a patient to a doctor", () => {
 });
 
 describe("PATCH: Update user role", () => {
+    // Change test user back to Patient after each tests
     afterEach(async () => {
         await User.update(
             {
