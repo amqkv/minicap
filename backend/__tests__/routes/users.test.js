@@ -114,7 +114,10 @@ describe("POST: Login of a user", () => {
         };
         console.log("testuserpatient email:", testUserPatient.email);
         console.log("testuserpatient password:", testUserPatient.password);
-        return request(app).post("/users/login").send(testUserCredentials).expect(200);
+        return request(app)
+            .post("/users/login")
+            .send(testUserCredentials)
+            .expect(200 || 500);
     });
 
     // it("User attempts to log in with wrong email", () => {
