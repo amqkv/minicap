@@ -106,20 +106,20 @@ describe("POST: Register a user", () => {
 });
 
 describe("POST: Login of a user", () => {
-    it("User logs in successfully", () => {
-        const testUserCredentials = {
-            email: testUserPatient.email,
-            password: testUserPatient.password,
-        };
-        return request(app).post("/users/login").send(testUserCredentials).expect(200);
-    });
-
     it("User attempts to log in with wrong email", () => {
         const testUserCredentials = {
             email: "wrongemail@wrongemail.com",
             password: testUserPatient.password,
         };
         return request(app).post("/users/login").send(testUserCredentials).expect(404);
+    });
+
+    it("User logs in successfully", () => {
+        const testUserCredentials = {
+            email: testUserPatient.email,
+            password: testUserPatient.password,
+        };
+        return request(app).post("/users/login").send(testUserCredentials).expect(200);
     });
 
     it("User attempts to log in with wrong password", () => {
