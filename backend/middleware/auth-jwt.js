@@ -1,9 +1,9 @@
 const jwt = require("jsonwebtoken");
 
-//Middleware for token verification
+// Middleware for token verification
 function verifyToken(req, res, next) {
-    const authHeader = req.headers["authorization"];
-    const token = authHeader && authHeader.split(" ")[1]; //Get specific header
+    const authHeader = req.headers.authorization;
+    const token = authHeader && authHeader.split(" ")[1]; // Get specific header
     if (token == null) {
         return res.sendStatus[401];
     }
@@ -17,7 +17,7 @@ function verifyToken(req, res, next) {
 }
 
 const authJwt = {
-    verifyToken: verifyToken,
+    verifyToken,
 };
 
 module.exports = authJwt;
