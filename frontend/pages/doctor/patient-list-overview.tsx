@@ -53,7 +53,6 @@ export default function DoctorDashboard({ patientList }: AppProps) {
 
     function handleClick(selectedPatient: Patient) {
         setSelectedPatient(selectedPatient);
-        console.log("currentPatient", selectedPatient);
         onOpen();
     }
     return (
