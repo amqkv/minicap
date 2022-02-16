@@ -61,7 +61,7 @@ function logIn(req, res) {
                 });
             }
             const accessToken = jwt.sign({ email: req.body.email }, process.env.ACCESS_TOKEN_SECRET);
-            res.status(200).json({ accessToken: accessToken });
+            res.status(200).json({ accessToken });
         })
         .catch(err => {
             res.status(500).send(`ERROR: ${err}`);
