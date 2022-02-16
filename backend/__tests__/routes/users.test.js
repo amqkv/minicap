@@ -49,31 +49,31 @@ afterAll(async () => {
     db.close();
 });
 
-// describe("POST: Register a user", () => {
-//     it("User has been registered as a Patient", () => {
-//         return request(app)
-//             .post("/users/register")
-//             .send(testUserPatient)
-//             .expect(200)
-//             .then(response => {
-//                 expect(response.body).toEqual(
-//                     expect.objectContaining({
-//                         AccountId: expect.any(Number),
-//                         FirstName: expect.any(String),
-//                         LastName: expect.any(String),
-//                         Gender: expect.any(String),
-//                         DateOfBirth: expect.any(String),
-//                         Address: expect.any(String),
-//                         City: expect.any(String),
-//                         PhoneNumber: expect.any(String),
-//                         Email: expect.any(String),
-//                         PostalCode: expect.any(String),
-//                         Role: expect.any(String),
-//                         Confirmed: "true",
-//                     })
-//                 );
-//             });
-//     });
+describe("POST: Register a user", () => {
+    it("User has been registered as a Patient", () => {
+        return request(app)
+            .post("/users/register")
+            .send(testUserPatient)
+            .expect(200)
+            .then(response => {
+                expect(response.body).toEqual(
+                    expect.objectContaining({
+                        AccountId: expect.any(Number),
+                        FirstName: expect.any(String),
+                        LastName: expect.any(String),
+                        Gender: expect.any(String),
+                        DateOfBirth: expect.any(String),
+                        Address: expect.any(String),
+                        City: expect.any(String),
+                        PhoneNumber: expect.any(String),
+                        Email: expect.any(String),
+                        PostalCode: expect.any(String),
+                        Role: expect.any(String),
+                        Confirmed: "true",
+                    })
+                );
+            });
+    });
 
 //     it("User has been registered as another role than Patient", () => {
 //         return request(app)
@@ -108,12 +108,12 @@ afterAll(async () => {
 describe("POST: Login of a user", () => {
     it("User logs in successfully", () => {
         const testUserCredentials = {
-            email: "salutation@email.com",
-            password: "testing123!",
+            email: testUserPatient.email,
+            password: testUserPatient.password,
         };
         console.log("testuserpatient email:", testUserCredentials.email);
         console.log("testuserpatient password:", testUserCredentials.password);
-        return request(app).post("/users/login").send(testUserCredentials).expect(500);
+        return request(app).post("/users/login").send(testUserCredentials).expect(200);
     });
 
     // it("User attempts to log in with wrong email", () => {
