@@ -64,7 +64,7 @@ function logIn(req, res) {
             res.json({ accessToken: accessToken });
         })
         .catch(err => {
-            res.status(500).send("ERROR: " + err);
+            res.status(502).send("ERROR: " + err);
         });
 }
 

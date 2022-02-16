@@ -46,7 +46,7 @@ afterAll(async () => {
     //     },
     // });
     // Closing the DB connection allows Jest to exit successfully.
-    db.close();
+    await db.close();
 });
 
 describe("POST: Register a user", () => {
@@ -74,6 +74,7 @@ describe("POST: Register a user", () => {
                 );
             });
     });
+});
 
 //     it("User has been registered as another role than Patient", () => {
 //         return request(app)
