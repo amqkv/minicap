@@ -108,8 +108,8 @@ afterAll(async () => {
 describe("POST: Login of a user", () => {
     it("User logs in successfully", () => {
         const testUserCredentials = {
-            email: testUserPatient.email,
-            password: testUserPatient.password,
+            email: "salutation@email.com",
+            password: "testing123!",
         };
         console.log("testuserpatient email:", testUserCredentials.email);
         console.log("testuserpatient password:", testUserCredentials.password);
