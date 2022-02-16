@@ -6,6 +6,7 @@
         "node": true,
         "jest/globals": true
     },
+    // Added airbnb style guide
     "extends": ["airbnb-base", "prettier"],
     "parserOptions": {
         "ecmaVersion": "latest"
@@ -21,6 +22,13 @@
         "jest/valid-expect": "error",
         //Next two rules messes with map() returns or functions with no return statement. Turned off for the moment
         "consistent-return": "off",
-        "array-callback-return": "off"
+        "array-callback-return": "off",
+        //Added to be able to use i++ in a for loop declaration
+        "no-plusplus": [
+            "error",
+            {
+                "allowForLoopAfterthoughts": true
+            }
+        ]
     }
 }

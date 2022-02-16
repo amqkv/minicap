@@ -11,7 +11,7 @@ function getRequiredDetails(req, res) {
             // Renaming the detail names
             const temp = [];
             const keys = Object.keys(requiredDetails[0]);
-            for (let i = 1; i < keys.length; i = +1) {
+            for (let i = 1; i < keys.length; i++) {
                 if (keys[i].includes("Required")) {
                     temp.push({
                         [keys[i].replace("Required", "")]: requiredDetails[0][keys[i]],
