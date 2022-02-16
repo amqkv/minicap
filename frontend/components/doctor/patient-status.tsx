@@ -25,16 +25,16 @@ export default function PatientStatus({ patient }: AppProps) {
         temperature: patient.requiredDetails.temperature,
         symptoms: patient.requiredDetails.symptoms,
     };
-    return(            
-    <Box m={1}>
-        {Object.keys(patient.status).map(statusDetail =>
-            requiredDetails[statusDetail] ? (
-                <Text fontSize="sm" key={statusDetail}>
-                    <b>{statusDetail.charAt(0).toUpperCase() + statusDetail.slice(1)}: &nbsp;</b>
-                    {status[statusDetail].value} {status[statusDetail].unit}
-                </Text>
-            ) : null
-        )}
-
-    </Box>)
+    return (
+        <Box m={1}>
+            {Object.keys(patient.status).map(statusDetail =>
+                requiredDetails[statusDetail] ? (
+                    <Text fontSize="sm" key={statusDetail}>
+                        <b>{statusDetail.charAt(0).toUpperCase() + statusDetail.slice(1)}: &nbsp;</b>
+                        {status[statusDetail].value} {status[statusDetail].unit}
+                    </Text>
+                ) : null
+            )}
+        </Box>
+    );
 }

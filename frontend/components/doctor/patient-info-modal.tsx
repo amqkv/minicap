@@ -55,9 +55,16 @@ export default function PatientInfoModal({ isOpen, onClose, patient }: AppProps)
                 <Divider />
                 <Box m="14px" className="section desired-details">
                     <Box mb="10px" className="header">
-                        <Heading size="md"> Details udpated {patient.status.lastUpdated > 1 ? patient.status.lastUpdated.toFixed(0) : patient.status.lastUpdated.toFixed(1)} hr(s) ago: </Heading>
+                        <Heading size="md">
+                            {" "}
+                            Details udpated{" "}
+                            {patient.status.lastUpdated > 1
+                                ? patient.status.lastUpdated.toFixed(0)
+                                : patient.status.lastUpdated.toFixed(1)}{" "}
+                            hr(s) ago:{" "}
+                        </Heading>
                     </Box>
-                    <PatientStatus patient={patient}/>
+                    <PatientStatus patient={patient} />
                 </Box>
             </ModalContent>
         </Modal>

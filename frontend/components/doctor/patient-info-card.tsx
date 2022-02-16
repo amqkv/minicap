@@ -51,9 +51,13 @@ export default function PatientInfoCard({ patient }: AppProps) {
             </Flex>
 
             <Divider mb={3} />
-            <PatientStatus patient={patient}/>
+            <PatientStatus patient={patient} />
             <Text color={"gray.500"} fontSize="xs" mt={2} bottom="10px" position="absolute">
-                Last updated {patient.status.lastUpdated > 1 ? patient.status.lastUpdated.toFixed(0) : patient.status.lastUpdated.toFixed(1)} hrs ago
+                Last updated{" "}
+                {patient.status.lastUpdated > 1
+                    ? patient.status.lastUpdated.toFixed(0)
+                    : patient.status.lastUpdated.toFixed(1)}{" "}
+                hrs ago
             </Text>
         </Box>
     );

@@ -1,4 +1,4 @@
-import { Checkbox, Stack, Button, CheckboxGroup, Flex, Box } from "@chakra-ui/react";
+import { Checkbox, Stack, Button, CheckboxGroup, Flex, Box, useToast } from "@chakra-ui/react";
 import { serverURL } from "@frontend/config/index";
 import { RequiredDetails } from "@frontend/models/patient";
 
@@ -15,14 +15,32 @@ function getCheckedBoxes(requiredDetails: RequiredDetails) {
 }
 
 export default function PatientDetailsToProvideForm({ requiredDetails, patientId }: AppProps) {
+    const toast = useToast();
     async function onSave() {
         fetch(serverURL + "/patients/" + patientId + "/updateRequiredDetails/", {
             method: "PATCH",
             body: JSON.stringify(requiredDetails),
             headers: { "Content-Type": "application/json" },
         })
-            .then(res => console.log(res))
-            .catch(err => console.log(err));
+            .then(res => {
+                toast({
+                    title: "Details updated!",
+                    description: "Your patient's details to provide have been successfully updated.",
+                    status: "success",
+                    duration: 3000,
+                    isClosable: true,
+                });
+            })
+            .catch(err => {
+                console.log(err);
+                toast({
+                    title: "Error!",
+                    description: "Something went wrong while trying to update details. Please try again later.",
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                });
+            });
     }
 
     function setCheckedItems(newCheckedState: boolean, key: string) {
@@ -50,7 +68,7 @@ export default function PatientDetailsToProvideForm({ requiredDetails, patientId
                 </CheckboxGroup>
             </Stack>
             <Flex justify="flex-end">
-                <Button colorScheme="red" onClick={onSave} mt={3}>
+                <Button colorScheme="red" onClick={onSave} mt={3} px={2}>
                     Save
                 </Button>
             </Flex>

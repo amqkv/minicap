@@ -1,7 +1,7 @@
-const RequiredDetails = require("../models/required-details");
-const db = require("../config/database");
 const { QueryTypes } = require("sequelize");
 const Moment = require("moment");
+const RequiredDetails = require("../models/required-details");
+const db = require("../config/database");
 
 function getRequiredDetails(req, res) {
     RequiredDetails.findAll({
@@ -40,7 +40,7 @@ function updateRequiredDetails(req, res) {
             where: { Patient_PatientId: req.params.patientId },
         }
     )
-        .then(res.status(200))
+        .then(res.status(200).json({ message: "Successfully updated details." }))
         .catch(err => {
             console.log(err);
             res.status(400).json({ message: "Could not update details." });
@@ -78,7 +78,7 @@ async function getPatientsInfo(req, res) {
             }
         )
         .then(patients => {
-            let patientsList = [];
+            const patientsList = [];
             patients.map(patient => {
                 patientsList.push({
                     patientId: patient.PatientId,
