@@ -33,18 +33,18 @@ var testUserDoctor = {
     accountRole: "Doctor",
 };
 
-afterAll(async () => {
-    //Remove testUserPatient and testUserDoctor from DB
-    await User.destroy({
-        where: {
-            Email: [testUserPatient.email, testUserDoctor.email],
-        },
-    });
-    // Closing the DB connection allows Jest to exit successfully.
-    db.close();
-});
-
 describe("POST: Authentication of a user (Register and Login)", () => {
+    afterAll(async () => {
+        //Remove testUserPatient and testUserDoctor from DB
+        await User.destroy({
+            where: {
+                Email: [testUserPatient.email, testUserDoctor.email],
+            },
+        });
+        // Closing the DB connection allows Jest to exit successfully.
+        db.close();
+    });
+
     it("User has been registered as a Patient", async () => {
         return await request(app)
             .post("/users/register")
