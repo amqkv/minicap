@@ -3,7 +3,7 @@ import StandardInput from "@frontend/components/inputs/standard-input";
 import PasswordInput from "@frontend/components/inputs/password-input";
 import DateInput from "@frontend/components/inputs/date-input";
 import DropdownInput from "@frontend/components/inputs/dropdown-input";
-import { Button, Input, Select } from "@chakra-ui/react";
+import { Button, Input, Select, InputRightElement } from "@chakra-ui/react";
 import { WarningIcon } from "@chakra-ui/icons";
 import { USER_ROLES_SIGN_IN } from "@frontend/utils/constants";
 
@@ -34,12 +34,14 @@ describe("test the inputs in register <PasswordInput/>", () => {
 
     it("renders the password input field with an error when the error prop is passed and name is not password", () => {
         const wrapper = shallow(<PasswordInput {...baseProps} error />);
-        expect(wrapper.find(WarningIcon)).toHaveLength(0);
+        expect(wrapper.find(WarningIcon)).toHaveLength(1);
     });
 
     it("renders the password input field with an error when the error prop is passed and name is password", () => {
-        const wrapper = shallow(<PasswordInput {...baseProps} name="password" error />);
+        const wrapper = shallow(<PasswordInput {...baseProps} name="Password" error />);
         expect(wrapper.find(WarningIcon)).toHaveLength(1);
+        expect(wrapper.find(InputRightElement)).toHaveLength(1);
+
     });
 
     it("render the error message when the error prop is passed", () => {
@@ -50,6 +52,7 @@ describe("test the inputs in register <PasswordInput/>", () => {
 
     it("renders the password input field hide passsword button", () => {
         const wrapper = shallow(<PasswordInput {...baseProps} />);
+        expect(wrapper.find(Button).text()).toBe("Show");
         wrapper.find(Button).simulate("click");
         expect(wrapper.find(Button).text()).toBe("Hide");
     });
