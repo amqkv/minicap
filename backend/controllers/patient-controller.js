@@ -8,6 +8,7 @@ function getRequiredDetails(req, res) {
         },
     })
         .then(requiredDetails => {
+            console.log(requiredDetails)
             // Renaming the detail names
             const temp = [];
             const keys = Object.keys(requiredDetails[0]);

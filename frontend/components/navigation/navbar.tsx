@@ -1,16 +1,9 @@
 import {
     Box,
     Flex,
-    Avatar,
     HStack,
-    Heading,
     IconButton,
-    Button,
     Menu,
-    MenuButton,
-    MenuList,
-    MenuItem,
-    MenuDivider,
     useDisclosure,
     Stack,
 } from "@chakra-ui/react";
@@ -26,7 +19,7 @@ export default function Navbar() {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { data: session } = useSession();
     const { pathname } = useRouter();
-    const hideButton = !session && (pathname === "/" || pathname === "auth/sign-in?callbackUrl=http://localhost:3000/");
+    const showButton = pathname !== "/";
     const userRole = session?.user?.Role;
 
     return (
@@ -56,7 +49,7 @@ export default function Navbar() {
                                             )
                                         );
                                     })}
-                                    {!hideButton && <LoginLogoutButton />}
+                                    {showButton && <LoginLogoutButton />}
                                 </HStack>
                             </HStack>
                         </Menu>
@@ -84,7 +77,7 @@ export default function Navbar() {
                                     )
                                 );
                             })}
-                            {!hideButton && <LoginLogoutButton />}
+                            {showButton && <LoginLogoutButton />}
                         </Stack>
                     </Box>
                 ) : null}

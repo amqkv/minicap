@@ -1,18 +1,27 @@
 import { Box, Text, Center, Flex, Image, Heading } from "@chakra-ui/react";
 import { Card } from "./card";
+import { links, link } from "@frontend/components/homepage/dashboard-structure";
+import { useSession } from "next-auth/react";
 
 export function Dashboard() {
+    const { data: session } = useSession();
+    const userRole = session?.user?.Role;
+
     return (
         <Box>
             {/* TODO add patients name in heading */}
-            <Heading paddingLeft={"50px"}>Welcome Patient Dazzup</Heading>
+            <Heading paddingLeft={"50px"}>Wassup {userRole} </Heading>
 
             <Center marginTop={"5%"}>
                 <Flex flexWrap="wrap">
-                    <Card label="Forms" image="https://imgur.com/DkXs8lt.png" url="/patient/forms"/>
-                    {/* TODO add links to paths to messages and Appointments */}
-                    <Card label="Messages" image="https://imgur.com/gycpeKh.png" url="#"/>
-                    <Card label="Appointments" image="https://imgur.com/eRLbmpq.png" url="#"/>
+                    {links.map(({ label, url, roleRequired, img }: link) => {
+                        const renderCard = roleRequired === userRole || !roleRequired;
+                        return (
+                            renderCard && (
+                                <Card label={label} image={img} url={url} />
+                            )
+                        );
+                    })}
                 </Flex>
             </Center>
         </Box>

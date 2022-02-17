@@ -2,7 +2,7 @@ import { useSession, getSession } from 'next-auth/react';
 import { GetServerSideProps } from 'next';
 import LoginLogoutButton from '@frontend/components/login-logout-button';
 import { Box, Img, Flex, Heading } from '@chakra-ui/react';
-import PatientDashboard from '@frontend/pages/patient/patientDashboard';
+import PatientDashboard from '@frontend/pages/patient/patient-dashboard';
 
 
 export const getServerSideProps: GetServerSideProps = async context => {

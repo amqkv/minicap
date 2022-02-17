@@ -6,16 +6,16 @@ import { WarningIcon } from "@chakra-ui/icons";
 
 export default function PasswordInput({ name, label, placeholder, error, style }: InputProps) {
   const [show, setShow] = useState(false);
-  const message = "Your password must contain at least one of the following: an uppercase, a lowercase, a special symbol";
+  const message = "Your password must contain at least one of the following: an uppercase, a lowercase, a special symbol, and length at least 8";
   return (
     <Box style={style} padding="5px">
       <Text margin="10px 0">{label}</Text>
       <InputGroup size="md">
-        {error && name === 'password' && (
+        {error && (
           <InputLeftElement>
-            <Tooltip aria-label='A tooltip' label={message} defaultIsOpen bg='red.500'>
+            {name === 'Password' ? <Tooltip aria-label='A tooltip' label={message} defaultIsOpen bg='red.500'>
               <WarningIcon color="red.500" />
-            </Tooltip>
+            </Tooltip> : <WarningIcon color="red.500" />}
           </InputLeftElement>
         )}
 
