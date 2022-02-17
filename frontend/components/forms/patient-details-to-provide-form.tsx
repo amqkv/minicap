@@ -17,9 +17,9 @@ function getCheckedBoxes(requiredDetails: RequiredDetails) {
 export default function PatientDetailsToProvideForm({ requiredDetails, patientId }: AppProps) {
     const toast = useToast();
     async function onSave() {
-        fetch(serverURL + "/patients/" + patientId + "/updateRequiredDetails/", {
+        fetch(serverURL + "/patients/updateRequiredDetails/", {
             method: "PATCH",
-            body: JSON.stringify(requiredDetails),
+            body: JSON.stringify({ ...requiredDetails, patientId: patientId }),
             headers: { "Content-Type": "application/json" },
         })
             .then(res => {

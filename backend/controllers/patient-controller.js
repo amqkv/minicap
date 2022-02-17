@@ -37,7 +37,7 @@ function updateRequiredDetails(req, res) {
             SymptomsRequired: req.body.symptoms ? "1" : "0",
         },
         {
-            where: { Patient_PatientId: req.params.patientId },
+            where: { Patient_PatientId: req.body.patientId },
         }
     )
         .then(res.status(200).json({ message: "Successfully updated details." }))
