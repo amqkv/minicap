@@ -2,22 +2,31 @@ import { Box, Heading, SimpleGrid, useDisclosure } from "@chakra-ui/react";
 import PatientInfoCard from "@frontend/components/doctor/patient-info-card";
 import { serverURL } from "@frontend/config";
 import { Patient } from "@frontend/models/patient";
-import PatientInfoModal from "components/doctor/patient-info-modal";
+import PatientInfoModal from "@frontend/components/modal";
+import { getSession } from "next-auth/react";
 import { useState } from "react";
+import PatientInfoModalContent from "@frontend/components/doctor/patient-info-modal-content";
+import { USER_ROLES } from "@frontend/utils/constants";
 
 interface AppProps {
     patientList: Patient[];
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context: any) {
+    const session = await getSession(context);
+    const userId = session?.user.AccountId;
+
     let patientList: any = [];
+
     try {
-        // <TODO> Get current doctor ID
-        const response: any = await fetch(serverURL + "/patients/getPatientsInfo/3");
-        patientList = await response.json();
+        if (session?.user.Role === USER_ROLES.doctor) {
+            const patientListResponse: any = await fetch(serverURL + "/doctors/getPatientsInfo/" + userId);
+            patientList = await patientListResponse.json();
+        }
     } catch {}
     return {
         props: {
+            session,
             patientList,
         },
     };
@@ -67,7 +76,9 @@ export default function DoctorDashboard({ patientList }: AppProps) {
                     </Box>
                 ))}
             </SimpleGrid>
-            <PatientInfoModal isOpen={isOpen} onClose={onClose} patient={selectedPatient} />
+            <PatientInfoModal isOpen={isOpen} onClose={onClose}>
+                <PatientInfoModalContent patient={selectedPatient} />
+            </PatientInfoModal>
         </Box>
     );
 }

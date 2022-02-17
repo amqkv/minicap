@@ -1,19 +1,8 @@
 export interface Patient {
     patientId: number;
     doctorId: number;
-    basicInformation: {
-        firstName: string;
-        lastName: string;
-        gender: string;
-        height: number;
-        dob: string;
-        age: number;
-    };
-    requiredDetails: {
-        weight: boolean;
-        temperature: boolean;
-        symptoms: boolean;
-    };
+    basicInformation: PatientBasicInformation;
+    requiredDetails: RequiredDetails;
     status: {
         weight: { value: number; unit: string };
         temperature: { value: number; unit: string };
@@ -28,4 +17,20 @@ export interface RequiredDetails {
     weight: boolean;
     temperature: boolean;
     symptoms: boolean;
+}
+
+export interface PatientBasicInformation {
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    address?: string;
+    phoneNumber?: string;
+    postalCode?: string;
+    city?: string;
+    hasCovid?: boolean;
+    id?: string;
+    gender?: string;
+    dob?: string;
+    age?: number;
+    height?: number;
 }

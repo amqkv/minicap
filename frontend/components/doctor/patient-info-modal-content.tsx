@@ -1,30 +1,13 @@
-import { Box, Image, Divider, Text, Flex } from "@chakra-ui/react";
+import { Box, Flex, Divider, Heading, Text, Image } from "@chakra-ui/react";
 import { Patient } from "@frontend/models/patient";
+import PatientDetailsToProvideForm from "../forms/patient-details-to-provide-form";
 import PatientStatus from "./patient-status";
 
-interface AppProps {
-    patient: Patient;
-}
-
-export default function PatientInfoCard({ patient }: AppProps) {
+export default function PatientInfoModalContent({ patient }: { patient: Patient }) {
     return (
-        <Box
-            maxW="sm"
-            minH="250px"
-            minW="400px"
-            borderWidth="2px"
-            borderRadius="lg"
-            overflow="hidden"
-            borderColor={!patient.isReviewed ? "red.100" : "gray.200"}
-            shadow="md"
-            mx={10}
-            height="100%"
-            px="6"
-            py="4"
-            position="relative"
-            _hover={{ cursor: "pointer", backgroundColor: "#fafafa" }}>
+        <Box>
             <Flex>
-                <Box flex="1.7">
+                <Box flex="1.5">
                     <Image
                         src="https://images-ext-2.discordapp.net/external/pTKakmU5qrrmG0himz_tGUYOY4uXKwtSFmck1JV1Vcs/https/i.imgur.com/oJpKCRk.png"
                         alt="Patient Picture"
@@ -33,7 +16,7 @@ export default function PatientInfoCard({ patient }: AppProps) {
                         mb={3}
                     />
                 </Box>
-                <Box flex="2.3">
+                <Box pl={2} flex="2.3">
                     <Box fontWeight="semibold" isTruncated mx={2} mt="1">
                         <Text fontSize="xl">
                             {patient.basicInformation.firstName} {patient.basicInformation.lastName}
@@ -50,16 +33,32 @@ export default function PatientInfoCard({ patient }: AppProps) {
                     </Box>
                 </Box>
             </Flex>
-
-            <Divider mb={3} />
-            <PatientStatus patient={patient} />
-            <Text color={"gray.500"} fontSize="xs" mt={2} bottom="10px" position="absolute">
-                Last updated{" "}
-                {patient.status.lastUpdated > 1
-                    ? patient.status.lastUpdated.toFixed(0)
-                    : patient.status.lastUpdated.toFixed(1)}{" "}
-                hrs ago
-            </Text>
+            <Divider />
+            <Box m="14px" className="section desired-details">
+                <Box mb="10px" className="header">
+                    <Heading size="md"> Desired Details</Heading>
+                </Box>
+                <Box>
+                    <PatientDetailsToProvideForm
+                        requiredDetails={patient.requiredDetails}
+                        patientId={patient.patientId}
+                    />
+                </Box>
+            </Box>
+            <Divider />
+            <Box m="14px" className="section desired-details">
+                <Box mb="10px" className="header">
+                    <Heading size="md">
+                        {" "}
+                        Details udpated{" "}
+                        {patient.status.lastUpdated > 1
+                            ? patient.status.lastUpdated.toFixed(0)
+                            : patient.status.lastUpdated.toFixed(1)}{" "}
+                        hr(s) ago:{" "}
+                    </Heading>
+                </Box>
+                <PatientStatus patient={patient} />
+            </Box>
         </Box>
     );
 }

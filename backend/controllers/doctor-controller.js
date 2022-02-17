@@ -67,8 +67,9 @@ async function getPatientsInfo(req, res) {
               RD.WeightRequired,
               RD.TemperatureRequired,
               RD.SymptomsRequired
-    FROM Patient P, Users U, Status S, RequiredDetails RD
-    WHERE P.Doctor_DoctorId=${req.params.doctorId} AND
+    FROM Patient P, Users U, Status S, RequiredDetails RD, Doctor D
+    WHERE D.User_AccountId=${req.params.userId} AND
+        P.Doctor_DoctorId= D.DoctorId AND
           P.User_AccountId=U.AccountId AND
           P.PatientId=S.Patient_PatientId AND
           P.PatientId=RD.Patient_PatientId
@@ -100,13 +101,14 @@ async function getPatientsInfo(req, res) {
                         weight: { value: patient.Weight, unit: "lbs" },
                         temperature: { value: patient.Temperature, unit: "°C" },
                         symptoms: { value: patient.Symptoms ? patient.Symptoms : "", unit: "" },
-                        lastUpdated: Moment().diff(patient.StatusTime, "hours", true),
+                        lastUpdated: Moment().diff(patient.StatusTime, "hours", true)
+                            ? Moment().diff(patient.StatusTime, "hours", true)
+                            : 0,
                     },
                     isReviewed: patient.IsReviewed,
                     isPrioritized: patient.IsPrioritized,
                 });
             });
-
             res.json(patientsList);
         });
 }
