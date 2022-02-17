@@ -1,14 +1,14 @@
 const express = require("express");
+
 const router = express.Router();
 const User = require("../models/user");
 const authController = require("../controllers/auth-controller");
-const adminController = require("../controllers/admin-controller");
 const userController = require("../controllers/user-controller");
 const authJwt = require("../middleware/auth-jwt");
 
 router.use(express.json());
 
-//Get the authenticated user
+// Get the authenticated user
 router.get("/getUser", authJwt.verifyToken, (req, res) => {
     authController.getAuthUser(req, res);
 });
@@ -36,11 +36,11 @@ router.post("/register", (req, res) => {
     });
 });
 
-//Login
+// Login
 router.post("/login", (req, res) => {
     authController.logIn(req, res);
 });
 
 module.exports = {
-    router: router,
+    router,
 };

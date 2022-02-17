@@ -16,7 +16,7 @@ export default function Footer() {
                     </ButtonGroup>
                 </Stack>
                 <Text fontSize="sm" alignSelf={{ base: "center", sm: "start" }}>
-                    &copy; {new Date().getFullYear()} {WEBSITE_NAME}. All rights reserved
+                    &copy; {new Date().getFullYear()} {WEBSITE_NAME}. All rights reserved.
                 </Text>
             </Stack>
         </Box>

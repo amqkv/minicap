@@ -3,7 +3,7 @@ import NextLink from "next/link";
 
 import NavLink from "@frontend/components/navigation/navlink";
 
-describe("<NavLink/>", () => {
+describe("<NavLink>", () => {
   it("renders navlink", () => {
     const wrapper = shallow(<NavLink url="#" />);
 
