@@ -44,7 +44,7 @@ export default function PatientDetailsToProvideForm({ requiredDetails, patientId
     }
 
     function setCheckedItems(newCheckedState: boolean, key: string) {
-        let temp = { ...requiredDetails, [key]: newCheckedState };
+        const temp = { ...requiredDetails, [key]: newCheckedState };
         requiredDetails = temp;
     }
 
@@ -53,7 +53,7 @@ export default function PatientDetailsToProvideForm({ requiredDetails, patientId
             <Stack spacing={5} direction="row">
                 <CheckboxGroup defaultValue={getCheckedBoxes(requiredDetails)}>
                     {Object.entries(requiredDetails).map(requiredDetail => {
-                        let detailName = requiredDetail[0];
+                        const detailName = requiredDetail[0];
                         return (
                             <Checkbox
                                 key={detailName}
