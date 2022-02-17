@@ -2,9 +2,9 @@ import { Checkbox, Stack, Button, CheckboxGroup, Flex, Box } from "@chakra-ui/re
 import { serverURL } from "@frontend/config/index";
 
 function getCheckedBoxes(requiredDetails: any) {
-    let detailName = [];
+    const detailName = [];
     for (let i = 0; i < requiredDetails.length; i++) {
-        let key = Object.keys(requiredDetails[i])[0];
+        const key = Object.keys(requiredDetails[i])[0];
         if (requiredDetails[i][key]) {
             detailName.push(key);
         }
@@ -14,7 +14,7 @@ function getCheckedBoxes(requiredDetails: any) {
 
 async function onSave(requiredDetails: any) {
     // <TODO> - get patient id
-    let patientId = 1;
+    const patientId = 1;
 
     fetch(serverURL + "/patients/" + patientId + "/updateRequiredDetails/", {
         method: "POST",
@@ -25,7 +25,7 @@ async function onSave(requiredDetails: any) {
 
 export default function PatientDetailsToProvideForm({ requiredDetails }: any) {
     function setCheckedItems(index: number, key: string, newCheckedState: boolean) {
-        let temp = [
+        const temp = [
             ...requiredDetails.slice(0, index),
             { [key]: newCheckedState },
             ...requiredDetails.slice(index + 1),
@@ -39,7 +39,7 @@ export default function PatientDetailsToProvideForm({ requiredDetails }: any) {
                 {/* <CheckboxGroup defaultValue={getCheckedBoxes(requiredDetails)}>{checkboxes}</CheckboxGroup> */}
                 <CheckboxGroup defaultValue={getCheckedBoxes(requiredDetails)}>
                     {requiredDetails.map((requiredDetail: any, index: number) => {
-                        let key = Object.keys(requiredDetail);
+                        const key = Object.keys(requiredDetail);
                         return (
                             <Checkbox
                                 key={key[0]}

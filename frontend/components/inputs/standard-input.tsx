@@ -7,8 +7,12 @@ export default function StandardInput({ name, label, placeholder, error, style, 
         <Box style={style}>
             {label && <Text margin="10px 0">{label}</Text>}
             <InputGroup size="md">
-                {error && <InputLeftElement children={<WarningIcon color="red.500" />} />}
-                <Input name={name} placeholder={placeholder} size="md" marginBottom={"10px"} {...inputProps} />
+                {error && (
+                    <InputLeftElement>
+                        <WarningIcon color="red.500" />
+                    </InputLeftElement>
+                )}
+                <Input name={name} placeholder={placeholder} size="md" marginBottom={"10px"} {...inputProps}/>
             </InputGroup>
         </Box>
     );
