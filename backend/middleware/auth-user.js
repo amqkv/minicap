@@ -1,8 +1,8 @@
 const User = require("../models/user");
 
-var signedUser;
+let signedUser;
 
-//Middleware to set the signed in user
+// Middleware to set the signed in user
 async function setUser(req, res, next) {
     const userId = req.body.accountId;
     if (userId) {
@@ -15,7 +15,8 @@ async function setUser(req, res, next) {
     next();
 }
 
-//Middleware for signed in verification
+// Middleware for signed in verification
+// eslint-disable-next-line consistent-return
 function verifyUser(req, res, next) {
     if (signedUser == null) {
         res.status(403);
@@ -25,7 +26,7 @@ function verifyUser(req, res, next) {
     next();
 }
 
-//Middleware for role verification
+// Middleware for role verification
 function verifyRole(role) {
     return (req, res, next) => {
         if (signedUser.Role !== role) {

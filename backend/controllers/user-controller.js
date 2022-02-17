@@ -1,10 +1,10 @@
 const User = require("../models/user");
 
-const getAllUserRoles = async (req, res, next) => {
+const getAllUserRoles = async (req, res) => {
     const roles = await User.findAll({
         attributes: ["AccountId", "FirstName", "LastName", "Role"],
     });
-    let rolesObject = {
+    const rolesObject = {
         Patient: [],
         Doctor: [],
         HealthOfficial: [],
@@ -12,8 +12,9 @@ const getAllUserRoles = async (req, res, next) => {
         Admin: [],
     };
 
+    // eslint-disable-next-line array-callback-return
     roles.map(user => {
-        if (rolesObject.hasOwnProperty(user.dataValues.Role)) {
+        if (Object.prototype.hasOwnProperty.call(rolesObject, user.dataValues.Role)) {
             rolesObject[user.dataValues.Role].push(user.dataValues);
         }
     });
