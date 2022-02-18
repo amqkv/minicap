@@ -1,5 +1,5 @@
 import { useSession, getSession } from 'next-auth/react';
-import ApproveUsers from "@frontend/components/admin/approve-users";
+import ApproveUsers from "@frontend/components/admin/approve-users/approve-users";
 
 export async function getServerSideProps(context: any) {
     return {
