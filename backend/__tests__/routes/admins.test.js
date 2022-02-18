@@ -3,7 +3,7 @@ const app = require("../../index");
 const db = require("../../config/database");
 
 beforeAll(() => {
-    //test DB
+    // test DB
     db.authenticate();
 });
 afterAll(() => {
