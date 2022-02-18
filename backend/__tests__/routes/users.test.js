@@ -16,6 +16,7 @@ var testUserPatient = {
     password: "testing123!",
     postalCode: "1h34k5",
     accountRole: "Patient",
+    ConfirmedFlag: true
 };
 
 //Declare a test user as a doctor
@@ -31,6 +32,7 @@ var testUserDoctor = {
     password: "testing123!",
     postalCode: "1h34k5",
     accountRole: "Doctor",
+    ConfirmedFlag: true
 };
 
 beforeAll(async () => {
@@ -72,7 +74,7 @@ describe("POST: Register a user", () => {
                         Email: expect.any(String),
                         PostalCode: expect.any(String),
                         Role: expect.any(String),
-                        Confirmed: "true",
+                        ConfirmedFlag: expect.any(Boolean),
                     })
                 );
             });
@@ -98,7 +100,7 @@ it("User has been registered as another role than Patient", () => {
                     Email: expect.any(String),
                     PostalCode: expect.any(String),
                     Role: expect.any(String),
-                    Confirmed: "false",
+                    ConfirmedFlag: expect.any(Boolean),
                 })
             );
         });
