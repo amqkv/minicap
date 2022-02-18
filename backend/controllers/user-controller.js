@@ -22,12 +22,11 @@ const getAllUserRoles = async (req, res) => {
 };
 
 const getPendingUsers = async (req, res) => {
-  // Why do is the boolean a string LMAO
   const pendingUsers =  await User.findAll({
     where: {
-      Confirmed: "false"
+      ConfirmedFlag: false
     },
-    attributes: ["AccountId", "FirstName", "LastName", "Role", "Confirmed"],
+    attributes: ["AccountId", "FirstName", "LastName", "Role", "ConfirmedFlag"],
 
   })
   res.json({"Users": pendingUsers});

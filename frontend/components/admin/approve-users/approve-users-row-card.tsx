@@ -4,6 +4,7 @@ import classes from "@frontend/components/admin/user-row-card.module.css";
 import React, { Fragment} from "react";
 import UserRowCard from "@frontend/components/admin/user-row-card";
 import {mutate} from "swr";
+import {BOOLEANS} from "@frontend/utils/constants";
 
 interface appProps {
     session: Number,
@@ -22,7 +23,7 @@ const ApproveUsersRowCard = ({ session, userInfoSimple }: appProps) => {
             body: JSON.stringify({
                 accountId: session,
                 userId: userInfoSimple.AccountId,
-                Confirmed: "true"
+                ConfirmedFlag: BOOLEANS.TRUE
             }),
         });
         // Call for other fetches with SWR to revalidate the data using this route

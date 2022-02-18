@@ -16,7 +16,7 @@ router.get("/getUser", authJwt.verifyToken, (req, res) => {
 // Fetches all users, organized in an array by roles. { Role: [{Account1},{Account2}], Role2: [], ... }
 router.get('/role', userController.getAllUserRoles);
 
-// Fetches all pending users i.e. Those with Confirmed = "false" (yes, it is currently a string)
+// Fetches all pending users 
 router.get('/pending', userController.getPendingUsers);
 
 //Register

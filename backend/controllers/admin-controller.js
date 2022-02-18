@@ -64,11 +64,11 @@ function assignPatientDoctor(req, res) {
         });
 }
 
-function confirmAccount(req, res)
+function confirmAccount(req, res) // can also be used to unconfirm account :)
 {
     User.update(
         {
-            Confirmed: req.body.Confirmed
+            ConfirmedFlag: req.body.ConfirmedFlag
         },
         {
             where: {
@@ -80,7 +80,7 @@ function confirmAccount(req, res)
         res.status(200).send("Account successfully confirmed !");
     })
     .catch(err => {
-        console.log("Error: ", err);
+        console.log("[Approve-User] Error: ", err);
         res.status(400).send("Failed to confirm account");
     })
 }
