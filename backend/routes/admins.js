@@ -22,6 +22,11 @@ router.patch("/assign-patient-doctor", authUser.verifyUser, authUser.verifyRole(
     adminController.assignPatientDoctor(req, res);
 });
 
+// Confirm Account
+router.patch("/confirm-user-account", authUser.verifyUser, authUser.verifyRole(constants.ROLE.ADMIN), (req, res) => {
+    adminController.confirmAccount(req, res);
+});
+
 module.exports = {
     router,
 };

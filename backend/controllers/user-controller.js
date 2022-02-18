@@ -25,12 +25,12 @@ const getPendingUsers = async (req, res) => {
   // Why do is the boolean a string LMAO
   const pendingUsers =  await User.findAll({
     where: {
-      Confirmed: 'false'
+      Confirmed: "false"
     },
-    attributes: ['AccountId', 'FirstName', 'LastName', 'Role', 'Confirmed'],
+    attributes: ["AccountId", "FirstName", "LastName", "Role", "Confirmed"],
 
   })
-  res.json(pendingUsers);
+  res.json({"Users": pendingUsers});
 };
 
 module.exports = {

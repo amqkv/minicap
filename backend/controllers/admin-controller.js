@@ -60,7 +60,29 @@ function assignPatientDoctor(req, res) {
         });
 }
 
+function confirmAccount(req, res)
+{
+    User.update(
+        {
+            Confirmed: req.body.Confirmed
+        },
+        {
+            where: {
+                AccountId: req.body.userId
+            }
+        }
+    )
+    .then(() => {
+        res.status(200).send("Account successfully confirmed !");
+    })
+    .catch(err => {
+        console.log("Error: ", err);
+        res.status(400).send("Failed to confirm account");
+    })
+}
+
 module.exports = {
     updateRole,
     assignPatientDoctor,
+    confirmAccount
 };
