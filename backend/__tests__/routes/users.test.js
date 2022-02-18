@@ -98,7 +98,7 @@ describe("POST: Register a user", () => {
                         Email: expect.any(String),
                         PostalCode: expect.any(String),
                         Role: expect.any(String),
-                        Confirmed: expect.any(Number),
+                        ConfirmedFlag: expect.any(Number),
                     })
                 );
             }));

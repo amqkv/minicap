@@ -48,7 +48,7 @@ async function getPatientsDoctors(req, res) {
             `
         SELECT U.AccountId, U.FirstName, U.LastName, U.Email, U.PhoneNumber, D.DoctorId
         FROM Users U, Doctor D
-        WHERE U.Role = '${constants.ROLE.DOCTOR}' AND U.Confirmed = 'true' AND U.AccountId = D.User_AccountId`,
+        WHERE U.Role = '${constants.ROLE.DOCTOR}' AND U.ConfirmedFlag = 1 AND U.AccountId = D.User_AccountId`,
             {
                 raw: true,
                 nest: true,
@@ -64,7 +64,7 @@ async function getPatientsDoctors(req, res) {
             `
         SELECT U.AccountId, U.FirstName, U.LastName, U.Email, U.PhoneNumber, P.PatientId, P.Doctor_DoctorId
         FROM Users U, Patient P
-        WHERE U.Role = '${constants.ROLE.PATIENT}' AND U.Confirmed = 'true' AND U.AccountId = P.User_AccountId;`,
+        WHERE U.Role = '${constants.ROLE.PATIENT}' AND U.ConfirmedFlag = 1 AND U.AccountId = P.User_AccountId;`,
             {
                 raw: true,
                 type: QueryTypes.SELECT,
