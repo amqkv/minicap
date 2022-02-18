@@ -1,5 +1,8 @@
+const { QueryTypes } = require("sequelize");
 const User = require("../models/user");
 const Patient = require("../models/patient");
+const constants = require("../utils/constants");
+const db = require("../config/database");
 
 /**
  * Update role of user as admin
@@ -35,12 +38,78 @@ async function updateRole(req, res) {
 }
 
 /**
+ * Get all patients of each doctors as admin
+ *
+ *
+ */
+async function getPatientsDoctors(req, res) {
+    const doctors = await db
+        .query(
+            `
+        SELECT U.AccountId, U.FirstName, U.LastName, U.Email, U.PhoneNumber, D.DoctorId
+        FROM Users U, Doctor D
+        WHERE U.Role = '${constants.ROLE.DOCTOR}' AND U.Confirmed = 'true' AND U.AccountId = D.User_AccountId`,
+            {
+                raw: true,
+                nest: true,
+                type: QueryTypes.SELECT,
+            }
+        )
+        .catch(err => {
+            console.log("Error: ", err);
+            res.status(500).send("Error in loading the Doctors");
+        });
+    const patients = await db
+        .query(
+            `
+        SELECT U.AccountId, U.FirstName, U.LastName, U.Email, U.PhoneNumber, P.PatientId, P.Doctor_DoctorId
+        FROM Users U, Patient P
+        WHERE U.Role = '${constants.ROLE.PATIENT}' AND U.Confirmed = 'true' AND U.AccountId = P.User_AccountId;`,
+            {
+                raw: true,
+                type: QueryTypes.SELECT,
+            }
+        )
+        .catch(err => {
+            console.log("Error: ", err);
+            res.status(500).send("Error in loading the Patients");
+        });
+    // Add Patient array attribute to each Doctor JSON object
+    doctors.forEach((doctor, index) => {
+        doctors[index].Patients = [];
+    });
+    // Add Unassigned Patients array attribute to JSON object
+    doctors.push({
+        UnassignedPatients: [],
+    });
+
+    patients
+        .map(patient => {
+            // Add Patients who are unassigned
+            if (patient.Doctor_DoctorId === null) {
+                doctors[doctors.length - 1].UnassignedPatients.push(patient);
+            }
+            // Add Patient corresponding to each Doctors
+            doctors.map((doctor, indexDoctor) => {
+                if (doctor.DoctorId === patient.Doctor_DoctorId) {
+                    doctors[indexDoctor].Patients.push(patient);
+                }
+            });
+        })
+        .catch(err => {
+            console.log("Error:", err);
+            res.status(500).send("Error in retrieving Patients associated to Doctors");
+        });
+    res.status(200).send(doctors);
+}
+
+/**
  * Assign patient to a doctor as admin
  * PatientId: Id of the patient to be assigned
  * Doctor_DoctorId: DoctorId associated to the patient
  */
-function assignPatientDoctor(req, res) {
-    Patient.update(
+async function assignPatientDoctor(req, res) {
+    await Patient.update(
         {
             Doctor_DoctorId: req.body.doctor_doctorId,
         },
@@ -66,4 +135,5 @@ function assignPatientDoctor(req, res) {
 module.exports = {
     updateRole,
     assignPatientDoctor,
+    getPatientsDoctors,
 };
