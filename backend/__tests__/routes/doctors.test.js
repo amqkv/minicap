@@ -12,13 +12,13 @@ afterAll(() => {
 });
 
 describe("PATCH: update the list of details that the patient has to provide", () => {
-    it("Returns code 400 if patient ID is not found in the database", () => {
+    it("Returns code 400 if patient ID is not found", () => {
         const data = {
             weight: true,
             temperature: true,
             symptoms: true,
-            patientId: -1,
+            patientId: 100000,
         };
-        return request(app).patch("doctors/updateRequiredDetails").send(data).expect(500);
+        return request(app).patch("/doctors/updateRequiredDetails").send(data).expect(400);
     });
 });

@@ -41,10 +41,12 @@ function updateRequiredDetails(req, res) {
             where: { Patient_PatientId: req.body.patientId },
         }
     )
-        .then(res.status(200).json({ message: "Successfully updated details." }))
+        .then(() => {
+            res.status(200).send("Successfully updated details.");
+        })
         .catch(err => {
             console.log(err);
-            res.status(400).json({ message: "Could not update details." });
+            res.status(400).send(`Error: ${err}`);
         });
 }
 
