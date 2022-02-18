@@ -53,7 +53,7 @@ afterAll(async () => {
 });
 
 describe("POST: Register a user", () => {
-    it("User has been registered as a Patient", async () => {
+    it("User has been registered as a Patient", () => {
         request(app)
             .post("/users/register")
             .send(testUserPatient)
