@@ -124,3 +124,25 @@ describe("PATCH: Update user role", () => {
         return request(app).patch("/admins/update-role").send(data).expect(403);
     });
 });
+
+describe("GET: Get Doctors with their associated Patients and Unassigned Patients", () => {
+    it("Retrieve the data successfully", () =>
+        request(app)
+            .get("/admins/get-patients-doctors")
+            .expect("Content-Type", /json/)
+            .expect(200)
+            .then(response => {
+                expect(response.body).toEqual(
+                    expect.arrayContaining([
+                        expect.objectContaining({
+                            AccountId: expect.any(Number),
+                            FirstName: expect.any(String),
+                            LastName: expect.any(String),
+                            Email: expect.any(String),
+                            PhoneNumber: expect.any(String),
+                            DoctorId: expect.any(Number),
+                        }),
+                    ])
+                );
+            }));
+});
