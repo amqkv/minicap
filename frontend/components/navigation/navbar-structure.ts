@@ -23,9 +23,12 @@ export const links: link[] = [
         url: "/doctor/patientinfo",
         roleRequired: USER_ROLES.doctor,
     },
+<<<<<<< HEAD
     {
         text: "SEACH FOR USER",
         url: "/immigration-officer/find-users",
         roleRequired: USER_ROLES.iOfficer,
     },
+=======
+>>>>>>> origin/main
 ];

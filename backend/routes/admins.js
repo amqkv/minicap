@@ -1,4 +1,8 @@
 const express = require("express");
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/main
 const router = express.Router();
 const authUser = require("../middleware/auth-user");
 const adminController = require("../controllers/admin-controller");
@@ -10,6 +14,7 @@ router.use(authUser.setUser);
 // Admin test page
 router.get("/", authUser.verifyUser, authUser.verifyRole(constants.ROLE.ADMIN), (req, res) => {
     res.send("If you can access this then you are an admin !");
+<<<<<<< HEAD
 });
 
 // Update user roles as admin
@@ -25,6 +30,18 @@ router.patch("/assign-patient-doctor", authUser.verifyUser, authUser.verifyRole(
 // Confirm Account
 router.patch("/confirm-user-account", authUser.verifyUser, authUser.verifyRole(constants.ROLE.ADMIN), (req, res) => {
     adminController.confirmAccount(req, res);
+=======
+});
+
+// Update user roles as admin
+router.patch("/update-role", authUser.verifyUser, authUser.verifyRole(constants.ROLE.ADMIN), (req, res) => {
+    adminController.updateRole(req, res);
+});
+
+// Assign a patient to a doctor as admin
+router.patch("/assign-patient-doctor", authUser.verifyUser, authUser.verifyRole(constants.ROLE.ADMIN), (req, res) => {
+    adminController.assignPatientDoctor(req, res);
+>>>>>>> origin/main
 });
 
 module.exports = {
