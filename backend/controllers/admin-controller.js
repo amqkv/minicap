@@ -9,11 +9,7 @@ const Patient = require("../models/patient");
  */
 async function updateRole(req, res) {
     if (req.body.newRole === req.body.oldRole) {
-<<<<<<< HEAD
-        res.status(200);
-=======
         await res.status(200).send("Same role");
->>>>>>> origin/main
     } else {
         await User.update(
             {
@@ -25,17 +21,12 @@ async function updateRole(req, res) {
                 },
             }
         )
-<<<<<<< HEAD
-            .then(() => {
-                res.status(200).send("Role successfully updated !");
-=======
             .then(user => {
                 if (user[0]) {
                     res.status(200).send("Role successfully updated !");
                 } else {
                     res.status(400).send("Failed to execute the role update");
                 }
->>>>>>> origin/main
             })
             .catch(err => {
                 res.status(500).send(`Error:${err}`);
@@ -52,7 +43,6 @@ function assignPatientDoctor(req, res) {
     Patient.update(
         {
             Doctor_DoctorId: req.body.doctor_doctorId,
-<<<<<<< HEAD
         },
         {
             where: {
@@ -93,33 +83,10 @@ function confirmAccount(req, res)
         console.log("Error: ", err);
         res.status(400).send("Failed to confirm account");
     })
-=======
-        },
-        {
-            where: {
-                PatientId: req.body.patientId,
-            },
-        }
-    )
-        .then(patient => {
-            if (patient[0]) {
-                res.status(200).send("Patient has been assigned to a doctor");
-            } else {
-                res.status(400).send("Failed to execute the assignment");
-            }
-        })
-        .catch(err => {
-            console.log("Error: ", err);
-            res.status(400).send("Failed to execute the assignment");
-        });
->>>>>>> origin/main
 }
 
 module.exports = {
     updateRole,
     assignPatientDoctor,
-<<<<<<< HEAD
     confirmAccount
-=======
->>>>>>> origin/main
 };

@@ -1,14 +1,7 @@
-<<<<<<< HEAD
 import { Box, ListItem, Text } from "@chakra-ui/react";
 import UserInfoSimple from "@frontend/models/user-info-simple";
-import { ReactElement, ReactFragment } from "react";
+import { ReactFragment } from "react";
 import classes from "./user-row-card.module.css";
-=======
-import { Box, ListItem, Text } from '@chakra-ui/react';
-import { createBreakpoints } from '@chakra-ui/theme-tools';
-import UserInfoSimple from '@frontend/models/user-info-simple';
-import classes from './user-row-card.module.css';
->>>>>>> origin/main
 
 interface AppProps {
     onUserSelect: ({}: UserInfoSimple) => void;

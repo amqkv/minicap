@@ -1,16 +1,10 @@
 const request = require("supertest");
 const app = require("../../index");
 const db = require("../../config/database");
-<<<<<<< HEAD
-
-beforeAll(() => {
-    //test DB
-=======
 const User = require("../../models/user");
 
 beforeAll(() => {
     // test DB
->>>>>>> origin/main
     db.authenticate();
 });
 afterAll(() => {
@@ -64,8 +58,6 @@ describe("PATCH: Assign a patient to a doctor", () => {
         return request(app).patch("/admins/assign-patient-doctor").send(data).expect(401);
     });
 });
-<<<<<<< HEAD
-=======
 
 describe("PATCH: Update user role", () => {
     // Change test user back to Patient after each tests
@@ -132,4 +124,3 @@ describe("PATCH: Update user role", () => {
         return request(app).patch("/admins/update-role").send(data).expect(403);
     });
 });
->>>>>>> origin/main

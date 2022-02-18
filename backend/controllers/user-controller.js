@@ -19,7 +19,6 @@ const getAllUserRoles = async (req, res) => {
         }
     });
     res.json(rolesObject);
-<<<<<<< HEAD
 };
 
 const getPendingUsers = async (req, res) => {
@@ -36,10 +35,4 @@ const getPendingUsers = async (req, res) => {
 
 module.exports = {
   getAllUserRoles, getPendingUsers
-=======
-};
-
-module.exports = {
-    getAllUserRoles,
->>>>>>> origin/main
 };
