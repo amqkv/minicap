@@ -4,16 +4,16 @@ import { Patient } from "@frontend/models/patient";
 export default function PatientStatus({ patient }: { patient: Patient }) {
     const status: { [key: string]: { value: string | number; unit: string } } = {
         weight: {
-            value: patient.status.weight.value,
-            unit: patient.status.weight.unit,
+            value: patient.status[0].weight.value,
+            unit: patient.status[0].weight.unit,
         },
         temperature: {
-            value: patient.status.temperature.value,
-            unit: patient.status.temperature.unit,
+            value: patient.status[0].temperature.value,
+            unit: patient.status[0].temperature.unit,
         },
         symptoms: {
-            value: patient.status.symptoms.value,
-            unit: patient.status.symptoms.unit,
+            value: patient.status[0].symptoms.value,
+            unit: patient.status[0].symptoms.unit,
         },
     };
     const requiredDetails: { [key: string]: boolean } = {
@@ -23,7 +23,7 @@ export default function PatientStatus({ patient }: { patient: Patient }) {
     };
     return (
         <Box m={1}>
-            {Object.keys(patient.status).map(statusDetail =>
+            {Object.keys(patient.status[0]).map(statusDetail =>
                 requiredDetails[statusDetail] ? (
                     <Text fontSize="sm" key={statusDetail}>
                         <b>{statusDetail.charAt(0).toUpperCase() + statusDetail.slice(1)}: &nbsp;</b>

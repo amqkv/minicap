@@ -3,13 +3,7 @@ export interface Patient {
     doctorId: number;
     basicInformation: PatientBasicInformation;
     requiredDetails: RequiredDetails;
-    status: {
-        weight: { value: number; unit: string };
-        temperature: { value: number; unit: string };
-        symptoms: { value: string; unit: string };
-        lastUpdated: number;
-    };
-    isReviewed: boolean;
+    status: PatientStatus[];
     isPrioritized: boolean;
 }
 
@@ -35,6 +29,14 @@ export interface PatientBasicInformation {
     height?: number;
 }
 
+export interface PatientStatus {
+    weight: { value: number; unit: string };
+    temperature: { value: number; unit: string };
+    symptoms: { value: string; unit: string };
+    lastUpdated: number;
+    isReviewed: boolean;
+}
+
 export const DEFAULT_PATIENT = {
     patientId: 0,
     doctorId: 0,
@@ -51,12 +53,14 @@ export const DEFAULT_PATIENT = {
         temperature: false,
         symptoms: false,
     },
-    status: {
-        weight: { value: 0, unit: "" },
-        temperature: { value: 0, unit: "" },
-        symptoms: { value: "", unit: "" },
-        lastUpdated: 0,
-    },
-    isReviewed: false,
+    status: [
+        {
+            weight: { value: 0, unit: "" },
+            temperature: { value: 0, unit: "" },
+            symptoms: { value: "", unit: "" },
+            lastUpdated: 0,
+            isReviewed: false,
+        },
+    ],
     isPrioritized: false,
 };

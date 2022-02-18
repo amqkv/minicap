@@ -1,6 +1,7 @@
-const { QueryTypes } = require("sequelize");
+const { QueryTypes, Sequelize } = require("sequelize");
 const Moment = require("moment");
 const RequiredDetails = require("../models/required-details");
+const Status = require("../models/status");
 const db = require("../config/database");
 
 function getRequiredDetails(req, res) {
@@ -47,42 +48,23 @@ function updateRequiredDetails(req, res) {
         });
 }
 
-async function getPatientStatusHistory(patientId) {
-    const patientStatusHistory = [];
-    console.log(patientId);
-    await db
-        .query(
-            `SELECT S.Weight, 
-                S.Temperature, 
-                S.Symptoms, 
-                S.StatusTime 
-            FROM Status S
-            WHERE S.Patient_PatientId=${patientId}
-                `,
-            {
-                type: QueryTypes.SELECT,
-            }
-        )
-        .then(statusHistory => {
-            statusHistory.map(status => {
-                patientStatusHistory.push({
-                    weight: { value: status.Weight, unit: "lbs" },
-                    temperature: { value: status.Temperature, unit: "°C" },
-                    symptoms: { value: status.Symptoms ? status.Symptoms : "", unit: "" },
-                    lastUpdated: Moment().diff(status.StatusTime, "hours", true)
-                        ? Moment().diff(status.StatusTime, "hours", true)
-                        : 0,
-                });
-            });
-        });
-    console.log(patientStatusHistory);
-    return patientStatusHistory;
-}
-
 async function getPatientsInfo(req, res) {
-    const allStatus = await Status.findAll().catch(err => console.log(err));
+    // Getting all statuses
+    const allStatus = await Status.findAll({
+        raw: true,
+        attributes: [
+            [Sequelize.col("Status.Weight"), "weight"],
+            [Sequelize.col("Status.Patient_PatientId"), "patientId"],
+            [Sequelize.col("Status.Temperature"), "temperature"],
+            [Sequelize.col("Status.Symptoms"), "symptoms"],
+            [Sequelize.col("Status.IsReviewed"), "isReviewed"],
+            [Sequelize.col("Status.StatusTime"), "statusTime"],
+        ],
+        order: [Sequelize.literal("StatusTime DESC")],
+    }).catch(err => console.log(err));
 
-const patients = await db
+    // Getting the current doctor's patients
+    const patients = await db
         .query(
             `SELECT P.PatientId, 
               P.Height,
@@ -93,11 +75,6 @@ const patients = await db
               U.LastName,
               U.Gender, 
               U.DateOfBirth, 
-              S.Temperature, 
-              S.Symptoms,
-              S.Weight,
-              S.StatusTime, 
-              S.IsReviewed,
               RD.WeightRequired,
               RD.TemperatureRequired,
               RD.SymptomsRequired
@@ -112,10 +89,11 @@ const patients = await db
                 type: QueryTypes.SELECT,
             }
         )
-        .then(patients => {
-            const patientsList = [];
-            patients.map(patient => {
-                patientsList.push({
+        .then(patientsList => {
+            const formattedPatientsList = [];
+            // Formatting the Patient object shape
+            patientsList.map(patient => {
+                formattedPatientsList.push({
                     patientId: patient.PatientId,
                     doctorId: patient.Doctor_DoctorID,
                     basicInformation: {
@@ -131,33 +109,34 @@ const patients = await db
                         temperature: patient.TemperatureRequired,
                         symptoms: patient.SymptomsRequired,
                     },
-                    // status: {
-                    //     weight: { value: patient.Weight, unit: "lbs" },
-                    //     temperature: { value: patient.Temperature, unit: "°C" },
-                    //     symptoms: { value: patient.Symptoms ? patient.Symptoms : "", unit: "" },
-                    //     lastUpdated: Moment().diff(patient.StatusTime, "hours", true)
-                    //         ? Moment().diff(patient.StatusTime, "hours", true)
-                    //         : 0,
-                    // },
-                    isReviewed: patient.IsReviewed,
                     isPrioritized: patient.IsPrioritized,
                 });
             });
-            return patientsLits
-        }).catch(err => console.log(err));
+            return formattedPatientsList;
+        })
+        .catch(err => console.log(err));
 
-        let currentPatientStatus = [];
-            patients.map(patient => {
-                allStatus.map(status => {
-                    if(status.Patient_PatientId === patient.patientId){
-                        currentPatientStatus.push(status)
-                    }
-                })
-                patient = {...patient, status: currentPatientStatus}
-                currentPatientStatus = []
-            })
-
-        res.json(patients);
+    // Adding the status history to all patients
+    let currentPatientStatus = [];
+    const patientsList = [];
+    patients.map(patient => {
+        allStatus.map(status => {
+            if (status.patientId === patient.patientId) {
+                currentPatientStatus.push({
+                    weight: { value: status.weight, unit: "lbs" },
+                    temperature: { value: status.temperature, unit: "°C" },
+                    symptoms: { value: status.symptoms ? status.symptoms : "", unit: "" },
+                    lastUpdated: Moment().diff(status.statusTime, "hours", true)
+                        ? Moment().diff(status.statusTime, "hours", true)
+                        : 0,
+                    isReviewed: status.isReviewed,
+                });
+            }
+        });
+        patientsList.push({ ...patient, status: currentPatientStatus });
+        currentPatientStatus = [];
+    });
+    res.json(patientsList);
 }
 
 module.exports = {

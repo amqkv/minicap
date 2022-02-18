@@ -51,9 +51,9 @@ export default function PatientInfoModalContent({ patient }: { patient: Patient 
                     <Heading size="md">
                         {" "}
                         Details udpated{" "}
-                        {patient.status.lastUpdated > 1
-                            ? patient.status.lastUpdated.toFixed(0)
-                            : patient.status.lastUpdated.toFixed(1)}{" "}
+                        {patient.status[0].lastUpdated > 1
+                            ? patient.status[0].lastUpdated.toFixed(0)
+                            : patient.status[0].lastUpdated.toFixed(1)}{" "}
                         hr(s) ago:{" "}
                     </Heading>
                 </Box>

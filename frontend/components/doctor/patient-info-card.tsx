@@ -11,7 +11,7 @@ export default function PatientInfoCard({ patient }: { patient: Patient }) {
             borderWidth="2px"
             borderRadius="lg"
             overflow="hidden"
-            borderColor={!patient.isReviewed ? "red.100" : "gray.200"}
+            borderColor={!patient.status[0].isReviewed ? "red.100" : "gray.200"}
             shadow="md"
             mx={10}
             height="100%"
@@ -51,9 +51,9 @@ export default function PatientInfoCard({ patient }: { patient: Patient }) {
             <PatientStatus patient={patient} />
             <Text color={"gray.500"} fontSize="xs" mt={2} bottom="10px" position="absolute">
                 Last updated{" "}
-                {patient.status.lastUpdated > 1
-                    ? patient.status.lastUpdated.toFixed(0)
-                    : patient.status.lastUpdated.toFixed(1)}{" "}
+                {patient.status[0].lastUpdated > 1
+                    ? patient.status[0].lastUpdated.toFixed(0)
+                    : patient.status[0].lastUpdated.toFixed(1)}{" "}
                 hrs ago
             </Text>
         </Box>
