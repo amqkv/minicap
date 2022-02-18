@@ -13,7 +13,7 @@ interface appProps {
 const ApproveUsersRowCard = ({ session, userInfoSimple }: appProps) => {
     const userSelectedHandler = async () => {
         // handle edit
-        console.log("click");
+        //console.log("click");
         await fetch("/api/admin/confirm-user-account", {
             method: "PATCH",
             headers: {
