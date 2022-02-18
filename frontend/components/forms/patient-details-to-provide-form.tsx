@@ -36,7 +36,6 @@ export default function PatientDetailsToProvideForm({ requiredDetails }: any) {
     return (
         <Box>
             <Stack spacing={5} direction="row">
-                {/* <CheckboxGroup defaultValue={getCheckedBoxes(requiredDetails)}>{checkboxes}</CheckboxGroup> */}
                 <CheckboxGroup defaultValue={getCheckedBoxes(requiredDetails)}>
                     {requiredDetails.map((requiredDetail: any, index: number) => {
                         const key = Object.keys(requiredDetail);

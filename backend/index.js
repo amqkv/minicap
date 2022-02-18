@@ -25,6 +25,7 @@ const indexRouter = require("./routes/index").router;
 const usersRouter = require("./routes/users").router;
 const patientsRouter = require("./routes/patients").router;
 const adminsRouter = require("./routes/admins").router;
+const statusRouter = require("./routes/status").router;
 
 // View engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -35,6 +36,8 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/patients", patientsRouter);
 app.use("/admins", adminsRouter);
+app.use("/status", statusRouter);
+
 
 // test DB
 db.authenticate()

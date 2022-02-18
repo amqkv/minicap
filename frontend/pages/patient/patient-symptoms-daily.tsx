@@ -3,8 +3,8 @@ import { USER_ROLES } from "@frontend/utils/constants";
 import PatientDetailsToProvideForm, { requiredDetails } from "@frontend/components/forms/patient-form-to-fill";
 import { serverURL } from "@frontend/config/index";
 
-// rename
-function getCheckedBoxes(requiredDetails: any) {
+// TODO: fix any
+function getFieldsForPatient(requiredDetails: any) {
     let temp: any = {}
     requiredDetails.map((detail: any) => {
         temp = { ...temp, ...detail }
@@ -20,8 +20,10 @@ export async function getServerSideProps(context: any) {
     if (session?.user.Role === USER_ROLES.patient) {
         try {
             const response: any = await fetch(serverURL + "/patients/getRequiredDetails/" + (11));
-            requiredDetails = getCheckedBoxes(await response.json())
-
+            requiredDetails = getFieldsForPatient(await response.json())
+            console.log(session?.user.AccountId);
+            console.log("esti");
+            console.log(patientId);
         } catch { }
     }
 
@@ -34,7 +36,7 @@ export async function getServerSideProps(context: any) {
 }
 
 
-export default function Forms({ requiredDetails }: { requiredDetails: requiredDetails }) {
+export default function PatientSymptomsDaily({ requiredDetails }: { requiredDetails: requiredDetails }) {
     const { data: session } = useSession();
 
     if (session?.user.Role === USER_ROLES.patient && requiredDetails) {

@@ -11,7 +11,7 @@ export interface link {
 export const links: link[] = [
     {
         label: "Forms",
-        url: "/patient/forms",
+        url: "/patient/patient-symptoms-daily",
         roleRequired: USER_ROLES.patient,
         img: "https://imgur.com/DkXs8lt.png",
     },

@@ -1,25 +1,19 @@
 import { Button, Box, Heading, Text } from "@chakra-ui/react";
 import PatientInputs from "@frontend/components/inputs/patient-inputs";
 import PatientTextarea from "@frontend/components/inputs/patient-textarea-input";
-import { serverURL } from "@frontend/config/index";
+import { useSession, getSession } from "next-auth/react";
 
 export interface requiredDetails {
-    Weight: boolean
-    Symptoms: boolean
-    Temperature: boolean
+    Weight: boolean;
+    Symptoms: boolean;
+    Temperature: boolean;
 }
 
-// fucntion to send data to backend
-export async function onSave(requiredDetails: requiredDetails) {
-    let patientID = 1;
-
-
-
-}
 
 export default function PatientDetailsToProvideForm({ requiredDetails }: { requiredDetails: requiredDetails }) {
-    const { Temperature: temperature, Weight: weight, Symptoms: symptoms } = requiredDetails
+    const { Temperature: temperature, Weight: weight, Symptoms: symptoms } = requiredDetails;
 
+    // fucntion to send data to backend
     async function handlePatientForm(event: any) {
         event.preventDefault();
     }
@@ -35,13 +29,16 @@ export default function PatientDetailsToProvideForm({ requiredDetails }: { requi
                     {weight && <PatientInputs label="Weight" units="lbs" name={"weight"} />}
                     {symptoms && <PatientTextarea label="Symptoms" units="" name={"symptoms"} />}
 
-
-                    <Button colorScheme="pink" size="md" margin={"20px 0 0 20px"} onClick={() => onSave(requiredDetails)}>
+                    <Button
+                        colorScheme="pink"
+                        size="md"
+                        margin={"20px 0 0 20px"}
+                        _hover={{ opacity: "80%" }}
+                        type="submit">
                         Submit
                     </Button>
                 </form>
             </Box>
-
         </>
     );
 }
