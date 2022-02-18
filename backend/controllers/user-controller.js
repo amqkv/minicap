@@ -12,7 +12,6 @@ const getAllUserRoles = async (req, res) => {
         Admin: [],
     };
 
-    // eslint-disable-next-line array-callback-return
     roles.map(user => {
         if (Object.prototype.hasOwnProperty.call(rolesObject, user.dataValues.Role)) {
             rolesObject[user.dataValues.Role].push(user.dataValues);

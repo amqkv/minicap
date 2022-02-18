@@ -17,6 +17,9 @@ router.patch("/update-role", authUser.verifyUser, authUser.verifyRole(constants.
     adminController.updateRole(req, res);
 });
 
+// Get Patients of each Doctors
+router.get("/get-patients-doctors", adminController.getPatientsDoctors);
+
 // Assign a patient to a doctor as admin
 router.patch("/assign-patient-doctor", authUser.verifyUser, authUser.verifyRole(constants.ROLE.ADMIN), (req, res) => {
     adminController.assignPatientDoctor(req, res);

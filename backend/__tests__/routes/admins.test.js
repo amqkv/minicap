@@ -163,3 +163,25 @@ describe("Confirm User Account", () => {
         return request(app).patch("/admins/confirm-user-account").send(data).expect(401);
     });
 });
+
+describe("GET: Get Doctors with their associated Patients and Unassigned Patients", () => {
+    it("Retrieve the data successfully", () =>
+        request(app)
+            .get("/admins/get-patients-doctors")
+            .expect("Content-Type", /json/)
+            .expect(200)
+            .then(response => {
+                expect(response.body).toEqual(
+                    expect.arrayContaining([
+                        expect.objectContaining({
+                            AccountId: expect.any(Number),
+                            FirstName: expect.any(String),
+                            LastName: expect.any(String),
+                            Email: expect.any(String),
+                            PhoneNumber: expect.any(String),
+                            DoctorId: expect.any(Number),
+                        }),
+                    ])
+                );
+            }));
+});
