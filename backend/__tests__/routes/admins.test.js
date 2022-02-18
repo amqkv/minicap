@@ -142,7 +142,7 @@ describe("Confirm User Account", () => {
             userId: TEST_CONSTANTS.UNCONFIRMED_ACCOUNT.AccountId,
             ConfirmedFlag: BOOLEANS.TRUE
         };
-        console.log(data);
+        //console.log(data);
         return request(app).patch("/admins/confirm-user-account").send(data).expect(200);
     });
     it("Attempt to confirm an UNCONFIRMED account as an ADMIN but passing an INVALID TYPE", () => {
@@ -151,7 +151,7 @@ describe("Confirm User Account", () => {
             userId: TEST_CONSTANTS.UNCONFIRMED_ACCOUNT.AccountId,
             ConfirmedFlag: "checkers"
         };
-        console.log(data);
+        //console.log(data);
         return request(app).patch("/admins/confirm-user-account").send(data).expect(400);
     });
     it("Attempts to confirm an UNCONFIRMED account as NOT ADMIN", () => {
