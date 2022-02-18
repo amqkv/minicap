@@ -34,3 +34,29 @@ export interface PatientBasicInformation {
     age?: number;
     height?: number;
 }
+
+export const DEFAULT_PATIENT = {
+    patientId: 0,
+    doctorId: 0,
+    basicInformation: {
+        firstName: "",
+        lastName: "",
+        gender: "",
+        height: 0,
+        dob: "",
+        age: 0,
+    },
+    requiredDetails: {
+        weight: false,
+        temperature: false,
+        symptoms: false,
+    },
+    status: {
+        weight: { value: 0, unit: "" },
+        temperature: { value: 0, unit: "" },
+        symptoms: { value: "", unit: "" },
+        lastUpdated: 0,
+    },
+    isReviewed: false,
+    isPrioritized: false,
+};

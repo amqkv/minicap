@@ -1,11 +1,7 @@
 import { Box, Text } from "@chakra-ui/react";
 import { Patient } from "@frontend/models/patient";
 
-interface AppProps {
-    patient: Patient;
-}
-
-export default function PatientStatus({ patient }: AppProps) {
+export default function PatientStatus({ patient }: { patient: Patient }) {
     const status: { [key: string]: { value: string | number; unit: string } } = {
         weight: {
             value: patient.status.weight.value,

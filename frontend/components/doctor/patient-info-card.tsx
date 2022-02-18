@@ -2,11 +2,7 @@ import { Box, Image, Divider, Text, Flex } from "@chakra-ui/react";
 import { Patient } from "@frontend/models/patient";
 import PatientStatus from "./patient-status";
 
-interface AppProps {
-    patient: Patient;
-}
-
-export default function PatientInfoCard({ patient }: AppProps) {
+export default function PatientInfoCard({ patient }: { patient: Patient }) {
     return (
         <Box
             maxW="sm"
