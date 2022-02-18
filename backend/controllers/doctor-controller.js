@@ -47,6 +47,38 @@ function updateRequiredDetails(req, res) {
         });
 }
 
+async function getPatientStatusHistory(patientId) {
+    const patientStatusHistory = [];
+    console.log(patientId);
+    await db
+        .query(
+            `SELECT S.Weight, 
+                S.Temperature, 
+                S.Symptoms, 
+                S.StatusTime 
+            FROM Status S
+            WHERE S.Patient_PatientId=${patientId}
+                `,
+            {
+                type: QueryTypes.SELECT,
+            }
+        )
+        .then(statusHistory => {
+            statusHistory.map(status => {
+                patientStatusHistory.push({
+                    weight: { value: status.Weight, unit: "lbs" },
+                    temperature: { value: status.Temperature, unit: "°C" },
+                    symptoms: { value: status.Symptoms ? status.Symptoms : "", unit: "" },
+                    lastUpdated: Moment().diff(status.StatusTime, "hours", true)
+                        ? Moment().diff(status.StatusTime, "hours", true)
+                        : 0,
+                });
+            });
+        });
+    console.log(patientStatusHistory);
+    return patientStatusHistory;
+}
+
 async function getPatientsInfo(req, res) {
     await db
         .query(
