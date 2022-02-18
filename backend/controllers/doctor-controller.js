@@ -80,7 +80,9 @@ async function getPatientStatusHistory(patientId) {
 }
 
 async function getPatientsInfo(req, res) {
-    await db
+    const allStatus = await Status.findAll().catch(err => console.log(err));
+
+const patients = await db
         .query(
             `SELECT P.PatientId, 
               P.Height,
@@ -129,20 +131,33 @@ async function getPatientsInfo(req, res) {
                         temperature: patient.TemperatureRequired,
                         symptoms: patient.SymptomsRequired,
                     },
-                    status: {
-                        weight: { value: patient.Weight, unit: "lbs" },
-                        temperature: { value: patient.Temperature, unit: "°C" },
-                        symptoms: { value: patient.Symptoms ? patient.Symptoms : "", unit: "" },
-                        lastUpdated: Moment().diff(patient.StatusTime, "hours", true)
-                            ? Moment().diff(patient.StatusTime, "hours", true)
-                            : 0,
-                    },
+                    // status: {
+                    //     weight: { value: patient.Weight, unit: "lbs" },
+                    //     temperature: { value: patient.Temperature, unit: "°C" },
+                    //     symptoms: { value: patient.Symptoms ? patient.Symptoms : "", unit: "" },
+                    //     lastUpdated: Moment().diff(patient.StatusTime, "hours", true)
+                    //         ? Moment().diff(patient.StatusTime, "hours", true)
+                    //         : 0,
+                    // },
                     isReviewed: patient.IsReviewed,
                     isPrioritized: patient.IsPrioritized,
                 });
             });
-            res.json(patientsList);
-        });
+            return patientsLits
+        }).catch(err => console.log(err));
+
+        let currentPatientStatus = [];
+            patients.map(patient => {
+                allStatus.map(status => {
+                    if(status.Patient_PatientId === patient.patientId){
+                        currentPatientStatus.push(status)
+                    }
+                })
+                patient = {...patient, status: currentPatientStatus}
+                currentPatientStatus = []
+            })
+
+        res.json(patients);
 }
 
 module.exports = {
