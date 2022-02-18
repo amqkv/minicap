@@ -16,7 +16,7 @@ const UserListPage = () => {
     if (session?.user.Role === USER_ROLES.admin) {
         return <UserLists sessionId={session.user.AccountId} />;
     }
-    return <p>Access Denied</p>;
+    return <p id="error-message">Access Denied</p>;
 };
 
 export default UserListPage;

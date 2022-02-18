@@ -3,11 +3,11 @@ import { Fragment, useState } from "react";
 import UserList from "./list";
 import UserInfoSimple from "@frontend/models/user-info-simple";
 import UserModal from "./user-modal";
-import useRole from "@frontend/hooks/user-role";
+import useRole from "@frontend/hooks/use-role";
 import UserRowCard from "./user-row-card";
 
 interface appProps {
-    sessionId: Number;
+    sessionId: number;
 }
 
 const UserLists = ({ sessionId }: appProps) => {
