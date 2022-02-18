@@ -83,23 +83,18 @@ async function getPatientsDoctors(req, res) {
         UnassignedPatients: [],
     });
 
-    patients
-        .map(patient => {
-            // Add Patients who are unassigned
-            if (patient.Doctor_DoctorId === null) {
-                doctors[doctors.length - 1].UnassignedPatients.push(patient);
+    patients.map(patient => {
+        // Add Patients who are unassigned
+        if (patient.Doctor_DoctorId === null) {
+            doctors[doctors.length - 1].UnassignedPatients.push(patient);
+        }
+        // Add Patient corresponding to each Doctors
+        doctors.map((doctor, indexDoctor) => {
+            if (doctor.DoctorId === patient.Doctor_DoctorId) {
+                doctors[indexDoctor].Patients.push(patient);
             }
-            // Add Patient corresponding to each Doctors
-            doctors.map((doctor, indexDoctor) => {
-                if (doctor.DoctorId === patient.Doctor_DoctorId) {
-                    doctors[indexDoctor].Patients.push(patient);
-                }
-            });
-        })
-        .catch(err => {
-            console.log("Error:", err);
-            res.status(500).send("Error in retrieving Patients associated to Doctors");
         });
+    });
     res.status(200).send(doctors);
 }
 

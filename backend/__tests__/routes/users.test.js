@@ -53,7 +53,7 @@ afterAll(async () => {
 });
 
 describe("POST: Register a user", () => {
-    it("User has been registered as a Patient", () =>
+    it("User has been registered as a Patient", async () => {
         request(app)
             .post("/users/register")
             .send(testUserPatient)
@@ -75,35 +75,34 @@ describe("POST: Register a user", () => {
                         Confirmed: "true",
                     })
                 );
+            });
+    });
+    it("User has been registered as another role than Patient", () =>
+        request(app)
+            .post("/users/register")
+            .send(testUserDoctor)
+            .expect(200)
+            .then(response => {
+                expect(response.body).toEqual(
+                    expect.objectContaining({
+                        AccountId: expect.any(Number),
+                        FirstName: expect.any(String),
+                        LastName: expect.any(String),
+                        Gender: expect.any(String),
+                        DateOfBirth: expect.any(String),
+                        Address: expect.any(String),
+                        City: expect.any(String),
+                        PhoneNumber: expect.any(String),
+                        Email: expect.any(String),
+                        PostalCode: expect.any(String),
+                        Role: expect.any(String),
+                        Confirmed: "false",
+                    })
+                );
             }));
+    it("User registers with an email already in use", () =>
+        request(app).post("/users/register").send(testUserPatient).expect(400));
 });
-
-it("User has been registered as another role than Patient", () =>
-    request(app)
-        .post("/users/register")
-        .send(testUserDoctor)
-        .expect(200)
-        .then(response => {
-            expect(response.body).toEqual(
-                expect.objectContaining({
-                    AccountId: expect.any(Number),
-                    FirstName: expect.any(String),
-                    LastName: expect.any(String),
-                    Gender: expect.any(String),
-                    DateOfBirth: expect.any(String),
-                    Address: expect.any(String),
-                    City: expect.any(String),
-                    PhoneNumber: expect.any(String),
-                    Email: expect.any(String),
-                    PostalCode: expect.any(String),
-                    Role: expect.any(String),
-                    Confirmed: "false",
-                })
-            );
-        }));
-
-it("User registers with an email already in use", () =>
-    request(app).post("/users/register").send(testUserPatient).expect(400));
 
 describe("POST: Login of a user", () => {
     it("User logs in successfully", () => {
