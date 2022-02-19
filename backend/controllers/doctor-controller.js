@@ -41,8 +41,12 @@ function updateRequiredDetails(req, res) {
             where: { Patient_PatientId: req.body.patientId },
         }
     )
-        .then(() => {
-            res.status(200).send("Successfully updated details.");
+        .then(detail => {
+            if (detail[0]) {
+                res.status(200).send("Successfully updated details.");
+            } else {
+                res.status(400).send("Failed to execute the assignment.");
+            }
         })
         .catch(err => {
             console.log(err);
@@ -80,11 +84,10 @@ async function getPatientsInfo(req, res) {
               RD.WeightRequired,
               RD.TemperatureRequired,
               RD.SymptomsRequired
-    FROM Patient P, Users U, Status S, RequiredDetails RD, Doctor D
+    FROM Patient P, Users U, RequiredDetails RD, Doctor D
     WHERE D.User_AccountId=${req.params.userId} AND
         P.Doctor_DoctorId= D.DoctorId AND
           P.User_AccountId=U.AccountId AND
-          P.PatientId=S.Patient_PatientId AND
           P.PatientId=RD.Patient_PatientId
     `,
             {
