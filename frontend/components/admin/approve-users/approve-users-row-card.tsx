@@ -1,4 +1,4 @@
-import { Button } from "@chakra-ui/react";
+import { Button, SimpleGrid, Box } from "@chakra-ui/react";
 import UserInfoSimple from "@frontend/models/user-info-simple";
 import classes from "@frontend/components/admin/user-row-card.module.css";
 import React, { Fragment} from "react";
@@ -32,10 +32,19 @@ const ApproveUsersRowCard = ({ session, userInfoSimple }: appProps) => {
     };
     const content = 
     <Fragment>
-        <p className={classes.rowFont}>
-            {userInfoSimple.LastName} , {userInfoSimple.FirstName}
-        </p>
-        <Button colorScheme="green" style={{display: 'flex', marginLeft: 'auto'}}>Confirm</Button>
+        <SimpleGrid>
+            <Box>
+                <p className={classes.rowFont} style={{display:"flex"}}>
+                    {userInfoSimple.LastName} , {userInfoSimple.FirstName}
+                </p>
+            </Box>
+            <Box>
+                <p style={{display:"flex"}}>
+                    Desired Role: {userInfoSimple.Role}
+                </p>
+            </Box>
+        </SimpleGrid>
+        <Button colorScheme="green" mt={1} style={{display: "flex", marginLeft: "auto", alignSelf: "center"}}>Approve</Button>
     </Fragment>
     return <UserRowCard onUserSelect={userSelectedHandler} userInfoSimple={userInfoSimple} content={content}/>;
 };
