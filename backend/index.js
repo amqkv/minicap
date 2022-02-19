@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //  Route declaration
 const indexRouter = require("./routes/index").router;
 const usersRouter = require("./routes/users").router;
-const patientsRouter = require("./routes/patients").router;
+const doctorsRouter = require("./routes/doctors").router;
 const adminsRouter = require("./routes/admins").router;
 const immigrationOfficerRouter = require("./routes/immigration-officer").router;
 
@@ -35,7 +35,7 @@ app.set("view engine", "jade");
 // Route utilization
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-app.use("/patients", patientsRouter);
+app.use("/doctors", doctorsRouter);
 app.use("/admins", adminsRouter);
 app.use("/immigration-officer", immigrationOfficerRouter);
 
