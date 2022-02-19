@@ -15,6 +15,8 @@ router.get("/getAllStatus/:patientId", (req, res) => {
     statusController.getAllStatus(req, res);
 });
 
+
+
 module.exports = {
     router,
 };

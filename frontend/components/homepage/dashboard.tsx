@@ -7,6 +7,7 @@ export function Dashboard() {
     const { data: session } = useSession();
     const userRole = session?.user?.Role;
 
+    // depending on the role, will render different box for different functionalities
     return (
         <Box>
             {/* TODO add patients name in heading */}

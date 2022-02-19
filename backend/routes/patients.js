@@ -15,6 +15,11 @@ router.post("/:patientId/updateRequiredDetails", (req, res) => {
     patientController.updateRequiredDetails(req, res);
 });
 
+// Get patient id
+// router.get("/getPatient/:accountId", (req, res) => {
+//     patientController.getPatient(req,res);
+// });
+
 module.exports = {
     router,
 };
