@@ -13,7 +13,7 @@ export async function getServerSideProps(context: any) {
     const session = await getSession(context);
     const userId = session?.user.AccountId;
 
-    let patientList: any = [];
+    let patientList: Patient[] = [];
 
     try {
         if (session?.user.Role === USER_ROLES.doctor) {
