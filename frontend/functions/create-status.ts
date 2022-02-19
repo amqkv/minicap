@@ -25,13 +25,3 @@ export async function statusFilled({ temperature, weight, symptoms, isReviewed, 
     });
 }
 
-
-// export async function getPatientId( patientId : number | undefined) {
-//     return await fetch(serverURL + "/patients/getPatient/" + (51), {
-//         method: "GET",
-//         body: JSON.stringify({
-//             patientId,
-//         }),
-//         headers: { "Content-Type": "application/json" },
-//     });
-// }

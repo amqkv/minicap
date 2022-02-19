@@ -1,5 +1,6 @@
 const Status = require("../models/status");
 const Patient = require("../models/patient");
+const moment = require("moment");
 
 // Create new status
 async function addStatus(req, res) {
@@ -31,7 +32,6 @@ function getAllStatus(req, res) {
     }).then(status => {
         res.json(status);
     });
-    // res.json(allStatus);
 }
 
 // function to update today's status

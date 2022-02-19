@@ -12,4 +12,5 @@ export interface InputPatientProps {
   units?: string;
   name: string;
   style?: Object;
+  error?: boolean;
 }

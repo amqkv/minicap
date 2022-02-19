@@ -1,14 +1,20 @@
 import { InputPatientProps } from "./types/input";
-import { Input, InputGroup, Text, Box } from "@chakra-ui/react";
+import { Input, InputGroup, Text, InputLeftElement, Flex, InputRightAddon } from "@chakra-ui/react";
+import { WarningIcon } from "@chakra-ui/icons";
 
-export default function PatientInputs({ label, units, name, style }: InputPatientProps) {
+export default function PatientInputs({ label, units, name, style, error }: InputPatientProps) {
     return (
-        <Box paddingLeft={"10px"}>
-            <InputGroup fontSize={"18px"}>
-                <Text margin="10px 0 10px 10px">{label}: </Text>
-                <Input w={"20%"} name={name} margin="10px 0 10px 10px" style={style}></Input>
-                <Text margin="10px 0 10px 10px">{units}</Text>
+        <Flex alignItems={"center"} paddingLeft={"10px"}>
+            <Text margin="10px 0 10px 10px">{label}: </Text>
+            <InputGroup fontSize={"18px"} margin="10px 0 10px 10px">
+                {error && (
+                    <InputLeftElement>
+                        <WarningIcon color="red.500" />
+                    </InputLeftElement>
+                )}
+                <Input w={"20%"} name={name} style={style}></Input>
+                <InputRightAddon children={units} />
             </InputGroup>
-        </Box>
+        </Flex>
     );
 }

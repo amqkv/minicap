@@ -46,5 +46,4 @@ function updateRequiredDetails(req, res) {
 module.exports = {
     getRequiredDetails,
     updateRequiredDetails,
-    //   getPatient,
 };

@@ -19,6 +19,7 @@ export default nextAuth({
         });
 
         let user = await res.json();
+        console.log(user)
 
         if (res.ok && user) {
           const fetchUser = await fetch(serverURL + '/users/getUser', {

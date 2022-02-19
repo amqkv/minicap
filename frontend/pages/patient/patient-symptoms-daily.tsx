@@ -15,8 +15,6 @@ function getFieldsForPatient(requiredDetails: any) {
 export async function getServerSideProps(context: any) {
     let session = await getSession(context);
     let userId = session?.user.AccountId;
-    //let patientId = session?.user.
-
     let requiredDetails: requiredDetails | null = null;
     if (session?.user.Role === USER_ROLES.patient) {
         try {

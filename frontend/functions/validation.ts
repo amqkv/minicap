@@ -21,3 +21,9 @@ export function allFieldsFilled(fieldObj: any) {
     }
     return true;
 }
+
+// change any later to smt better
+export function validIntegerField(reg: any){
+    return /^[1-9]\d*$/.test(reg);
+    //return reg.test(/^[1-9]\d*$/);
+}
