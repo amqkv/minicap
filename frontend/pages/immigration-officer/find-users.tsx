@@ -13,11 +13,13 @@ import Modal from "@frontend/components/modal";
 export async function getServerSideProps(context: NextPageContext) {
     const response = await fetch(serverURL + "/immigration-officer/findUsersStatus");
     const patients: PatientBasicInformation[] = await response.json();
+    const session = await getSession(context);
+    console.log(session);
 
     return {
         props: {
             patients,
-            session: await getSession(context),
+            session,
         },
     };
 }
@@ -27,13 +29,13 @@ function filterByText({ searchText, arr }: { searchText: string; arr: PatientBas
     let filteredArr = [];
     for (let i = 0; i < arr.length; i++) {
         if (
-            arr[i].firstName.toLowerCase().includes(lowerCaseSearchtext) ||
-            arr[i].lastName.toLowerCase().includes(lowerCaseSearchtext) ||
-            arr[i].email.toLowerCase().includes(lowerCaseSearchtext) ||
-            arr[i].phoneNumber.toLowerCase().includes(lowerCaseSearchtext) ||
-            arr[i].address.toLowerCase().includes(lowerCaseSearchtext) ||
-            arr[i].postalCode.toLowerCase().includes(lowerCaseSearchtext) ||
-            arr[i].city.toLowerCase().includes(lowerCaseSearchtext)
+            arr[i].firstName?.toLowerCase().includes(lowerCaseSearchtext) ||
+            arr[i].lastName?.toLowerCase().includes(lowerCaseSearchtext) ||
+            arr[i].email?.toLowerCase().includes(lowerCaseSearchtext) ||
+            arr[i].phoneNumber?.toLowerCase().includes(lowerCaseSearchtext) ||
+            arr[i].address?.toLowerCase().includes(lowerCaseSearchtext) ||
+            arr[i].postalCode?.toLowerCase().includes(lowerCaseSearchtext) ||
+            arr[i].city?.toLowerCase().includes(lowerCaseSearchtext)
         ) {
             filteredArr.push(arr[i]);
         }
