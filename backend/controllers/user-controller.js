@@ -21,16 +21,19 @@ const getAllUserRoles = async (req, res) => {
 };
 
 const getPendingUsers = async (req, res) => {
-  const pendingUsers =  await User.findAll({
-    where: {
-      ConfirmedFlag: false
-    },
-    attributes: ["AccountId", "FirstName", "LastName", "Role", "ConfirmedFlag"],
-
-  })
-  res.json({"Users": pendingUsers});
+    const pendingUsers = await User.findAll({
+        where: {
+            ConfirmedFlag: false,
+        },
+        attributes: ["AccountId", "FirstName", "LastName", "Role", "ConfirmedFlag"],
+    })
+        .catch(err => {
+            console.log("Get Pending Users List Error: ", err);
+        });
+	res.json({ Users: pendingUsers });
 };
 
 module.exports = {
-  getAllUserRoles, getPendingUsers
+    getAllUserRoles,
+    getPendingUsers,
 };

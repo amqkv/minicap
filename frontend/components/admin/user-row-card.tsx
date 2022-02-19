@@ -15,7 +15,7 @@ const UserRowCard = ({ onUserSelect, userInfoSimple, content=""}: AppProps) => {
         onUserSelect(userInfoSimple);
     };
 
-    if (content == "") // default 
+    if (content === "") // default 
     {
         content = <p className={classes.rowFont}>
         {userInfoSimple.LastName}, {userInfoSimple.FirstName}</p>

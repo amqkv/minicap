@@ -25,6 +25,8 @@ const ApproveUsersRowCard = ({ session, userInfoSimple }: appProps) => {
                 userId: userInfoSimple.AccountId,
                 ConfirmedFlag: BOOLEANS.TRUE
             }),
+        }).catch(err => {
+            console.log("Error confirming user: ", err);
         });
         // Call for other fetches with SWR to revalidate the data using this route
         mutate("/api/users/pending");
