@@ -48,7 +48,7 @@ async function getPatientsDoctors(req, res) {
             `
         SELECT U.AccountId, U.FirstName, U.LastName, U.Email, U.PhoneNumber, D.DoctorId
         FROM Users U, Doctor D
-        WHERE U.Role = '${constants.ROLE.DOCTOR}' AND U.Confirmed = 'true' AND U.AccountId = D.User_AccountId`,
+        WHERE U.Role = '${constants.ROLE.DOCTOR}' AND U.ConfirmedFlag = 1 AND U.AccountId = D.User_AccountId`,
             {
                 raw: true,
                 nest: true,
@@ -64,7 +64,7 @@ async function getPatientsDoctors(req, res) {
             `
         SELECT U.AccountId, U.FirstName, U.LastName, U.Email, U.PhoneNumber, P.PatientId, P.Doctor_DoctorId
         FROM Users U, Patient P
-        WHERE U.Role = '${constants.ROLE.PATIENT}' AND U.Confirmed = 'true' AND U.AccountId = P.User_AccountId;`,
+        WHERE U.Role = '${constants.ROLE.PATIENT}' AND U.ConfirmedFlag = 1 AND U.AccountId = P.User_AccountId;`,
             {
                 raw: true,
                 type: QueryTypes.SELECT,
@@ -116,6 +116,7 @@ async function assignPatientDoctor(req, res) {
     )
         .then(patient => {
             if (patient[0]) {
+                console.log("Patient has been assigned to doctor");
                 res.status(200).send("Patient has been assigned to a doctor");
             } else {
                 res.status(400).send("Failed to execute the assignment");
@@ -127,8 +128,30 @@ async function assignPatientDoctor(req, res) {
         });
 }
 
+function confirmAccount(req, res) // can also be used to unconfirm account :)
+{
+    User.update(
+        {
+            ConfirmedFlag: req.body.ConfirmedFlag
+        },
+        {
+            where: {
+                AccountId: req.body.userId
+            }
+        }
+    )
+    .then(() => {
+        res.status(200).send("Account successfully confirmed !");
+    })
+    .catch(err => {
+        console.log("[Approve-User] Error: ", err);
+        res.status(400).send("Failed to confirm account");
+    })
+}
+
 module.exports = {
     updateRole,
     assignPatientDoctor,
+    confirmAccount,
     getPatientsDoctors,
 };

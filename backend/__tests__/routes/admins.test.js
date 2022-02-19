@@ -2,6 +2,7 @@ const request = require("supertest");
 const app = require("../../index");
 const db = require("../../config/database");
 const User = require("../../models/user");
+const { TEST_CONSTANTS, BOOLEANS } = require("../../utils/constants");
 
 beforeAll(() => {
     // test DB
@@ -122,6 +123,42 @@ describe("PATCH: Update user role", () => {
             newRole: "HealthOfficial",
         };
         return request(app).patch("/admins/update-role").send(data).expect(403);
+    });
+});
+
+describe("Confirm User Account", () => {
+    afterEach(() => { // reset account used for test
+        const reset_data = {
+            accountId: TEST_CONSTANTS.TESTER_ADMIN.AccountId,
+            userId: TEST_CONSTANTS.UNCONFIRMED_ACCOUNT.AccountId,
+            ConfirmedFlag: BOOLEANS.FALSE
+        };
+        return request(app).patch("/admins/confirm-user-account").send(reset_data);
+
+    });
+    it("Attempt to confirm an UNCONFIRMED account as an ADMIN", () => {
+        const data = {
+            accountId: TEST_CONSTANTS.TESTER_ADMIN.AccountId,
+            userId: TEST_CONSTANTS.UNCONFIRMED_ACCOUNT.AccountId,
+            ConfirmedFlag: BOOLEANS.TRUE
+        };
+        return request(app).patch("/admins/confirm-user-account").send(data).expect(200);
+    });
+    it("Attempt to confirm an UNCONFIRMED account as an ADMIN but passing an INVALID TYPE", () => {
+        const data = {
+            accountId: TEST_CONSTANTS.TESTER_ADMIN.AccountId,
+            userId: TEST_CONSTANTS.UNCONFIRMED_ACCOUNT.AccountId,
+            ConfirmedFlag: "checkers"
+        };
+        return request(app).patch("/admins/confirm-user-account").send(data).expect(400);
+    });
+    it("Attempts to confirm an UNCONFIRMED account as NOT ADMIN", () => {
+        const data = {
+            accountId: TEST_CONSTANTS.UNCONFIRMED_ACCOUNT.AccountId,
+            userId: TEST_CONSTANTS.UNCONFIRMED_ACCOUNT.AccountId,
+            ConfirmedFlag: BOOLEANS.TRUE
+        };
+        return request(app).patch("/admins/confirm-user-account").send(data).expect(401);
     });
 });
 

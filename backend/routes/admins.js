@@ -1,5 +1,4 @@
 const express = require("express");
-
 const router = express.Router();
 const authUser = require("../middleware/auth-user");
 const adminController = require("../controllers/admin-controller");
@@ -24,6 +23,11 @@ router.get("/get-patients-doctors", adminController.getPatientsDoctors);
 // Assign a patient to a doctor as admin
 router.patch("/assign-patient-doctor", authUser.verifyUser, authUser.verifyRole(constants.ROLE.ADMIN), (req, res) => {
     adminController.assignPatientDoctor(req, res);
+});
+
+// Confirm Account
+router.patch("/confirm-user-account", authUser.verifyUser, authUser.verifyRole(constants.ROLE.ADMIN), (req, res) => {
+    adminController.confirmAccount(req, res);
 });
 
 module.exports = {
