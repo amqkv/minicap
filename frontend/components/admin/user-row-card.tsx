@@ -1,18 +1,25 @@
 import { Box, ListItem, Text } from "@chakra-ui/react";
 import UserInfoSimple from "@frontend/models/user-info-simple";
+import { ReactFragment } from "react";
 import classes from "./user-row-card.module.css";
 
 interface AppProps {
-    onUserSelect: ({}: UserInfoSimple) => void;
+    onUserSelect: ({ }: UserInfoSimple) => void;
     userInfoSimple: UserInfoSimple;
+    content?: ReactFragment;
 }
 
 // TODO Generalize Card component to reuse with Doctor-Patient Admin page
-const UserRowCard = ({ onUserSelect, userInfoSimple }: AppProps) => {
+const UserRowCard = ({ onUserSelect, userInfoSimple, content = "" }: AppProps) => {
     const onClickHandler = () => {
         onUserSelect(userInfoSimple);
     };
 
+    if (content === "") // default 
+    {
+        content = <p className={classes.rowFont}>
+            {userInfoSimple.LastName}, {userInfoSimple.FirstName}</p>
+    }
     return (
         <ListItem paddingEnd={4} py={2}>
             <Box
@@ -23,9 +30,7 @@ const UserRowCard = ({ onUserSelect, userInfoSimple }: AppProps) => {
                 py={3}
                 display={{ md: "flex" }}
                 onClick={onClickHandler}>
-                <p className={classes.rowFont}>
-                    {userInfoSimple.LastName}, {userInfoSimple.FirstName}
-                </p>
+                {content}
             </Box>
         </ListItem>
     );

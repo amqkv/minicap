@@ -43,8 +43,8 @@ const User = db.define(
         Role: {
             type: Sequelize.STRING,
         },
-        Confirmed: {
-            type: Sequelize.STRING,
+        ConfirmedFlag: {
+            type: Sequelize.BOOLEAN,
         },
     },
     {
