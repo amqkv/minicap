@@ -6,6 +6,6 @@ export enum USER_ROLES {
     doctor = "Doctor",
     hOfficial = "Health Official",
     patient = "Patient",
-    iOfficer = "Immigration Officer",
+    iOfficer = "ImmigrationOfficer",
     admin = "Admin",
 }

@@ -8,5 +8,8 @@ describe("<Legend />", () => {
         const wrapper = shallow(<Legend />);
         expect(wrapper.find(Circle)).toHaveLength(2);
         expect(wrapper.find(Text)).toHaveLength(2);
+
+        expect(wrapper.find(Text).at(0).text()).toBe("Positive");
+        expect(wrapper.find(Text).at(1).text()).toBe("Negative");
     });
 });
