@@ -4,7 +4,7 @@ import classes from "./user-modal.module.css";
 interface AppProps {
     title?: string;
     length?: number;
-    style?: Object;
+    style?: Record<string, unknown>;
     children: React.ReactNode;
 }
 

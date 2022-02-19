@@ -68,17 +68,17 @@ const UserModal = ({ userInfo, isOpen, onClose, sessionId }: appProps) => {
                     <Flex align="right" justify="right">
                         <CloseButton size="md" onClick={onClose} />
                     </Flex>
-                    <p className={classes.modalHeader}>
+                    <p id="user-name" className={classes.modalHeader}>
                         {userInfo.LastName}, {userInfo.FirstName}
                     </p>
                 </ModalHeader>
                 <ModalBody pt={0}>
-                    <Box my={1} className={classes.selectionFont}>
+                    <Box id="modal-title" my={1} className={classes.selectionFont}>
                         {" "}
                         User Role:
                     </Box>
                     <Center>
-                        <RadioGroup name="role" onChange={roleSelectHandler} my={2}>
+                        <RadioGroup name="role" onChange={roleSelectHandler} my={2} value={userInfo.Role}>
                             <Stack
                                 direction={["column", "column", "row", "row"]}
                                 spacing={5}
