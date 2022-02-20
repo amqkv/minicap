@@ -1,8 +1,7 @@
 import { shallow } from "enzyme";
-import PatientInfoCard from "@frontend/components/doctor/patient-info-card";
 import PatientStatus from "@frontend/components/doctor/patient-status";
 import { DEFAULT_PATIENT } from "@frontend/models/patient";
-import { Box, Flex, Text, Divider } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 
 describe("<PatientStatus/>", () => {
     it("Renders all the Box components", () => {
