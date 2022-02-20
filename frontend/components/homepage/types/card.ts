@@ -11,3 +11,5 @@ export interface CardProps {
     weight: number;
     symptoms: string;
   }
+
+ 

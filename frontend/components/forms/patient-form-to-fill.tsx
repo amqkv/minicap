@@ -1,12 +1,23 @@
-import { Button, Box, Heading, Text, UseToastOptions, toast, useToast, Flex, Center } from "@chakra-ui/react";
+import {
+    Button,
+    Box,
+    Heading,
+    Text,
+    UseToastOptions,
+    toast,
+    useToast,
+    Flex,
+    Center,
+    SimpleGrid,
+} from "@chakra-ui/react";
 import PatientInputs from "@frontend/components/inputs/patient-inputs";
 import PatientTextarea from "@frontend/components/inputs/patient-textarea-input";
-import { statusFilled, StatusParameters } from "@frontend/functions/create-status";
+import { pastConditionsProps, statusFilled, StatusParameters } from "@frontend/functions/create-status";
 import moment from "moment";
-import { useSession, getSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
-import { validIntegerField } from "@frontend/functions/validation";
-import { registerIntegerErrorPopup } from "@frontend/utils/popups";
+import { allFieldsFilled, validIntegerField } from "@frontend/functions/validation";
+import { patientSymptoms, registerIntegerErrorPopup } from "@frontend/utils/popups";
 import PatientCard from "./patient-card";
 
 export interface requiredDetails {
@@ -15,7 +26,12 @@ export interface requiredDetails {
     Temperature: boolean;
 }
 
-export default function PatientDetailsToProvideForm({ requiredDetails }: { requiredDetails: requiredDetails }) {
+export interface PatientsFormsToFill {
+    requiredDetails: requiredDetails;
+    pastConditions: pastConditionsProps[];
+}
+
+export default function PatientFormsToFill({ requiredDetails, pastConditions }: PatientsFormsToFill) {
     const { Temperature: temperature, Weight: weight, Symptoms: symptoms } = requiredDetails;
     const [weightError, setWeightError] = useState(false);
     const [temperatureError, setTemperatureError] = useState(false);
@@ -25,11 +41,12 @@ export default function PatientDetailsToProvideForm({ requiredDetails }: { requi
     const { data: session } = useSession();
     const userId = session?.user?.AccountId;
 
-    // fucntion to send data to backend
+    // function to send data to backend and create new status
     async function handlePatientForm(event: any) {
         event.preventDefault();
 
         const time = moment().format("YYYY-MM-DD HH:mm:ss");
+
         const statusValues: StatusParameters = {
             accountId: userId,
             temperature: event.target[0].value,
@@ -38,7 +55,7 @@ export default function PatientDetailsToProvideForm({ requiredDetails }: { requi
             isReviewed: false,
             statusTime: time,
         };
-        //TODO: validation for temperature and weight (must be integers)
+
         let error = false;
         if (!validIntegerField(statusValues.weight)) {
             setWeightError(true);
@@ -52,6 +69,8 @@ export default function PatientDetailsToProvideForm({ requiredDetails }: { requi
 
         if (error) {
             callPopup(registerIntegerErrorPopup);
+        } else if (!allFieldsFilled(statusValues)) {
+            callPopup(patientSymptoms);
         } else {
             try {
                 const response = await statusFilled(statusValues);
@@ -65,7 +84,8 @@ export default function PatientDetailsToProvideForm({ requiredDetails }: { requi
             }
         }
     }
-
+    console.log(pastConditions);
+    const pastInfo = pastConditions;
     return (
         <>
             <Box paddingLeft={"20px"}>
@@ -87,17 +107,30 @@ export default function PatientDetailsToProvideForm({ requiredDetails }: { requi
                         Submit
                     </Button>
                 </form>
-                <Heading>Previous Day's Conditions</Heading>
-                <Flex flexWrap="wrap">
-                        <PatientCard label={"January 23, 2020"} temperature={0} weight={0} symptoms={"I am sick"} />
-                        <PatientCard label={"January 23, 2020"} temperature={0} weight={0} symptoms={"I am sick"} />
-                        <PatientCard label={"January 23, 2020"} temperature={0} weight={0} symptoms={"I am sick"} />
-                        <PatientCard label={"January 23, 2020"} temperature={0} weight={0} symptoms={"I am sick"} />
-                </Flex>
+                <Heading margin={"30px"}>Previous Day's Conditions</Heading>
+
+                <SimpleGrid minChildWidth="300px" rowGap={2} spacing={"20px"}>
+                    {pastConditions.map(
+                        ({
+                            StatusTime: label,
+                            Temperature: temperature,
+                            Weight: weight,
+                            Symptoms: symptoms,
+                        }: pastConditionsProps) => {
+                            label = label.substring(0, 10);
+
+                            return (
+                                <PatientCard
+                                    label={label}
+                                    temperature={temperature}
+                                    weight={weight}
+                                    symptoms={symptoms}
+                                />
+                            );
+                        }
+                    )}
+                </SimpleGrid>
             </Box>
         </>
     );
-}
-function callPopup(arg0: string) {
-    throw new Error("Function not implemented.");
 }

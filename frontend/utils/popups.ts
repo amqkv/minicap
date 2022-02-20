@@ -21,9 +21,11 @@ const registerDescription = {
 };
 
 const signinErrorDescription = "There was an error in login. Try again";
+const patientSymptomsDescription = "There was an error while filling the form. Try again";
 
 export const registerGeneralErrorPopup = { ...errorPopupBase, description: registerDescription.generalError };
 export const registerSuccessPopup = { ...successPopupBase, description: registerDescription.success };
 export const registerEmailErrorPopup = { ...errorPopupBase, description: registerDescription.emailError };
 export const registerIntegerErrorPopup = { ...errorPopupBase, description: registerDescription.integerError };
 export const signinErrorPopup = { ...errorPopupBase, description: signinErrorDescription };
+export const patientSymptoms = {...errorPopupBase, description: patientSymptomsDescription};

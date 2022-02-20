@@ -11,7 +11,7 @@ router.post("/addStatus", (req, res) => {
 });
 
 // find previous status in database
-router.get("/getAllStatus/:patientId", (req, res) => {
+router.get("/getAllStatus/:userId", (req, res) => {
     statusController.getAllStatus(req, res);
 });
 
