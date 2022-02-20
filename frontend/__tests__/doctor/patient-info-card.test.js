@@ -4,9 +4,9 @@ import PatientStatus from "@frontend/components/doctor/patient-status";
 import { DEFAULT_PATIENT } from "@frontend/models/patient";
 import { Box, Flex, Text, Divider } from "@chakra-ui/react";
 
-const wrapper = shallow(<PatientInfoCard patient={DEFAULT_PATIENT} />);
-
 describe("<PatientInfoCard/>", () => {
+    const wrapper = shallow(<PatientInfoCard patient={DEFAULT_PATIENT} />);
+
     it("Renders all the Box components", () => {
         expect(wrapper.find(Box)).toHaveLength(6);
     });
