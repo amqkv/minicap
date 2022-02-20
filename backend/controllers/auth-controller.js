@@ -51,8 +51,6 @@ function logIn(req, res) {
     })
         // eslint-disable-next-line consistent-return
         .then(user => {
-            console.log("login");
-
             if (!user) {
                 return res.status(404).send({ message: "User Not found." });
             }
