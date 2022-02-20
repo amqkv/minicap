@@ -1,12 +1,13 @@
-import { Button, Box, Heading, Text, UseToastOptions, toast, useToast } from "@chakra-ui/react";
+import { Button, Box, Heading, Text, UseToastOptions, toast, useToast, Flex, Center } from "@chakra-ui/react";
 import PatientInputs from "@frontend/components/inputs/patient-inputs";
 import PatientTextarea from "@frontend/components/inputs/patient-textarea-input";
 import { statusFilled, StatusParameters } from "@frontend/functions/create-status";
 import moment from "moment";
 import { useSession, getSession } from "next-auth/react";
 import { useState } from "react";
-import {validIntegerField} from "@frontend/functions/validation";
+import { validIntegerField } from "@frontend/functions/validation";
 import { registerIntegerErrorPopup } from "@frontend/utils/popups";
+import PatientCard from "./patient-card";
 
 export interface requiredDetails {
     Weight: boolean;
@@ -19,7 +20,7 @@ export default function PatientDetailsToProvideForm({ requiredDetails }: { requi
     const [weightError, setWeightError] = useState(false);
     const [temperatureError, setTemperatureError] = useState(false);
     const toast = useToast();
-    const callPopup = (props: UseToastOptions) => !toast.isActive('popup') && toast({ ...props, id: 'popup' });
+    const callPopup = (props: UseToastOptions) => !toast.isActive("popup") && toast({ ...props, id: "popup" });
 
     const { data: session } = useSession();
     const userId = session?.user?.AccountId;
@@ -54,7 +55,7 @@ export default function PatientDetailsToProvideForm({ requiredDetails }: { requi
         } else {
             try {
                 const response = await statusFilled(statusValues);
-    
+
                 if (response) {
                     // change to another page function
                     const data = await response.json();
@@ -63,8 +64,6 @@ export default function PatientDetailsToProvideForm({ requiredDetails }: { requi
                 console.log("There was an error");
             }
         }
-
-       
     }
 
     return (
@@ -73,7 +72,9 @@ export default function PatientDetailsToProvideForm({ requiredDetails }: { requi
                 <Heading size="lg">Your Doctor: Dr Sawkon Di Zenoots</Heading>
                 <Heading size="lg">Today's Condition</Heading>
                 <form onSubmit={handlePatientForm}>
-                    {temperature && <PatientInputs error={temperatureError} label="Temperature" units="°C" name={"temperature"} />}
+                    {temperature && (
+                        <PatientInputs error={temperatureError} label="Temperature" units="°C" name={"temperature"} />
+                    )}
                     {weight && <PatientInputs error={weightError} label="Weight" units="lbs" name={"weight"} />}
                     {symptoms && <PatientTextarea label="Symptoms" units="" name={"symptoms"} />}
 
@@ -86,6 +87,13 @@ export default function PatientDetailsToProvideForm({ requiredDetails }: { requi
                         Submit
                     </Button>
                 </form>
+                <Heading>Previous Day's Conditions</Heading>
+                <Flex flexWrap="wrap">
+                        <PatientCard label={"January 23, 2020"} temperature={0} weight={0} symptoms={"I am sick"} />
+                        <PatientCard label={"January 23, 2020"} temperature={0} weight={0} symptoms={"I am sick"} />
+                        <PatientCard label={"January 23, 2020"} temperature={0} weight={0} symptoms={"I am sick"} />
+                        <PatientCard label={"January 23, 2020"} temperature={0} weight={0} symptoms={"I am sick"} />
+                </Flex>
             </Box>
         </>
     );
@@ -93,4 +101,3 @@ export default function PatientDetailsToProvideForm({ requiredDetails }: { requi
 function callPopup(arg0: string) {
     throw new Error("Function not implemented.");
 }
-
