@@ -99,7 +99,7 @@ it("User has been registered as another role than Patient", () =>
                     Email: expect.any(String),
                     PostalCode: expect.any(String),
                     Role: expect.any(String),
-                    Confirmed: "false",
+                    ConfirmedFlag: expect.any(Number),
                 })
             );
         }));
