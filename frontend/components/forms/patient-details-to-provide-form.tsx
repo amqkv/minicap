@@ -1,6 +1,7 @@
 import { Checkbox, Stack, Button, CheckboxGroup, Flex, Box, useToast } from "@chakra-ui/react";
 import { serverURL } from "@frontend/config/index";
 import { RequiredDetails } from "@frontend/models/patient";
+import { ChangeEvent } from "react";
 
 interface AppProps {
     requiredDetails: RequiredDetails;
@@ -23,7 +24,6 @@ export default function PatientDetailsToProvideForm({ requiredDetails, patientId
             headers: { "Content-Type": "application/json" },
         })
             .then(res => {
-                window.location.reload();
                 toast({
                     title: "Details updated!",
                     description: "Your patient's details to provide have been successfully updated.",
@@ -31,6 +31,7 @@ export default function PatientDetailsToProvideForm({ requiredDetails, patientId
                     duration: 3000,
                     isClosable: true,
                 });
+                window.location.reload();
             })
             .catch(err => {
                 console.log(err);
@@ -44,8 +45,8 @@ export default function PatientDetailsToProvideForm({ requiredDetails, patientId
             });
     }
 
-    function setCheckedItems(newCheckedState: boolean, key: string) {
-        const temp = { ...requiredDetails, [key]: newCheckedState };
+    function setCheckedItems(e: ChangeEvent<HTMLInputElement>) {
+        const temp = { ...requiredDetails, [e.target.value]: e.target.checked };
         requiredDetails = temp;
     }
 
@@ -60,7 +61,7 @@ export default function PatientDetailsToProvideForm({ requiredDetails, patientId
                                 key={detailName}
                                 value={detailName}
                                 isChecked={requiredDetail[1]}
-                                onChange={e => setCheckedItems(e.target.checked, detailName)}
+                                onChange={e => setCheckedItems(e)}
                                 colorScheme="red">
                                 {detailName.substring(0, 1).toUpperCase() + detailName.slice(1)}
                             </Checkbox>

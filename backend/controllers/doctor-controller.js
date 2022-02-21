@@ -4,32 +4,6 @@ const RequiredDetails = require("../models/required-details");
 const Status = require("../models/status");
 const db = require("../config/database");
 
-function getRequiredDetails(req, res) {
-    RequiredDetails.findAll({
-        raw: true,
-        where: {
-            Patient_PatientId: req.params.patientId,
-        },
-    })
-        .then(requiredDetails => {
-            // Renaming the detail names
-            const temp = [];
-            const keys = Object.keys(requiredDetails[0]);
-            for (let i = 1; i < keys.length; i++) {
-                if (keys[i].includes("Required")) {
-                    temp.push({
-                        [keys[i].replace("Required", "")]: requiredDetails[0][keys[i]],
-                    });
-                }
-            }
-            res.json(temp);
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(400).send("Could not find details");
-        });
-}
-
 function updateRequiredDetails(req, res) {
     RequiredDetails.update(
         {
@@ -41,17 +15,20 @@ function updateRequiredDetails(req, res) {
             where: { Patient_PatientId: req.body.patientId },
         }
     )
-        .then(() => {
-            res.status(200).send("Successfully updated details.");
+        .then(detail => {
+            if (detail[0]) {
+                res.status(200).send("Successfully updated details.");
+            } else {
+                res.status(400).send("Failed to execute the assignment.");
+            }
         })
         .catch(err => {
             console.log(err);
-            res.status(400).send(`Error: ${err}`);
+            res.status(500).send(`Error: ${err}`);
         });
 }
 
-async function getPatientsInfo(req, res) {
-    // Getting all statuses
+async function getAllStatus() {
     const allStatus = await Status.findAll({
         raw: true,
         attributes: [
@@ -64,6 +41,12 @@ async function getPatientsInfo(req, res) {
         ],
         order: [Sequelize.literal("StatusTime DESC")],
     }).catch(err => console.log(err));
+    return allStatus;
+}
+
+async function getPatientsInfo(req, res) {
+    // Getting all statuses
+    const allStatus = await getAllStatus();
 
     // Getting the current doctor's patients
     const patients = await db
@@ -80,11 +63,10 @@ async function getPatientsInfo(req, res) {
               RD.WeightRequired,
               RD.TemperatureRequired,
               RD.SymptomsRequired
-    FROM Patient P, Users U, Status S, RequiredDetails RD, Doctor D
+    FROM Patient P, Users U, RequiredDetails RD, Doctor D
     WHERE D.User_AccountId=${req.params.userId} AND
         P.Doctor_DoctorId= D.DoctorId AND
           P.User_AccountId=U.AccountId AND
-          P.PatientId=S.Patient_PatientId AND
           P.PatientId=RD.Patient_PatientId
     `,
             {
@@ -118,31 +100,34 @@ async function getPatientsInfo(req, res) {
         })
         .catch(err => console.log(err));
 
-    // Adding the status history to all patients
-    let currentPatientStatus = [];
-    const patientsList = [];
-    patients.map(patient => {
-        allStatus.map(status => {
-            if (status.patientId === patient.patientId) {
-                currentPatientStatus.push({
-                    weight: { value: status.weight, unit: "lbs" },
-                    temperature: { value: status.temperature, unit: "°C" },
-                    symptoms: { value: status.symptoms ? status.symptoms : "", unit: "" },
-                    lastUpdated: Moment().diff(status.statusTime, "hours", true)
-                        ? Moment().diff(status.statusTime, "hours", true)
-                        : 0,
-                    isReviewed: status.isReviewed,
-                });
-            }
+    if (patients.length === 0) {
+        res.status(400).send("User is not a doctor. Failed to execute the assignment.");
+    } else {
+        // Adding the status history to all patients
+        let currentPatientStatus = [];
+        const patientsList = [];
+        patients.map(patient => {
+            allStatus.map(status => {
+                if (status.patientId === patient.patientId) {
+                    currentPatientStatus.push({
+                        weight: { value: status.weight, unit: "lbs" },
+                        temperature: { value: status.temperature, unit: "°C" },
+                        symptoms: { value: status.symptoms ? status.symptoms : "", unit: "" },
+                        lastUpdated: Moment().diff(status.statusTime, "hours", true)
+                            ? Moment().diff(status.statusTime, "hours", true)
+                            : 0,
+                        isReviewed: status.isReviewed,
+                    });
+                }
+            });
+            patientsList.push({ ...patient, status: currentPatientStatus });
+            currentPatientStatus = [];
         });
-        patientsList.push({ ...patient, status: currentPatientStatus });
-        currentPatientStatus = [];
-    });
-    res.json(patientsList);
+        res.json(patientsList);
+    }
 }
 
 module.exports = {
-    getRequiredDetails,
     updateRequiredDetails,
     getPatientsInfo,
 };

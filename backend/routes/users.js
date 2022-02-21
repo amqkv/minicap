@@ -14,14 +14,14 @@ router.get("/getUser", authJwt.verifyToken, (req, res) => {
 });
 
 // Fetches all users, organized in an array by roles. { Role: [{Account1},{Account2}], Role2: [], ... }
-router.get('/role', userController.getAllUserRoles);
+router.get("/role", userController.getAllUserRoles);
 
-// Fetches all pending users 
-router.get('/pending', userController.getPendingUsers);
+// Fetches all pending users
+router.get("/pending", userController.getPendingUsers);
 
-//Register
+// Register
 router.post("/register", (req, res) => {
-    //Verifies if email has already been used
+    // Verifies if email has already been used
     User.findOne({
         where: {
             Email: req.body.email,
