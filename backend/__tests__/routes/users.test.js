@@ -16,7 +16,7 @@ const testUserPatient = {
     password: "testing123!",
     postalCode: "1h34k5",
     accountRole: "Patient",
-    ConfirmedFlag: true
+    ConfirmedFlag: true,
 };
 
 // Declare a test user as a doctor
@@ -32,7 +32,7 @@ const testUserDoctor = {
     password: "testing123!",
     postalCode: "1h34k5",
     accountRole: "Doctor",
-    ConfirmedFlag: true
+    ConfirmedFlag: true,
 };
 
 beforeAll(async () => {

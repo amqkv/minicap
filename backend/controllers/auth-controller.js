@@ -43,6 +43,7 @@ function register(req, res) {
 
 // Log In user
 function logIn(req, res) {
+    console.log(req.body);
     User.findOne({
         where: {
             Email: req.body.email,
@@ -63,6 +64,7 @@ function logIn(req, res) {
             res.status(200).json({ accessToken });
         })
         .catch(err => {
+            console.log(err);
             res.status(500).send(`ERROR: ${err}`);
         });
 }
