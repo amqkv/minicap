@@ -5,7 +5,6 @@ import { ChakraProvider } from "@chakra-ui/react";
 import NavBar from "@frontend/components/navigation/navbar";
 import Footer from "@frontend/components/navigation/footer";
 
-
 export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
     // SessionProvider outside or ChakraProvider outside?
     return (

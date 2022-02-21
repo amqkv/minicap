@@ -24,7 +24,7 @@ export async function getServerSideProps(context: NextPageContext) {
     };
 }
 
-function filterByText({ searchText, arr }: { searchText: string; arr: PatientBasicInformation[] }) {
+export function filterByText({ searchText, arr }: { searchText: string; arr: PatientBasicInformation[] }) {
     const lowerCaseSearchtext = searchText.toLowerCase();
     let filteredArr = [];
     for (let i = 0; i < arr.length; i++) {

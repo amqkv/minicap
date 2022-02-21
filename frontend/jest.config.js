@@ -85,7 +85,7 @@ module.exports = {
     },
 
     // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
-    // modulePathIgnorePatterns: ["<rootDir>/*.module.css"],
+    modulePathIgnorePatterns: ["<rootDir>/__tests__/__mock__/*"],
 
     // Activates notifications for test results
     // notify: false,
@@ -153,9 +153,7 @@ module.exports = {
     // ],
 
     // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
-    // testPathIgnorePatterns: [
-    //   "\\\\node_modules\\\\"
-    // ],
+    //testPathIgnorePatterns: ["<rootDir>/__test__/__mock__/*"],
 
     // The regexp pattern or array of patterns that Jest uses to detect test files
     // testRegex: [],

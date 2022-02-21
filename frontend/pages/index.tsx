@@ -25,8 +25,15 @@ export default function Home() {
     }
     return (
         <>
-            <Flex padding={{ base: "5% 0%", md: "0 10%" }} flexDirection={{ base: "column", md: "row" }} alignItems="center">
-                <Box background="white.100" w={{ base: "100%", md: "50%" }} p={{ base: "15% 10%", md: "20px" }} rounded={6}>
+            <Flex
+                padding={{ base: "5% 0%", md: "0 10%" }}
+                flexDirection={{ base: "column", md: "row" }}
+                alignItems="center">
+                <Box
+                    background="white.100"
+                    w={{ base: "100%", md: "50%" }}
+                    p={{ base: "15% 10%", md: "20px" }}
+                    rounded={6}>
                     <Heading mb={8}>Some description</Heading>
                     <p>
                         Some more description here lmao badabing badaboom hehe hihi hoho Ideally long enough to take 3-4
