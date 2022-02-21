@@ -57,7 +57,6 @@ const UserListPage = ({ patients }: { patients: PatientBasicInformation[] }) => 
     function openModal(patient: PatientBasicInformation) {
         onOpen();
         setSelectedPatient(patient);
-        console.log("dab");
     }
 
     if (session?.user.Role === USER_ROLES.iOfficer) {
