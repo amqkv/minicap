@@ -139,8 +139,6 @@ describe("POST: Login of a user", () => {
             email: testUserPatient.email,
             password: testUserPatient.password,
         };
-        console.log("testuserpatient email:", testUserPatient.email);
-        console.log("testuserpatient password:", testUserPatient.password);
         return request(app).post("/users/login").send(testUserCredentials).expect(200);
     });
 
