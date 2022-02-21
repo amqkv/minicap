@@ -44,7 +44,7 @@ const User = db.define(
             type: Sequelize.STRING,
         },
         ConfirmedFlag: {
-            type: Sequelize.STRING,
+            type: Sequelize.BOOLEAN,
         },
     },
     {

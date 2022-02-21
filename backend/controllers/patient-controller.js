@@ -1,5 +1,4 @@
 const RequiredDetails = require("../models/required-details");
-const Patient = require("../models/patient");
 
 function getRequiredDetails(req, res) {
     RequiredDetails.findAll({
@@ -10,6 +9,7 @@ function getRequiredDetails(req, res) {
     })
         .then(requiredDetails => {
             console.log(requiredDetails);
+            console.log("shit")
             // Renaming the detail names
             const temp = [];
             const keys = Object.keys(requiredDetails[0]);

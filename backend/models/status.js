@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const db = require("../config/database");
+const Patient = require("../models/patient");
 
 // Status model associated with Database Status table
 const Status = db.define(
@@ -35,5 +36,7 @@ const Status = db.define(
         timestamps: false,
     }
 );
+
+Status.belongsTo(Patient, { foreignKey: "Patient_PatientId" });
 
 module.exports = Status;

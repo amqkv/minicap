@@ -9,3 +9,9 @@ export enum USER_ROLES {
     iOfficer = "Immigration Officer",
     admin = "Admin",
 }
+
+// sequelize doesnt like BOOLEAN which translates to an INTEGER in the request.
+// mostly for the tests right now, the function themselves accept true BOOLEAN values
+export const BOOLEANS = { 
+    TRUE: "1", FALSE: "0",
+}

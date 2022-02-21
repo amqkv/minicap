@@ -1,15 +1,4 @@
-import {
-    Button,
-    Box,
-    Heading,
-    Text,
-    UseToastOptions,
-    toast,
-    useToast,
-    Flex,
-    Center,
-    SimpleGrid,
-} from "@chakra-ui/react";
+import { Button, Box, Heading, UseToastOptions, useToast, SimpleGrid } from "@chakra-ui/react";
 import PatientInputs from "@frontend/components/inputs/patient-inputs";
 import PatientTextarea from "@frontend/components/inputs/patient-textarea-input";
 import { pastConditionsProps, statusFilled, StatusParameters } from "@frontend/functions/create-status";
@@ -19,6 +8,7 @@ import { useState } from "react";
 import { allFieldsFilled, validIntegerField } from "@frontend/functions/validation";
 import { patientSymptoms, registerIntegerErrorPopup } from "@frontend/utils/popups";
 import PatientCard from "./patient-card";
+import { useRouter } from "next/router";
 
 export interface requiredDetails {
     Weight: boolean;
@@ -32,6 +22,9 @@ export interface PatientsFormsToFill {
 }
 
 export default function PatientFormsToFill({ requiredDetails, pastConditions }: PatientsFormsToFill) {
+    // console.log(requiredDetails);
+    const router = useRouter();
+
     const { Temperature: temperature, Weight: weight, Symptoms: symptoms } = requiredDetails;
     const [weightError, setWeightError] = useState(false);
     const [temperatureError, setTemperatureError] = useState(false);
@@ -57,16 +50,20 @@ export default function PatientFormsToFill({ requiredDetails, pastConditions }: 
         };
 
         let error = false;
+
+        // weight validation
         if (!validIntegerField(statusValues.weight)) {
             setWeightError(true);
             error = true;
         } else setWeightError(false);
 
+        // temperature validation
         if (!validIntegerField(statusValues.temperature)) {
             setTemperatureError(true);
             error = true;
         } else setTemperatureError(false);
 
+        // popup if error
         if (error) {
             callPopup(registerIntegerErrorPopup);
         } else if (!allFieldsFilled(statusValues)) {
@@ -77,6 +74,8 @@ export default function PatientFormsToFill({ requiredDetails, pastConditions }: 
 
                 if (response) {
                     // change to another page function
+                    (await router.push("/")) && toast.closeAll();
+
                     const data = await response.json();
                 } else throw "Error";
             } catch (errr) {
@@ -84,8 +83,6 @@ export default function PatientFormsToFill({ requiredDetails, pastConditions }: 
             }
         }
     }
-    console.log(pastConditions);
-    const pastInfo = pastConditions;
     return (
         <>
             <Box paddingLeft={"20px"}>

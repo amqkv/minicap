@@ -12,7 +12,6 @@ const getAllUserRoles = async (req, res) => {
         Admin: [],
     };
 
-    // eslint-disable-next-line array-callback-return
     roles.map(user => {
         if (Object.prototype.hasOwnProperty.call(rolesObject, user.dataValues.Role)) {
             rolesObject[user.dataValues.Role].push(user.dataValues);
@@ -21,6 +20,20 @@ const getAllUserRoles = async (req, res) => {
     res.json(rolesObject);
 };
 
+const getPendingUsers = async (req, res) => {
+    const pendingUsers = await User.findAll({
+        where: {
+            ConfirmedFlag: false,
+        },
+        attributes: ["AccountId", "FirstName", "LastName", "Role", "ConfirmedFlag"],
+    })
+        .catch(err => {
+            console.log("Get Pending Users List Error: ", err);
+        });
+	res.json({ Users: pendingUsers });
+};
+
 module.exports = {
     getAllUserRoles,
+    getPendingUsers,
 };

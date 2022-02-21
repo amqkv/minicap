@@ -13,8 +13,11 @@ router.get("/getUser", authJwt.verifyToken, (req, res) => {
     authController.getAuthUser(req, res);
 });
 
-//Get users matched with their role
+// Fetches all users, organized in an array by roles. { Role: [{Account1},{Account2}], Role2: [], ... }
 router.get("/role", userController.getAllUserRoles);
+
+// Fetches all pending users
+router.get("/pending", userController.getPendingUsers);
 
 // Register
 router.post("/register", (req, res) => {

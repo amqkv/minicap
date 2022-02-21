@@ -1,17 +1,17 @@
 import { Box, Center, Flex, Heading } from "@chakra-ui/react";
-import { Card } from "./card";
+import  Card  from "./card";
 import { links, link } from "@frontend/components/homepage/dashboard-structure";
 import { useSession } from "next-auth/react";
 
-export function Dashboard() {
+export default function Dashboard() {
     const { data: session } = useSession();
     const userRole = session?.user?.Role;
-
+    const userName = session?.user?.FirstName + " " + session?.user?.LastName;
     // depending on the role, will render different box for different functionalities
     return (
         <Box>
             {/* TODO add patients name in heading */}
-            <Heading paddingLeft={"50px"}>Wassup {userRole} </Heading>
+            <Heading paddingLeft={"50px"}>Welcome {userRole} {userName}</Heading>
 
             <Center marginTop={"5%"}>
                 <Flex flexWrap="wrap">

@@ -15,7 +15,7 @@ declare module "next-auth" {
             PhoneNumber: string;
             PostalCode: string;
             Role: string;
-            Confirmed: false;
+            ConfirmedFlag: boolean; // ,might need to be handled differently, but does not break anything right now (2022-08-18: merge main into SOEN77)
         };
     }
 }

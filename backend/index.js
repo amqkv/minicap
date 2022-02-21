@@ -23,9 +23,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //  Route declaration
 const indexRouter = require("./routes/index").router;
 const usersRouter = require("./routes/users").router;
-const patientsRouter = require("./routes/patients").router;
+const doctorsRouter = require("./routes/doctors").router;
 const adminsRouter = require("./routes/admins").router;
 const statusRouter = require("./routes/status").router;
+const patientsRouter = require("./routes/patients").router;
 
 // View engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -34,10 +35,10 @@ app.set("view engine", "jade");
 // Route utilization
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-app.use("/patients", patientsRouter);
+app.use("/doctors", doctorsRouter);
 app.use("/admins", adminsRouter);
 app.use("/status", statusRouter);
-
+app.use("/patients", patientsRouter);
 
 // test DB
 db.authenticate()

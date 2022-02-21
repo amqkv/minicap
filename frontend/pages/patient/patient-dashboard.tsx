@@ -1,4 +1,4 @@
-import { Dashboard } from "@frontend/components/homepage/dashboard";
+import Dashboard  from "@frontend/components/homepage/dashboard";
 import { useSession, getSession } from "next-auth/react";
 import { USER_ROLES } from "@frontend/utils/constants";
 import { GetServerSideProps } from "next";

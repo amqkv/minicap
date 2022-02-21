@@ -43,12 +43,12 @@ function register(req, res) {
 
 // Log In user
 function logIn(req, res) {
+    console.log(req.body);
     User.findOne({
         where: {
             Email: req.body.email,
         },
     })
-        // eslint-disable-next-line consistent-return
         .then(user => {
             if (!user) {
                 return res.status(404).send({ message: "User Not found." });
@@ -61,9 +61,10 @@ function logIn(req, res) {
                 });
             }
             const accessToken = jwt.sign({ email: req.body.email }, process.env.ACCESS_TOKEN_SECRET);
-            res.status(200).json({ accessToken: accessToken });
+            res.status(200).json({ accessToken });
         })
         .catch(err => {
+            console.log(err);
             res.status(500).send(`ERROR: ${err}`);
         });
 }
