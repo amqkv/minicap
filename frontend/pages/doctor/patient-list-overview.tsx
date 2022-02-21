@@ -1,11 +1,11 @@
-import { Box, Heading, SimpleGrid, useDisclosure, useToast } from "@chakra-ui/react";
 import PatientInfoCard from "@frontend/components/doctor/patient-info-card";
+import PatientInfoModal from "@frontend/components/modal";
+import PatientInfoModalContent from "@frontend/components/doctor/patient-info-modal-content";
 import { serverURL } from "@frontend/config";
 import { DEFAULT_PATIENT, Patient } from "@frontend/models/patient";
-import PatientInfoModal from "@frontend/components/modal";
+import { Box, Heading, SimpleGrid, useDisclosure, useToast } from "@chakra-ui/react";
 import { getSession, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import PatientInfoModalContent from "@frontend/components/doctor/patient-info-modal-content";
 import { USER_ROLES } from "@frontend/utils/constants";
 import { useRouter } from "next/router";
 
@@ -19,7 +19,7 @@ export async function getServerSideProps(context: any) {
         if (session?.user.Role === USER_ROLES.doctor) {
             const patientListResponse: any = await fetch(serverURL + "/doctors/getPatientsInfo/" + userId);
             patientList = await patientListResponse.json();
-        } else {
+            console.log(session.user);
         }
     } catch {}
     return {
