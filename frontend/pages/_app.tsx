@@ -4,10 +4,9 @@ import "@frontend/styles/globals.scss";
 import { ChakraProvider } from "@chakra-ui/react";
 import NavBar from "@frontend/components/navigation/navbar";
 import Footer from "@frontend/components/navigation/footer";
-import { links, link } from "@frontend/components/navigation/navbar-structure";
+
 
 export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
-    console.log(links);
     // SessionProvider outside or ChakraProvider outside?
     return (
         <SessionProvider session={session}>
