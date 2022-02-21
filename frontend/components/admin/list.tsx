@@ -1,10 +1,10 @@
 import { Box, List as ChakraList, GridItem } from "@chakra-ui/react";
-import classes from "./user-modal.module.css";
+import classes from "./user-list.module.css";
 
 interface AppProps {
     title?: string;
     length?: number;
-    style?: Object;
+    style?: Record<string, unknown>;
     children: React.ReactNode;
 }
 
