@@ -15,7 +15,7 @@ describe("<Navbar />", () => {
     expect(wrapper.find(NavLink)).toHaveLength(1);
   });
 
-  it("renders a <Logo /> component and a 2 <NavLink> when the user is an admin", () => {
+  it("renders a <Logo /> component and a 3 <NavLink> when the user is an admin", () => {
     useSession.mockReturnValue({
       data: {
         user: {

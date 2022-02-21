@@ -49,7 +49,6 @@ function logIn(req, res) {
             Email: req.body.email,
         },
     })
-        // eslint-disable-next-line consistent-return
         .then(user => {
             if (!user) {
                 return res.status(404).send({ message: "User Not found." });
