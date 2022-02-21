@@ -21,7 +21,7 @@ export interface PatientsFormsToFill {
     pastConditions: pastConditionsProps[];
 }
 
-export default function PatientFormsToFill({ requiredDetails, pastConditions }: PatientsFormsToFill) {
+export default function PatientFormToFill({ requiredDetails, pastConditions }: PatientsFormsToFill) {
     // console.log(requiredDetails);
     const router = useRouter();
 
@@ -118,6 +118,7 @@ export default function PatientFormsToFill({ requiredDetails, pastConditions }: 
 
                             return (
                                 <PatientCard
+                                key={label}
                                     label={label}
                                     temperature={temperature}
                                     weight={weight}

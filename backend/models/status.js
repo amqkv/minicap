@@ -6,7 +6,7 @@ const Patient = require("../models/patient");
 const Status = db.define(
     "Status",
     {
-        StatusID: {
+        StatusId: {
             primaryKey: true,
             autoIncrement: true,
             type: Sequelize.INTEGER,

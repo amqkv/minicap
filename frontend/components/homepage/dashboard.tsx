@@ -19,7 +19,7 @@ export default function Dashboard() {
                         const renderCard = roleRequired === userRole || !roleRequired;
                         return (
                             renderCard && (
-                                <Card label={label} image={img} url={url} />
+                                <Card key={label} label={label} image={img} url={url} />
                             )
                         );
                     })}
