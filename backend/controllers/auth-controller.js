@@ -18,7 +18,8 @@ function register(req, res) {
         PhoneNumber: req.body.phoneNumber,
         PostalCode: req.body.postalCode,
         Role: req.body.accountRole,
-        Confirmed: req.body.accountRole === constants.ROLE.PATIENT ? "true" : "false",
+        ConfirmedFlag:
+            req.body.accountRole === constants.ROLE.PATIENT ? constants.BOOLEANS.TRUE : constants.BOOLEANS.FALSE,
     }).then(user => {
         if (user) {
             res.json(user);
@@ -43,6 +44,7 @@ function register(req, res) {
 
 // Log In user
 function logIn(req, res) {
+    console.log(req.body);
     User.findOne({
         where: {
             Email: req.body.email,
@@ -63,6 +65,7 @@ function logIn(req, res) {
             res.status(200).json({ accessToken });
         })
         .catch(err => {
+            console.log(err);
             res.status(500).send(`ERROR: ${err}`);
         });
 }
