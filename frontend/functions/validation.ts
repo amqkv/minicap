@@ -3,7 +3,7 @@ export function validPhoneNumber(phoneNumber: string) {
 }
 
 export function validPassword(password: string) {
-    return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(password);
+    return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(password);
 }
 
 export function validEmail(email: string) {
@@ -19,4 +19,9 @@ export function allFieldsFilled(fieldObj: any) {
         if (fieldObj[key] === "" || fieldObj[key] === undefined || fieldObj[key] === null) return false;
     }
     return true;
+}
+
+// change any later to smt better
+export function validIntegerField(reg: any){
+    return /^[1-9]\d*$/.test(reg);
 }
