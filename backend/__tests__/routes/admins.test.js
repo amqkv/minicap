@@ -127,20 +127,20 @@ describe("PATCH: Update user role", () => {
 });
 
 describe("Confirm User Account", () => {
-    afterEach(() => { // reset account used for test
+    afterEach(() => {
+        // reset account used for test
         const reset_data = {
             accountId: TEST_CONSTANTS.TESTER_ADMIN.AccountId,
             userId: TEST_CONSTANTS.UNCONFIRMED_ACCOUNT.AccountId,
-            ConfirmedFlag: BOOLEANS.FALSE
+            ConfirmedFlag: BOOLEANS.FALSE,
         };
         return request(app).patch("/admins/confirm-user-account").send(reset_data);
-
     });
     it("Attempt to confirm an UNCONFIRMED account as an ADMIN", () => {
         const data = {
             accountId: TEST_CONSTANTS.TESTER_ADMIN.AccountId,
             userId: TEST_CONSTANTS.UNCONFIRMED_ACCOUNT.AccountId,
-            ConfirmedFlag: BOOLEANS.TRUE
+            ConfirmedFlag: BOOLEANS.TRUE,
         };
         return request(app).patch("/admins/confirm-user-account").send(data).expect(200);
     });
@@ -148,7 +148,7 @@ describe("Confirm User Account", () => {
         const data = {
             accountId: TEST_CONSTANTS.TESTER_ADMIN.AccountId,
             userId: TEST_CONSTANTS.UNCONFIRMED_ACCOUNT.AccountId,
-            ConfirmedFlag: "checkers"
+            ConfirmedFlag: "checkers",
         };
         return request(app).patch("/admins/confirm-user-account").send(data).expect(400);
     });
@@ -156,7 +156,7 @@ describe("Confirm User Account", () => {
         const data = {
             accountId: TEST_CONSTANTS.UNCONFIRMED_ACCOUNT.AccountId,
             userId: TEST_CONSTANTS.UNCONFIRMED_ACCOUNT.AccountId,
-            ConfirmedFlag: BOOLEANS.TRUE
+            ConfirmedFlag: BOOLEANS.TRUE,
         };
         return request(app).patch("/admins/confirm-user-account").send(data).expect(401);
     });

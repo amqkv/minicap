@@ -6,12 +6,13 @@ export enum USER_ROLES {
     doctor = "Doctor",
     hOfficial = "Health Official",
     patient = "Patient",
-    iOfficer = "Immigration Officer",
+    iOfficer = "ImmigrationOfficer",
     admin = "Admin",
 }
 
 // sequelize doesnt like BOOLEAN which translates to an INTEGER in the request.
 // mostly for the tests right now, the function themselves accept true BOOLEAN values
-export const BOOLEANS = { 
-    TRUE: "1", FALSE: "0",
-}
+export const BOOLEANS = {
+    TRUE: "1",
+    FALSE: "0",
+};
