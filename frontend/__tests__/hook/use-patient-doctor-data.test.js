@@ -2,7 +2,7 @@ import usePatientDoctorData from "@frontend/hooks/use-patient-doctor-data";
 import useSWR from "swr";
 
 jest.mock("swr");
-describe("Test role hook", () => {
+describe("Test Patient Doctor hook", () => {
     it("Loads data", async () => {
         //Given
         useSWR.mockReturnValue({
