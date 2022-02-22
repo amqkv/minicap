@@ -1,10 +1,11 @@
 export interface InputProps {
   placeholder?: string;
   name: string;
-  label: string;
+  label?: string;
   options?: string[];
   error?: boolean;
   style?: Object;
+  inputProps?: Object;
 }
 
 export interface InputPatientProps {

@@ -1,7 +1,6 @@
 import { Box, Text, Flex } from "@chakra-ui/react";
 import Circle from "@frontend/components/circle";
 
-
 export default function Legend() {
     return (
         <Box padding="30px 45px" boxShadow="lg" bg="white" borderRadius="15px" backgroundColor="#F9E9E9">

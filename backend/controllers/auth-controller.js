@@ -18,7 +18,8 @@ function register(req, res) {
         PhoneNumber: req.body.phoneNumber,
         PostalCode: req.body.postalCode,
         Role: req.body.accountRole,
-        Confirmed: req.body.accountRole === constants.ROLE.PATIENT ? "true" : "false",
+        ConfirmedFlag:
+            req.body.accountRole === constants.ROLE.PATIENT ? constants.BOOLEANS.TRUE : constants.BOOLEANS.FALSE,
     }).then(user => {
         if (user) {
             res.json(user);

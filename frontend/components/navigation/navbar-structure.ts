@@ -28,4 +28,9 @@ export const links: link[] = [
         url: "/patient/patient-symptoms-daily",
         roleRequired: USER_ROLES.patient,
     },
+    {
+        text: "SEACH FOR USER",
+        url: "/immigration-officer/find-users",
+        roleRequired: USER_ROLES.iOfficer,
+    }
 ];
