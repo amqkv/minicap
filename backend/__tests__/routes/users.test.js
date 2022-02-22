@@ -139,3 +139,25 @@ describe("POST: Login of a user", () => {
         return request(app).post("/users/login").send(testUserCredentials).expect(500);
     });
 });
+
+describe("Get: Get users with their respective role", () => {
+    it("Retrieve the data successfully", async () => {
+        const data = await request(app)
+            .get("/users/role")
+            .expect("Content-Type", /json/)
+            .expect(200)
+            .then(response => response.body);
+        expect(data).toEqual(
+            expect.objectContaining({
+                Patient: expect.arrayContaining([
+                    expect.objectContaining({
+                        AccountId: expect.any(Number),
+                        FirstName: expect.any(String),
+                        LastName: expect.any(String),
+                        Role: expect.any(String),
+                    }),
+                ]),
+            })
+        );
+    });
+});
