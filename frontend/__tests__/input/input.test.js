@@ -62,7 +62,6 @@ describe("test the inputs in register <DateInput/>", () => {
     it("renders the date input field", async () => {
         const wrapper = render(<DateInput />);
         expect(wrapper.find("input")).toHaveLength(1);
-        // expect(wrapper.find("input").prop("type")).toBe("date");
     });
 });
 

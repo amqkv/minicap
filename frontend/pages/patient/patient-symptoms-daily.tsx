@@ -5,10 +5,9 @@ import PatientFormToFill, {
     PatientsFormsToFill,
 } from "@frontend/components/forms/patient-form-to-fill";
 import { serverURL } from "@frontend/config/index";
-import { pastConditionsInformation } from "@frontend/functions/create-status";
+import { NextPageContext } from "next";
 
-// TODO: fix any
-function getFieldsForPatient(requiredDetails: any) {
+function getFieldsForPatient(requiredDetails: requiredDetails[]) {
     let temp: any = {};
     requiredDetails.map((detail: any) => {
         temp = { ...temp, ...detail };
@@ -16,15 +15,15 @@ function getFieldsForPatient(requiredDetails: any) {
     return temp;
 }
 
-export async function getServerSideProps(context: any) {
+export async function getServerSideProps(context: NextPageContext) {
     let session = await getSession(context);
     let userId = session?.user.AccountId;
     let requiredDetails: requiredDetails | null = null;
-    let pastConditions = null;
+    let pastConditions = [];
     if (session?.user.Role === USER_ROLES.patient) {
         try {
-            // do not hardcode patientId
-            let response: any = await fetch(serverURL + "/patients/getRequiredDetails/" + 3);
+            let response: any = await fetch(serverURL + "/patients/getRequiredDetails/" + userId);
+            console.log(response);
             requiredDetails = getFieldsForPatient(await response.json());
 
             response = await fetch(serverURL + "/status/getAllStatus/" + userId);
@@ -44,7 +43,7 @@ export async function getServerSideProps(context: any) {
 export default function PatientSymptomsDaily(props: PatientsFormsToFill) {
     const { data: session } = useSession();
 
-    if (session?.user.Role === USER_ROLES.patient) {
+    if (session?.user.Role === USER_ROLES.patient && props.requiredDetails) {
         return <PatientFormToFill {...props} />;
     }
     return <p>Access Denied</p>;

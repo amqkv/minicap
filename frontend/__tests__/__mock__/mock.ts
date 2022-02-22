@@ -25,9 +25,4 @@ export const DEFAULT_PAST_CONDITIONS = [
     },
 ];
 
-// export const DEFAULT_CARD_PATIENT = {
-//     label: "",
-//     temperature: 1,
-//     weight: 1,
-//     symptoms: "help",
-// };
+

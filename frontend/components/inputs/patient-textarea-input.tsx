@@ -6,7 +6,7 @@ export default function PatientTextarea({ label, units, name, style }: InputPati
         <Box paddingLeft={"10px"}>
             <InputGroup fontSize={"18px"}>
                 <Text margin="10px 0 10px 10px">{label}: </Text>
-                <Textarea w={"30%"} name={name} margin="10px 0 10px 10px" style={style}></Textarea>
+                <Textarea name={name} margin="10px 0 10px 10px" style={style}></Textarea>
                 <Text margin="10px 0 10px 10px">{units}</Text>
             </InputGroup>
         </Box>

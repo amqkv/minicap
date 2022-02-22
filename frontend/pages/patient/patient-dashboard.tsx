@@ -14,13 +14,18 @@ export const getServerSideProps: GetServerSideProps = async context => {
 export default function PatientDashboard() {
     const { data: session } = useSession();
 
-    // // can merge to check if session?.user.Role in condition later
-    // do case statements
+    // dashboard for hOfficial, iOfficer and admin will come later 
+    // can add options fields in dashboard-structure
     if (session?.user.Role === USER_ROLES.patient) {
         return <Dashboard />;
     } else if (session?.user.Role === USER_ROLES.doctor) {
         return <Dashboard />;
-    }
-
+    } else if (session?.user.Role === USER_ROLES.hOfficial) {
+        return <Dashboard />;
+    } else if (session?.user.Role === USER_ROLES.iOfficer) {
+        return <Dashboard />;
+    } else if (session?.user.Role === USER_ROLES.admin) {
+        return <Dashboard />;
+    } 
     return <p>Access Denied</p>;
 }

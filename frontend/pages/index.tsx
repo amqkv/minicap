@@ -19,11 +19,6 @@ export default function Home() {
 
     return (
       <PatientDashboard />
-      // <>
-      //   Signed in as {session.user.FirstName} <br />
-      //   type: {session.user.Role} <br />
-      //   <LoginLogoutButton />
-      // </>
     );
   }
   return (

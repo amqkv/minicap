@@ -3,7 +3,6 @@ export function validPhoneNumber(phoneNumber: string) {
 }
 
 export function validPassword(password: string) {
-    //return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(password);
     return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(password);
 }
 

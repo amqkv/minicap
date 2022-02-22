@@ -23,4 +23,9 @@ export const links: link[] = [
         url: "/doctor/patientinfo",
         roleRequired: USER_ROLES.doctor,
     },
+    {
+        text: "PATIENT FORM",
+        url: "/patient/patient-symptoms-daily",
+        roleRequired: USER_ROLES.patient,
+    },
 ];

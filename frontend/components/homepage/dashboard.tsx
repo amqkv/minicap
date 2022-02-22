@@ -10,7 +10,6 @@ export default function Dashboard() {
     // depending on the role, will render different box for different functionalities
     return (
         <Box>
-            {/* TODO add patients name in heading */}
             <Heading paddingLeft={"50px"}>Welcome {userRole} {userName}</Heading>
 
             <Center marginTop={"5%"}>

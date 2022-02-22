@@ -1,5 +1,5 @@
 import { Button, Box, Heading, UseToastOptions, useToast, SimpleGrid } from "@chakra-ui/react";
-import PatientInputs from "@frontend/components/inputs/patient-inputs";
+import PatientInputs from "@frontend/components/inputs/unit-input";
 import PatientTextarea from "@frontend/components/inputs/patient-textarea-input";
 import { pastConditionsProps, statusFilled, StatusParameters } from "@frontend/functions/create-status";
 import moment from "moment";
@@ -22,9 +22,7 @@ export interface PatientsFormsToFill {
 }
 
 export default function PatientFormToFill({ requiredDetails, pastConditions }: PatientsFormsToFill) {
-    // console.log(requiredDetails);
     const router = useRouter();
-
     const { Temperature: temperature, Weight: weight, Symptoms: symptoms } = requiredDetails;
     const [weightError, setWeightError] = useState(false);
     const [temperatureError, setTemperatureError] = useState(false);
@@ -88,22 +86,30 @@ export default function PatientFormToFill({ requiredDetails, pastConditions }: P
             <Box paddingLeft={"20px"}>
                 <Heading size="lg">Your Doctor: Dr Sawkon Di Zenoots</Heading>
                 <Heading size="lg">Today's Condition</Heading>
-                <form onSubmit={handlePatientForm}>
-                    {temperature && (
-                        <PatientInputs error={temperatureError} label="Temperature" units="°C" name={"temperature"} />
-                    )}
-                    {weight && <PatientInputs error={weightError} label="Weight" units="lbs" name={"weight"} />}
-                    {symptoms && <PatientTextarea label="Symptoms" units="" name={"symptoms"} />}
+                <Box w={{ base: "100%", md: "30%" }} paddingRight={"10px"}>
+                    <form onSubmit={handlePatientForm}>
+                        {temperature && (
+                            <PatientInputs
+                                error={temperatureError}
+                                label="Temperature"
+                                units="°C"
+                                name={"temperature"}
+                            />
+                        )}
+                        {weight && <PatientInputs error={weightError} label="Weight" units="lbs" name={"weight"} />}
+                        {symptoms && <PatientTextarea label="Symptoms" units="" name={"symptoms"} />}
 
-                    <Button
-                        colorScheme="pink"
-                        size="md"
-                        margin={"20px 0 0 20px"}
-                        _hover={{ opacity: "80%" }}
-                        type="submit">
-                        Submit
-                    </Button>
-                </form>
+                        <Button
+                            colorScheme="pink"
+                            size="md"
+                            margin={"20px 0 0 20px"}
+                            _hover={{ opacity: "80%" }}
+                            type="submit">
+                            Submit
+                        </Button>
+                    </form>
+                </Box>
+
                 <Heading margin={"30px"}>Previous Day's Conditions</Heading>
 
                 <SimpleGrid minChildWidth="300px" rowGap={2} spacing={"20px"}>
@@ -118,7 +124,7 @@ export default function PatientFormToFill({ requiredDetails, pastConditions }: P
 
                             return (
                                 <PatientCard
-                                key={label}
+                                    key={label}
                                     label={label}
                                     temperature={temperature}
                                     weight={weight}
