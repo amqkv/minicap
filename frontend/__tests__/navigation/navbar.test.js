@@ -8,38 +8,38 @@ import { USER_ROLES } from "@frontend/utils/constants";
 jest.mock("next-auth/react");
 
 describe("<Navbar />", () => {
-  it("renders a <Logo /> component and a Home <NavLink> when the user isn't logged in", () => {
-    useSession.mockReturnValue({});
-    const wrapper = shallow(<NavBar />);
-    expect(wrapper.find(Logo)).toHaveLength(1);
-    expect(wrapper.find(NavLink)).toHaveLength(1);
-  });
-
-  it("renders a <Logo /> component and a 3 <NavLink> when the user is an admin", () => {
-    useSession.mockReturnValue({
-      data: {
-        user: {
-          Role: USER_ROLES.admin,
-        },
-      },
+    it("renders a <Logo /> component and a Home <NavLink> when the user isn't logged in", () => {
+        useSession.mockReturnValue({});
+        const wrapper = shallow(<NavBar />);
+        expect(wrapper.find(Logo)).toHaveLength(1);
+        expect(wrapper.find(NavLink)).toHaveLength(1);
     });
 
-    const wrapper = shallow(<NavBar />);
-    expect(wrapper.find(Logo)).toHaveLength(1);
-    expect(wrapper.find(NavLink)).toHaveLength(3);
-  });
+    it("renders a <Logo /> component and a 4 <NavLink> when the user is an admin", () => {
+        useSession.mockReturnValue({
+            data: {
+                user: {
+                    Role: USER_ROLES.admin,
+                },
+            },
+        });
 
-  it("renders a <Logo /> component and a 2 <NavLink> when the user is a doctor", () => {
-    useSession.mockReturnValue({
-      data: {
-        user: {
-          Role: USER_ROLES.doctor,
-        },
-      },
+        const wrapper = shallow(<NavBar />);
+        expect(wrapper.find(Logo)).toHaveLength(1);
+        expect(wrapper.find(NavLink)).toHaveLength(4);
     });
 
-    const wrapper = shallow(<NavBar />);
-    expect(wrapper.find(Logo)).toHaveLength(1);
-    expect(wrapper.find(NavLink)).toHaveLength(2);
-  });
+    it("renders a <Logo /> component and a 2 <NavLink> when the user is a doctor", () => {
+        useSession.mockReturnValue({
+            data: {
+                user: {
+                    Role: USER_ROLES.doctor,
+                },
+            },
+        });
+
+        const wrapper = shallow(<NavBar />);
+        expect(wrapper.find(Logo)).toHaveLength(1);
+        expect(wrapper.find(NavLink)).toHaveLength(2);
+    });
 });

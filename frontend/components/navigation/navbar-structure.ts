@@ -9,6 +9,11 @@ export interface link {
 export const links: link[] = [
     { text: "HOME", url: "/" },
     {
+        text: "PATIENT LIST",
+        url: "/admin/patient-list",
+        roleRequired: USER_ROLES.admin,
+    },
+    {
         text: "USER LIST",
         url: "/admin/user-list",
         roleRequired: USER_ROLES.admin,
