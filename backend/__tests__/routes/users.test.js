@@ -16,7 +16,6 @@ const testUserPatient = {
     password: "testing123!",
     postalCode: "1h34k5",
     accountRole: "Patient",
-    ConfirmedFlag: true,
 };
 
 // Declare a test user as a doctor
@@ -28,11 +27,10 @@ const testUserDoctor = {
     address: "Test Address",
     city: "Test City",
     phoneNumber: "5144567890",
-    email: "emailusedfortestdoctor@email.com",
+    email: "emailfortestdoctor@email.com",
     password: "testing123!",
     postalCode: "1h34k5",
     accountRole: "Doctor",
-    ConfirmedFlag: true,
 };
 
 beforeAll(async () => {
@@ -55,8 +53,8 @@ afterAll(async () => {
 });
 
 describe("POST: Register a user", () => {
-    it("User has been registered as a Patient", () => {
-        request(app)
+    it("User has been registered as a Patient", async () => {
+        await request(app)
             .post("/users/register")
             .send(testUserPatient)
             .expect(200)
@@ -74,13 +72,14 @@ describe("POST: Register a user", () => {
                         Email: expect.any(String),
                         PostalCode: expect.any(String),
                         Role: expect.any(String),
-                        ConfirmedFlag: expect.any(Number),
+                        ConfirmedFlag: 1,
                     })
                 );
             });
     });
-    it("User has been registered as another role than Patient", () =>
-        request(app)
+
+    it("User has been registered as another role than Patient", async () => {
+        await request(app)
             .post("/users/register")
             .send(testUserDoctor)
             .expect(200)
@@ -98,10 +97,12 @@ describe("POST: Register a user", () => {
                         Email: expect.any(String),
                         PostalCode: expect.any(String),
                         Role: expect.any(String),
-                        ConfirmedFlag: expect.any(Number),
+                        ConfirmedFlag: 0,
                     })
                 );
-            }));
+            });
+    });
+
     it("User registers with an email already in use", () =>
         request(app).post("/users/register").send(testUserPatient).expect(400));
 });
