@@ -9,18 +9,16 @@ interface AppProps {
     content?: ReactFragment;
 }
 
-const PatientItem = ({ onPatientSelect, patientInfoSimple, content = "" }: AppProps) => {
+const PatientItem = ({ onPatientSelect, patientInfoSimple }: AppProps) => {
     const onClickHandler = () => {
         onPatientSelect(patientInfoSimple);
     };
-    if (content === "") {
-        // default
-        content = (
-            <p className={classes.rowFont}>
-                {patientInfoSimple.lastName}, {patientInfoSimple.firstName}
-            </p>
-        );
-    }
+    // default
+    const content = (
+        <p className={classes.rowFont}>
+            {patientInfoSimple.lastName}, {patientInfoSimple.firstName}
+        </p>
+    );
     return (
         <ListItem paddingEnd={4} py={2}>
             <Box

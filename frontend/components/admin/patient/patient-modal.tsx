@@ -5,18 +5,15 @@ import {
     ModalHeader,
     ModalFooter,
     ModalBody,
-    ModalCloseButton,
     Button,
     RadioGroup,
     Stack,
     Radio,
     Box,
-    Center,
     CloseButton,
     Flex,
 } from "@chakra-ui/react";
-import { createBreakpoints } from "@chakra-ui/theme-tools";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { mutate } from "swr";
 import classes from "./patient-modal.module.css";
 import PatientInfoSimple from "@frontend/models/patient-info-simple";
@@ -66,7 +63,7 @@ const PatientModal = ({ patientInfo, doctorList, isOpen, onClose, sessionId }: a
                         <CloseButton size="md" onClick={onClose} />
                     </Flex>
 
-                    <p className={classes.modalHeader}>
+                    <p className={classes.modalHeader} id="patient-name">
                         {patientInfo.lastName}, {patientInfo.firstName}
                     </p>
                 </ModalHeader>
@@ -91,7 +88,11 @@ const PatientModal = ({ patientInfo, doctorList, isOpen, onClose, sessionId }: a
                 </ModalBody>
 
                 <ModalFooter>
-                    <Button backgroundColor={"#FF4545BD"} className={classes.applyButton} onClick={doctorSubmitHandler}>
+                    <Button
+                        id="done-button"
+                        backgroundColor={"#FF4545BD"}
+                        className={classes.applyButton}
+                        onClick={doctorSubmitHandler}>
                         <Box className={classes.buttonFont}>Done</Box>
                     </Button>
                 </ModalFooter>

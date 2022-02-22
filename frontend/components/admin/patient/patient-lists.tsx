@@ -6,7 +6,11 @@ import PatientList from "../list";
 import PatientItem from "./patient-item";
 import PatientModal from "./patient-modal";
 
-const PatientLists = () => {
+interface AppProps {
+    sessionId: number;
+}
+
+const PatientLists = ({ sessionId }: AppProps) => {
     // Array with the roles to be used as keys
 
     const { patientInfo, unassignedPatientInfo, isError, isLoading } = usePatientDoctorData();
@@ -37,7 +41,7 @@ const PatientLists = () => {
     return (
         <Fragment>
             {isLoading && <Spinner />}
-            {isError && <p> There is an error </p>}
+            {isError && <p id="error-message"> There is an error </p>}
 
             {!isError && !isLoading && (
                 <Box px={{ base: 0, sm: 1, md: 4, lg: 1 }} py={20}>
@@ -102,7 +106,7 @@ const PatientLists = () => {
             )}
             {isOpen && (
                 <PatientModal
-                    sessionId={265}
+                    sessionId={sessionId}
                     doctorList={doctorList}
                     isOpen={isOpen}
                     onClose={onClose}
