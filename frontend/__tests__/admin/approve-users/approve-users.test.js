@@ -5,6 +5,8 @@ import ApproveUsersRowCard from "@frontend/components/admin/approve-users/approv
 import UserRowCard from "@frontend/components/admin/user-row-card";
 import { USER_ROLES } from "@frontend/utils/constants";
 import ApproveUserPage from "@frontend/pages/admin/approve-users";
+import {ApproveUsers, getPendingUsers} from "@frontend/components/admin/approve-users/approve-users";
+import React from "react";
 
 jest.mock("next-auth/react");
 
@@ -24,6 +26,17 @@ describe("test rendering of approve user page", () => {
 
         expect(child.find(Button)).toHaveLength(1);
         expect(child.find(ListItem)).toHaveLength(1);
+    });
+    it("Loads the Users List", () =>{
+      const dummyUsers = {Users: [{
+        AccountId: 1,
+        FirstName: "firstName",
+        LastName: "lastName",
+        Role: 'Tester'
+    }]};
+      let component = ApproveUsers(dummyUsers, false, null, 17);
+      expect(component).toBeDefined();
+      expect(component).toMatchObject(<React.Fragment></React.Fragment>);
     });
     
 });
