@@ -36,10 +36,10 @@ const breakpoints = createBreakpoints({
 });
 
 const UserModal = ({ userInfo, isOpen, onClose, sessionId }: appProps) => {
-    const [role, setRole] = useState("");
+    const [roleSelected, setRoleSelected] = useState(userInfo.Role);
 
     const roleSelectHandler = (event: string) => {
-        setRole(event);
+        setRoleSelected(event);
     };
 
     const roleSubmitHandler = async () => {
@@ -53,7 +53,7 @@ const UserModal = ({ userInfo, isOpen, onClose, sessionId }: appProps) => {
                 accountId: sessionId,
                 userId: userInfo.AccountId,
                 oldRole: userInfo.Role,
-                newRole: role,
+                newRole: roleSelected,
             }),
         });
         // Call for other fetches with SWR to revalidate the data using this route
@@ -78,7 +78,7 @@ const UserModal = ({ userInfo, isOpen, onClose, sessionId }: appProps) => {
                         User Role:
                     </Box>
                     <Center>
-                        <RadioGroup name="role" onChange={roleSelectHandler} my={2} value={userInfo.Role}>
+                        <RadioGroup name="role" onChange={roleSelectHandler} my={2} value={roleSelected}>
                             <Stack
                                 direction={["column", "column", "row", "row"]}
                                 spacing={5}
@@ -94,7 +94,11 @@ const UserModal = ({ userInfo, isOpen, onClose, sessionId }: appProps) => {
                 </ModalBody>
 
                 <ModalFooter>
-                    <Button backgroundColor={"#FF4545BD"} onClick={roleSubmitHandler} className={classes.applyButton}>
+                    <Button
+                        id="apply-button"
+                        backgroundColor={"#FF4545BD"}
+                        onClick={roleSubmitHandler}
+                        className={classes.applyButton}>
                         <Box className={classes.buttonFont}>Apply</Box>
                     </Button>
                 </ModalFooter>

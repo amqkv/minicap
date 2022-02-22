@@ -80,21 +80,33 @@ describe("Test rendering of User list", () => {
 
         expect(wrapper.find("UserRowCard")).toHaveLength(2);
     });
-});
-
-describe("user modal component test", () => {
-    it("renders the user modal", () => {
+    it("render spinner when loading", () => {
         //Given
-        const dummyUser = {
-            AccountId: null,
-            FirstName: "firstName",
-            LastName: "lastName",
-            Role: "Patient",
-        };
+        useRole.mockReturnValue({
+            userRoles: {},
+            isLoading: true,
+            isError: false,
+        });
         //When
-        let wrapper = shallow(<UserModal userInfo={dummyUser} />);
+        const wrapper = shallow(<UserLists />);
+
         //Then
-        expect(wrapper.find("#user-name").text()).toEqual(`${dummyUser.LastName}, ${dummyUser.FirstName}`);
+
+        expect(wrapper.find(Spinner)).toHaveLength(1);
+    });
+    it("render spinner when loading", () => {
+        //Given
+        useRole.mockReturnValue({
+            userRoles: {},
+            isLoading: false,
+            isError: true,
+        });
+        //When
+        const wrapper = shallow(<UserLists />);
+
+        //Then
+
+        expect(wrapper.find("#error-message")).toHaveLength(1);
     });
 });
 
@@ -128,7 +140,5 @@ describe("simple test", () => {
         wrapper2.at(0).shallow().find(Box).simulate("click");
         const wrapper3 = wrapper.find(UserModal);
         expect(wrapper3.prop("isOpen")).toBeTruthy();
-        // expect(wrapper.find(UserModal)).toHaveLength(1);
-        // expect(wrapper.contains(<Box> User Role:</Box>)).toEqual(true);
     });
 });
