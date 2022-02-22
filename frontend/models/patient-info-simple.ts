@@ -1,9 +1,8 @@
 interface PatientInfoSimple {
     accountId: number;
+    patientId: number;
     firstName: string;
     lastName: string;
     doctorId: number;
-    doctorFirstName: string;
-    doctorLastName: string;
 }
 export default PatientInfoSimple;
