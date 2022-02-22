@@ -17,7 +17,7 @@ const nextConfig = {
             },
             {
                 source: "/api/admin/patient-doctor",
-                destination: `http://localhost:3001/admins/get-patients-doctors/simple`,
+                destination: `http://localhost:3001/admins/patients-doctors`,
             },
             {
                 source: "/api/admin/assign-patient-doctor",

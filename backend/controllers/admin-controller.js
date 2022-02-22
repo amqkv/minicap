@@ -42,65 +42,10 @@ async function updateRole(req, res) {
  *
  *
  */
+
 async function getPatientsDoctors(req, res) {
-    const doctors = await db
-        .query(
-            `
-        SELECT U.AccountId, U.FirstName, U.LastName, U.Email, U.PhoneNumber, D.DoctorId
-        FROM Users U, Doctor D
-        WHERE U.Role = '${constants.ROLE.DOCTOR}' AND U.ConfirmedFlag = 1 AND U.AccountId = D.User_AccountId`,
-            {
-                raw: true,
-                nest: true,
-                type: QueryTypes.SELECT,
-            }
-        )
-        .catch(err => {
-            console.log("Error: ", err);
-            res.status(500).send("Error in loading the Doctors");
-        });
-    const patients = await db
-        .query(
-            `
-        SELECT U.AccountId, U.FirstName, U.LastName, U.Email, U.PhoneNumber, P.PatientId, P.Doctor_DoctorId
-        FROM Users U, Patient P
-        WHERE U.Role = '${constants.ROLE.PATIENT}' AND U.ConfirmedFlag = 1 AND U.AccountId = P.User_AccountId;`,
-            {
-                raw: true,
-                type: QueryTypes.SELECT,
-            }
-        )
-        .catch(err => {
-            console.log("Error: ", err);
-            res.status(500).send("Error in loading the Patients");
-        });
-    // Add Patient array attribute to each Doctor JSON object
-    doctors.forEach((doctor, index) => {
-        doctors[index].Patients = [];
-    });
-
-    // Add Unassigned Patients array attribute to JSON object
-    doctors.push({
-        UnassignedPatients: [],
-    });
-
-    patients.map(patient => {
-        // Add Patients who are unassigned
-        if (patient.Doctor_DoctorId === null) {
-            doctors[doctors.length - 1].UnassignedPatients.push(patient);
-        }
-        // Add Patient corresponding to each Doctors
-        doctors.map((doctor, indexDoctor) => {
-            if (doctor.DoctorId === patient.Doctor_DoctorId) {
-                doctors[indexDoctor].Patients.push(patient);
-            }
-        });
-    });
-    res.status(200).send(doctors);
-}
-
-async function getPatientsDoctorsSimple(req, res) {
     let response = {};
+
     const doctors = await db
         .query(
             `
@@ -219,5 +164,4 @@ module.exports = {
     assignPatientDoctor,
     confirmAccount,
     getPatientsDoctors,
-    getPatientsDoctorsSimple,
 };

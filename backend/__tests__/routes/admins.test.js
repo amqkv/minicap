@@ -163,29 +163,9 @@ describe("Confirm User Account", () => {
 });
 
 describe("GET: Get Doctors with their associated Patients and Unassigned Patients", () => {
-    it("Retrieve the data successfully", () =>
-        request(app)
-            .get("/admins/get-patients-doctors")
-            .expect("Content-Type", /json/)
-            .expect(200)
-            .then(response => {
-                expect(response.body).toEqual(
-                    expect.arrayContaining([
-                        expect.objectContaining({
-                            AccountId: expect.any(Number),
-                            FirstName: expect.any(String),
-                            LastName: expect.any(String),
-                            Email: expect.any(String),
-                            PhoneNumber: expect.any(String),
-                            DoctorId: expect.any(Number),
-                        }),
-                    ])
-                );
-            }));
-
-    it("Retrieve the simple version of the data successfully", async () => {
+    it("Retrieve the data successfully", async () => {
         const data = await request(app)
-            .get("/admins/get-patients-doctors/simple")
+            .get("/admins/patients-doctors/")
             .expect("Content-Type", /json/)
             .expect(200)
             .then(response => response.body);
@@ -205,6 +185,7 @@ describe("GET: Get Doctors with their associated Patients and Unassigned Patient
                         accountId: expect.any(Number),
                         firstName: expect.any(String),
                         lastName: expect.any(String),
+                        patientId: expect.any(Number),
                         doctorId: null,
                     }),
                 ]),
