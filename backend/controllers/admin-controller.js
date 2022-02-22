@@ -171,7 +171,7 @@ async function getPatientsDoctorsSimple(req, res) {
 async function assignPatientDoctor(req, res) {
     await Patient.update(
         {
-            Doctor_DoctorId: req.body.doctor_doctorId === "-1" ? null : req.body.doctor_doctorId,
+            Doctor_DoctorId: req.body.doctor_doctorId === -1 ? null : req.body.doctor_doctorId,
         },
         {
             where: {
