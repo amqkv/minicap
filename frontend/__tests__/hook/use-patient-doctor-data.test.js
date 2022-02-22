@@ -3,7 +3,7 @@ import useSWR from "swr";
 
 jest.mock("swr");
 describe("Test Patient Doctor hook", () => {
-    it("Loads data", async () => {
+    it("Loads data successfully", async () => {
         //Given
         useSWR.mockReturnValue({
             data: {
@@ -36,7 +36,7 @@ describe("Test Patient Doctor hook", () => {
         expect(isError).toBeTruthy();
     });
 
-    it("Return Loading", async () => {
+    it("Returns loading", async () => {
         //Given
         useSWR.mockReturnValue({
             data: null,

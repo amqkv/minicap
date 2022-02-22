@@ -51,7 +51,7 @@ describe("Test the patient-list page access", () => {
 });
 
 describe("Test rendering of patient lists", () => {
-    it("renders the patients of a list", () => {
+    it("Renders the patients of a list", () => {
         //Given
         usePatientDoctorData.mockReturnValue({
             patientInfo: PATIENT_INFO_SIMPLE,
@@ -67,7 +67,7 @@ describe("Test rendering of patient lists", () => {
 
         expect(wrapper.find(PatientItem)).toHaveLength(3);
     });
-    it("render spinner when loading", () => {
+    it("Render spinner when loading", () => {
         //Given
         usePatientDoctorData.mockReturnValue({
             patientInfo: [],
@@ -82,7 +82,7 @@ describe("Test rendering of patient lists", () => {
 
         expect(wrapper.find(Spinner)).toHaveLength(1);
     });
-    it("render error message when there's an error loading", () => {
+    it("Render error message when there's an error loading", () => {
         //Given
         usePatientDoctorData.mockReturnValue({
             patientInfo: [],
@@ -99,8 +99,8 @@ describe("Test rendering of patient lists", () => {
     });
 });
 
-describe("simple test to see if modal opens", () => {
-    it("clicks it", () => {
+describe("Simple test to see if modal opens", () => {
+    it("Clicks and opens modal", () => {
         //Given
         usePatientDoctorData.mockReturnValue({
             patientInfo: PATIENT_INFO_SIMPLE,

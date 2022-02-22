@@ -3,11 +3,6 @@ import { shallow } from "enzyme";
 import PatientModal from "@frontend/components/admin/patient/patient-modal";
 import { DOCTOR_LIST_SIMPLE, SINGLE_PATIENT_INFO_SIMPLE } from "@frontend/__tests__/__mock__/mock";
 
-global.fetch = jest.fn(() =>
-    Promise.resolve({
-        json: () => Promise.resolve("Something"),
-    })
-);
 jest.mock("swr", () => {
     const originalModule = jest.requireActual("swr");
     return {
@@ -18,8 +13,8 @@ jest.mock("swr", () => {
 });
 let onClose = jest.fn();
 
-describe("patient modal component test", () => {
-    it("renders the patient modal", () => {
+describe("Patient modal component test", () => {
+    it("Renders the patient modal", () => {
         //Given
         const dummyPatient = SINGLE_PATIENT_INFO_SIMPLE;
 
