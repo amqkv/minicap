@@ -78,6 +78,7 @@ async function getPatientsDoctors(req, res) {
     doctors.forEach((doctor, index) => {
         doctors[index].Patients = [];
     });
+
     // Add Unassigned Patients array attribute to JSON object
     doctors.push({
         UnassignedPatients: [],
@@ -98,6 +99,70 @@ async function getPatientsDoctors(req, res) {
     res.status(200).send(doctors);
 }
 
+async function getPatientsDoctorsSimple(req, res) {
+    let response = {};
+    const doctors = await db
+        .query(
+            `
+            SELECT U.AccountId as accountId, U.FirstName as firstName, U.LastName as lastName, D.DoctorId as doctorId
+    From Users U
+    JOIN Doctor D on U.AccountId =  D.User_AccountId
+    WHERE U.ROle = '${constants.ROLE.DOCTOR}' AND U.ConfirmedFlag = 1`,
+            {
+                raw: true,
+                nest: true,
+                type: QueryTypes.SELECT,
+            }
+        )
+        .catch(err => {
+            console.log("Error: ", err);
+            res.status(500).send("Error in loading the Doctors");
+        });
+    const patients = await db
+        .query(
+            `
+            Select U.AccountId as accountId, P.PatientId as patientId, U.FirstName as firstName, U.LastName as lastName, P.Doctor_DoctorId as doctorId
+            From Users U
+            JOIN Patient P on U.AccountId = P.User_AccountId
+            WHERE U.Role = '${constants.ROLE.PATIENT}' AND U.ConfirmedFlag = 1`,
+            {
+                raw: true,
+                type: QueryTypes.SELECT,
+            }
+        )
+        .catch(err => {
+            console.log("Error: ", err);
+            res.status(500).send("Error in loading the Patients");
+        });
+    // Add Patient array attribute to each Doctor JSON object
+    doctors.forEach((doctor, index) => {
+        doctors[index].patients = [];
+    });
+
+    // Add Unassigned Patients array attribute to JSON object
+
+    const unassignedPatients = [];
+
+    patients.map(patient => {
+        // Add Patients who are unassigned
+        if (patient.doctorId === null) {
+            unassignedPatients.push(patient);
+        }
+        // Add Patient corresponding to each Doctors
+        doctors.map((doctor, indexDoctor) => {
+            if (doctor.doctorId === patient.doctorId) {
+                doctors[indexDoctor].patients.push(patient);
+            }
+        });
+    });
+
+    response = {
+        assigned: doctors,
+        unassigned: unassignedPatients,
+    };
+    res.status(200).send(response);
+}
+
 /**
  * Assign patient to a doctor as admin
  * PatientId: Id of the patient to be assigned
@@ -106,7 +171,7 @@ async function getPatientsDoctors(req, res) {
 async function assignPatientDoctor(req, res) {
     await Patient.update(
         {
-            Doctor_DoctorId: req.body.doctor_doctorId,
+            Doctor_DoctorId: req.body.doctor_doctorId === "-1" ? null : req.body.doctor_doctorId,
         },
         {
             where: {
@@ -128,25 +193,25 @@ async function assignPatientDoctor(req, res) {
         });
 }
 
-function confirmAccount(req, res) // can also be used to unconfirm account :)
-{
+function confirmAccount(req, res) {
+    // can also be used to unconfirm account :)
     User.update(
         {
-            ConfirmedFlag: req.body.ConfirmedFlag
+            ConfirmedFlag: req.body.ConfirmedFlag,
         },
         {
             where: {
-                AccountId: req.body.userId
-            }
+                AccountId: req.body.userId,
+            },
         }
     )
-    .then(() => {
-        res.status(200).send("Account successfully confirmed !");
-    })
-    .catch(err => {
-        console.log("[Approve-User] Error: ", err);
-        res.status(400).send("Failed to confirm account");
-    })
+        .then(() => {
+            res.status(200).send("Account successfully confirmed !");
+        })
+        .catch(err => {
+            console.log("[Approve-User] Error: ", err);
+            res.status(400).send("Failed to confirm account");
+        });
 }
 
 module.exports = {
@@ -154,4 +219,5 @@ module.exports = {
     assignPatientDoctor,
     confirmAccount,
     getPatientsDoctors,
+    getPatientsDoctorsSimple,
 };
