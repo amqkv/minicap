@@ -6,6 +6,13 @@ export const DEFAULT_REQUIRED_DETAILS = {
     Temperature: true,
 };
 
+export const DEFAULT_USER_SIMPLE = {
+    AccountId: null,
+    FirstName: "firstName",
+    LastName: "lastName",
+    Role: "Patient",
+};
+
 export const DEFAULT_PAST_CONDITIONS = [
     {
         Temperature: 35,
@@ -26,7 +33,6 @@ export const DEFAULT_PAST_CONDITIONS = [
         Symptoms: "Help me",
     },
 ];
-
 
 export const IMMIGRATION_OFFICER_MOCK_PATIENTS = [
     {
@@ -60,7 +66,6 @@ export const IMMIGRATION_OFFICER_MOCK_PATIENTS = [
         height: 12,
     },
 ];
-
 
 export const REQUIRED_DETAILS: RequiredDetails = {
     weight: true,

@@ -110,8 +110,8 @@ describe("Test rendering of User list", () => {
     });
 });
 
-describe("simple test", () => {
-    it("clicks it", () => {
+describe("Check if a click makes the modal pop up", () => {
+    it("Clicks a row", () => {
         //Given
         useRole.mockReturnValue({
             userRoles: {

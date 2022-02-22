@@ -1,6 +1,7 @@
 import { mutate } from "swr";
 import { shallow } from "enzyme";
 import UserModal from "@frontend/components/admin/user-modal";
+import { DEFAULT_USER_SIMPLE } from "@frontend/__tests__/__mock__/mock";
 
 global.fetch = jest.fn(() =>
     Promise.resolve({
@@ -22,12 +23,7 @@ const onClose = jest.fn();
 describe("user modal component test", () => {
     it("renders the user modal", () => {
         //Given
-        const dummyUser = {
-            AccountId: null,
-            FirstName: "firstName",
-            LastName: "lastName",
-            Role: "Patient",
-        };
+        const dummyUser = DEFAULT_USER_SIMPLE;
         //When
         let wrapper = shallow(<UserModal userInfo={dummyUser} />);
         //Then
@@ -35,12 +31,7 @@ describe("user modal component test", () => {
     });
     it("Checks if onChange changes state", () => {
         //Given
-        const dummyUser = {
-            AccountId: null,
-            FirstName: "firstName",
-            LastName: "lastName",
-            Role: "Patient",
-        };
+        const dummyUser = DEFAULT_USER_SIMPLE;
 
         //When
         let wrapper = shallow(<UserModal isOpen={true} userInfo={dummyUser} />);
@@ -53,13 +44,7 @@ describe("user modal component test", () => {
 
     it("Check apply button for functionality", async () => {
         //Given
-        const dummyUser = {
-            AccountId: null,
-            FirstName: "firstName",
-            LastName: "lastName",
-            Role: "Patient",
-        };
-
+        const dummyUser = DEFAULT_USER_SIMPLE;
         //When
         let wrapper = shallow(<UserModal isOpen={true} userInfo={dummyUser} onClose={onClose} />);
         wrapper.find("#apply-button").props().onClick();
