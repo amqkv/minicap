@@ -4,7 +4,7 @@ import { InputProps } from "@frontend/components/inputs/types/input";
 
 export default function StandardInput({ name, label, placeholder, error, style, inputProps }: InputProps) {
     return (
-        <Box style={style}>
+        <Box style={style} padding="5px">
             {label && <Text margin="10px 0">{label}</Text>}
             <InputGroup size="md">
                 {error && (

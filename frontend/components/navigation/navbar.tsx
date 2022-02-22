@@ -1,24 +1,10 @@
-import {
-    Box,
-    Flex,
-    Avatar,
-    HStack,
-    Heading,
-    IconButton,
-    Button,
-    Menu,
-    MenuButton,
-    MenuList,
-    MenuItem,
-    MenuDivider,
-    useDisclosure,
-    Stack,
-} from "@chakra-ui/react";
+import { Box, Flex, HStack, IconButton, Menu, useDisclosure, Stack } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import NavLink from "@frontend/components/navigation/navlink";
 import { useSession } from "next-auth/react";
 import Logo from "@frontend/components/navigation/logo";
 import { links, link } from "@frontend/components/navigation/navbar-structure";
+import LoginLogoutButton from "@frontend/components/login-logout-button";
 
 export default function Navbar() {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -27,7 +13,7 @@ export default function Navbar() {
 
     return (
         <>
-            <Box as="header" px={4}>
+            <Box as="header" px={4} backgroundColor="white">
                 <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
                     <Flex alignItems={"center"} width={"100%"} justifyContent={"space-between"}>
                         <Menu>
@@ -52,6 +38,7 @@ export default function Navbar() {
                                             )
                                         );
                                     })}
+                                    <LoginLogoutButton />
                                 </HStack>
                             </HStack>
                         </Menu>
@@ -79,6 +66,7 @@ export default function Navbar() {
                                     )
                                 );
                             })}
+                            <LoginLogoutButton />
                         </Stack>
                     </Box>
                 ) : null}

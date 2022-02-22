@@ -25,6 +25,8 @@ const indexRouter = require("./routes/index").router;
 const usersRouter = require("./routes/users").router;
 const doctorsRouter = require("./routes/doctors").router;
 const adminsRouter = require("./routes/admins").router;
+const statusRouter = require("./routes/status").router;
+const patientsRouter = require("./routes/patients").router;
 const immigrationOfficerRouter = require("./routes/immigration-officer").router;
 
 
@@ -37,6 +39,8 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/doctors", doctorsRouter);
 app.use("/admins", adminsRouter);
+app.use("/status", statusRouter);
+app.use("/patients", patientsRouter);
 app.use("/immigration-officer", immigrationOfficerRouter);
 
 

@@ -35,7 +35,8 @@ export function filterByText({ searchText, arr }: { searchText: string; arr: Pat
             arr[i].phoneNumber?.toLowerCase().includes(lowerCaseSearchtext) ||
             arr[i].address?.toLowerCase().includes(lowerCaseSearchtext) ||
             arr[i].postalCode?.toLowerCase().includes(lowerCaseSearchtext) ||
-            arr[i].city?.toLowerCase().includes(lowerCaseSearchtext)
+            arr[i].city?.toLowerCase().includes(lowerCaseSearchtext) || 
+            (arr[i].firstName + " " + arr[i].lastName).toLowerCase().includes(lowerCaseSearchtext)
         ) {
             filteredArr.push(arr[i]);
         }

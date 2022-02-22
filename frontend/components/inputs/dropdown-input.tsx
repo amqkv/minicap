@@ -1,17 +1,15 @@
-import { Text, Select } from "@chakra-ui/react";
+import { Text, Select, Box } from "@chakra-ui/react";
 import { InputProps } from "@frontend/components/inputs/types/input";
 
-export default function DropdownInput({ name, label, placeholder, options }: InputProps) {
+export default function DropdownInput({ label, placeholder, options, style }: InputProps) {
     return (
-        <>
-            <Text margin="10px 0">{label}</Text>
+        <Box style={style} padding="5px">
+            <Text margin='10px 0'>{label}</Text>
             <Select marginBottom={"10px"} placeholder={placeholder} size={"md"}>
-                {options?.map(option => (
-                    <option key={option} value={option}>
-                        {option}
-                    </option>
+                {options?.map((option) => (
+                    <option key={option} value={option as any}>{option}</option>
                 ))}
             </Select>
-        </>
+        </Box>
     );
 }

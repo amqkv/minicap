@@ -1,7 +1,7 @@
 import { useSession } from "next-auth/react";
 import { mount, shallow } from "enzyme";
 import { USER_ROLES } from "@frontend/utils/constants";
-import { immigrationofficerMockPatients } from "@frontend/__tests__/__mock__/mock";
+import { IMMIGRATION_OFFICER_MOCK_PATIENTS } from "@frontend/__tests__/__mock__/mock";
 import UserList, { filterByText } from "@frontend/pages/immigration-officer/find-users";
 import Circle from "@frontend/components/circle";
 import List from "@frontend/components/admin/list";
@@ -20,7 +20,7 @@ describe("immigration officer find users page", () => {
                 },
             },
         });
-        const wrapper = shallow(<UserList patients={immigrationofficerMockPatients} />);
+        const wrapper = shallow(<UserList patients={IMMIGRATION_OFFICER_MOCK_PATIENTS} />);
 
         expect(wrapper.find("p")).toHaveLength(1);
     });
@@ -32,7 +32,7 @@ describe("immigration officer find users page", () => {
                 },
             },
         });
-        const wrapper = shallow(<UserList patients={immigrationofficerMockPatients} />);
+        const wrapper = shallow(<UserList patients={IMMIGRATION_OFFICER_MOCK_PATIENTS} />);
 
         expect(wrapper.find(Input)).toHaveLength(1);
         expect(wrapper.find(List)).toHaveLength(1);
@@ -45,8 +45,8 @@ describe("immigration officer find users page", () => {
 
 describe("filter function", () => {
     it("filters properly", () => {
-        expect(filterByText({ searchText: "bing bong", arr: immigrationofficerMockPatients })).toStrictEqual([
-            immigrationofficerMockPatients[0],
+        expect(filterByText({ searchText: "bing bong", arr: IMMIGRATION_OFFICER_MOCK_PATIENTS })).toStrictEqual([
+            IMMIGRATION_OFFICER_MOCK_PATIENTS[0],
         ]);
     });
 });

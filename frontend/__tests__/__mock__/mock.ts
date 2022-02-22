@@ -1,4 +1,34 @@
-export const immigrationofficerMockPatients = [
+import { RequiredDetails } from "@frontend/models/patient";
+
+export const DEFAULT_REQUIRED_DETAILS = {
+    Weight: true,
+    Symptoms: true,
+    Temperature: true,
+};
+
+export const DEFAULT_PAST_CONDITIONS = [
+    {
+        Temperature: 35,
+        StatusTime: "2022-02-01",
+        Weight: 91,
+        Symptoms: "Cough",
+    },
+    {
+        Temperature: 36,
+        StatusTime: "2022-02-07",
+        Weight: 90,
+        Symptoms: "Sore throat",
+    },
+    {
+        Temperature: 39,
+        StatusTime: "2022-02-15",
+        Weight: 85,
+        Symptoms: "Help me",
+    },
+];
+
+
+export const IMMIGRATION_OFFICER_MOCK_PATIENTS = [
     {
         firstName: "Bing Bong",
         lastName: "Big",
@@ -30,3 +60,10 @@ export const immigrationofficerMockPatients = [
         height: 12,
     },
 ];
+
+
+export const REQUIRED_DETAILS: RequiredDetails = {
+    weight: true,
+    temperature: false,
+    symptoms: true,
+};
