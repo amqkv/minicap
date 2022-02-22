@@ -1,6 +1,6 @@
 import { shallow } from "enzyme";
 import PatientDetailsToProvideForm from "@frontend/components/forms/patient-details-to-provide-form";
-import { REQUIRED_DETAILS } from "@frontend/utils/test-constants";
+import { REQUIRED_DETAILS } from "@frontend/__tests__/__mock__/mock";
 import { Box, Flex, Button, Stack, CheckboxGroup, Checkbox } from "@chakra-ui/react";
 
 const unmockedFetch = global.fetch;
