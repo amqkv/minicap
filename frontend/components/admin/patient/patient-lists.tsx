@@ -11,13 +11,13 @@ interface AppProps {
 }
 
 const PatientLists = ({ sessionId }: AppProps) => {
-    // Array with the roles to be used as keys
-
-    const { patientInfo, unassignedPatientInfo, isError, isLoading } = usePatientDoctorData();
+    //Hook for patient info
+    const { patientInfo: assignedPatientInfo, unassignedPatientInfo, isError, isLoading } = usePatientDoctorData();
 
     const { isOpen, onOpen, onClose } = useDisclosure(); // Hook to deal with the modal visibility
 
-    const doctorList = patientInfo?.map(item => {
+    //Constant to pass to modal for the list of doctors to assign to
+    const doctorList = assignedPatientInfo?.map(item => {
         return {
             doctorId: item.doctorId,
             lastName: item.lastName,
@@ -60,8 +60,8 @@ const PatientLists = ({ sessionId }: AppProps) => {
                                 backgroundColor: `#7A7777`,
                             },
                         }}>
-                        {/* User List created for each role */}
-
+                        {/* Patient List created for each doctor */}
+                        {/* First one at the top being the unassigned patients */}
                         <PatientList
                             style={{
                                 py: 2,
@@ -80,7 +80,7 @@ const PatientLists = ({ sessionId }: AppProps) => {
                             ))}
                         </PatientList>
 
-                        {patientInfo.map(doctor => {
+                        {assignedPatientInfo.map(doctor => {
                             return (
                                 <PatientList
                                     style={{

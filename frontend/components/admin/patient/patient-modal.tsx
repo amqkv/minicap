@@ -35,6 +35,7 @@ const PatientModal = ({ patientInfo, doctorList, isOpen, onClose, sessionId }: a
     const [selectedDoctor, setSelectedDoctor] = useState(patientInfo.doctorId);
 
     const doctorSelectHandler = (event: string) => {
+        //Cast to number otherwise RadioGroup doesn't update visually
         setSelectedDoctor(Number(event));
     };
 
@@ -50,8 +51,8 @@ const PatientModal = ({ patientInfo, doctorList, isOpen, onClose, sessionId }: a
                 doctor_doctorId: selectedDoctor,
             }),
         });
-        // Call for other fetches with SWR to revalidate the data using this route
         onClose();
+        // Call for other fetches with SWR to revalidate the data using this route
         mutate("/api/admin/patient-doctor");
     };
     return (
@@ -72,7 +73,7 @@ const PatientModal = ({ patientInfo, doctorList, isOpen, onClose, sessionId }: a
                         {" "}
                         Assign this patient to:
                     </Box>
-
+                    {/* Passing value as a number, If passed as a string the ui doesn't update on click */}
                     <RadioGroup name="Doctor" my={2} value={selectedDoctor} onChange={doctorSelectHandler}>
                         <Stack direction={"column"} spacing={5} className={classes.roleFont} alignItems="baseline">
                             <Radio key={"0"} value={-1}>

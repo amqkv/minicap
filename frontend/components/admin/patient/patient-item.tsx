@@ -13,12 +13,7 @@ const PatientItem = ({ onPatientSelect, patientInfoSimple }: AppProps) => {
     const onClickHandler = () => {
         onPatientSelect(patientInfoSimple);
     };
-    // default
-    const content = (
-        <p className={classes.rowFont}>
-            {patientInfoSimple.lastName}, {patientInfoSimple.firstName}
-        </p>
-    );
+
     return (
         <ListItem paddingEnd={4} py={2}>
             <Box
@@ -29,7 +24,9 @@ const PatientItem = ({ onPatientSelect, patientInfoSimple }: AppProps) => {
                 py={3}
                 display={{ md: "flex" }}
                 onClick={onClickHandler}>
-                {content}
+                <p className={classes.rowFont}>
+                    {patientInfoSimple.lastName}, {patientInfoSimple.firstName}
+                </p>
             </Box>
         </ListItem>
     );
