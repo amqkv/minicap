@@ -8,6 +8,7 @@ import usePatientDoctorData from "@frontend/hooks/use-patient-doctor-data";
 import PatientModal from "@frontend/components/admin/patient/patient-modal";
 import { shallow } from "enzyme";
 import { Box, RadioGroup, Spinner } from "@chakra-ui/react";
+import { PATIENT_INFO_SIMPLE, UNASSIGNED_PATIENT_INFO_SIMPLE } from "@frontend/__tests__/__mock__/mock";
 
 jest.mock("next-auth/react");
 jest.mock("@frontend/hooks/use-patient-doctor-data");
@@ -53,39 +54,8 @@ describe("Test rendering of patient lists", () => {
     it("renders the patients of a list", () => {
         //Given
         usePatientDoctorData.mockReturnValue({
-            patientInfo: [
-                {
-                    accountId: 100,
-                    firstName: "Dra",
-                    lastName: "LastDoctor",
-                    doctorId: 1,
-                    patients: [
-                        {
-                            accountId: 1,
-                            patientId: 1,
-                            firstName: "Name",
-                            lastName: "Last",
-                            doctorId: 1,
-                        },
-                        {
-                            accountId: 2,
-                            patientId: 2,
-                            firstName: "Name2",
-                            lastName: "Last2",
-                            doctorId: 1,
-                        },
-                    ],
-                },
-            ],
-            unassignedPatientInfo: [
-                {
-                    accountId: 13,
-                    patientId: 3,
-                    firstName: "FirstUn",
-                    lastName: "LastUn",
-                    doctorId: -1,
-                },
-            ],
+            patientInfo: PATIENT_INFO_SIMPLE,
+            unassignedPatientInfo: UNASSIGNED_PATIENT_INFO_SIMPLE,
             isLoading: false,
             isError: false,
         });
@@ -133,39 +103,8 @@ describe("simple test to see if modal opens", () => {
     it("clicks it", () => {
         //Given
         usePatientDoctorData.mockReturnValue({
-            patientInfo: [
-                {
-                    accountId: 100,
-                    firstName: "Dra",
-                    lastName: "LastDoctor",
-                    doctorId: 1,
-                    patients: [
-                        {
-                            accountId: 1,
-                            patientId: 1,
-                            firstName: "Name",
-                            lastName: "Last",
-                            doctorId: 1,
-                        },
-                        {
-                            accountId: 2,
-                            patientId: 2,
-                            firstName: "Name2",
-                            lastName: "Last2",
-                            doctorId: 1,
-                        },
-                    ],
-                },
-            ],
-            unassignedPatientInfo: [
-                {
-                    accountId: 13,
-                    patientId: 3,
-                    firstName: "FirstUn",
-                    lastName: "LastUn",
-                    doctorId: -1,
-                },
-            ],
+            patientInfo: PATIENT_INFO_SIMPLE,
+            unassignedPatientInfo: UNASSIGNED_PATIENT_INFO_SIMPLE,
             isLoading: false,
             isError: false,
         });

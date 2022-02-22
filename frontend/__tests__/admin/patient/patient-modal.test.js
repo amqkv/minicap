@@ -1,6 +1,7 @@
 import { mutate } from "swr";
 import { shallow } from "enzyme";
 import PatientModal from "@frontend/components/admin/patient/patient-modal";
+import { DOCTOR_LIST_SIMPLE, SINGLE_PATIENT_INFO_SIMPLE } from "@frontend/__tests__/__mock__/mock";
 
 global.fetch = jest.fn(() =>
     Promise.resolve({
@@ -20,26 +21,13 @@ let onClose = jest.fn();
 describe("patient modal component test", () => {
     it("renders the patient modal", () => {
         //Given
-        const dummyUser = {
-            accountId: null,
-            patientId: null,
-            firstName: "firstName",
-            lastName: "lastName",
-            doctorId: null,
-        };
+        const dummyPatient = SINGLE_PATIENT_INFO_SIMPLE;
 
-        const dummyDoctor = [
-            {
-                firstName: "Dra",
-                lastName: "LastDoctor",
-                doctorId: 1,
-            },
-            { firstName: "Doc", lastName: "LastDoctor2", doctorId: 2 },
-        ];
+        const dummyDoctor = DOCTOR_LIST_SIMPLE;
         //When
-        let wrapper = shallow(<PatientModal isOpen={true} patientInfo={dummyUser} doctorList={dummyDoctor} />);
+        let wrapper = shallow(<PatientModal isOpen={true} patientInfo={dummyPatient} doctorList={dummyDoctor} />);
         //Then
-        expect(wrapper.find("#patient-name").text()).toEqual(`${dummyUser.lastName}, ${dummyUser.firstName}`);
+        expect(wrapper.find("#patient-name").text()).toEqual(`${dummyPatient.lastName}, ${dummyPatient.firstName}`);
         expect(wrapper.find("Radio")).toHaveLength(dummyDoctor.length + 1);
     });
     it("Checks if onChange changes state", () => {
@@ -70,25 +58,12 @@ describe("patient modal component test", () => {
     });
     it("Check apply button for functionality", async () => {
         //Given
-        const dummyUser = {
-            accountId: null,
-            patientId: null,
-            firstName: "firstName",
-            lastName: "lastName",
-            doctorId: 1,
-        };
+        const dummyPatient = SINGLE_PATIENT_INFO_SIMPLE;
 
-        const dummyDoctor = [
-            {
-                firstName: "Dra",
-                lastName: "LastDoctor",
-                doctorId: 1,
-            },
-            { firstName: "Doc", lastName: "LastDoctor2", doctorId: 2 },
-        ];
+        const dummyDoctor = DOCTOR_LIST_SIMPLE;
         //When
         let wrapper = shallow(
-            <PatientModal isOpen={true} patientInfo={dummyUser} onClose={onClose} doctorList={dummyDoctor} />
+            <PatientModal isOpen={true} patientInfo={dummyPatient} onClose={onClose} doctorList={dummyDoctor} />
         );
         wrapper.find("#done-button").props().onClick();
         await Promise.resolve();
