@@ -67,14 +67,14 @@ const PatientModal = ({ patientInfo, doctorList, isOpen, onClose, sessionId }: a
                         {patientInfo.lastName}, {patientInfo.firstName}
                     </p>
                 </ModalHeader>
-                <ModalBody pt={0}>
+                <ModalBody pt={0} alignSelf="baseline">
                     <Box my={1} className={classes.selectionFont}>
                         {" "}
                         Assign this patient to:
                     </Box>
 
                     <RadioGroup name="Doctor" my={2} value={selectedDoctor} onChange={doctorSelectHandler}>
-                        <Stack direction={"column"} spacing={5} className={classes.roleFont}>
+                        <Stack direction={"column"} spacing={5} className={classes.roleFont} alignItems="baseline">
                             <Radio key={"0"} value={-1}>
                                 Unassigned
                             </Radio>
