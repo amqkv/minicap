@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import UserListPage from "@frontend/pages/admin/user-list";
 import UserLists from "@frontend/components/admin/user-lists";
 import { USER_ROLES } from "@frontend/utils/constants";
-import { Box, Spinner, Modal, RadioGroup } from "@chakra-ui/react";
+import { Box, Spinner } from "@chakra-ui/react";
 import { shallow } from "enzyme";
 import useRole from "@frontend/hooks/use-role";
 import UserRowCard from "@frontend/components/admin/user-row-card";
@@ -12,7 +12,7 @@ import UserModal from "@frontend/components/admin/user-modal";
 jest.mock("next-auth/react");
 jest.mock("@frontend/hooks/use-role");
 
-describe("test the user-list page access", () => {
+describe("Test the user-list page access", () => {
     it("NON-ADMIN session", () => {
         //Given
         useSession.mockReturnValue({

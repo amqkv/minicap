@@ -14,7 +14,11 @@ const List = ({ title, length, style, children }: AppProps) => {
     return (
         <GridItem>
             <Box>
-                {title && <h2 className={classes.titleFont}>{titleText}</h2>}
+                {title && (
+                    <h2 id="list-title" className={classes.titleFont}>
+                        {titleText}
+                    </h2>
+                )}
                 <ChakraList
                     {...style}
                     sx={{

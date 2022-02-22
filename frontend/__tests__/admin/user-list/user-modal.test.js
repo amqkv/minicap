@@ -20,7 +20,7 @@ jest.mock("swr", () => {
 
 const onClose = jest.fn();
 
-describe("user modal component test", () => {
+describe("User modal component test", () => {
     it("renders the user modal", () => {
         //Given
         const dummyUser = DEFAULT_USER_SIMPLE;
