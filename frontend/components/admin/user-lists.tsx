@@ -3,7 +3,7 @@ import { Fragment, useState } from "react";
 import UserList from "./list";
 import UserInfoSimple from "@frontend/models/user-info-simple";
 import UserModal from "./user-modal";
-import useRole from "@frontend/hooks/user-role";
+import useRole from "@frontend/hooks/use-role";
 import UserRowCard from "./user-row-card";
 
 interface appProps {
@@ -22,12 +22,6 @@ const UserLists = ({ sessionId }: appProps) => {
         Role: "",
     });
 
-    // Array with the roles to be used as keys
-    let keys: string[] = [];
-    if (!!userRoles) {
-        keys = Object.keys(userRoles);
-    }
-
     //Function to be passed to bubble up the user selected  and open a modal with their info
     const userSelectedHandler = (user: UserInfoSimple) => {
         setUserSelected(user);
@@ -37,7 +31,7 @@ const UserLists = ({ sessionId }: appProps) => {
     return (
         <Fragment>
             {isLoading && <Spinner />}
-            {isError && <p> There is an error </p>}
+            {isError && <p id="error-message"> There is an error </p>}
 
             {!!userRoles && (
                 <Box px={{ base: 0, sm: 1, md: 4, lg: 1 }} py={20}>
@@ -59,7 +53,7 @@ const UserLists = ({ sessionId }: appProps) => {
                             },
                         }}>
                         {/* User List created for each role */}
-                        {keys.map(key => {
+                        {Object.keys(userRoles).map(key => {
                             return (
                                 <UserList
                                     style={{

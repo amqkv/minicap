@@ -117,3 +117,10 @@ export const REQUIRED_DETAILS: RequiredDetails = {
     temperature: false,
     symptoms: true,
 };
+
+export const DEFAULT_USER_SIMPLE = {
+    AccountId: null,
+    FirstName: "firstName",
+    LastName: "lastName",
+    Role: "Patient",
+};
