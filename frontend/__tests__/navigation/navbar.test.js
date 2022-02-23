@@ -19,7 +19,7 @@ describe("<Navbar />", () => {
 
   });
 
-  it("renders a <Logo /> component and a 3 <NavLink> when the user is an admin", () => {
+  it("renders a <Logo /> component and a 4 <NavLink> when the user is an admin", () => {
     useSession.mockReturnValue({
       data: {
         user: {
@@ -31,7 +31,11 @@ describe("<Navbar />", () => {
 
     const wrapper = shallow(<NavBar />);
     expect(wrapper.find(Logo)).toHaveLength(1);
+<<<<<<< HEAD
     expect(wrapper.find(NavLink)).toHaveLength(3);
+=======
+    expect(wrapper.find(NavLink)).toHaveLength(4);
+>>>>>>> c65fa0f872c71a6aaa2912ef1af3958013725d8c
     expect(wrapper.find(LoginLogoutButton)).toHaveLength(1);
 
   });
