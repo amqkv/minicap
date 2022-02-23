@@ -3,6 +3,11 @@ import { shallow } from "enzyme";
 import PatientModal from "@frontend/components/admin/patient/patient-modal";
 import { DOCTOR_LIST_SIMPLE, SINGLE_PATIENT_INFO_SIMPLE } from "@frontend/__tests__/__mock__/mock";
 
+global.fetch = jest.fn(() =>
+    Promise.resolve({
+        json: () => Promise.resolve("Something"),
+    })
+);
 jest.mock("swr", () => {
     const originalModule = jest.requireActual("swr");
     return {
