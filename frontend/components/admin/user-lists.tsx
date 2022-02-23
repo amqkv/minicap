@@ -7,7 +7,7 @@ import useRole from "@frontend/hooks/user-role";
 import UserRowCard from "./user-row-card";
 
 interface appProps {
-    sessionId: Number;
+    sessionId: number;
 }
 
 const UserLists = ({ sessionId }: appProps) => {
