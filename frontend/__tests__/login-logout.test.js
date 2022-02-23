@@ -1,6 +1,6 @@
 import { shallow } from "enzyme";
 import LoginLogoutButton from "@frontend/components/login-logout-button";
-import { useSession } from "next-auth/react";
+import { useSession, signIn, signOut } from "next-auth/react";
 import { Button } from "@chakra-ui/react";
 
 jest.mock("next-auth/react");
@@ -22,5 +22,20 @@ describe("", () => {
 
         const wrapper = shallow(<LoginLogoutButton />);
         expect(wrapper.find(Button).text()).toBe("Sign Out");
+    });
+
+    it("Checks the onClick functions", () =>{
+        useSession.mockReturnValue({
+            data: {
+                user: {},
+            }
+        });
+        const signOutButton = shallow(<LoginLogoutButton />);
+        signOutButton.props().onClick();
+        expect(signOut).toBeCalledTimes(1);
+        useSession.mockReturnValue({});
+        const signInButton = shallow(<LoginLogoutButton />);
+        signInButton.props().onClick();
+        expect(signIn).toBeCalledTimes(1);
     });
 });
