@@ -17,8 +17,7 @@
         "baseUrl": ".",
         "paths": {
             "@frontend/*": ["./*"]
-        },
-        "types": ["jest"]
+        }
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/api/auth/[...nextauth].js", "__tests__/**/*.js"],
     "exclude": ["node_modules"]

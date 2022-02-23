@@ -6,13 +6,6 @@ export const DEFAULT_REQUIRED_DETAILS = {
     Temperature: true,
 };
 
-export const DEFAULT_USER_SIMPLE = {
-    AccountId: null,
-    FirstName: "firstName",
-    LastName: "lastName",
-    Role: "Patient",
-};
-
 export const DEFAULT_PAST_CONDITIONS = [
     {
         Temperature: 35,
@@ -71,4 +64,11 @@ export const REQUIRED_DETAILS: RequiredDetails = {
     weight: true,
     temperature: false,
     symptoms: true,
+};
+
+export const DEFAULT_USER_SIMPLE = {
+    AccountId: null,
+    FirstName: "firstName",
+    LastName: "lastName",
+    Role: "Patient",
 };

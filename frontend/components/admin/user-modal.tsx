@@ -68,7 +68,7 @@ const UserModal = ({ userInfo, isOpen, onClose, sessionId }: appProps) => {
                     <Flex align="right" justify="right">
                         <CloseButton size="md" onClick={onClose} />
                     </Flex>
-                    <p id="user-name" className={classes.modalHeader}>
+                    <p className={classes.modalHeader} id="user-name">
                         {userInfo.LastName}, {userInfo.FirstName}
                     </p>
                 </ModalHeader>
