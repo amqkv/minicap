@@ -27,10 +27,6 @@ export const DEFAULT_PAST_CONDITIONS = [
     },
 ];
 
-<<<<<<< HEAD
-
-=======
->>>>>>> c65fa0f872c71a6aaa2912ef1af3958013725d8c
 export const IMMIGRATION_OFFICER_MOCK_PATIENTS = [
     {
         firstName: "Bing Bong",
@@ -64,8 +60,6 @@ export const IMMIGRATION_OFFICER_MOCK_PATIENTS = [
     },
 ];
 
-<<<<<<< HEAD
-=======
 export const SINGLE_PATIENT_INFO_SIMPLE = {
     accountId: null,
     patientId: null,
@@ -117,7 +111,6 @@ export const UNASSIGNED_PATIENT_INFO_SIMPLE = [
         doctorId: -1,
     },
 ];
->>>>>>> c65fa0f872c71a6aaa2912ef1af3958013725d8c
 
 export const REQUIRED_DETAILS: RequiredDetails = {
     weight: true,
