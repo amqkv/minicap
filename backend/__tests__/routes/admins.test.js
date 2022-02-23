@@ -163,23 +163,33 @@ describe("Confirm User Account", () => {
 });
 
 describe("GET: Get Doctors with their associated Patients and Unassigned Patients", () => {
-    it("Retrieve the data successfully", () =>
-        request(app)
-            .get("/admins/get-patients-doctors")
+    it("Retrieve the data successfully", async () => {
+        const data = await request(app)
+            .get("/admins/patients-doctors/")
             .expect("Content-Type", /json/)
             .expect(200)
-            .then(response => {
-                expect(response.body).toEqual(
-                    expect.arrayContaining([
-                        expect.objectContaining({
-                            AccountId: expect.any(Number),
-                            FirstName: expect.any(String),
-                            LastName: expect.any(String),
-                            Email: expect.any(String),
-                            PhoneNumber: expect.any(String),
-                            DoctorId: expect.any(Number),
-                        }),
-                    ])
-                );
-            }));
+            .then(response => response.body);
+        expect(data).toEqual(
+            expect.objectContaining({
+                assigned: expect.arrayContaining([
+                    expect.objectContaining({
+                        accountId: expect.any(Number),
+                        firstName: expect.any(String),
+                        lastName: expect.any(String),
+                        doctorId: expect.any(Number),
+                        patients: expect.any(Array),
+                    }),
+                ]),
+                unassigned: expect.arrayContaining([
+                    expect.objectContaining({
+                        accountId: expect.any(Number),
+                        firstName: expect.any(String),
+                        lastName: expect.any(String),
+                        patientId: expect.any(Number),
+                        doctorId: null,
+                    }),
+                ]),
+            })
+        );
+    });
 });

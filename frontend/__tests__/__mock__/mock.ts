@@ -60,6 +60,58 @@ export const IMMIGRATION_OFFICER_MOCK_PATIENTS = [
     },
 ];
 
+export const SINGLE_PATIENT_INFO_SIMPLE = {
+    accountId: null,
+    patientId: null,
+    firstName: "firstName",
+    lastName: "lastName",
+    doctorId: null,
+};
+
+export const DOCTOR_LIST_SIMPLE = [
+    {
+        firstName: "Dra",
+        lastName: "LastDoctor",
+        doctorId: 1,
+    },
+    { firstName: "Doc", lastName: "LastDoctor2", doctorId: 2 },
+];
+
+export const PATIENT_INFO_SIMPLE = [
+    {
+        accountId: 100,
+        firstName: "Dra",
+        lastName: "LastDoctor",
+        doctorId: 1,
+        patients: [
+            {
+                accountId: 1,
+                patientId: 1,
+                firstName: "Name",
+                lastName: "Last",
+                doctorId: 1,
+            },
+            {
+                accountId: 2,
+                patientId: 2,
+                firstName: "Name2",
+                lastName: "Last2",
+                doctorId: 1,
+            },
+        ],
+    },
+];
+
+export const UNASSIGNED_PATIENT_INFO_SIMPLE = [
+    {
+        accountId: 13,
+        patientId: 3,
+        firstName: "FirstUn",
+        lastName: "LastUn",
+        doctorId: -1,
+    },
+];
+
 export const REQUIRED_DETAILS: RequiredDetails = {
     weight: true,
     temperature: false,
