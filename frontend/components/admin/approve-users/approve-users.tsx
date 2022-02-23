@@ -5,16 +5,20 @@ import UserInfoSimple from "@frontend/models/user-info-simple";
 import unconfirmedUsersList from "@frontend/hooks/unconfirmed-users-list";
 import ApproveUsersRowCard from "@frontend/components/admin/approve-users/approve-users-row-card";
 
-export function getPendingUsers(){
-    const data = unconfirmedUsersList();
-    return data;
-}
+export default function ApproveUsers (sessionId: Number)  {
+    // data hook to fetch users list
+    const {users, isLoading, isError} = unconfirmedUsersList();
 
-export function ApproveUsers (users: any, isLoading: boolean, isError: any, sessionId: Number)  {
+    if(isError) {
+        return (
+            <Fragment>
+                <p> There is an error </p>
+            </Fragment>
+        )
+    }
     return (
         <Fragment>
             {isLoading && <Spinner />}
-            {isError && <p> There is an error </p>}
             {!!users && (
                 <Box>
                     <Container>

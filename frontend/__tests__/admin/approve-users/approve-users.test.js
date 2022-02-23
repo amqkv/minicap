@@ -1,24 +1,23 @@
 import { shallow } from "enzyme";
 import { Button, Spinner, ListItem } from "@chakra-ui/react";
-import { useSession } from "next-auth/react";
-import ApproveUsersRowCard from "@frontend/components/admin/approve-users/approve-users-row-card";
 import UserRowCard from "@frontend/components/admin/user-row-card";
-import { USER_ROLES } from "@frontend/utils/constants";
-import ApproveUserPage from "@frontend/pages/admin/approve-users";
-import {ApproveUsers, getPendingUsers} from "@frontend/components/admin/approve-users/approve-users";
-import React from "react";
 
-jest.mock("next-auth/react");
+import { DEFAULT_USER_SIMPLE } from "@frontend/__tests__/__mock__/mock";
 
-describe("test rendering of approve user page", () => {
-    it("Loads the User Card component [Approval Version]", () =>{
-        const dummyUser = {
-            AccountId: 1,
-            FirstName: "firstName",
-            LastName: "lastName",
-            Role: 'Tester'
-        };
-        let wrapper = shallow(<ApproveUsersRowCard userInfoSimple={dummyUser}/>);
+import ApproveUsers from "@frontend/components/admin/approve-users/approve-users";
+import ApproveUsersRowCard from "@frontend/components/admin/approve-users/approve-users-row-card";
+import unconfirmedUsersList from "@frontend/hooks/unconfirmed-users-list";
+
+jest.mock("@frontend/hooks/unconfirmed-users-list");
+
+describe("Test rendering of different element on approve user page", () => {
+    const dummyUsers = {
+        Users: [
+            DEFAULT_USER_SIMPLE
+        ],
+    };
+    it("Test the User Card component [Approval Version]", () => {
+        let wrapper = shallow(<ApproveUsersRowCard userInfoSimple={dummyUsers.Users[0]} />);
 
         expect(wrapper.find(UserRowCard)).toHaveLength(1);
 
@@ -27,42 +26,29 @@ describe("test rendering of approve user page", () => {
         expect(child.find(Button)).toHaveLength(1);
         expect(child.find(ListItem)).toHaveLength(1);
     });
-    it("Loads the Users List", () =>{
-      const dummyUsers = {Users: [{
-        AccountId: 1,
-        FirstName: "firstName",
-        LastName: "lastName",
-        Role: 'Tester'
-    }]};
-      let component = ApproveUsers(dummyUsers, false, null, 17);
-      expect(component).toBeDefined();
-      expect(component).toMatchObject(<React.Fragment></React.Fragment>);
-    });
-    
-});
-describe("Test the page access permission", () =>{
-    it("ADMIN session", () =>{
-        useSession.mockReturnValue({
-            data: {
-              user: {
-                Role: USER_ROLES.admin,
-              },
-            },
-          });
-          const page = shallow(<ApproveUserPage/>);
-          expect(page.find(Spinner)).toHaveLength(1);
+    it("Test Approve Users List Component", () => {
+        unconfirmedUsersList.mockReturnValue({
+            users: dummyUsers,
+            isLoading: false,
+            isError: false,
+        });
+        const componentNormal = shallow(<ApproveUsers />);
+        expect(componentNormal.find(ApproveUsersRowCard)).toHaveLength(1);
 
-    });
-    it("NON-ADMIN session", () =>{
-        useSession.mockReturnValue({
-            data: {
-              user: {
-                Role: USER_ROLES.user,
-              },
-            },
-          });
-          const page = shallow(<ApproveUserPage/>);
-          expect(page.contains(<div className={"error-message"}><p>Access Denied</p></div>)).toEqual(true);
-    });
+        unconfirmedUsersList.mockReturnValue({
+            users: dummyUsers,
+            isLoading: true,
+            isError: false,
+        });
+        const componentLoading = shallow(<ApproveUsers />);
+        expect(componentLoading.contains(<Spinner />)).toBeTruthy();
 
+        unconfirmedUsersList.mockReturnValue({
+            users: {},
+            isLoading: false,
+            isError: true,
+        });
+        const componentError = shallow(<ApproveUsers />);
+        expect(componentError.contains(<p> There is an error </p>)).toBeTruthy();
+    });
 });
