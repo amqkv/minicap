@@ -63,10 +63,7 @@ describe("<Navbar />", () => {
 		// Icon renders
 		expect(wrapper.find(IconButton)).toHaveLength(1);
 		expect(wrapper.find(Stack)).toHaveLength(0);
-		console.log(wrapper.debug());
-		
 		wrapper.find(IconButton).props().onClick();
-		console.log(wrapper.debug());
 		expect(wrapper.find(Stack)).toHaveLength(1);
 		expect(wrapper.find(NavLink)).toHaveLength(numberOfDoctorNavLinks * 2);
     });
