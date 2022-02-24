@@ -180,3 +180,9 @@ describe("GET: pending users list", () => {
         );
     });
 });
+
+describe("Test homepage route ", () => {
+    it("connect to /", () => {
+        return request(app).get("/").send().expect(200); 
+    });
+});
