@@ -161,3 +161,28 @@ describe("Get: Get users with their respective role", () => {
         );
     });
 });
+
+describe("GET: pending users list", () => {
+    it("Get the list of unconfirmed users successfully.", async () => {
+        const data = await request(app).get("/users/pending").expect("Content-type", /json/).expect(200).then(response => response.body);
+        expect(data).toEqual(
+            expect.objectContaining({
+                Users: expect.arrayContaining([
+                    expect.objectContaining({
+                        AccountId: expect.any(Number),
+                        FirstName: expect.any(String),
+                        LastName: expect.any(String),
+                        Role: expect.any(String),
+                        ConfirmedFlag: expect.any(Boolean)
+                    }),
+                ]),
+            })
+        );
+    });
+});
+
+describe("Test homepage route ", () => {
+    it("connect to /", () => {
+        return request(app).get("/").send().expect(200); 
+    });
+});

@@ -15,6 +15,9 @@ const TEST_CONSTANTS = {
     UNCONFIRMED_ACCOUNT: {
         AccountId: "1", // this is test@test.com
     },
+    PATIENT_ACCOUNT: {
+        AccountId: "51"
+    }
 };
 
 // sequelize doesnt like BOOLEAN which translates to an INTEGER in the request.

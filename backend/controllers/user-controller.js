@@ -29,6 +29,7 @@ const getPendingUsers = async (req, res) => {
     })
         .catch(err => {
             console.log("Get Pending Users List Error: ", err);
+            res.status(400).send("Error fetching pending users list!");
         });
 	res.json({ Users: pendingUsers });
 };

@@ -13,6 +13,22 @@ afterAll(() => {
     db.close();
 });
 
+describe("Test the test admin route ", () => {
+    it("user is admin", () => {
+        const data = {
+            accountId: TEST_CONSTANTS.TESTER_ADMIN.AccountId,
+        };
+        return request(app).get("/admins/").send(data).expect(200); 
+    });
+    it("user is NOT admin", () => {
+        const data = {
+            accountId: TEST_CONSTANTS.UNCONFIRMED_ACCOUNT.AccountId,
+        };
+        return request(app).get("/admins/").send(data).expect(401); 
+    });
+   
+});
+
 describe("PATCH: Assign a patient to a doctor", () => {
     it("Patient has been assigned to a doctor", () => {
         const data = {
