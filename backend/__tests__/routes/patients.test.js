@@ -16,7 +16,7 @@ afterAll(() => {
 describe("Test get Patient details route ", () => {
     it("connect to /getRequiredDetails/:AccountId with valid patient id", () => {
         const url = "/patients/getRequiredDetails/" + TEST_CONSTANTS.PATIENT_ACCOUNT.AccountId;
-        return request(app).get(url).send().expect(200); 
+        return request(app).get(url).expect(200).expect("Content-Type", /json/);
     });
     //@todo ERROR CATCHING IN THIS ROUTE
     it("connect to /getRequiredDetails/:AccountId with an invalid id", () => {

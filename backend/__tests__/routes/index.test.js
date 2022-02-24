@@ -14,6 +14,6 @@ afterAll(() => {
 
 describe("Test homepage route ", () => {
     it("connect to /", () => {
-        return request(app).get("/").send().expect(200); 
+        return request(app).get("/").expect(200); 
     });
 });
