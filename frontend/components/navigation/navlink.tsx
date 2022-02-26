@@ -7,9 +7,10 @@ interface NavLinkProps {
     children?: ReactNode;
     url: string;
     textDecoration?: boolean;
+    styleProps?: Object;
 }
 
-const NavLink = ({ children, url, textDecoration }: NavLinkProps) => {
+const NavLink = ({ children, url, textDecoration, styleProps }: NavLinkProps) => {
     const hoverStyling = {
         textDecoration: textDecoration ? "underline" : "none",
         textDecorationColor: MAIN_COLOR,
@@ -17,7 +18,7 @@ const NavLink = ({ children, url, textDecoration }: NavLinkProps) => {
 
     return (
         <NextLink href={url}>
-            <Link px={2} py={1} rounded={"md"} _hover={hoverStyling}>
+            <Link px={2} py={1} rounded={"md"} _hover={hoverStyling} {...styleProps}>
                 {children}
             </Link>
         </NextLink>
