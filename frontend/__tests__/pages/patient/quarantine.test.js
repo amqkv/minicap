@@ -1,6 +1,6 @@
 import { useSession } from "next-auth/react";
 import { shallow } from "enzyme";
-import { Text, Heading, Accordion, AccordionItem } from "@chakra-ui/react";
+import { Text, Heading, Accordion, AccordionItem, Box } from "@chakra-ui/react";
 import { USER_ROLES } from "@frontend/utils/constants";
 import NavLink from "@frontend/components/navigation/navlink";
 import Quarantine from "@frontend/pages/patient/quarantine";
@@ -51,5 +51,8 @@ describe("<Quarantine />", () => {
         expect(wrapper.find(AccordionItem)).toHaveLength(3);
         expect(wrapper.find(Heading)).toHaveLength(11);
         expect(wrapper.find(NavLink)).toHaveLength(24);
+        expect(wrapper.find(Box)).toHaveLength(64);
+        expect(wrapper.find("li")).toHaveLength(142);
+        expect(wrapper.find("ul")).toHaveLength(50);
     });
 });
