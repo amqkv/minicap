@@ -3,7 +3,22 @@ import PatientInfoModal from "@frontend/components/modal";
 import PatientInfoModalContent from "@frontend/components/doctor/patient-info-modal-content";
 import { serverURL } from "@frontend/config";
 import { DEFAULT_PATIENT, Patient } from "@frontend/models/patient";
-import { Box, Heading, SimpleGrid, useDisclosure, useToast } from "@chakra-ui/react";
+import {
+    Box,
+    Text,
+    Flex,
+    FormControl,
+    FormLabel,
+    Heading,
+    Radio,
+    RadioGroup,
+    Select,
+    SimpleGrid,
+    Stack,
+    Switch,
+    useDisclosure,
+    useToast,
+} from "@chakra-ui/react";
 import { getSession, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { USER_ROLES } from "@frontend/utils/constants";
@@ -32,7 +47,13 @@ export async function getServerSideProps(context: any) {
 
 export default function DoctorDashboard({ patientList }: { patientList: Patient[] }) {
     const [selectedPatient, setSelectedPatient] = useState<Patient>(DEFAULT_PATIENT);
+    const [filterOption, setFilterOption] = useState("none");
+
     const { onOpen, isOpen, onClose } = useDisclosure();
+    const highTemperaturePatientList = patientList.filter(patient => patient.status[0].temperature.value >= 38);
+    // <TODO> filter patient list according to flagged patients
+    const flaggedPatientList: Patient[] = [];
+    const [patientListToMap, setPatientListToMap] = useState(patientList);
     const { data: session } = useSession();
     const router = useRouter();
     const toast = useToast();
@@ -56,13 +77,42 @@ export default function DoctorDashboard({ patientList }: { patientList: Patient[
         onOpen();
     }
 
+    function filterPatients(value: string) {
+        console.log(value);
+        setFilterOption(value);
+        switch (value) {
+            case "temperature":
+                setPatientListToMap(highTemperaturePatientList);
+                break;
+            case "flag":
+                setPatientListToMap(flaggedPatientList);
+                break;
+            case "none":
+                setPatientListToMap(patientList);
+                break;
+        }
+    }
+
     return (
         <Box my={10}>
-            <Heading size="xl" m={10} my={8}>
+            <Heading size="xl" mx={10} mt={8}>
                 Patients
             </Heading>
+            <Box mx={10}>
+                <RadioGroup my={4} onChange={e => filterPatients(e)} value={filterOption} colorScheme={"red"}>
+                    <Stack direction="row">
+                        <Text>
+                            <b>Filter by:</b> &nbsp;
+                        </Text>
+                        <Radio value="none">None</Radio>
+                        <Radio value="temperature">High Temperature</Radio>
+                        <Radio value="flag">Flagged</Radio>
+                    </Stack>
+                </RadioGroup>
+            </Box>
+
             <SimpleGrid minChildWidth="400px" rowGap={5} columnGap={2}>
-                {patientList.map((patient: Patient) => (
+                {patientListToMap.map((patient: Patient) => (
                     <Box onClick={() => handleClick(patient)} key={`patient-${patient.patientId}`}>
                         <PatientInfoCard patient={patient} />
                     </Box>
