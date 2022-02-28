@@ -45,6 +45,8 @@ export default function PatientSymptomsDaily(props: PatientsFormsToFill) {
 
     if (session?.user.Role === USER_ROLES.patient && props.requiredDetails) {
         return <PatientFormToFill {...props} />;
+    } else if (session?.user.Role === USER_ROLES.patient){
+        return <p>No forms to fill come back later</p>
     }
     return <p>Access Denied</p>;
 }
