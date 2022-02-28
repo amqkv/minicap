@@ -4,13 +4,21 @@ import { CardProps } from "./types/card";
 
 export default function Card({ label, image, url }: CardProps) {
     return (
-        <Box boxShadow="dark-lg" p="6" rounded="md" bg="white" margin={"50px"} h={"250px"} w={"240px"}>
-            <Image src={image} />
-            <Link url={url}>
-                <Text _hover={{ color: "tomato" }} align={"center"}>
+        <Link url={url}>
+            <Box
+                _hover={{ color: "tomato" }}
+                boxShadow="dark-lg"
+                p="6"
+                rounded="md"
+                bg="white"
+                margin={"50px"}
+                h={"250px"}
+                w={"240px"}>
+                <Image src={image} />
+                <Text align={"center"} mt={6}>
                     {label}
                 </Text>
-            </Link>
-        </Box>
+            </Box>
+        </Link>
     );
 }
