@@ -74,18 +74,14 @@ describe("validate postal code function", () => {
 });
 
 describe("validate integer function", () => {
-   
-   
-   
     it("accepts a valid integer", () => {
         expect(validIntegerField("10")).toBe(true);
         expect(validIntegerField("100")).toBe(true);
     });
-
     it("refuses an invalid integer", () => {
         expect(validIntegerField("gasd")).toBe(false);
         expect(validIntegerField("12das213")).toBe(false);
         expect(validIntegerField("-1324")).toBe(false);
-
     });
 });
+
