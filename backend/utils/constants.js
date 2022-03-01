@@ -16,8 +16,8 @@ const TEST_CONSTANTS = {
         AccountId: "1", // this is test@test.com
     },
     PATIENT_ACCOUNT: {
-        AccountId: "51"
-    }
+        AccountId: "51",
+    },
 };
 
 // sequelize doesnt like BOOLEAN which translates to an INTEGER in the request.
@@ -27,8 +27,12 @@ const BOOLEANS = {
     FALSE: "0",
 };
 
+// Value to adjust the timezone linked to Moment
+const MOMENT_TIMEZONE_ADJUSTMENT = 5;
+
 module.exports = {
     ROLE,
     TEST_CONSTANTS,
     BOOLEANS,
+    MOMENT_TIMEZONE_ADJUSTMENT,
 };

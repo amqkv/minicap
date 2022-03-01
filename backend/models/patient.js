@@ -39,6 +39,6 @@ const Patient = db.define(
     }
 );
 
-Patient.belongsTo(Users, { foreignKey: 'User_AccountId' })
+Patient.belongsTo(Users, { foreignKey: "User_AccountId" });
 
 module.exports = Patient;
