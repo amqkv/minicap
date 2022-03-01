@@ -9,19 +9,11 @@ import { allFieldsFilled, validIntegerField } from "@frontend/functions/validati
 import { patientSymptoms, registerIntegerErrorPopup } from "@frontend/utils/popups";
 import PatientCard from "./patient-card";
 import { useRouter } from "next/router";
-
-export interface requiredDetails {
-    Weight: boolean;
-    Symptoms: boolean;
-    Temperature: boolean;
-}
-
-export interface PatientsFormsToFill {
-    requiredDetails: requiredDetails;
-    pastConditions: pastConditionsProps[];
-}
+import { checkboxForms } from "@frontend/functions/checkbox-form";
+import { PatientsFormsToFill } from "./types/types";
 
 export default function PatientFormToFill({ requiredDetails, pastConditions }: PatientsFormsToFill) {
+    // initialize constants
     const router = useRouter();
     const { Temperature: temperature, Weight: weight, Symptoms: symptoms } = requiredDetails;
     const [weightError, setWeightError] = useState(false);
@@ -44,60 +36,24 @@ export default function PatientFormToFill({ requiredDetails, pastConditions }: P
         const statusValues: StatusParameters = {
             accountId: userId,
             temperature: 37,
-            weight: 181,
+            weight: 0,
             symptoms: " ",
             isReviewed: false,
             statusTime: time,
         };
 
-        // assigning values depending on what field is shown
-        // for 3 checkbox
-        if (requiredDetails.Temperature && requiredDetails.Weight && requiredDetails.Symptoms) {
-            statusValues.temperature = event.target[0].value;
-            statusValues.weight = event.target[1].value;
-            statusValues.symptoms = event.target[2].value;
-        }
+        const checkboxValues = checkboxForms(requiredDetails, event);
+        const newStatusValues = {...statusValues, ...checkboxValues};
 
-        // for checkbox weight and symptoms
-        else if (requiredDetails.Weight && requiredDetails.Symptoms) {
-            statusValues.weight = event.target[0].value;
-            statusValues.symptoms = event.target[1].value;
-        }
-        // for checkbox temperature and symptoms
-        else if (requiredDetails.Temperature && requiredDetails.Symptoms) {
-            statusValues.temperature = event.target[0].value;
-            statusValues.symptoms = event.target[1].value;
-        }
-        // for checkbox temperature and weight
-        else if (requiredDetails.Temperature && requiredDetails.Weight) {
-            statusValues.temperature = event.target[0].value;
-            statusValues.weight = event.target[1].value;
-        }
-
-        // for checkbox temperature ONLY
-        else if (requiredDetails.Temperature) {
-            statusValues.temperature = event.target[0].value;
-        }
-
-        // for checkbox weight ONLY
-        else if (requiredDetails.Weight) {
-            statusValues.weight = event.target[0].value;
-        }
-
-        // for checkbox symptoms ONLY
-        else if (requiredDetails.Symptoms) {
-            statusValues.symptoms = event.target[0].value;
-        }
-
-
+        // Check for ERRORS 
         // weight integer validation
-        if (!validIntegerField(statusValues.weight)) {
+        if (!validIntegerField(newStatusValues.weight)) {
             setWeightError(true);
             error = true;
         } else setWeightError(false);
 
         // temperature integer validation
-        if (!validIntegerField(statusValues.temperature)) {
+        if (!validIntegerField(newStatusValues.temperature)) {
             setTemperatureError(true);
             error = true;
         } else setTemperatureError(false);
@@ -105,11 +61,11 @@ export default function PatientFormToFill({ requiredDetails, pastConditions }: P
         // popup if error
         if (error) {
             callPopup(registerIntegerErrorPopup);
-        } else if (!allFieldsFilled(statusValues)) {
+        } else if (!allFieldsFilled(newStatusValues)) {
             callPopup(patientSymptoms);
         } else {
             try {
-                const response = await statusFilled(statusValues);
+                const response = await statusFilled(newStatusValues);
 
                 if (response) {
                     // change to another page function
