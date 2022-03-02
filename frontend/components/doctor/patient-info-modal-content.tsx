@@ -50,7 +50,7 @@ export default function PatientInfoModalContent({ patient }: { patient: Patient 
                 <Box mb="10px" className="header">
                     <Heading size="md">
                         {" "}
-                        Details udpated{" "}
+                        Details updated{" "}
                         {patient.status[0].lastUpdated > 1
                             ? patient.status[0].lastUpdated.toFixed(0)
                             : patient.status[0].lastUpdated.toFixed(1)}{" "}

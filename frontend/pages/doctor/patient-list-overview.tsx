@@ -3,22 +3,7 @@ import PatientInfoModal from "@frontend/components/modal";
 import PatientInfoModalContent from "@frontend/components/doctor/patient-info-modal-content";
 import { serverURL } from "@frontend/config";
 import { DEFAULT_PATIENT, Patient } from "@frontend/models/patient";
-import {
-    Box,
-    Text,
-    Flex,
-    FormControl,
-    FormLabel,
-    Heading,
-    Radio,
-    RadioGroup,
-    Select,
-    SimpleGrid,
-    Stack,
-    Switch,
-    useDisclosure,
-    useToast,
-} from "@chakra-ui/react";
+import { Box, Text, Heading, Radio, RadioGroup, SimpleGrid, Stack, useDisclosure, useToast } from "@chakra-ui/react";
 import { getSession, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { USER_ROLES } from "@frontend/utils/constants";
@@ -48,12 +33,11 @@ export async function getServerSideProps(context: any) {
 export default function DoctorDashboard({ patientList }: { patientList: Patient[] }) {
     const [selectedPatient, setSelectedPatient] = useState<Patient>(DEFAULT_PATIENT);
     const [filterOption, setFilterOption] = useState("none");
-
+    const [patientListToMap, setPatientListToMap] = useState(patientList);
     const { onOpen, isOpen, onClose } = useDisclosure();
     const highTemperaturePatientList = patientList.filter(patient => patient.status[0].temperature.value >= 38);
     // <TODO> filter patient list according to flagged patients
     const flaggedPatientList: Patient[] = [];
-    const [patientListToMap, setPatientListToMap] = useState(patientList);
     const { data: session } = useSession();
     const router = useRouter();
     const toast = useToast();
@@ -78,7 +62,6 @@ export default function DoctorDashboard({ patientList }: { patientList: Patient[
     }
 
     function filterPatients(value: string) {
-        console.log(value);
         setFilterOption(value);
         switch (value) {
             case "temperature":
