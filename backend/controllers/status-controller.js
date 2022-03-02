@@ -3,9 +3,10 @@ const Status = require("../models/status");
 
 const op = Sequelize.Op;
 const { QueryTypes } = require("sequelize");
+const Status = require("../models/status");
+
 const db = require("../config/database");
 const Patient = require("../models/patient");
-const moment = require("moment");
 
 // Create new status
 async function addStatus(req, res) {

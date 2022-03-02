@@ -1,4 +1,5 @@
 import { Box, Image, Divider, Text, Flex } from "@chakra-ui/react";
+import { WarningTwoIcon } from "@chakra-ui/icons";
 import { Patient } from "@frontend/models/patient";
 import PatientStatus from "./patient-status";
 
@@ -18,7 +19,7 @@ export default function PatientInfoCard({ patient }: { patient: Patient }) {
             px="6"
             py="4"
             position="relative"
-            _hover={{ cursor: "pointer", backgroundColor: "#fafafa" }}>
+            _hover={{ cursor: "pointer", backgroundColor: "#fff" }}>
             <Flex>
                 <Box flex="1.7">
                     <Image
@@ -45,6 +46,11 @@ export default function PatientInfoCard({ patient }: { patient: Patient }) {
                         </Box>
                     </Box>
                 </Box>
+                {patient.status[0].temperature.value >= 38 ? (
+                    <Box>
+                        <WarningTwoIcon w={6} h={6} color="red.500" />
+                    </Box>
+                ) : null}
             </Flex>
 
             <Divider mb={3} />

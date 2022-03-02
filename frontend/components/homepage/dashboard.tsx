@@ -1,7 +1,8 @@
 import { Box, Center, Flex, Heading } from "@chakra-ui/react";
-import  Card  from "./card";
+import Card from "./card";
 import { links, link } from "@frontend/components/homepage/dashboard-structure";
 import { useSession } from "next-auth/react";
+import LineChart from "@frontend/components/line-chart";
 
 export default function Dashboard() {
     const { data: session } = useSession();
@@ -10,17 +11,15 @@ export default function Dashboard() {
     // depending on the role, will render different box for different functionalities
     return (
         <Box>
-            <Heading paddingLeft={"50px"}>Welcome {userRole} {userName}</Heading>
-
+            <Heading paddingLeft={"50px"}>
+                Welcome {userRole} {userName}
+            </Heading>
+            <LineChart />
             <Center marginTop={"5%"}>
                 <Flex flexWrap="wrap">
                     {links.map(({ label, url, roleRequired, img }: link) => {
                         const renderCard = roleRequired === userRole || !roleRequired;
-                        return (
-                            renderCard && (
-                                <Card key={label} label={label} image={img} url={url} />
-                            )
-                        );
+                        return renderCard && <Card key={label} label={label} image={img} url={url} />;
                     })}
                 </Flex>
             </Center>
