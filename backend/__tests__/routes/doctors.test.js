@@ -46,7 +46,7 @@ describe("GET: getting all patients of the current doctor", () => {
     it("Returns code 200 and patient array if user is a doctor", async () => {
         const userId = 239;
         const response = await request(app).get(`/doctors/getPatientsInfo/${userId}`);
-        expect(response.body).toHaveLength(2);
+        expect(response.body).toHaveLength(4);
     });
     it("Returns the patient object with correct symptoms and lastUpdated attributes if null", async () => {
         const userId = 239;

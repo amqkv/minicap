@@ -13,7 +13,6 @@ describe("validate password function", () => {
         expect(validPassword("Nicholas1!")).toBe(true);
         expect(validPassword("Kelvin2@")).toBe(true);
         expect(validPassword("Steven3#")).toBe(true);
-
     });
 
     it("refuses an invalid password", () => {
