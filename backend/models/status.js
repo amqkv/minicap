@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 const db = require("../config/database");
-const Patient = require("../models/patient");
+const Patient = require("./patient");
 
 // Status model associated with Database Status table
 const Status = db.define(
