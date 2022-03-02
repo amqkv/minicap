@@ -15,7 +15,7 @@ afterAll(async () => {
 describe("PATCH: list of patients from the database", () => {
     it("Returns code 200 after a good request", () => {
         const data = {
-            covidChange: false,
+            covidChange: true,
             id: TEST_CONSTANTS.PATIENT_ACCOUNT.AccountId,
         };
         return request(app)
