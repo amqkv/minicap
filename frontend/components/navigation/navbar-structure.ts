@@ -37,5 +37,10 @@ export const links: link[] = [
         text: "SEACH FOR USER",
         url: "/immigration-officer/find-users",
         roleRequired: USER_ROLES.iOfficer,
-    }
+    },
+    {
+        text: "COVID PATIENTS",
+        url: "/health-official/covid-patients",
+        roleRequired: USER_ROLES.hOfficial,
+    },
 ];

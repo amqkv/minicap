@@ -7,7 +7,7 @@ export interface link {
     img: string;
 }
 
-// TODO: add url 
+// TODO: add url
 export const links: link[] = [
     {
         label: "Forms",
@@ -43,6 +43,12 @@ export const links: link[] = [
         label: "Appointments",
         url: "#",
         roleRequired: USER_ROLES.doctor,
+        img: "https://imgur.com/eRLbmpq.png",
+    },
+    {
+        label: "Covid Patients",
+        url: "/health-official/covid-patients",
+        roleRequired: USER_ROLES.hOfficial,
         img: "https://imgur.com/eRLbmpq.png",
     },
 ];
