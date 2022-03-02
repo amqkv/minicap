@@ -2,7 +2,6 @@ const RequiredDetails = require("../models/required-details");
 const Patient = require("../models/patient");
 
 async function getRequiredDetails(req, res) {
-    console.log(req.params.accountId );
     const { PatientId } = await Patient.findOne({
         raw: true,
         where: { User_AccountId: req.params.accountId },
@@ -33,6 +32,35 @@ async function getRequiredDetails(req, res) {
         });
 }
 
+// function updateRequiredDetails(req, res) {
+//     RequiredDetails.update(
+//         {
+//             WeightRequired: req.body[0].Weight,
+//             TemperatureRequired: req.body[1].Temperature,
+//             SymptomsRequired: req.body[2].Symptoms,
+//         },
+//         {
+//             where: { Patient_PatientId: req.params.patientId },
+//         }
+//     )
+//         .then(res.status(200).json({ message: "Details have been updated successfully" }))
+//         .catch(() => res.status(400).json({ message: "Could not update details." }));
+// }
+
+async function isPositive(req, res) {
+    try {
+        const { HasCovid } = await Patient.findOne({
+            raw: true,
+            where: { User_AccountId: req.params.accountId },
+        });
+        res.status(200).json(HasCovid);
+    } catch {
+        res.status(400).json(false);
+    }
+}
+
 module.exports = {
     getRequiredDetails,
+    //updateRequiredDetails,
+    isPositive,
 };

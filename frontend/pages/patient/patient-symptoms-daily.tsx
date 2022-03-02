@@ -22,7 +22,6 @@ export async function getServerSideProps(context: NextPageContext) {
     if (session?.user.Role === USER_ROLES.patient) {
         try {
             let response: any = await fetch(serverURL + "/patients/getRequiredDetails/" + userId);
-            console.log(response);
             requiredDetails = getFieldsForPatient(await response.json());
 
             response = await fetch(serverURL + "/status/getAllStatus/" + userId);
