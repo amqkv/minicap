@@ -30,6 +30,7 @@ export interface PatientBasicInformation {
 }
 
 export interface PatientStatus {
+    statusId: number;
     weight: { value: number; unit: string };
     temperature: { value: number; unit: string };
     symptoms: { value: string; unit: string };
@@ -64,4 +65,3 @@ export const DEFAULT_PATIENT = {
     ],
     isPrioritized: false,
 };
-

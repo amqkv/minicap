@@ -1,19 +1,19 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Text, Flex, Center } from "@chakra-ui/react";
 import { Patient } from "@frontend/models/patient";
 
-export default function PatientStatus({ patient }: { patient: Patient }) {
+export default function PatientStatus({ patient, statusIndex }: { patient: Patient; statusIndex: number }) {
     const status: { [key: string]: { value: string | number; unit: string } } = {
         weight: {
-            value: patient.status[0].weight.value,
-            unit: patient.status[0].weight.unit,
+            value: patient.status[statusIndex].weight.value,
+            unit: patient.status[statusIndex].weight.unit,
         },
         temperature: {
-            value: patient.status[0].temperature.value,
-            unit: patient.status[0].temperature.unit,
+            value: patient.status[statusIndex].temperature.value,
+            unit: patient.status[statusIndex].temperature.unit,
         },
         symptoms: {
-            value: patient.status[0].symptoms.value,
-            unit: patient.status[0].symptoms.unit,
+            value: patient.status[statusIndex].symptoms.value,
+            unit: patient.status[statusIndex].symptoms.unit,
         },
     };
     const requiredDetails: { [key: string]: boolean } = {
@@ -23,7 +23,7 @@ export default function PatientStatus({ patient }: { patient: Patient }) {
     };
     return (
         <Box m={1}>
-            {Object.keys(patient.status[0]).map(statusDetail =>
+            {Object.keys(patient.status[statusIndex]).map(statusDetail =>
                 requiredDetails[statusDetail] ? (
                     <Text fontSize="sm" key={statusDetail}>
                         <b>{statusDetail.charAt(0).toUpperCase() + statusDetail.slice(1)}: &nbsp;</b>

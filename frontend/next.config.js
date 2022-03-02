@@ -16,6 +16,10 @@ const nextConfig = {
                 destination: `http://localhost:3001/admins/update-role`,
             },
             {
+                source: "/api/status/review-status",
+                destination: `http://localhost:3001/status/review-status`,
+            },
+            {
                 source: "/api/admin/patient-doctor",
                 destination: `http://localhost:3001/admins/patients-doctors`,
             },
@@ -28,6 +32,15 @@ const nextConfig = {
                 destination: `http://localhost:3001/admins/confirm-user-account`,
             },
         ];
+    },
+    webpack(config) {
+        config.module.rules.push({
+            test: /\.svg$/i,
+            issuer: /\.[jt]sx?$/,
+            use: ["@svgr/webpack"],
+        });
+
+        return config;
     },
 };
 

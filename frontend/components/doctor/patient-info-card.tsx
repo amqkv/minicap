@@ -48,7 +48,7 @@ export default function PatientInfoCard({ patient }: { patient: Patient }) {
             </Flex>
 
             <Divider mb={3} />
-            <PatientStatus patient={patient} />
+            <PatientStatus patient={patient} statusIndex={0} />
             <Text color={"gray.500"} fontSize="xs" mt={2} bottom="10px" position="absolute">
                 Last updated{" "}
                 {patient.status[0].lastUpdated > 1
