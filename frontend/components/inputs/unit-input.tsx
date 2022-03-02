@@ -12,7 +12,7 @@ export default function UnitInput({ label, units, name, style, error }: InputPat
                         <WarningIcon color="red.500" />
                     </InputLeftElement>
                 )}
-                <Input  name={name} style={style}></Input>
+                <Input  placeholder={"Enter an integer"} name={name} style={style}></Input>
                 <InputRightAddon children={units} />
             </InputGroup>
         </Flex>
