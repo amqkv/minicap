@@ -2,6 +2,7 @@ import { Box, Center, Flex, Heading } from "@chakra-ui/react";
 import Card from "./card";
 import { links, link } from "@frontend/components/homepage/dashboard-structure";
 import { useSession } from "next-auth/react";
+import LineChart from "@frontend/components/line-chart";
 
 export default function Dashboard() {
     const { data: session } = useSession();
@@ -13,6 +14,7 @@ export default function Dashboard() {
             <Heading paddingLeft={"50px"}>
                 Welcome {userRole} {userName}
             </Heading>
+            <LineChart />
             <Center marginTop={"5%"}>
                 <Flex flexWrap="wrap">
                     {links.map(({ label, url, roleRequired, img }: link) => {
