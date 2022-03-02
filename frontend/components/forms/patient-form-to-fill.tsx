@@ -1,4 +1,4 @@
-import { Button, Box, Heading, UseToastOptions, useToast, SimpleGrid } from "@chakra-ui/react";
+import { Button, Box, Heading, UseToastOptions, useToast, SimpleGrid, Text } from "@chakra-ui/react";
 import PatientInputs from "@frontend/components/inputs/unit-input";
 import PatientTextarea from "@frontend/components/inputs/patient-textarea-input";
 import { pastConditionsProps, statusFilled, StatusParameters } from "@frontend/functions/create-status";
@@ -9,19 +9,11 @@ import { allFieldsFilled, validIntegerField } from "@frontend/functions/validati
 import { patientSymptoms, registerIntegerErrorPopup } from "@frontend/utils/popups";
 import PatientCard from "./patient-card";
 import { useRouter } from "next/router";
-
-export interface requiredDetails {
-    Weight: boolean;
-    Symptoms: boolean;
-    Temperature: boolean;
-}
-
-export interface PatientsFormsToFill {
-    requiredDetails: requiredDetails;
-    pastConditions: pastConditionsProps[];
-}
+import { checkboxForms } from "@frontend/functions/checkbox-form";
+import { PatientsFormsToFill } from "./types/types";
 
 export default function PatientFormToFill({ requiredDetails, pastConditions }: PatientsFormsToFill) {
+    // initialize constants
     const router = useRouter();
     const { Temperature: temperature, Weight: weight, Symptoms: symptoms } = requiredDetails;
     const [weightError, setWeightError] = useState(false);
@@ -37,38 +29,45 @@ export default function PatientFormToFill({ requiredDetails, pastConditions }: P
         event.preventDefault();
 
         const time = moment().format("YYYY-MM-DD HH:mm:ss");
+        let error = false;
 
+        // initialize values for statusValues
+        // TODO: decide on default value for weight
         const statusValues: StatusParameters = {
             accountId: userId,
-            temperature: event.target[0].value,
-            weight: event.target[1].value,
-            symptoms: event.target[2].value,
+            temperature: 37,
+            weight: 0,
+            symptoms: " ",
             isReviewed: false,
             statusTime: time,
         };
 
-        let error = false;
+        const checkboxValues = checkboxForms(requiredDetails, event);
+        const newStatusValues = { ...statusValues, ...checkboxValues };
 
-        // weight validation
-        if (!validIntegerField(statusValues.weight)) {
+        // Check for ERRORS
+        // weight integer validation
+        if (!validIntegerField(newStatusValues.weight)) {
             setWeightError(true);
             error = true;
         } else setWeightError(false);
 
-        // temperature validation
-        if (!validIntegerField(statusValues.temperature)) {
+        // temperature integer validation
+        if (!validIntegerField(newStatusValues.temperature)) {
             setTemperatureError(true);
             error = true;
         } else setTemperatureError(false);
 
+        console.log(statusValues);
+
         // popup if error
         if (error) {
             callPopup(registerIntegerErrorPopup);
-        } else if (!allFieldsFilled(statusValues)) {
+        } else if (!allFieldsFilled(newStatusValues)) {
             callPopup(patientSymptoms);
         } else {
             try {
-                const response = await statusFilled(statusValues);
+                const response = await statusFilled(newStatusValues);
 
                 if (response) {
                     // change to another page function
@@ -86,8 +85,10 @@ export default function PatientFormToFill({ requiredDetails, pastConditions }: P
             <Box paddingLeft={"20px"}>
                 <Heading size="lg">Your Doctor: Dr Sawkon Di Zenoots</Heading>
                 <Heading size="lg">Today's Condition</Heading>
-                <Box w={{ base: "100%", md: "30%" }} paddingRight={"10px"}>
+                <Box w={{ base: "100%", md: "35%" }} paddingRight={"10px"}>
                     <form onSubmit={handlePatientForm}>
+                    <Heading size="md" margin={"30px 0 10px 20px"}>Please fill out the following field for your doctor:</Heading>
+
                         {temperature && (
                             <PatientInputs
                                 error={temperatureError}
@@ -98,7 +99,7 @@ export default function PatientFormToFill({ requiredDetails, pastConditions }: P
                         )}
                         {weight && <PatientInputs error={weightError} label="Weight" units="lbs" name={"weight"} />}
                         {symptoms && <PatientTextarea label="Symptoms" units="" name={"symptoms"} />}
-
+                        <Text margin="0 0 10px 30px">(Please separate the symptoms with a comma)</Text>
                         <Button
                             colorScheme="pink"
                             size="md"
