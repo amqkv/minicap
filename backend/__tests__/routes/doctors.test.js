@@ -51,7 +51,7 @@ describe("GET: getting all patients of the current doctor", () => {
     it("Returns the patient object with correct symptoms and lastUpdated attributes if null", async () => {
         const userId = 239;
         const response = await request(app).get(`/doctors/getPatientsInfo/${userId}`);
-        expect(response.body[1].status[0].symptoms.value).toEqual("");
+        expect(response.body[1].status[0].symptoms.value).toEqual("fever, sore throat");
         expect(response.body[1].status[0].lastUpdated).toEqual(0);
     });
 });

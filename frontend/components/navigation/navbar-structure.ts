@@ -43,4 +43,9 @@ export const links: link[] = [
         url: "/health-official/covid-patients",
         roleRequired: USER_ROLES.hOfficial,
     },
+    {
+        text: "QUARANTINE INFORMATION",
+        url: "/patient/quarantine",
+        roleRequired: USER_ROLES.patient,
+    },
 ];

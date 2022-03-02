@@ -12,7 +12,6 @@ afterAll(() => {
     db.close();
 });
 
-
 describe("Test get Patient details route ", () => {
     it("connect to /getRequiredDetails/:AccountId with valid patient id", () => {
         const url = "/patients/getRequiredDetails/" + TEST_CONSTANTS.PATIENT_ACCOUNT.AccountId;
@@ -22,5 +21,27 @@ describe("Test get Patient details route ", () => {
     it("connect to /getRequiredDetails/:AccountId with an invalid id", () => {
         const url = "/patients/getRequiredDetails/" + TEST_CONSTANTS.PATIENT_ACCOUNT.AccountId;
         return expect(true).toBe(true);
+    });
+});
+
+describe("Test get patient hasCovid", () => {
+    it("connect to /isPositive/:accountId with valid patient id", async () => {
+        const url = "/patients/isPositive/" + TEST_CONSTANTS.PATIENT_ACCOUNT.AccountId;
+        const data = await request(app)
+            .get(url)
+            .expect(200)
+            .expect("Content-Type", /json/)
+            .then(response => response.body);
+        expect(data).toEqual(true);
+    });
+
+    it("connect to /isPositive/:accountId with invalid patient id", async () => {
+        const url = "/patients/isPositive/" + TEST_CONSTANTS.PATIENT_ACCOUNT.TESTER_ADMIN;
+        const data = await request(app)
+            .get(url)
+            .expect(400)
+            .expect("Content-Type", /json/)
+            .then(response => response.body);
+        expect(data).toEqual(false);
     });
 });
