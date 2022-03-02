@@ -1,6 +1,7 @@
 import PatientInfoCard from "@frontend/components/doctor/patient-info-card";
 import PatientInfoModal from "@frontend/components/modal";
 import PatientInfoModalContent from "@frontend/components/doctor/patient-info-modal-content";
+import ReviewFilter from "@frontend/components/doctor/review-filter";
 import { serverURL } from "@frontend/config";
 import { DEFAULT_PATIENT, Patient } from "@frontend/models/patient";
 import { Box, Heading, SimpleGrid, useDisclosure, useToast } from "@chakra-ui/react";
@@ -20,6 +21,7 @@ export async function getServerSideProps(context: any) {
             const patientListResponse: any = await fetch(serverURL + "/doctors/getPatientsInfo/" + userId);
             patientList = await patientListResponse.json();
             console.log(session.user);
+            console.log(patientList[0].status);
         }
     } catch {}
     return {
@@ -56,8 +58,21 @@ export default function DoctorDashboard({ patientList }: { patientList: Patient[
         onOpen();
     }
 
+    //     //to get the filtered option
+    //     const [filteredOption, setFilteredOption] = useState("true");
+
+    //     function filterChangeHandler(selectedOption: string) {
+    //         setFilteredOption(selectedOption);
+    //     }
+
+    //    // accessing the filtered patient list
+    //     const filteredPatientList = patientList.filter((patient, index) => {
+    //     return patient.status[index].isReviewed.toString() === filteredOption;
+    //     });
+
     return (
         <Box my={10}>
+            <ReviewFilter />
             <Heading size="xl" m={10} my={8}>
                 Patients
             </Heading>
