@@ -2,7 +2,6 @@ const RequiredDetails = require("../models/required-details");
 const Patient = require("../models/patient");
 
 async function getRequiredDetails(req, res) {
-    console.log(req.params.accountId);
     const { PatientId } = await Patient.findOne({
         raw: true,
         where: { User_AccountId: req.params.accountId },
