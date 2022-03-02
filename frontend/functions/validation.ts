@@ -23,5 +23,5 @@ export function allFieldsFilled(fieldObj: any) {
 
 // change any later to smt better
 export function validIntegerField(reg: any){
-    return /^[1-9]\d*$/.test(reg);
+    return /^[0-9]\d*$/.test(reg);
 }

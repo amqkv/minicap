@@ -1,4 +1,6 @@
 import { RequiredDetails } from "@frontend/models/patient";
+import { StatusParameters } from "@frontend/functions/create-status";
+import moment from "moment";
 
 export const DEFAULT_REQUIRED_DETAILS = {
     Weight: true,
@@ -123,4 +125,14 @@ export const DEFAULT_USER_SIMPLE = {
     FirstName: "firstName",
     LastName: "lastName",
     Role: "Patient",
+};
+
+const time = moment().format("YYYY-MM-DD HH:mm:ss");
+export const STATUS_VALUES: StatusParameters = {
+    accountId: 51,
+    temperature: 37,
+    weight: 100,
+    symptoms: " Testing ",
+    isReviewed: false,
+    statusTime: time,
 };

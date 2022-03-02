@@ -29,7 +29,7 @@ export const links: link[] = [
     },
     {
         label: "Patients",
-        url: "doctor/patient-info",
+        url: "doctor/patient-list-overview",
         roleRequired: USER_ROLES.doctor,
         img: "https://imgur.com/DkXs8lt.png",
     },
