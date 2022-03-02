@@ -2,7 +2,8 @@ import { Box, Center, Flex, Heading } from "@chakra-ui/react";
 import Card from "./card";
 import { links, link } from "@frontend/components/homepage/dashboard-structure";
 import { useSession } from "next-auth/react";
-import LineChart from "@frontend/components/line-chart";
+import Chart from "@frontend/components/line-chart";
+import { USER_ROLES } from "@frontend/utils/constants";
 
 export default function Dashboard() {
     const { data: session } = useSession();
@@ -14,7 +15,8 @@ export default function Dashboard() {
             <Heading paddingLeft={"50px"}>
                 Welcome {userRole} {userName}
             </Heading>
-            <LineChart />
+            {session?.user?.Role === USER_ROLES.patient? <Chart/>: <p>You are not a doctor. NOOOOB</p>}
+
             <Center marginTop={"5%"}>
                 <Flex flexWrap="wrap">
                     {links.map(({ label, url, roleRequired, img }: link) => {
@@ -23,6 +25,7 @@ export default function Dashboard() {
                     })}
                 </Flex>
             </Center>
+            
         </Box>
     );
 }
