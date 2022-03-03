@@ -64,4 +64,3 @@ export const DEFAULT_PATIENT = {
     ],
     isPrioritized: false,
 };
-

@@ -2,7 +2,7 @@ import { useSession, getSession } from "next-auth/react";
 import { GetServerSideProps } from "next";
 import LoginLogoutButton from "@frontend/components/login-logout-button";
 import { Box, Img, Flex, Heading } from "@chakra-ui/react";
-import PatientDashboard from "@frontend/pages/patient/patient-dashboard";
+import Dashboard from "@frontend/components/homepage/dashboard";
 
 export const getServerSideProps: GetServerSideProps = async context => {
     return {
@@ -14,9 +14,11 @@ export const getServerSideProps: GetServerSideProps = async context => {
 
 export default function Home() {
     const { data: session } = useSession();
+
     if (session) {
-        return <PatientDashboard />;
+        return <Dashboard />;
     }
+
     return (
         <Flex
             padding={{ base: "5% 0%", md: "0 10%" }}

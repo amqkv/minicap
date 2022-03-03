@@ -39,6 +39,11 @@ export const links: link[] = [
         roleRequired: USER_ROLES.iOfficer,
     },
     {
+        text: "COVID PATIENTS",
+        url: "/health-official/covid-patients",
+        roleRequired: USER_ROLES.hOfficial,
+    },
+    {
         text: "QUARANTINE INFORMATION",
         url: "/patient/quarantine",
         roleRequired: USER_ROLES.patient,
