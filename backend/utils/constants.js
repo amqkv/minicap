@@ -16,7 +16,7 @@ const TEST_CONSTANTS = {
         AccountId: "1", // this is test@test.com
     },
     PATIENT_ACCOUNT: {
-        AccountId: "51",
+        AccountId: "51"
     },
 };
 
