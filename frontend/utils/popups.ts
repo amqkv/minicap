@@ -1,5 +1,6 @@
 import { UseToastOptions } from "@chakra-ui/react";
 
+//signin & register popups
 const errorPopupBase: UseToastOptions = {
     title: "Error!",
     status: "error",
@@ -28,4 +29,27 @@ export const registerSuccessPopup = { ...successPopupBase, description: register
 export const registerEmailErrorPopup = { ...errorPopupBase, description: registerDescription.emailError };
 export const registerIntegerErrorPopup = { ...errorPopupBase, description: registerDescription.integerError };
 export const signinErrorPopup = { ...errorPopupBase, description: signinErrorDescription };
-export const patientSymptoms = {...errorPopupBase, description: patientSymptomsDescription};
+export const patientSymptoms = { ...errorPopupBase, description: patientSymptomsDescription };
+
+//health official popups
+interface toastInterface {
+    firstName: string | undefined;
+    lastName: string | undefined;
+    covidChange?: boolean;
+}
+
+export function successfulToast({ firstName, lastName, covidChange }: toastInterface) {
+    return {
+        ...successPopupBase,
+        description: `${firstName} ${lastName} is now COVID ${covidChange ? "Positive" : "Negative"}`,
+        title: "Successful COVID Status Changed",
+    };
+}
+
+export function unsuccessfulToast({ firstName, lastName }: toastInterface) {
+    return {
+        ...errorPopupBase,
+        description: `Updating ${firstName} ${lastName}'s COVID status has failed`,
+        title: "Unsuccessful COVID Status Changed",
+    };
+}

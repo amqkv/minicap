@@ -1,10 +1,10 @@
 import List from "@frontend/components/admin/list";
 import { NextPageContext } from "next";
 import { useSession, getSession } from "next-auth/react";
-import { MAIN_COLOR, USER_ROLES } from "@frontend/utils/constants";
+import { USER_ROLES } from "@frontend/utils/constants";
 import Legend from "@frontend/components/legend";
 import { serverURL } from "@frontend/config/index";
-import { Flex, Text, Box, Input, useDisclosure, Button, Heading, Divider, Image } from "@chakra-ui/react";
+import { Flex, Text, Box, Input, useDisclosure, Heading, Divider, Image } from "@chakra-ui/react";
 import Circle from "@frontend/components/circle";
 import { useEffect, useState } from "react";
 import { PatientBasicInformation } from "@frontend/models/patient";
@@ -14,7 +14,6 @@ export async function getServerSideProps(context: NextPageContext) {
     const response = await fetch(serverURL + "/immigration-officer/findUsersStatus");
     const patients: PatientBasicInformation[] = await response.json();
     const session = await getSession(context);
-    console.log(session);
 
     return {
         props: {
@@ -35,7 +34,7 @@ export function filterByText({ searchText, arr }: { searchText: string; arr: Pat
             arr[i].phoneNumber?.toLowerCase().includes(lowerCaseSearchtext) ||
             arr[i].address?.toLowerCase().includes(lowerCaseSearchtext) ||
             arr[i].postalCode?.toLowerCase().includes(lowerCaseSearchtext) ||
-            arr[i].city?.toLowerCase().includes(lowerCaseSearchtext) || 
+            arr[i].city?.toLowerCase().includes(lowerCaseSearchtext) ||
             (arr[i].firstName + " " + arr[i].lastName).toLowerCase().includes(lowerCaseSearchtext)
         ) {
             filteredArr.push(arr[i]);
