@@ -57,7 +57,9 @@ async function addStatus(req, res) {
                             },
                         }
                     );
-                    res.status(200).send("Status updated successfully.");
+                    res.status(200).send(status);
+
+                    // res.status(200).send("Status updated successfully.");
                 } else {
                     // Create new status [No status created yet today]
                     Status.create({
@@ -67,10 +69,16 @@ async function addStatus(req, res) {
                         Patient_PatientId: PatientId,
                         Weight: req.body.weight,
                         Symptoms: req.body.symptoms,
-                    });
-                    res.status(200).send("new Status added successfully !");
+                    }).then(newStatus => {
+                        res.status(200).send(newStatus);
+                    })
+                    
+
+                    // res.status(200).send("new Status added successfully !");
                 }
+                // res.json(status)
             });
+
     } catch {
         res.status(400).send("Failed to create status");
     }

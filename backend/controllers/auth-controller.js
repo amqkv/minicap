@@ -1,12 +1,15 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const Moment = require("moment");
 const User = require("../models/user");
 const Patient = require("../models/patient");
+const RequiredDetails = require("../models/required-details");
 const constants = require("../utils/constants");
+const Status = require("../models/status");
 
 //  Save user to database
-function register(req, res) {
-    User.create({
+async function register(req, res) {
+    const newUser = await User.create({
         FirstName: req.body.firstName,
         LastName: req.body.lastName,
         Gender: req.body.gender,
@@ -20,31 +23,45 @@ function register(req, res) {
         Role: req.body.accountRole,
         ConfirmedFlag:
             req.body.accountRole === constants.ROLE.PATIENT ? constants.BOOLEANS.TRUE : constants.BOOLEANS.FALSE,
-    }).then(user => {
-        if (user) {
-            res.json(user);
-
-            //  Add User to Patient table if the user is a Patient
-            if (user.Role === constants.ROLE.PATIENT) {
-                Patient.create({
-                    User_AccountId: user.AccountId,
-                }).then(patient => {
-                    if (patient) {
-                        res.status(200);
-                    } else {
-                        res.status(400).send("error in adding patient to table");
-                    }
-                });
-            }
-        } else {
-            res.status(400).send("error in registering a new user");
-        }
     });
+    if (newUser) {
+        // Add User to Patient table if user is a patient
+        if (newUser.Role === constants.ROLE.PATIENT) {
+            const newPatient = await Patient.create({
+                User_AccountId: newUser.AccountId,
+                IsPrioritized: constants.BOOLEANS.FALSE,
+                HasCovid: constants.BOOLEANS.FALSE,
+            });
+
+            if (newPatient) {
+                // Add all required details by default
+                await RequiredDetails.create({
+                    WeightRequired: constants.BOOLEANS.TRUE,
+                    TemperatureRequired: constants.BOOLEANS.TRUE,
+                    SymptomsRequired: constants.BOOLEANS.TRUE,
+                    Patient_PatientId: newPatient.PatientId,
+                });
+
+                // Add a status by default
+                await Status.create({
+                    Temperature: 0,
+                    StatusTime: Moment().format("YYYY-MM-DD HH:mm:ss"),
+                    IsReviewed: constants.BOOLEANS.FALSE,
+                    Weight: 0,
+                    Patient_PatientId: newPatient.PatientId,
+                });
+            } else {
+                res.status(400).send("Error in adding Required details to table");
+            }
+        }
+        res.status(200).send(newUser);
+    } else {
+        res.status(400).send("Error in registering user to table");
+    }
 }
 
 // Log In user
 function logIn(req, res) {
-    console.log(req.body);
     User.findOne({
         where: {
             Email: req.body.email,

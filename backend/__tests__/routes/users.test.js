@@ -164,7 +164,11 @@ describe("Get: Get users with their respective role", () => {
 
 describe("GET: pending users list", () => {
     it("Get the list of unconfirmed users successfully.", async () => {
-        const data = await request(app).get("/users/pending").expect("Content-type", /json/).expect(200).then(response => response.body);
+        const data = await request(app)
+            .get("/users/pending")
+            .expect("Content-type", /json/)
+            .expect(200)
+            .then(response => response.body);
         expect(data).toEqual(
             expect.objectContaining({
                 Users: expect.arrayContaining([
@@ -173,7 +177,7 @@ describe("GET: pending users list", () => {
                         FirstName: expect.any(String),
                         LastName: expect.any(String),
                         Role: expect.any(String),
-                        ConfirmedFlag: expect.any(Boolean)
+                        ConfirmedFlag: expect.any(Boolean),
                     }),
                 ]),
             })
@@ -183,6 +187,6 @@ describe("GET: pending users list", () => {
 
 describe("Test homepage route ", () => {
     it("connect to /", () => {
-        return request(app).get("/").send().expect(200); 
+        return request(app).get("/").send().expect(200);
     });
 });
