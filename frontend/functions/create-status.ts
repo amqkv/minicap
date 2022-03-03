@@ -1,4 +1,3 @@
-import { Status } from "@chakra-ui/react";
 import { serverURL } from "@frontend/config/index";
 
 export interface StatusParameters {

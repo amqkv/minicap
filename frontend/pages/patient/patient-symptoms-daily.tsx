@@ -26,6 +26,8 @@ export async function getServerSideProps(context: NextPageContext) {
 
             response = await fetch(serverURL + "/status/getAllStatus/" + userId);
             pastConditions = await response.json();
+            // console.log(pastConditions);
+            // console.log(typeof(pastConditions));
         } catch {}
     }
 
