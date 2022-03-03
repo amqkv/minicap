@@ -1,7 +1,10 @@
 const express = require("express");
+const constants = require("../utils/constants");
+const authUser = require("../middleware/auth-user");
+const doctorController = require("../controllers/doctor-controller");
 
 const router = express.Router();
-const doctorController = require("../controllers/doctor-controller");
+router.use(authUser.setUser);
 
 router.use(express.json());
 
@@ -13,6 +16,16 @@ router.patch("/updateRequiredDetails", (req, res) => {
 // Get all patients info for doctor's dashboard
 router.get("/getPatientsInfo/:userId", (req, res) => {
     doctorController.getPatientsInfo(req, res);
+});
+
+/**
+ * Update the priority state of a patient
+ * Middlewares:
+ * verifyUser: check if for signed in user
+ * verifyRole: check if the request has the allowed role
+ */
+router.patch("/updatePriority", authUser.verifyUser, authUser.verifyRole(constants.ROLE.DOCTOR), (req, res) => {
+    doctorController.updatePriority(req, res);
 });
 
 module.exports = {
