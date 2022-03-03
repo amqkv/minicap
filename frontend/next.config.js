@@ -20,6 +20,10 @@ const nextConfig = {
                 destination: `http://localhost:3001/status/review-status`,
             },
             {
+                source: "/api/status/review-status/all",
+                destination: `http://localhost:3001/status/review-status/all`,
+            },
+            {
                 source: "/api/admin/patient-doctor",
                 destination: `http://localhost:3001/admins/patients-doctors`,
             },

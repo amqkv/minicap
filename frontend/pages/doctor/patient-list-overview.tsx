@@ -1,7 +1,6 @@
 import PatientInfoCard from "@frontend/components/doctor/patient-info-card";
 import PatientInfoModal from "@frontend/components/modal";
 import PatientInfoModalContent from "@frontend/components/doctor/patient-info-modal-content";
-import ReviewFilter from "@frontend/components/doctor/review-filter";
 import { serverURL } from "@frontend/config";
 import { DEFAULT_PATIENT, Patient } from "@frontend/models/patient";
 import { Box, Text, Heading, Radio, RadioGroup, SimpleGrid, Stack, useDisclosure, useToast } from "@chakra-ui/react";
@@ -38,6 +37,14 @@ export default function DoctorDashboard({ patientList }: { patientList: Patient[
     const [patientListToMap, setPatientListToMap] = useState(patientList);
     const { onOpen, isOpen, onClose } = useDisclosure();
     const highTemperaturePatientList = patientList.filter(patient => patient.status[0].temperature.value >= 38);
+    console.log(patientList);
+
+    //filtering based on reviewed
+    const reviewedPatientList = patientList.filter(patient => patient.isAllReviewed.toString() === "true");
+
+    //filtering based on unreviewed
+    const unreviewedPatientList = patientList.filter(patient => patient.isAllReviewed.toString() === "false");
+
     // <TODO> filter patient list according to flagged patients
     const flaggedPatientList: Patient[] = [];
     const { data: session } = useSession();
@@ -75,12 +82,17 @@ export default function DoctorDashboard({ patientList }: { patientList: Patient[
             case "none":
                 setPatientListToMap(patientList);
                 break;
+            case "true":
+                setPatientListToMap(reviewedPatientList);
+                break;
+            case "false":
+                setPatientListToMap(unreviewedPatientList);
+                break;
         }
     }
 
     return (
         <Box my={10}>
-            <ReviewFilter />
             <Heading size="xl" m={10} my={8}>
                 Patients
             </Heading>
@@ -93,6 +105,8 @@ export default function DoctorDashboard({ patientList }: { patientList: Patient[
                         <Radio value="none">None</Radio>
                         <Radio value="temperature">High Temperature</Radio>
                         <Radio value="flag">Flagged</Radio>
+                        <Radio value="true">Reviewed</Radio>
+                        <Radio value="false">Unreviewed</Radio>
                     </Stack>
                 </RadioGroup>
             </Box>

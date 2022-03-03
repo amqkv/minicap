@@ -22,10 +22,10 @@ export default function PatientStatus({ patient, statusIndex }: { patient: Patie
         symptoms: patient.requiredDetails.symptoms,
     };
     return (
-        <Box m={1}>
+        <Box m={1} align="center">
             {Object.keys(patient.status[statusIndex]).map(statusDetail =>
                 requiredDetails[statusDetail] ? (
-                    <Text fontSize="sm" key={statusDetail}>
+                    <Text fontSize="sm" key={statusDetail} width="200px">
                         <b>{statusDetail.charAt(0).toUpperCase() + statusDetail.slice(1)}: &nbsp;</b>
                         {status[statusDetail].value} {status[statusDetail].unit}
                     </Text>

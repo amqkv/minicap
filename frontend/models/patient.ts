@@ -5,6 +5,7 @@ export interface Patient {
     requiredDetails: RequiredDetails;
     status: PatientStatus[];
     isPrioritized: boolean;
+    isAllReviewed: boolean;
 }
 
 export interface RequiredDetails {

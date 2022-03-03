@@ -23,6 +23,18 @@ export default function PatientInfoModalContent({ patient }: { patient: Patient 
             }),
         });
     };
+
+    const reviewAllHandler = async () => {
+        await fetch("/api/status/review-status/all", {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                patientId: patient.patientId,
+            }),
+        });
+    };
     return (
         <Box>
             <Flex>
@@ -93,8 +105,13 @@ export default function PatientInfoModalContent({ patient }: { patient: Patient 
                         );
                     })}
                 </Swiper>
+
                 <Button backgroundColor={"#FF4545BD"} onClick={reviewHandler}>
-                    Save as Reviewed
+                    Mark as Reviewed
+                </Button>
+
+                <Button backgroundColor={"#FF4545BD"} onClick={reviewAllHandler}>
+                    Mark all as Reviewed
                 </Button>
             </Box>
         </Box>
