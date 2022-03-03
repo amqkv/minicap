@@ -2,12 +2,14 @@ import PatientInfoCard from "@frontend/components/doctor/patient-info-card";
 import PatientInfoModal from "@frontend/components/modal";
 import PatientInfoModalContent from "@frontend/components/doctor/patient-info-modal-content";
 import { serverURL } from "@frontend/config";
-import { DEFAULT_PATIENT, Patient } from "@frontend/models/patient";
+import { DEFAULT_PATIENT, Patient, PatientStatus } from "@frontend/models/patient";
 import { Box, Text, Heading, Radio, RadioGroup, SimpleGrid, Stack, useDisclosure, useToast } from "@chakra-ui/react";
 import { getSession, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { USER_ROLES } from "@frontend/utils/constants";
 import { useRouter } from "next/router";
+import PieChart from "@frontend/components/pie-chart";
+import { extractSymptoms } from "@frontend/functions/data-transform-chart";
 
 export async function getServerSideProps(context: any) {
     const session = await getSession(context);
@@ -75,12 +77,12 @@ export default function DoctorDashboard({ patientList }: { patientList: Patient[
                 break;
         }
     }
-
     return (
         <Box my={10}>
             <Heading size="xl" mx={10} mt={8}>
                 Patients
             </Heading>
+            <PieChart statuses={extractSymptoms(patientList)} />
             <Box mx={10}>
                 <RadioGroup my={4} onChange={e => filterPatients(e)} value={filterOption} colorScheme={"red"}>
                     <Stack direction="row">
