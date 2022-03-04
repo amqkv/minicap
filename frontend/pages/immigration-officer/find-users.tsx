@@ -4,11 +4,14 @@ import { useSession, getSession } from "next-auth/react";
 import { USER_ROLES } from "@frontend/utils/constants";
 import Legend from "@frontend/components/legend";
 import { serverURL } from "@frontend/config/index";
-import { Flex, Text, Box, Input, useDisclosure, Heading, Divider, Image } from "@chakra-ui/react";
+import { Flex, Text, Box, Input, useDisclosure, Heading, Divider, Image, useToast, Button } from "@chakra-ui/react";
 import Circle from "@frontend/components/circle";
 import { useEffect, useState } from "react";
 import { PatientBasicInformation } from "@frontend/models/patient";
 import Modal from "@frontend/components/modal";
+import { filter } from "@frontend/functions/sorting-filtering";
+import { ArrowDownIcon, ArrowUpIcon } from "@chakra-ui/icons";
+import { MAIN_COLOR } from "@frontend/utils/constants";
 
 export async function getServerSideProps(context: NextPageContext) {
     const response = await fetch(serverURL + "/immigration-officer/findUsersStatus");
@@ -23,36 +26,35 @@ export async function getServerSideProps(context: NextPageContext) {
     };
 }
 
-export function filterByText({ searchText, arr }: { searchText: string; arr: PatientBasicInformation[] }) {
-    const lowerCaseSearchtext = searchText.toLowerCase();
-    let filteredArr = [];
-    for (let i = 0; i < arr.length; i++) {
-        if (
-            arr[i].firstName?.toLowerCase().includes(lowerCaseSearchtext) ||
-            arr[i].lastName?.toLowerCase().includes(lowerCaseSearchtext) ||
-            arr[i].email?.toLowerCase().includes(lowerCaseSearchtext) ||
-            arr[i].phoneNumber?.toLowerCase().includes(lowerCaseSearchtext) ||
-            arr[i].address?.toLowerCase().includes(lowerCaseSearchtext) ||
-            arr[i].postalCode?.toLowerCase().includes(lowerCaseSearchtext) ||
-            arr[i].city?.toLowerCase().includes(lowerCaseSearchtext) ||
-            (arr[i].firstName + " " + arr[i].lastName).toLowerCase().includes(lowerCaseSearchtext)
-        ) {
-            filteredArr.push(arr[i]);
-        }
-    }
-    return filteredArr;
-}
-
 const UserListPage = ({ patients }: { patients: PatientBasicInformation[] }) => {
     const { data: session } = useSession();
     const [searchText, setSearchText] = useState("");
     const [filteredPatients, setFilteredPatients] = useState(patients);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [selectedPatient, setSelectedPatient] = useState<PatientBasicInformation | null>(null);
+    const [alphabeticalSort, setAlphabeticalSort] = useState(true);
+    const [positivesOnly, setPositivesOnly] = useState(false);
+    const [negativesOnly, setNegativesOnly] = useState(false);
+    const buttonProps = {
+        variant: "outline",
+        size: "lg",
+    };
+
+    // to make sure the filters functions properly
+    // if the positive button is activated, then the negative button should disable, vice-versa
+    function positiveNegativeFilter(clickedButton: boolean) {
+        if (clickedButton) {
+            setPositivesOnly(!positivesOnly);
+            setNegativesOnly(false);
+        } else {
+            setPositivesOnly(false);
+            setNegativesOnly(!negativesOnly);
+        }
+    }
 
     useEffect(() => {
-        setFilteredPatients(filterByText({ searchText, arr: patients }));
-    }, [searchText]);
+        setFilteredPatients(filter({ searchText, arr: patients, alphabeticalSort, positivesOnly, negativesOnly }));
+    }, [searchText, alphabeticalSort, positivesOnly, negativesOnly]);
 
     function openModal(patient: PatientBasicInformation) {
         onOpen();
@@ -62,29 +64,56 @@ const UserListPage = ({ patients }: { patients: PatientBasicInformation[] }) => 
     if (session?.user.Role === USER_ROLES.iOfficer) {
         return (
             <Box padding={{ base: " 5% 0%", md: "0 15%" }}>
+                {/* rendering the page title */}
+                <Heading paddingBottom="15px"> Patients List </Heading>
+
                 {/* rendering the search bar */}
                 <Flex
-                    width="90%"
                     paddingBottom={{ base: "5px", md: "40px" }}
-                    justifyContent={"space-between"}
+                    //justifyContent={"space-between"}
                     alignItems="center"
                     margin="auto"
                     flexDirection={{ base: "column", md: "row" }}>
-                    <Input
-                        placeholder={"Enter name or email"}
-                        marginRight={{ base: "0px", md: "20px" }}
-                        marginBottom={{ base: "10px", md: "0" }}
-                        width="100%"
-                        size="lg"
-                        isInvalid
-                        errorBorderColor="gray.400"
-                        value={searchText}
-                        onChange={event => setSearchText(event.target.value)}
-                    />
+                    <Box marginRight={{ base: "0px", md: "20px" }} flex="1">
+                        <Input
+                            placeholder={"Enter name or email"}
+                            marginBottom="20px"
+                            width="100%"
+                            size="lg"
+                            isInvalid
+                            errorBorderColor="gray.400"
+                            value={searchText}
+                            onChange={event => setSearchText(event.target.value)}
+                        />
+                        {/* rendering three buttons for filtering and sorting */}
+                        <Flex justifyContent="space-around">
+                            <Button
+                                {...buttonProps}
+                                onClick={() => positiveNegativeFilter(true)}
+                                background={positivesOnly ? MAIN_COLOR : "white"}>
+                                Positive <Circle color="red" diameter={24} style={{ marginLeft: "10px" }} />
+                            </Button>
+                            <Button
+                                {...buttonProps}
+                                onClick={() => positiveNegativeFilter(false)}
+                                background={negativesOnly ? MAIN_COLOR : "white"}>
+                                Negative <Circle color="green" diameter={24} style={{ marginLeft: "10px" }} />
+                            </Button>
+                            <Button {...buttonProps} onClick={() => setAlphabeticalSort(!alphabeticalSort)}>
+                                Alphabetical
+                                {alphabeticalSort ? (
+                                    <ArrowUpIcon marginLeft="10px" />
+                                ) : (
+                                    <ArrowDownIcon marginLeft="10px" />
+                                )}
+                            </Button>
+                        </Flex>
+                    </Box>
+
                     {/* rendering the legend component */}
                     <Legend />
                 </Flex>
-                <Box width="90%" margin="auto">
+                <Box margin="auto">
                     <List>
                         {filteredPatients.map((patient: PatientBasicInformation) => (
                             <Flex
