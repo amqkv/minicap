@@ -2,15 +2,13 @@ import PatientInfoCard from "@frontend/components/doctor/patient-info-card";
 import PatientInfoModal from "@frontend/components/modal";
 import PatientInfoModalContent from "@frontend/components/doctor/patient-info-modal-content";
 import { serverURL } from "@frontend/config";
-import { DEFAULT_PATIENT, Patient, PatientStatus } from "@frontend/models/patient";
+import { DEFAULT_PATIENT, Patient } from "@frontend/models/patient";
 import { Box, Text, Heading, Radio, RadioGroup, SimpleGrid, Stack, useDisclosure, useToast } from "@chakra-ui/react";
 import { getSession, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { USER_ROLES } from "@frontend/utils/constants";
 import { useRouter } from "next/router";
-import PieChart from "@frontend/components/pie-chart";
-import ScatterChart from "@frontend/components/scatter-chart";
-import { extractStatuses, transformWeightTempData } from "@frontend/functions/data-transform-chart";
+import PatientChartsOverview from "@frontend/components/doctor/patient-charts-overview";
 
 export async function getServerSideProps(context: any) {
     const session = await getSession(context);
@@ -22,7 +20,6 @@ export async function getServerSideProps(context: any) {
         if (session?.user.Role === USER_ROLES.doctor) {
             const patientListResponse: any = await fetch(serverURL + "/doctors/getPatientsInfo/" + userId);
             patientList = await patientListResponse.json();
-            console.log(session.user);
         }
     } catch {}
     return {
@@ -83,8 +80,7 @@ export default function DoctorDashboard({ patientList }: { patientList: Patient[
             <Heading size="xl" mx={10} mt={8}>
                 Patients
             </Heading>
-            <PieChart statuses={extractStatuses(patientList)} />
-            <ScatterChart statuses={extractStatuses(patientList)} transformDataFn={transformWeightTempData} />
+            <PatientChartsOverview patientList={patientList} />
             <Box mx={10}>
                 <RadioGroup my={4} onChange={e => filterPatients(e)} value={filterOption} colorScheme={"red"}>
                     <Stack direction="row">

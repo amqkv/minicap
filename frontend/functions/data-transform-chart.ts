@@ -1,5 +1,7 @@
 import { PieChartData, ScatterChartData, ScatterChartDataDetails } from "@frontend/models/chart-data";
 import { Patient, PatientStatus } from "@frontend/models/patient";
+import { DAY } from "@frontend/utils/constants";
+import moment from "moment";
 
 // Extracting all statuses from patients object
 export function extractStatuses(patientList: Patient[]) {
@@ -13,7 +15,7 @@ export function extractStatuses(patientList: Patient[]) {
 }
 
 // Transforming the symptoms data to plug into the pie chart
-export function transformSymptomsData(statuses: PatientStatus[]) {
+export function transformSymptomsData(statuses: PatientStatus[], day: string) {
     const data: PieChartData[] = [];
     const allSymptoms: string[] = [];
     let currentStatus: string[] = [];
@@ -22,23 +24,25 @@ export function transformSymptomsData(statuses: PatientStatus[]) {
 
     // Going through all statuses and counting the recurring ones
     statuses.map(status => {
-        currentStatus = status.symptoms.value.split(",").map(value => value.trim());
-        total += currentStatus.length;
-        currentStatus.map(symptom => {
-            currentSymptom = symptom.toLowerCase();
-            if (!allSymptoms.includes(currentSymptom)) {
-                data.push({ name: currentSymptom.charAt(0).toUpperCase() + currentSymptom.slice(1), value: 1 });
-                allSymptoms.push(currentSymptom);
-            } else {
-                data.map(elm => {
-                    if (elm.name.toLowerCase() === currentSymptom) {
-                        elm.value++;
-                    }
-                });
-            }
-            currentStatus = [];
-            currentSymptom = "";
-        });
+        if (dayCondition(status, day)) {
+            currentStatus = status.symptoms.value.split(",").map(value => value.trim());
+            total += currentStatus.length;
+            currentStatus.map(symptom => {
+                currentSymptom = symptom.toLowerCase();
+                if (!allSymptoms.includes(currentSymptom)) {
+                    data.push({ name: currentSymptom.charAt(0).toUpperCase() + currentSymptom.slice(1), value: 1 });
+                    allSymptoms.push(currentSymptom);
+                } else {
+                    data.map(elm => {
+                        if (elm.name.toLowerCase() === currentSymptom) {
+                            elm.value++;
+                        }
+                    });
+                }
+                currentStatus = [];
+                currentSymptom = "";
+            });
+        }
     });
 
     // Returning only the most common symptoms (7 most common)
@@ -53,8 +57,8 @@ export function transformSymptomsData(statuses: PatientStatus[]) {
     return data;
 }
 
-// Transforming the weight & temperature data to plug into the scatter chart
-export function transformWeightTempData(statuses: PatientStatus[]) {
+// Transforming the weight & temperature data to plug into the scatter chart only for statuses updated today
+export function transformWeightTempData(statuses: PatientStatus[], day: string) {
     const data: ScatterChartData[] = [];
     let highestWeight = 0;
     let highestTemp = 0;
@@ -62,7 +66,9 @@ export function transformWeightTempData(statuses: PatientStatus[]) {
 
     // Formatting the weight & temperature data object + finding the domain ranges
     statuses.map(status => {
-        data.push({ x: status.weight.value, y: status.temperature.value });
+        if (dayCondition(status, day)) {
+            data.push({ x: status.weight.value, y: status.temperature.value });
+        }
         if (status.weight.value > highestWeight) highestWeight = status.weight.value;
         if (status.temperature.value > highestTemp) highestTemp = status.temperature.value;
         if (status.weight.value < lowestWeight) lowestWeight = status.weight.value;
@@ -73,9 +79,27 @@ export function transformWeightTempData(statuses: PatientStatus[]) {
         nameY: "Temperature",
         unitX: "lbs",
         unitY: "°C",
-        domainX: [lowestWeight, highestWeight + 10],
+        domainX: [lowestWeight - 10, highestWeight + 10],
         domainY: [30, highestTemp + 2],
     };
 
     return { data, details };
+}
+
+// Filtering the statuses according to the day
+function dayCondition(status: PatientStatus, day: string) {
+    if (day === DAY.TODAY) {
+        return (
+            0 <= status.lastUpdated - parseInt(moment().format("hh")) &&
+            status.lastUpdated - parseInt(moment().format("hh")) < 24
+        );
+    } else if (day === DAY.YESTERDAY) {
+        return (
+            24 <= status.lastUpdated - parseInt(moment().format("hh")) &&
+            status.lastUpdated - parseInt(moment().format("hh")) < 48
+        );
+    } else if (day === DAY.ALL) {
+        return true;
+    }
+    return false;
 }
