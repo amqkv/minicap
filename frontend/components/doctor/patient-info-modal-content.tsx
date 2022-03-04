@@ -1,9 +1,50 @@
-import { Box, Flex, Divider, Heading, Text, Image } from "@chakra-ui/react";
+import { Box, Flex, Divider, Heading, Text, Image, Button, useToast } from "@chakra-ui/react";
+import { ChevronUpIcon } from "@chakra-ui/icons";
 import { Patient } from "@frontend/models/patient";
+import { serverURL } from "@frontend/config/index";
 import PatientDetailsToProvideForm from "../forms/patient-details-to-provide-form";
 import PatientStatus from "./patient-status";
+import { useSession } from "next-auth/react";
+import { BOOLEANS } from "@frontend/utils/constants";
 
 export default function PatientInfoModalContent({ patient }: { patient: Patient }) {
+    const toast = useToast();
+    const { data: session } = useSession();
+
+    async function modifyPriority() {
+        await fetch(serverURL + "/doctors/updatePriority/", {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                accountId: session?.user.AccountId,
+                patientId: patient.patientId,
+                isPrioritized: patient.isPrioritized ? BOOLEANS.FALSE : BOOLEANS.TRUE,
+            }),
+        })
+            .then(() => {
+                toast({
+                    title: "Priority modified",
+                    description: "Your patient's priority has been successfully modified.",
+                    status: "success",
+                    duration: 3000,
+                    isClosable: true,
+                });
+                window.location.reload();
+            })
+            .catch(err => {
+                console.log(err);
+                toast({
+                    title: "Error!",
+                    description: "Something went wrong while trying to update the priority. Please try again later.",
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                });
+            });
+    }
+
     return (
         <Box>
             <Flex>
@@ -20,6 +61,7 @@ export default function PatientInfoModalContent({ patient }: { patient: Patient 
                     <Box fontWeight="semibold" isTruncated mx={2} mt="1">
                         <Text fontSize="xl">
                             {patient.basicInformation.firstName} {patient.basicInformation.lastName}
+                            {patient.isPrioritized ? <ChevronUpIcon w={8} h={8} color="red.500" pr={2} /> : ""}
                         </Text>
                     </Box>
                     <Box display="flex" alignItems="baseline" mx={2}>
@@ -29,6 +71,9 @@ export default function PatientInfoModalContent({ patient }: { patient: Patient 
                             </Text>
                             <Text>{patient.basicInformation.dob}</Text>
                             <Text>Height: {patient.basicInformation.height} cm</Text>
+                            <Button colorScheme="red" variant="outline" size="xs" mt={2} onClick={modifyPriority}>
+                                {patient.isPrioritized ? "Remove High Priority" : "Flag as High Priority"}
+                            </Button>
                         </Box>
                     </Box>
                 </Box>
@@ -54,7 +99,7 @@ export default function PatientInfoModalContent({ patient }: { patient: Patient 
                         {patient.status[0].lastUpdated > 1
                             ? patient.status[0].lastUpdated.toFixed(0)
                             : patient.status[0].lastUpdated.toFixed(1)}{" "}
-                        hr(s) ago:{" "}
+                        hr(s) ago:
                     </Heading>
                 </Box>
                 <PatientStatus patient={patient} />
