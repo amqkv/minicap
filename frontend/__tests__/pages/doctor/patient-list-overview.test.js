@@ -1,7 +1,7 @@
 import { mount, shallow } from "enzyme";
 import PatientInfoModalContent from "@frontend/components/doctor/patient-info-modal-content";
 import PatientListOverview from "@frontend/pages/doctor/patient-list-overview";
-import PatientInfoModal from "@frontend/components/modal";
+import PatientInfoModal from "@frontend/components/modal/modal";
 import PatientInfoCard from "@frontend/components/doctor/patient-info-card";
 import { DEFAULT_PATIENT } from "@frontend/models/patient";
 import { Box, SimpleGrid, Heading } from "@chakra-ui/react";

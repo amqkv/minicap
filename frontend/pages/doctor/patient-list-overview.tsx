@@ -1,5 +1,5 @@
 import PatientInfoCard from "@frontend/components/doctor/patient-info-card";
-import PatientInfoModal from "@frontend/components/modal";
+import PatientInfoModal from "@frontend/components/modal/modal";
 import PatientInfoModalContent from "@frontend/components/doctor/patient-info-modal-content";
 import { serverURL } from "@frontend/config";
 import { DEFAULT_PATIENT, Patient } from "@frontend/models/patient";

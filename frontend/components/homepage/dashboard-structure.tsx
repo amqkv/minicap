@@ -53,7 +53,7 @@ export const links: link[] = [
     },
     {
         label: "List of Covid Patients",
-        url: "/immigration-officiers/find-users",
+        url: "/immigration-officer/find-users",
         roleRequired: USER_ROLES.iOfficer,
         img: "https://imgur.com/eRLbmpq.png",
     },
