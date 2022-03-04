@@ -9,7 +9,8 @@ import { useEffect, useState } from "react";
 import { USER_ROLES } from "@frontend/utils/constants";
 import { useRouter } from "next/router";
 import PieChart from "@frontend/components/pie-chart";
-import { extractSymptoms } from "@frontend/functions/data-transform-chart";
+import ScatterChart from "@frontend/components/scatter-chart";
+import { extractStatuses, transformWeightTempData } from "@frontend/functions/data-transform-chart";
 
 export async function getServerSideProps(context: any) {
     const session = await getSession(context);
@@ -82,7 +83,8 @@ export default function DoctorDashboard({ patientList }: { patientList: Patient[
             <Heading size="xl" mx={10} mt={8}>
                 Patients
             </Heading>
-            <PieChart statuses={extractSymptoms(patientList)} />
+            <PieChart statuses={extractStatuses(patientList)} />
+            <ScatterChart statuses={extractStatuses(patientList)} transformDataFn={transformWeightTempData} />
             <Box mx={10}>
                 <RadioGroup my={4} onChange={e => filterPatients(e)} value={filterOption} colorScheme={"red"}>
                     <Stack direction="row">

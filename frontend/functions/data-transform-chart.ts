@@ -1,8 +1,8 @@
-import { PieChartData } from "@frontend/models/chart-data";
+import { PieChartData, ScatterChartData, ScatterChartDataDetails } from "@frontend/models/chart-data";
 import { Patient, PatientStatus } from "@frontend/models/patient";
 
 // Extracting all statuses from patients object
-export function extractSymptoms(patientList: Patient[]) {
+export function extractStatuses(patientList: Patient[]) {
     const statusesArr: PatientStatus[] = [];
     patientList.map(patient => {
         patient.status.map(status => {
@@ -51,4 +51,31 @@ export function transformSymptomsData(statuses: PatientStatus[]) {
         return data.slice(0, 7);
     }
     return data;
+}
+
+// Transforming the weight & temperature data to plug into the scatter chart
+export function transformWeightTempData(statuses: PatientStatus[]) {
+    const data: ScatterChartData[] = [];
+    let highestWeight = 0;
+    let highestTemp = 0;
+    let lowestWeight = 100000;
+
+    // Formatting the weight & temperature data object + finding the domain ranges
+    statuses.map(status => {
+        data.push({ x: status.weight.value, y: status.temperature.value });
+        if (status.weight.value > highestWeight) highestWeight = status.weight.value;
+        if (status.temperature.value > highestTemp) highestTemp = status.temperature.value;
+        if (status.weight.value < lowestWeight) lowestWeight = status.weight.value;
+    });
+
+    const details: ScatterChartDataDetails = {
+        nameX: "Weight",
+        nameY: "Temperature",
+        unitX: "lbs",
+        unitY: "°C",
+        domainX: [lowestWeight, highestWeight + 10],
+        domainY: [30, highestTemp + 2],
+    };
+
+    return { data, details };
 }

@@ -1,16 +1,8 @@
 import { Box } from "@chakra-ui/react";
 import { transformSymptomsData } from "@frontend/functions/data-transform-chart";
+import { PieChartLabel } from "@frontend/models/chart-data";
 import { PatientStatus } from "@frontend/models/patient";
 import { PieChart, Pie, Cell, Legend } from "recharts";
-
-interface PieChartLabel {
-    cx: number;
-    cy: number;
-    midAngle: number;
-    innerRadius: number;
-    outerRadius: number;
-    percent: number;
-}
 
 const COLORS = ["#f28a8a", "#988dc7", "#fae282", "#50b3de", "#656c96", "#82ca9d", "#7c93d9"];
 const RADIAN = Math.PI / 180;
