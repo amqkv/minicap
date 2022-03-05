@@ -31,7 +31,7 @@ export default function PatientInfoCard({ patient }: { patient: Patient }) {
                         src="https://images-ext-2.discordapp.net/external/pTKakmU5qrrmG0himz_tGUYOY4uXKwtSFmck1JV1Vcs/https/i.imgur.com/oJpKCRk.png"
                         alt="Patient Picture"
                         boxSize="100px"
-                        width="150px"
+                        width="170px"
                         mb={3}
                     />
                 </Box>
