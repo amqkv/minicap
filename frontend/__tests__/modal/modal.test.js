@@ -1,5 +1,5 @@
 import { shallow } from "enzyme";
-import PatientInfoModal from "@frontend/components/modal";
+import PatientInfoModal from "@frontend/components/modal/modal";
 import { Modal } from "@chakra-ui/react";
 
 describe("<Modal/>", () => {

@@ -5,9 +5,12 @@ import { IMMIGRATION_OFFICER_MOCK_PATIENTS } from "@frontend/__tests__/__mock__/
 import UserList, { filterByText } from "@frontend/pages/immigration-officer/find-users";
 import Circle from "@frontend/components/circle";
 import List from "@frontend/components/admin/list";
-import Modal from "@frontend/components/modal";
+import Modal from "@frontend/components/modal/modal";
 import Legend from "@frontend/components/legend";
-import { Input, Image, Flex } from "@chakra-ui/react";
+import { Input, Image, Flex, Heading, Button, Select } from "@chakra-ui/react";
+import { filter } from "@frontend/functions/sorting-filtering";
+import CovidPatients from "@frontend/pages/health-official/covid-patients";
+import PatientInformationModalBody from "@frontend/components/modal/patient-information-modal-body";
 
 jest.mock("next-auth/react");
 
@@ -35,24 +38,26 @@ describe("immigration officer find users page", () => {
         const wrapper = shallow(<UserList patients={IMMIGRATION_OFFICER_MOCK_PATIENTS} />);
 
         expect(wrapper.find(Input)).toHaveLength(1);
+        expect(wrapper.find(Heading)).toHaveLength(1);
         expect(wrapper.find(List)).toHaveLength(1);
         expect(wrapper.find(Legend)).toHaveLength(1);
         expect(wrapper.find(Modal)).toHaveLength(1);
-        expect(wrapper.find(Circle)).toHaveLength(2);
-        expect(wrapper.find(Image)).toHaveLength(1);
+        expect(wrapper.find(Circle)).toHaveLength(4);
+        expect(wrapper.find(Button)).toHaveLength(3);
+        expect(wrapper.find(PatientInformationModalBody)).toHaveLength(1);
     });
     it("Click on a user and opens modal", () => {
         useSession.mockReturnValue({
             data: {
                 user: {
-                    Role: USER_ROLES.iOfficer,
+                    Role: USER_ROLES.hOfficial,
                 },
             },
         });
-        const wrapper = shallow(<UserList patients={IMMIGRATION_OFFICER_MOCK_PATIENTS} />);
+        const wrapper = shallow(<CovidPatients patients={IMMIGRATION_OFFICER_MOCK_PATIENTS} />);
         expect(wrapper.find(Modal).prop("isOpen")).toBeFalsy();
         // index 0 is Flex for search input.
-        const userRow = shallow(wrapper.find(Flex).get(1));
+        const userRow = shallow(wrapper.find(Flex).get(2));
         userRow.props().onClick();
         wrapper.update();
         expect(wrapper.find(Modal).prop("isOpen")).toBeTruthy();
@@ -73,8 +78,25 @@ describe("immigration officer find users page", () => {
 
 describe("filter function", () => {
     it("filters properly", () => {
-        expect(filterByText({ searchText: "bing bong", arr: IMMIGRATION_OFFICER_MOCK_PATIENTS })).toStrictEqual([
-            IMMIGRATION_OFFICER_MOCK_PATIENTS[0],
-        ]);
+        //sort alphabetically and do not click on button for positive or negative filter
+        expect(
+            filter({
+                searchText: "bing bong",
+                arr: IMMIGRATION_OFFICER_MOCK_PATIENTS,
+                alphabeticalSort: true,
+                positivesOnly: false,
+                negativesOnly: false,
+            })
+        ).toStrictEqual([IMMIGRATION_OFFICER_MOCK_PATIENTS[0]]);
+        // no search, look for all patients that are positive
+        expect(
+            filter({
+                searchText: "",
+                arr: IMMIGRATION_OFFICER_MOCK_PATIENTS,
+                alphabeticalSort: true,
+                positivesOnly: true,
+                negativesOnly: false,
+            })
+        ).toStrictEqual([IMMIGRATION_OFFICER_MOCK_PATIENTS[1]]);
     });
 });
