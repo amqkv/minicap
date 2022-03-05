@@ -20,6 +20,8 @@ router.get("/getPatientsInfo/:userId", (req, res) => {
 
 router.get("/getPatientsDashboardInfo/:userId", (req, res) => {
     doctorController.getPatientsDashboardInfo(req, res);
+});
+
 /**
  * Update the priority state of a patient
  * Middlewares:

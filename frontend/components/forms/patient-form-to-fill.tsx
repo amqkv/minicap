@@ -32,11 +32,10 @@ export default function PatientFormToFill({ requiredDetails, pastConditions }: P
         let error = false;
 
         // initialize values for statusValues
-        // TODO: decide on default value for weight
         const statusValues: StatusParameters = {
             accountId: userId,
             temperature: 37,
-            weight: 0,
+            weight: 80,
             symptoms: " ",
             isReviewed: false,
             statusTime: time,

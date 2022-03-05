@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import Chart from "@frontend/components/line-chart";
 import { USER_ROLES } from "@frontend/utils/constants";
 
-export default function Dashboard() {
+export default function Dashboard({ data }: any) {
     const { data: session } = useSession();
     const userRole = session?.user?.Role;
     const userName = session?.user?.FirstName + " " + session?.user?.LastName;
@@ -15,9 +15,12 @@ export default function Dashboard() {
             <Heading paddingLeft={"50px"}>
                 Welcome {userRole} {userName}
             </Heading>
-            {session?.user?.Role === USER_ROLES.patient? <Chart/>: <p>You are not a doctor. NOOOOB</p>}
+            <Center>
+                <Box padding={"20px 20px 0 50px"}>
+                    <Heading size={"lg"}>Your Status Chart:</Heading>
+                    <Chart data={data} />
+                </Box>
 
-            <Center marginTop={"5%"}>
                 <Flex flexWrap="wrap">
                     {links.map(({ label, url, roleRequired, img }: link) => {
                         const renderCard = roleRequired === userRole || !roleRequired;
@@ -25,7 +28,16 @@ export default function Dashboard() {
                     })}
                 </Flex>
             </Center>
-            
+            {/* <Box margin={"5% 0 5% 20%"}>
+                {session?.user?.Role === USER_ROLES.patient ? (
+                    <Box>
+                        <Heading></Heading>
+                        <Chart data={data} />
+                    </Box>
+                ) : (
+                    <p>You are not a patient. NOOOOB</p>
+                )}
+            </Box> */}
         </Box>
     );
 }

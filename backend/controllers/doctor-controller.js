@@ -154,6 +154,9 @@ async function getPatientsDashboardInfo(req, res) {
         )
         .then(patientDashboardInfo => {
             res.json(patientDashboardInfo[0]);
+        });
+}
+
 // Update the priority state of a patient
 async function updatePriority(req, res) {
     await Patient.update(

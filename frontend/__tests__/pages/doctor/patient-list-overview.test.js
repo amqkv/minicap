@@ -23,7 +23,7 @@ describe("Rendering <PatientListOverview/> if user is a doctor", () => {
     });
     const component = shallow(<PatientListOverview patientList={patientList} />);
     it("Renders all the Box components", () => {
-        expect(component.find(Box)).toHaveLength(3);
+        expect(component.find(Box)).toHaveLength(4);
     });
     it("Renders all the Heading components", () => {
         expect(component.find(Heading)).toHaveLength(1);
