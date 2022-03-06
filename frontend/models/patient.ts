@@ -76,3 +76,8 @@ export const DEFAULT_PATIENT = {
     ],
     isPrioritized: false,
 };
+
+export interface AverageTemperature {
+    averageTemp?: number;
+    StatusTime?: string;
+}

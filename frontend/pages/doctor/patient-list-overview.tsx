@@ -1,6 +1,7 @@
 import PatientInfoCard from "@frontend/components/doctor/patient-info-card";
 import PatientInfoModal from "@frontend/components/modal";
 import PatientInfoModalContent from "@frontend/components/doctor/patient-info-modal-content";
+import PatientChartsOverview from "@frontend/components/doctor/patient-charts-overview";
 import { serverURL } from "@frontend/config";
 import { DEFAULT_PATIENT, Patient } from "@frontend/models/patient";
 import {
@@ -13,22 +14,16 @@ import {
     Stack,
     useDisclosure,
     useToast,
-    FormControl,
-    FormHelperText,
-    FormLabel,
     Input,
     InputLeftElement,
     Button,
-    Flex,
-    StylesProvider,
     InputGroup,
     Center,
 } from "@chakra-ui/react";
 import { getSession, useSession } from "next-auth/react";
-import { FormEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { USER_ROLES } from "@frontend/utils/constants";
 import { useRouter } from "next/router";
-import PatientChartsOverview from "@frontend/components/doctor/patient-charts-overview";
 import { Search2Icon } from "@chakra-ui/icons";
 
 export async function getServerSideProps(context: any) {

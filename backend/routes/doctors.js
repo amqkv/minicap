@@ -19,6 +19,10 @@ router.get("/getPatientsDashboardInfo/:userId", (req, res) => {
     doctorController.getPatientsDashboardInfo(req, res);
 });
 
+router.get("/getAverageTemperature/:userId", (req, res) => {
+    doctorController.getAverageTemperature(req, res);
+});
+
 module.exports = {
     router,
 };

@@ -22,7 +22,7 @@ export default function PatientChartsOverview({ patientList }: { patientList: Pa
                             <PieChart
                                 statuses={extractStatuses(patientList)}
                                 title="All patients' symptoms"
-                                h={400}
+                                h={350}
                                 w={450}
                                 day={DAY.TODAY}
                             />
@@ -31,7 +31,7 @@ export default function PatientChartsOverview({ patientList }: { patientList: Pa
                             <PieChart
                                 statuses={extractStatuses(patientList)}
                                 title="All patients' symptoms"
-                                h={400}
+                                h={350}
                                 w={450}
                                 day={DAY.YESTERDAY}
                             />
@@ -40,7 +40,7 @@ export default function PatientChartsOverview({ patientList }: { patientList: Pa
                             <PieChart
                                 statuses={extractStatuses(patientList)}
                                 title="All patients' symptoms"
-                                h={400}
+                                h={350}
                                 w={450}
                                 day={DAY.ALL}
                             />
