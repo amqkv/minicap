@@ -153,25 +153,8 @@ async function getPatientsDashboardInfo(req, res) {
         });
 }
 
-async function getAverageTemperature(req, res) {
-    await db
-        .query(
-            `SELECT AVG(S.Temperature) AS averageTemp, CAST(S.StatusTime AS DATE) as StatusTime
-                    FROM Status S, Patient P, Doctor D
-                    WHERE S.Patient_PatientId=P.PatientId AND
-                        D.DoctorId=P.Doctor_DoctorId AND
-                        D.User_AccountId=${req.params.userId}
-                    GROUP BY CAST(S.StatusTime AS DATE)`,
-            { type: QueryTypes.SELECT }
-        )
-        .then(avg => {
-            res.json(avg);
-        });
-}
-
 module.exports = {
     updateRequiredDetails,
     getPatientsInfo,
     getPatientsDashboardInfo,
-    getAverageTemperature,
 };
