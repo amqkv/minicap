@@ -1,22 +1,25 @@
 import { Box } from "@chakra-ui/react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
 import moment from "moment";
-import { StatusDataProps } from "./types/types";
+import { StatusDataProps } from "@frontend/models/patient";
 
+interface ChartProps{
+    data: StatusDataProps[],
+    w: number,
+    h: number,
+}
 
-
-
-// TODO: fix any
-export default function Chart({ data }: any) {
+export default function Chart({ data, w , h }: ChartProps) {
+    // fix date format
     data.forEach((d: StatusDataProps) => {
         d.StatusTime = moment(d.StatusTime).format('L');
     })
-    data.reverse();
+
     return (
         <Box w={"90%"} h={"50%"}>
             <LineChart
-                width={900}
-                height={700}
+                width={w}
+                height={h}
                 data={data}
                 margin={{
                     top: 50,

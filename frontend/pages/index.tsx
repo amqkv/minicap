@@ -5,7 +5,7 @@ import { Box, Img, Flex, Heading } from "@chakra-ui/react";
 import Dashboard from "@frontend/components/homepage/dashboard";
 import { USER_ROLES } from "@frontend/utils/constants";
 import { serverURL } from "@frontend/config";
-import { StatusDataProps } from "@frontend/components/homepage/types/types";
+import { StatusDataProps } from "@frontend/models/patient";
 
 export const getServerSideProps: GetServerSideProps = async context => {
     let session = await getSession(context);
@@ -26,7 +26,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
     };
 };
 
-export default function Home({ data }: {data: StatusDataProps}) {
+export default function Home({ data }: {data: StatusDataProps[]}) {
     console.log( data);
 
     const { data: session } = useSession();

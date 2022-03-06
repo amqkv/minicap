@@ -12,12 +12,4 @@ export interface CardPatientProps {
     symptoms: string;
 }
 
-export interface StatusDataProps {
-    StatusId: number;
-    Temperature: number;
-    StatusTime: string;
-    IsReviewed: boolean;
-    Patient_PatientId: number;
-    Weight: number;
-    Symptoms: string;
-}
+
