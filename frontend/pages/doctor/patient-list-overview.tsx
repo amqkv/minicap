@@ -3,12 +3,33 @@ import PatientInfoModal from "@frontend/components/modal";
 import PatientInfoModalContent from "@frontend/components/doctor/patient-info-modal-content";
 import { serverURL } from "@frontend/config";
 import { DEFAULT_PATIENT, Patient } from "@frontend/models/patient";
-import { Box, Text, Heading, Radio, RadioGroup, SimpleGrid, Stack, useDisclosure, useToast } from "@chakra-ui/react";
+import {
+    Box,
+    Text,
+    Heading,
+    Radio,
+    RadioGroup,
+    SimpleGrid,
+    Stack,
+    useDisclosure,
+    useToast,
+    FormControl,
+    FormHelperText,
+    FormLabel,
+    Input,
+    InputLeftElement,
+    Button,
+    Flex,
+    StylesProvider,
+    InputGroup,
+    Center,
+} from "@chakra-ui/react";
 import { getSession, useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { USER_ROLES } from "@frontend/utils/constants";
 import { useRouter } from "next/router";
 import PatientChartsOverview from "@frontend/components/doctor/patient-charts-overview";
+import { Search2Icon } from "@chakra-ui/icons";
 
 export async function getServerSideProps(context: any) {
     const session = await getSession(context);
@@ -34,6 +55,7 @@ export default function DoctorDashboard({ patientList }: { patientList: Patient[
     const [selectedPatient, setSelectedPatient] = useState<Patient>(DEFAULT_PATIENT);
     const [filterOption, setFilterOption] = useState("none");
     const [patientListToMap, setPatientListToMap] = useState(patientList);
+    const [noSearchResult, setNoSearchResult] = useState(false);
     const { onOpen, isOpen, onClose } = useDisclosure();
     const highTemperaturePatientList = patientList.filter(patient => patient.status[0].temperature.value >= 38);
     // <TODO> filter patient list according to flagged patients
@@ -75,12 +97,56 @@ export default function DoctorDashboard({ patientList }: { patientList: Patient[
                 break;
         }
     }
+
+    function onSearch(e: any) {
+        e.preventDefault();
+        const searchedName: string = e.target.value;
+        let listToSearch: Patient[] = [];
+        switch (filterOption) {
+            case "temperature":
+                listToSearch = highTemperaturePatientList;
+                break;
+            case "flag":
+                listToSearch = flaggedPatientList;
+                break;
+            case "none":
+                listToSearch = patientList;
+                break;
+        }
+        const searchResults = listToSearch.filter(elm =>
+            `${elm.basicInformation.firstName?.toLowerCase()} ${elm.basicInformation.lastName?.toLowerCase()}`.includes(
+                searchedName.toLowerCase()
+            )
+        );
+        setPatientListToMap(searchResults);
+        setNoSearchResult(!searchResults.length ? true : false);
+    }
     return (
         <Box my={10}>
             <Heading size="xl" mx={10} mt={8}>
                 Patients
             </Heading>
             <PatientChartsOverview patientList={patientList} />
+            {/* Search bar */}
+            <Box mx={10} mb={3}>
+                <InputGroup>
+                    <InputLeftElement size="xs">
+                        <Search2Icon color={"gray.300"} />
+                    </InputLeftElement>
+                    <Input
+                        onChange={onSearch}
+                        placeholder={"Search patient name..."}
+                        flex="3.9"
+                        mr={2}
+                        pl={10}
+                        name="search"
+                    />
+                    <Button flex="0.1" colorScheme={"red"} minWidth={"70px"} type={"submit"}>
+                        Search
+                    </Button>
+                </InputGroup>
+            </Box>
+            {/* Filter options */}
             <Box mx={10}>
                 <RadioGroup my={4} onChange={e => filterPatients(e)} value={filterOption} colorScheme={"red"}>
                     <Stack direction="row">
@@ -95,11 +161,19 @@ export default function DoctorDashboard({ patientList }: { patientList: Patient[
             </Box>
 
             <SimpleGrid minChildWidth="400px" rowGap={5} columnGap={2}>
-                {patientListToMap.map((patient: Patient) => (
-                    <Box onClick={() => handleClick(patient)} key={`patient-${patient.patientId}`}>
-                        <PatientInfoCard patient={patient} />
-                    </Box>
-                ))}
+                {noSearchResult ? (
+                    <Center>
+                        <Text fontSize="xl" color="gray.500">
+                            No patient found.
+                        </Text>
+                    </Center>
+                ) : (
+                    patientListToMap.map((patient: Patient) => (
+                        <Box onClick={() => handleClick(patient)} key={`patient-${patient.patientId}`}>
+                            <PatientInfoCard patient={patient} />
+                        </Box>
+                    ))
+                )}
             </SimpleGrid>
             <PatientInfoModal isOpen={isOpen} onClose={onClose}>
                 <PatientInfoModalContent patient={selectedPatient} />
