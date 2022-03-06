@@ -57,8 +57,6 @@ export default function PatientFormToFill({ requiredDetails, pastConditions }: P
             error = true;
         } else setTemperatureError(false);
 
-        console.log(statusValues);
-
         // popup if error
         if (error) {
             callPopup(registerIntegerErrorPopup);

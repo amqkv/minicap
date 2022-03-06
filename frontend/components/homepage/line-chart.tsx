@@ -1,20 +1,21 @@
 import { Box } from "@chakra-ui/react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import moment from "moment";
+import { StatusDataProps } from "./types/types";
+
+
+
 
 // TODO: fix any
 export default function Chart({ data }: any) {
-    console.log(data);
-    data.forEach((d: any) => {
+    data.forEach((d: StatusDataProps) => {
         d.StatusTime = moment(d.StatusTime).format('L');
-        console.log("Status time reformatted: ", d.StatusTime);
     })
-
-    const newData = data.reverse();
+    data.reverse();
     return (
         <Box w={"90%"} h={"50%"}>
             <LineChart
-                width={1000}
+                width={900}
                 height={700}
                 data={data}
                 margin={{

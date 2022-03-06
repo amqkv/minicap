@@ -19,7 +19,6 @@ export async function getServerSideProps(context: any) {
         if (session?.user.Role === USER_ROLES.doctor) {
             const patientListResponse: any = await fetch(serverURL + "/doctors/getPatientsInfo/" + userId);
             patientList = await patientListResponse.json();
-            console.log(session.user);
         }
     } catch {}
     return {
