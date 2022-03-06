@@ -4,7 +4,7 @@ import PatientDetailsToProvideForm from "@frontend/components/forms/patient-deta
 import PatientStatus from "@frontend/components/doctor/patient-status";
 import { DEFAULT_PATIENT } from "@frontend/models/patient";
 import { Box, Text, Divider, Heading, Flex, Button } from "@chakra-ui/react";
-import { ChevronUpIcon } from "@chakra-ui/icons";
+import { WarningTwoIcon } from "@chakra-ui/icons";
 import { useSession } from "next-auth/react";
 
 jest.mock("next-auth/react");
@@ -67,11 +67,11 @@ describe("<PatientInfoModal/>", () => {
         expect(w.find(Heading)).toHaveLength(2);
     });
     it("Verifies that no priority icon is rendered if patient is not flagged", () => {
-        expect(wrapper.find(ChevronUpIcon)).toHaveLength(0);
+        expect(wrapper.find(WarningTwoIcon)).toHaveLength(0);
     });
     it("Renders high priority icon if patient is flagged", () => {
         let w = shallow(<PatientInfoModalContent patient={prioritizedPatient} />);
-        expect(w.find(ChevronUpIcon)).toHaveLength(1);
+        expect(w.find(WarningTwoIcon)).toHaveLength(1);
     });
     it("Calls modify priority button when priority flag is off", async () => {
         const component = shallow(<PatientInfoModalContent patient={DEFAULT_PATIENT} />);

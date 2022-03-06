@@ -1,5 +1,5 @@
 import { Box, Image, Divider, Text, Flex } from "@chakra-ui/react";
-import { ChevronUpIcon } from "@chakra-ui/icons";
+import { WarningTwoIcon } from "@chakra-ui/icons";
 import { Patient } from "@frontend/models/patient";
 import PatientStatus from "./patient-status";
 
@@ -22,7 +22,7 @@ export default function PatientInfoCard({ patient }: { patient: Patient }) {
             _hover={{ cursor: "pointer", backgroundColor: "#fafafa" }}>
             <Flex>
                 {patient.isPrioritized ? (
-                    <ChevronUpIcon right="0px" position="absolute" w={8} h={8} color="red.500" pr={2} />
+                    <WarningTwoIcon my={1} right="0px" position="absolute" w={7} h={7} color="red.500" pr={2} />
                 ) : (
                     ""
                 )}

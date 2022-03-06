@@ -1,5 +1,5 @@
 import { Box, Flex, Divider, Heading, Text, Image, Button, useToast } from "@chakra-ui/react";
-import { ChevronUpIcon } from "@chakra-ui/icons";
+import { WarningTwoIcon } from "@chakra-ui/icons";
 import { Patient } from "@frontend/models/patient";
 import { serverURL } from "@frontend/config/index";
 import PatientDetailsToProvideForm from "../forms/patient-details-to-provide-form";
@@ -61,7 +61,11 @@ export default function PatientInfoModalContent({ patient }: { patient: Patient 
                     <Box fontWeight="semibold" isTruncated mx={2} mt="1">
                         <Text fontSize="xl">
                             {patient.basicInformation.firstName} {patient.basicInformation.lastName}
-                            {patient.isPrioritized ? <ChevronUpIcon w={8} h={8} color="red.500" pr={2} /> : ""}
+                            {patient.isPrioritized ? (
+                                <WarningTwoIcon mb={1} mx={2} w={7} h={7} color="red.500" pr={2} />
+                            ) : (
+                                ""
+                            )}
                         </Text>
                     </Box>
                     <Box display="flex" alignItems="baseline" mx={2}>
@@ -71,7 +75,7 @@ export default function PatientInfoModalContent({ patient }: { patient: Patient 
                             </Text>
                             <Text>{patient.basicInformation.dob}</Text>
                             <Text>Height: {patient.basicInformation.height} cm</Text>
-                            <Button colorScheme="red" variant="outline" size="xs" mt={2} onClick={modifyPriority}>
+                            <Button colorScheme="red" variant="outline" size="xs" my={2} onClick={modifyPriority}>
                                 {patient.isPrioritized ? "Remove High Priority" : "Flag as High Priority"}
                             </Button>
                         </Box>
