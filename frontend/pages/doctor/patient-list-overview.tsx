@@ -54,7 +54,7 @@ export default function DoctorDashboard({ patientList }: { patientList: Patient[
             });
             router.push("/");
         }
-    }, [router, session?.user.Role]);
+    }, [router, session?.user.Role, toast]);
 
     function handleClick(selectedPatient: Patient) {
         setSelectedPatient(selectedPatient);

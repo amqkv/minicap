@@ -1,5 +1,5 @@
 import { PieChartData, ScatterChartData, ScatterChartDataDetails } from "@frontend/models/chart-data";
-import { Patient, PatientStatus } from "@frontend/models/patient";
+import { Patient, PatientStatus, StatusDataProps } from "@frontend/models/patient";
 import { DAY } from "@frontend/utils/constants";
 import moment from "moment";
 
@@ -82,7 +82,6 @@ export function transformWeightTempData(statuses: PatientStatus[], day: string) 
         domainX: [lowestWeight - 10, highestWeight + 10],
         domainY: [30, highestTemp + 2],
     };
-
     return { data, details };
 }
 
@@ -102,4 +101,19 @@ function dayCondition(status: PatientStatus, day: string) {
         return true;
     }
     return false;
+}
+
+// Transforming the status history object to plug into the line chart
+export function formatPatientStatusData(statuses: PatientStatus[]) {
+    const statusHistory: StatusDataProps[] = [];
+    statuses.map(status => {
+        statusHistory.push({
+            Temperature: status.temperature.value,
+            StatusTime: status.statusTime,
+            Weight: status.weight.value,
+            Symptoms: status.symptoms.value,
+        });
+    });
+    statusHistory.reverse();
+    return statusHistory;
 }
