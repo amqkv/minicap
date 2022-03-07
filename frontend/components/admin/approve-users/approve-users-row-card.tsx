@@ -7,7 +7,7 @@ import { mutate } from "swr";
 import { BOOLEANS } from "@frontend/utils/constants";
 
 interface appProps {
-    session: Number;
+    session: number;
     userInfoSimple: UserInfoSimple;
 }
 
@@ -51,7 +51,7 @@ const ApproveUsersRowCard = ({ session, userInfoSimple }: appProps) => {
             </Button>
         </Fragment>
     );
-    return <UserRowCard onUserSelect={userConfirmHandler} userInfoSimple={userInfoSimple} content={content} />;
+    return <UserRowCard userInfoSimple={userInfoSimple} content={content} />;
 };
 
 export default ApproveUsersRowCard;
