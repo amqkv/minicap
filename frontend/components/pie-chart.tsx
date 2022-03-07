@@ -44,7 +44,6 @@ export default function Chart({ statuses, title, h, w, day }: ChartProps) {
                                 data={data}
                                 isAnimationActive={false}
                                 cx="45%"
-                                cy="30%"
                                 label={renderCustomizedLabel}
                                 outerRadius={80}
                                 fill="#8884d8"
@@ -57,7 +56,7 @@ export default function Chart({ statuses, title, h, w, day }: ChartProps) {
                     </Center>
                 </Box>
             ) : (
-                <Center>
+                <Center height={301}>
                     <Text color="#636363" fontSize="lg" mt={6}>
                         No data provided yet.
                     </Text>

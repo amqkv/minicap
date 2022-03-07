@@ -29,7 +29,7 @@ export default function Chart({ statuses, transformDataFn, day, title, h, w }: C
                             width={w}
                             height={h}
                             margin={{
-                                top: 20,
+                                top: 25,
                                 right: 20,
                                 bottom: 20,
                                 left: 20,

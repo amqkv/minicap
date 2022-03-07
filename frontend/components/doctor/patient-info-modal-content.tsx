@@ -63,12 +63,12 @@ export default function PatientInfoModalContent({ patient }: { patient: Patient 
                 <Box pl={2} flex="3">
                     <Box fontWeight="semibold" isTruncated mx={2} mt="1">
                         <Text fontSize="xl">
-                            {patient.basicInformation.firstName} {patient.basicInformation.lastName}
-                            {patient.isPrioritized ? (
-                                <WarningTwoIcon mb={1} mx={2} w={7} h={7} color="red.500" pr={2} />
-                            ) : (
-                                ""
-                            )}
+                            <Flex justifyContent={"space-between"}>
+                                {patient.basicInformation.firstName} {patient.basicInformation.lastName}
+                                {patient.isPrioritized ? (
+                                    <WarningTwoIcon mb={1} w={7} h={7} color="red.500" pr={2} />
+                                ) : null}
+                            </Flex>
                         </Text>
                     </Box>
                     <Box display="flex" alignItems="baseline" mx={2}>
