@@ -1,18 +1,19 @@
 import List from "@frontend/components/admin/list";
 import { NextPageContext } from "next";
 import { useSession, getSession } from "next-auth/react";
-import { USER_ROLES } from "@frontend/utils/constants";
+import { MAIN_COLOR, USER_ROLES } from "@frontend/utils/constants";
 import Legend from "@frontend/components/legend";
 import { serverURL } from "@frontend/config/index";
-import { Flex, Text, Box, Input, useDisclosure, Heading, Divider, Image, useToast, Button } from "@chakra-ui/react";
+import { Flex, Text, Box, Input, Heading, Divider, Image, Select, Button } from "@chakra-ui/react";
 import Circle from "@frontend/components/circle";
 import { PatientBasicInformation } from "@frontend/models/patient";
 import Modal from "@frontend/components/modal/modal";
-import { ArrowDownIcon, ArrowUpIcon } from "@chakra-ui/icons";
-import { MAIN_COLOR } from "@frontend/utils/constants";
+import { successfulToast, unsuccessfulToast } from "@frontend/utils/popups";
+import { ArrowUpIcon, ArrowDownIcon } from "@chakra-ui/icons";
 import useFilteredPatients from "@frontend/hooks/use-filtered-patients";
 import usePatientModal from "@frontend/hooks/usePatientModal";
 import inputStyling from "@frontend/components/inputs/input-styling";
+import changeCovidStatus from "@frontend/functions/change-patient-covid-status";
 import PatientInformationModalBody from "@frontend/components/modal/patient-information-modal-body";
 
 export async function getServerSideProps(context: NextPageContext) {
@@ -27,14 +28,16 @@ export async function getServerSideProps(context: NextPageContext) {
         },
     };
 }
+const toastId = "covid";
 
 const buttonProps = {
     variant: "outline",
     size: "lg",
 };
 
-const UserListPage = ({ patients }: { patients: PatientBasicInformation[] }) => {
+const CovidPatients = ({ patients }: { patients: PatientBasicInformation[] }) => {
     const { data: session } = useSession();
+    const { isOpen, modalClose, openModal, selectedPatient, setSelectedPatient, toast } = usePatientModal(toastId);
     const {
         alphabeticalSort,
         setAlphabeticalSort,
@@ -46,17 +49,35 @@ const UserListPage = ({ patients }: { patients: PatientBasicInformation[] }) => 
         positiveNegativeFilter,
     } = useFilteredPatients(patients);
 
-    const { isOpen, modalClose, openModal, selectedPatient } = usePatientModal(null);
+    async function changeStatus() {
+        const { hasCovid, firstName, lastName, id } = selectedPatient || {};
+        const covidChange = !hasCovid;
+        const { ok } = await changeCovidStatus(covidChange, id);
+        if (ok) {
+            setSelectedPatient({ ...selectedPatient, hasCovid: covidChange });
+            patients.map(patient => {
+                if (id === patient.id) patient.hasCovid = covidChange;
+            });
+        }
+        const toastParameters = ok
+            ? successfulToast({ firstName, lastName, covidChange })
+            : unsuccessfulToast({ firstName, lastName, covidChange });
 
-    if (session?.user.Role === USER_ROLES.iOfficer) {
+        toast.isActive(toastId) ? toast.update(toastId, toastParameters) : toast({ id: toastId, ...toastParameters });
+    }
+
+    if (session?.user.Role === USER_ROLES.hOfficial) {
         return (
             <Box padding={{ base: " 5% 0%", md: "0 15%" }}>
                 {/* rendering the page title */}
-                <Heading paddingBottom="15px"> Patients List </Heading>
+                <Heading paddingBottom="10px" margin={{ base: "0 20px ", md: "0px" }}>
+                    Covid Patients List
+                </Heading>
 
                 {/* rendering the search bar */}
                 <Flex
                     paddingBottom={{ base: "5px", md: "40px" }}
+                    // justifyContent={"space-between"}
                     alignItems="center"
                     margin="auto"
                     flexDirection={{ base: "column", md: "row" }}>
@@ -71,7 +92,6 @@ const UserListPage = ({ patients }: { patients: PatientBasicInformation[] }) => 
                             value={searchText}
                             onChange={event => setSearchText(event.target.value)}
                         />
-                        {/* rendering three buttons for filtering and sorting */}
                         <Flex justifyContent="space-around" flexDirection={{ base: "column", md: "row" }}>
                             <Button
                                 {...buttonProps}
@@ -95,7 +115,6 @@ const UserListPage = ({ patients }: { patients: PatientBasicInformation[] }) => 
                             </Button>
                         </Flex>
                     </Box>
-
                     {/* rendering the legend component */}
                     <Legend />
                 </Flex>
@@ -117,6 +136,21 @@ const UserListPage = ({ patients }: { patients: PatientBasicInformation[] }) => 
 
                 <Modal isOpen={isOpen} onClose={modalClose}>
                     <PatientInformationModalBody patient={selectedPatient} />
+                    <Divider color="black" backgroundColor="black" height={"1px"} margin="5px 0" />
+                    <Flex padding={"10px 0"} justifyContent="center">
+                        <Text fontSize="md" p="5px 0" flex="1">
+                            Current Covid Status:
+                        </Text>
+                        <Select
+                            size="sm"
+                            flex="1"
+                            value={selectedPatient?.hasCovid as any}
+                            icon={<Circle color={selectedPatient?.hasCovid ? "red" : "green"} diameter={24} />}
+                            onChange={changeStatus}>
+                            <option value={true as any}>Positive</option>
+                            <option value={false as any}>Negative</option>
+                        </Select>
+                    </Flex>
                 </Modal>
             </Box>
         );
@@ -124,4 +158,4 @@ const UserListPage = ({ patients }: { patients: PatientBasicInformation[] }) => 
     return <p>Access Denied</p>;
 };
 
-export default UserListPage;
+export default CovidPatients;

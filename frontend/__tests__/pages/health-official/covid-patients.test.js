@@ -2,20 +2,19 @@ import { useSession } from "next-auth/react";
 import { shallow } from "enzyme";
 import { USER_ROLES } from "@frontend/utils/constants";
 import { IMMIGRATION_OFFICER_MOCK_PATIENTS } from "@frontend/__tests__/__mock__/mock";
-import UserList, { filterByText } from "@frontend/pages/immigration-officer/find-users";
+import CovidPatients from "@frontend/pages/health-official/covid-patients";
 import Circle from "@frontend/components/circle";
 import List from "@frontend/components/admin/list";
 import Modal from "@frontend/components/modal/modal";
 import Legend from "@frontend/components/legend";
-import { Input, Image, Flex, Heading, Button, Select } from "@chakra-ui/react";
+import { Input, Image, Flex, Button, Heading, Select } from "@chakra-ui/react";
 import { filter } from "@frontend/functions/sorting-filtering";
-import CovidPatients from "@frontend/pages/health-official/covid-patients";
 import PatientInformationModalBody from "@frontend/components/modal/patient-information-modal-body";
 
 jest.mock("next-auth/react");
 
-describe("immigration officer find users page", () => {
-    it("doesn't allow access if the user isn't an immigration officer", () => {
+describe("health official covid patients page", () => {
+    it("doesn't allow access if the user isn't an health official", () => {
         useSession.mockReturnValue({
             data: {
                 user: {
@@ -23,22 +22,23 @@ describe("immigration officer find users page", () => {
                 },
             },
         });
-        const wrapper = shallow(<UserList patients={IMMIGRATION_OFFICER_MOCK_PATIENTS} />);
+        const wrapper = shallow(<CovidPatients patients={IMMIGRATION_OFFICER_MOCK_PATIENTS} />);
 
         expect(wrapper.find("p")).toHaveLength(1);
     });
-    it("renders properly if the user is an immigration officer", () => {
+    it("renders properly if the user is an health official", () => {
         useSession.mockReturnValue({
             data: {
                 user: {
-                    Role: USER_ROLES.iOfficer,
+                    Role: USER_ROLES.hOfficial,
                 },
             },
         });
-        const wrapper = shallow(<UserList patients={IMMIGRATION_OFFICER_MOCK_PATIENTS} />);
+        const wrapper = shallow(<CovidPatients patients={IMMIGRATION_OFFICER_MOCK_PATIENTS} />);
 
-        expect(wrapper.find(Input)).toHaveLength(1);
         expect(wrapper.find(Heading)).toHaveLength(1);
+        expect(wrapper.find(Select)).toHaveLength(1);
+        expect(wrapper.find(Input)).toHaveLength(1);
         expect(wrapper.find(List)).toHaveLength(1);
         expect(wrapper.find(Legend)).toHaveLength(1);
         expect(wrapper.find(Modal)).toHaveLength(1);
@@ -66,11 +66,11 @@ describe("immigration officer find users page", () => {
         useSession.mockReturnValue({
             data: {
                 user: {
-                    Role: USER_ROLES.iOfficer,
+                    Role: USER_ROLES.hOfficial,
                 },
             },
         });
-        const wrapper = shallow(<UserList patients={IMMIGRATION_OFFICER_MOCK_PATIENTS} />);
+        const wrapper = shallow(<CovidPatients patients={IMMIGRATION_OFFICER_MOCK_PATIENTS} />);
         const inputBox = shallow(wrapper.find(Input).get(0));
         inputBox.simulate("change", { target: { value: "a" } });
     });
@@ -78,7 +78,6 @@ describe("immigration officer find users page", () => {
 
 describe("filter function", () => {
     it("filters properly", () => {
-        //sort alphabetically and do not click on button for positive or negative filter
         expect(
             filter({
                 searchText: "bing bong",
@@ -88,7 +87,7 @@ describe("filter function", () => {
                 negativesOnly: false,
             })
         ).toStrictEqual([IMMIGRATION_OFFICER_MOCK_PATIENTS[0]]);
-        // no search, look for all patients that are positive
+
         expect(
             filter({
                 searchText: "",

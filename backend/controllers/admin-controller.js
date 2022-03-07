@@ -39,8 +39,6 @@ async function updateRole(req, res) {
 
 /**
  * Get all patients of each doctors as admin
- *
- *
  */
 
 async function getPatientsDoctors(req, res) {
@@ -85,7 +83,6 @@ async function getPatientsDoctors(req, res) {
     });
 
     // Add Unassigned Patients array attribute to JSON object
-
     const unassignedPatients = [];
 
     patients.map(patient => {

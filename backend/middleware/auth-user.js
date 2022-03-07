@@ -16,7 +16,6 @@ async function setUser(req, res, next) {
 }
 
 // Middleware for signed in verification
-// eslint-disable-next-line consistent-return
 function verifyUser(req, res, next) {
     if (signedUser == null) {
         res.status(403);

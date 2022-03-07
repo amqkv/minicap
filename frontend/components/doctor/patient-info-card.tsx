@@ -21,6 +21,11 @@ export default function PatientInfoCard({ patient }: { patient: Patient }) {
             position="relative"
             _hover={{ cursor: "pointer", backgroundColor: "#fff" }}>
             <Flex>
+                {patient.isPrioritized ? (
+                    <WarningTwoIcon my={1} right="0px" position="absolute" w={7} h={7} color="red.500" pr={2} />
+                ) : (
+                    ""
+                )}
                 <Box flex="1.7">
                     <Image
                         src="https://images-ext-2.discordapp.net/external/pTKakmU5qrrmG0himz_tGUYOY4uXKwtSFmck1JV1Vcs/https/i.imgur.com/oJpKCRk.png"
