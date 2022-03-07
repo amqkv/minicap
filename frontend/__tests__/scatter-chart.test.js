@@ -32,7 +32,7 @@ describe("<ScatterChart/>", () => {
     it("Renders all the Center components (if data is null)", () => {
         const w = shallow(
             <Chart
-                statuses={extractStatuses([{ ...patientList, status: [] }])}
+                statuses={extractStatuses(patientList)}
                 transformDataFn={transformWeightTempData}
                 title="Test"
                 day={""}
