@@ -1,4 +1,4 @@
-import { Button, Box, Heading, UseToastOptions, useToast, SimpleGrid, Text } from "@chakra-ui/react";
+import { Button, Box, Heading, UseToastOptions, useToast, SimpleGrid, Text, Flex } from "@chakra-ui/react";
 import PatientInputs from "@frontend/components/inputs/unit-input";
 import PatientTextarea from "@frontend/components/inputs/patient-textarea-input";
 import { pastConditionsProps, statusFilled, StatusParameters } from "@frontend/functions/create-status";
@@ -11,6 +11,7 @@ import PatientCard from "./patient-card";
 import { useRouter } from "next/router";
 import { checkboxForms } from "@frontend/functions/checkbox-form";
 import { PatientsFormsToFill } from "./types/types";
+import Chart from "@frontend/components/homepage/line-chart";
 
 export default function PatientFormToFill({ requiredDetails, pastConditions }: PatientsFormsToFill) {
     // initialize constants
@@ -82,34 +83,41 @@ export default function PatientFormToFill({ requiredDetails, pastConditions }: P
             <Box paddingLeft={"20px"}>
                 <Heading size="lg">Your Doctor: Dr Sawkon Di Zenoots</Heading>
                 <Heading size="lg">Today's Condition</Heading>
-                <Box w={{ base: "100%", md: "35%" }} paddingRight={"10px"}>
-                    <form onSubmit={handlePatientForm}>
-                    <Heading size="md" margin={"30px 0 10px 20px"}>Please fill out the following field for your doctor:</Heading>
+                <Flex>
+                    <Box flex="1" w={{ base: "100%", md: "35%" }} paddingLeft={"50px"}>
+                        <form onSubmit={handlePatientForm}>
+                            <Heading size="md" margin={"30px 0 10px 20px"}>
+                                Please fill out the following field for your doctor:
+                            </Heading>
 
-                        {temperature && (
-                            <PatientInputs
-                                error={temperatureError}
-                                label="Temperature"
-                                units="°C"
-                                name={"temperature"}
-                            />
-                        )}
-                        {weight && <PatientInputs error={weightError} label="Weight" units="lbs" name={"weight"} />}
-                        {symptoms && <PatientTextarea label="Symptoms" units="" name={"symptoms"} />}
-                        <Text margin="0 0 10px 30px">(Please separate the symptoms with a comma)</Text>
-                        <Button
-                            colorScheme="pink"
-                            size="md"
-                            margin={"20px 0 0 20px"}
-                            _hover={{ opacity: "80%" }}
-                            type="submit">
-                            Submit
-                        </Button>
-                    </form>
-                </Box>
+                            {temperature && (
+                                <PatientInputs
+                                    error={temperatureError}
+                                    label="Temperature"
+                                    units="°C"
+                                    name={"temperature"}
+                                />
+                            )}
+                            {weight && <PatientInputs error={weightError} label="Weight" units="lbs" name={"weight"} />}
+                            {symptoms && <PatientTextarea label="Symptoms" units="" name={"symptoms"} />}
+                            <Text margin="0 0 10px 30px">(Please separate the symptoms with a comma)</Text>
+                            <Button
+                                colorScheme="pink"
+                                size="md"
+                                margin={"20px 0 0 20px"}
+                                _hover={{ opacity: "80%" }}
+                                type="submit">
+                                Submit
+                            </Button>
+                        </form>
+                    </Box>
+
+                    <Box flex="1" ml={"200px"}>
+                        <Chart data={pastConditions} w={800} h={500} />
+                    </Box>
+                </Flex>
 
                 <Heading margin={"30px"}>Previous Day's Conditions</Heading>
-
                 <SimpleGrid minChildWidth="300px" rowGap={2} spacing={"20px"}>
                     {pastConditions.map(
                         ({

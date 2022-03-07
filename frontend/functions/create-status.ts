@@ -14,6 +14,7 @@ export interface pastConditionsProps{
     Temperature: number;
     StatusTime: string;
     IsReviewed?: boolean;
+    Patient_PatientId?: number;
     UserId?: number;
     Weight: number;
     Symptoms: string;

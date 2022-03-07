@@ -2,16 +2,17 @@ import { Box } from "@chakra-ui/react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
 import moment from "moment";
 import { StatusDataProps } from "@frontend/models/patient";
+import { pastConditionsProps } from "@frontend/functions/create-status";
 
 interface ChartProps{
-    data: StatusDataProps[],
+    data: pastConditionsProps[],
     w: number,
     h: number,
 }
 
 export default function Chart({ data, w , h }: ChartProps) {
     // fix date format
-    data.forEach((d: StatusDataProps) => {
+    data.forEach((d: pastConditionsProps) => {
         d.StatusTime = moment(d.StatusTime).format('L');
     })
 
