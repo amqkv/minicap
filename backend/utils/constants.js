@@ -18,6 +18,9 @@ const TEST_CONSTANTS = {
     PATIENT_ACCOUNT: {
         AccountId: "51"
     },
+    UPDATE_ROLE_ACCOUNT: {
+        AccountId: "828"
+    }
 };
 
 // sequelize doesnt like BOOLEAN which translates to an INTEGER in the request.

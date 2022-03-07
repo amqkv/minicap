@@ -84,7 +84,7 @@ describe("PATCH: Update user role", () => {
             },
             {
                 where: {
-                    AccountId: "828",
+                    AccountId: TEST_CONSTANTS.UPDATE_ROLE_ACCOUNT.AccountId,
                 },
             }
         );
@@ -93,7 +93,7 @@ describe("PATCH: Update user role", () => {
     it("Update successfuly the role of a user as an Admin", () => {
         const data = {
             accountId: "17",
-            userId: "828",
+            userId: TEST_CONSTANTS.UPDATE_ROLE_ACCOUNT.AccountId,
             oldRole: "Patient",
             newRole: "HealthOfficial",
         };
@@ -103,7 +103,7 @@ describe("PATCH: Update user role", () => {
     it("Attempt to update to the same role as an Admin", () => {
         const data = {
             accountId: "17",
-            userId: "828",
+            userId: TEST_CONSTANTS.UPDATE_ROLE_ACCOUNT.AccountId,
             oldRole: "Patient",
             newRole: "Patient",
         };
@@ -122,8 +122,8 @@ describe("PATCH: Update user role", () => {
 
     it("Attempt to update a non-existing user as a Non-Admin", () => {
         const data = {
-            accountId: "828",
-            userId: "828",
+            accountId: TEST_CONSTANTS.UPDATE_ROLE_ACCOUNT.AccountId,
+            userId: TEST_CONSTANTS.UPDATE_ROLE_ACCOUNT.AccountId,
             oldRole: "Patient",
             newRole: "HealthOfficial",
         };
@@ -133,7 +133,7 @@ describe("PATCH: Update user role", () => {
     it("Attempt to update a non-existing user as a Non-existing user", () => {
         const data = {
             accountId: "0",
-            userId: "828",
+            userId: TEST_CONSTANTS.UPDATE_ROLE_ACCOUNT.AccountId,
             oldRole: "Patient",
             newRole: "HealthOfficial",
         };
@@ -144,12 +144,12 @@ describe("PATCH: Update user role", () => {
 describe("Confirm User Account", () => {
     afterEach(() => {
         // reset account used for test
-        const reset_data = {
+        const resetData = {
             accountId: TEST_CONSTANTS.TESTER_ADMIN.AccountId,
             userId: TEST_CONSTANTS.UNCONFIRMED_ACCOUNT.AccountId,
             ConfirmedFlag: BOOLEANS.FALSE,
         };
-        return request(app).patch("/admins/confirm-user-account").send(reset_data);
+        return request(app).patch("/admins/confirm-user-account").send(resetData);
     });
     it("Attempt to confirm an UNCONFIRMED account as an ADMIN", () => {
         const data = {
