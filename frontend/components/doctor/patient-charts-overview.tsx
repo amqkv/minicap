@@ -3,12 +3,16 @@ import { extractStatuses, transformWeightTempData } from "@frontend/functions/da
 import { Patient } from "@frontend/models/patient";
 import { DAY } from "@frontend/utils/constants";
 import PieChart from "@frontend/components/pie-chart";
+import Table from "@frontend/components/doctor/patient-overview-table";
 import ScatterChart from "@frontend/components/scatter-chart";
 
 export default function PatientChartsOverview({ patientList }: { patientList: Patient[] }) {
     return (
         <Flex>
-            <Box flex="2">
+            <Box flex="0.7" m={10}>
+                <Table patientList={patientList} />
+            </Box>
+            <Box flex="1.65">
                 <Tabs colorScheme="red">
                     <Center>
                         <TabList>
@@ -48,7 +52,7 @@ export default function PatientChartsOverview({ patientList }: { patientList: Pa
                     </TabPanels>
                 </Tabs>
             </Box>
-            <Box flex="2">
+            <Box flex="1.65">
                 <Tabs colorScheme="red">
                     <Center>
                         <TabList>

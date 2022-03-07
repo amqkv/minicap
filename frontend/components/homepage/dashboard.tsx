@@ -14,7 +14,6 @@ export default function Dashboard() {
             <Heading paddingLeft={"50px"}>
                 Welcome {userRole} {userName}
             </Heading>
-            <LineChart />
             <Center marginTop={"5%"}>
                 <Flex flexWrap="wrap">
                     {links.map(({ label, url, roleRequired, img }: link) => {

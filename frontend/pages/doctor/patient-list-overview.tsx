@@ -126,7 +126,7 @@ export default function DoctorDashboard({ patientList }: { patientList: Patient[
             <Box mx={10} mb={3}>
                 <InputGroup>
                     <InputLeftElement size="xs">
-                        <Search2Icon color={"gray.300"} />
+                        <Search2Icon color={"gray.400"} />
                     </InputLeftElement>
                     <Input
                         onChange={onSearch}
@@ -135,6 +135,8 @@ export default function DoctorDashboard({ patientList }: { patientList: Patient[
                         mr={2}
                         pl={10}
                         name="search"
+                        borderColor={"gray.400"}
+                        _placeholder={{ color: "gray.600" }}
                     />
                     <Button flex="0.1" colorScheme={"red"} minWidth={"70px"} type={"submit"}>
                         Search

@@ -9,7 +9,6 @@ interface ChartProps {
     h: number;
 }
 
-// TODO: fix any
 export default function Chart({ data, w, h }: ChartProps) {
     data.forEach((d: StatusDataProps) => {
         d.StatusTime = moment(d.StatusTime).format("L");

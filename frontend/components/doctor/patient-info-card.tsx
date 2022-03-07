@@ -46,11 +46,6 @@ export default function PatientInfoCard({ patient }: { patient: Patient }) {
                         </Box>
                     </Box>
                 </Box>
-                {patient.status[0].temperature.value >= 38 ? (
-                    <Box>
-                        <WarningTwoIcon w={6} h={6} color="red.500" />
-                    </Box>
-                ) : null}
             </Flex>
 
             <Divider mb={3} />
