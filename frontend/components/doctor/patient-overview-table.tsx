@@ -3,6 +3,7 @@ import { Patient } from "@frontend/models/patient";
 
 export default function PatientOverviewTable({ patientList }: { patientList: Patient[] }) {
     const highTemperaturePatientList = patientList.filter(patient => patient.status[0].temperature.value >= 38);
+    const flaggedPatientList = patientList.filter(patient => patient.isPrioritized);
     const malePatientList = patientList.filter(patient => patient.basicInformation.gender === "Male");
     const femalePatientList = patientList.filter(patient => patient.basicInformation.gender === "Female");
 
@@ -23,10 +24,9 @@ export default function PatientOverviewTable({ patientList }: { patientList: Pat
                     <Td>High temperature</Td>
                     <Td isNumeric>{highTemperaturePatientList.length}</Td>
                 </Tr>
-                {/* <TODO> Add number of flagged patients */}
                 <Tr>
                     <Td>Flagged</Td>
-                    <Td isNumeric>0</Td>
+                    <Td isNumeric>{flaggedPatientList.length}</Td>
                 </Tr>{" "}
                 <Tr>
                     <Td>Male</Td>

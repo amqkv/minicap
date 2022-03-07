@@ -54,7 +54,7 @@ export default function DoctorDashboard({ patientList }: { patientList: Patient[
     const { onOpen, isOpen, onClose } = useDisclosure();
     const highTemperaturePatientList = patientList.filter(patient => patient.status[0].temperature.value >= 38);
     // <TODO> filter patient list according to flagged patients
-    const flaggedPatientList: Patient[] = [];
+    const flaggedPatientList: Patient[] = patientList.filter(patient => patient.isPrioritized);
     const { data: session } = useSession();
     const router = useRouter();
     const toast = useToast();
