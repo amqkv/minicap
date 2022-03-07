@@ -20,7 +20,7 @@ export default function ApproveUsers (sessionId: Number)  {
         <Fragment>
             {isLoading && <Spinner />}
             {!!users && (
-                <Box>
+                <Box py={5}>
                     <Container>
                         <List spacing={10}>
                             <UserList
@@ -33,7 +33,7 @@ export default function ApproveUsers (sessionId: Number)  {
                                     alignItems: "left",
                                 }}
                                 key="1"
-                                title="pending"
+                                title="Pending Users"
                                 length={users["Users"].length}>
                                 {users["Users"].map((item: UserInfoSimple) => (
                                     <ApproveUsersRowCard
