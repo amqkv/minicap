@@ -8,9 +8,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
-import Check from "@frontend/public/svg/check-mark.svg";
 import { KeyedMutator } from "swr";
-import CheckMark from "../UI/Checkmark";
+import CheckMark from "../UI/checkmark";
 
 export default function PatientInfoModalContent({
     patient,
@@ -126,10 +125,6 @@ export default function PatientInfoModalContent({
                     })}
                 </Swiper>
                 <HStack spacing="24px">
-                    <Button backgroundColor={"#FF4545BD"} onClick={reviewHandler}>
-                        Mark as Reviewed
-                    </Button>
-
                     <Button backgroundColor={"#FF4545BD"} onClick={reviewAllHandler}>
                         Mark all as Reviewed
                     </Button>

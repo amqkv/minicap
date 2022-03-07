@@ -1,5 +1,5 @@
 /** @type {import('next').NextConfig} */
-//  Can't import from config
+//  Can't import from config , put the serverURL as a constant
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const serverURL = "http://localhost:3001";
 const nextConfig = {

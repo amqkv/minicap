@@ -49,20 +49,20 @@ export default function DoctorDashboard() {
     const router = useRouter();
     const toast = useToast();
     const { onOpen, isOpen, onClose } = useDisclosure();
-    const { patientList, mutate, isLoading, isError } = usePatientInfo(session?.user.AccountId);
+    const {
+        patientList,
+        highTemperaturePatientList,
+        reviewedPatientList,
+        unreviewedPatientList,
+        mutate,
+        isLoading,
+        isError,
+    } = usePatientInfo(session?.user.AccountId);
 
     const [selectedPatient, setSelectedPatient] = useState<Patient>(DEFAULT_PATIENT);
     const [filterOption, setFilterOption] = useState("none");
-    const [patientListToMap, setPatientListToMap] = useState(patientList);
 
     // <TODO> filter patient list according to flagged patients
-    const highTemperaturePatientList = patientList?.filter(patient => patient.status[0].temperature.value >= 38);
-
-    //filtering based on reviewed
-    const reviewedPatientList = patientList?.filter(patient => patient.isAllReviewed.toString() === "true");
-
-    //filtering based on unreviewed
-    const unreviewedPatientList = patientList?.filter(patient => patient.isAllReviewed.toString() === "false");
 
     useEffect(() => {
         if (session?.user.Role !== USER_ROLES.doctor) {
@@ -85,23 +85,6 @@ export default function DoctorDashboard() {
 
     function filterPatients(value: string) {
         setFilterOption(value);
-        switch (value) {
-            case "temperature":
-                setPatientListToMap(highTemperaturePatientList);
-                break;
-            case "flag":
-                setPatientListToMap(flaggedPatientList);
-                break;
-            case "none":
-                setPatientListToMap(patientList);
-                break;
-            case "true":
-                setPatientListToMap(reviewedPatientList);
-                break;
-            case "false":
-                setPatientListToMap(unreviewedPatientList);
-                break;
-        }
     }
 
     return (
@@ -129,11 +112,47 @@ export default function DoctorDashboard() {
                     </Box>
 
                     <SimpleGrid minChildWidth="400px" rowGap={5} columnGap={2}>
-                        {(!!patientListToMap ? patientListToMap : patientList)?.map((patient: Patient) => (
-                            <Box onClick={() => handleClick(patient)} key={`patient-${patient.patientId}`}>
-                                <PatientInfoCard patient={patient} />
-                            </Box>
-                        ))}
+                        {/* Changed the way list are shown, otherwise these lists don't update on changes */}
+                        {filterOption === "none" &&
+                            patientList?.map((patient: Patient) => (
+                                <PatientInfoCard
+                                    patient={patient}
+                                    clickHandler={() => handleClick(patient)}
+                                    key={`patient-${patient.patientId}`}
+                                />
+                            ))}
+                        {filterOption === "temperature" &&
+                            highTemperaturePatientList?.map((patient: Patient) => (
+                                <PatientInfoCard
+                                    patient={patient}
+                                    clickHandler={() => handleClick(patient)}
+                                    key={`patient-${patient.patientId}`}
+                                />
+                            ))}
+                        {filterOption === "flag" &&
+                            flaggedPatientList?.map((patient: Patient) => (
+                                <PatientInfoCard
+                                    patient={patient}
+                                    clickHandler={() => handleClick(patient)}
+                                    key={`patient-${patient.patientId}`}
+                                />
+                            ))}
+                        {filterOption === "true" &&
+                            reviewedPatientList?.map((patient: Patient) => (
+                                <PatientInfoCard
+                                    patient={patient}
+                                    clickHandler={() => handleClick(patient)}
+                                    key={`patient-${patient.patientId}`}
+                                />
+                            ))}
+                        {filterOption === "false" &&
+                            unreviewedPatientList?.map((patient: Patient) => (
+                                <PatientInfoCard
+                                    patient={patient}
+                                    clickHandler={() => handleClick(patient)}
+                                    key={`patient-${patient.patientId}`}
+                                />
+                            ))}
                     </SimpleGrid>
 
                     <PatientInfoModal isOpen={isOpen} onClose={onClose}>
