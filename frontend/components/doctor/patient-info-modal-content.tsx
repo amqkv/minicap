@@ -1,4 +1,3 @@
-import { RepeatClockIcon } from "@chakra-ui/icons";
 import { Box, Flex, Divider, Heading, Text, Image, Button, useToast, Center } from "@chakra-ui/react";
 import { WarningTwoIcon } from "@chakra-ui/icons";
 import { Patient } from "@frontend/models/patient";

@@ -3,7 +3,7 @@ import PatientInfoModalContent from "@frontend/components/doctor/patient-info-mo
 import PatientDetailsToProvideForm from "@frontend/components/forms/patient-details-to-provide-form";
 import PatientStatus from "@frontend/components/doctor/patient-status";
 import { DEFAULT_PATIENT } from "@frontend/models/patient";
-import { Box, Text, Divider, Heading, Flex, Button } from "@chakra-ui/react";
+import { Box, Text, Divider, Heading, Flex, Button, Center } from "@chakra-ui/react";
 import { WarningTwoIcon } from "@chakra-ui/icons";
 import { useSession } from "next-auth/react";
 
@@ -37,16 +37,16 @@ describe("<PatientInfoModal/>", () => {
     prioritizedPatient.isPrioritized = true;
 
     it("Renders all Box components", () => {
-        expect(wrapper.find(Box)).toHaveLength(11);
+        expect(wrapper.find(Box)).toHaveLength(12);
     });
     it("Renders all Text components", () => {
         expect(wrapper.find(Text)).toHaveLength(4);
     });
     it("Renders all Flex components", () => {
-        expect(wrapper.find(Flex)).toHaveLength(1);
+        expect(wrapper.find(Flex)).toHaveLength(3);
     });
     it("Renders all Heading components", () => {
-        expect(wrapper.find(Heading)).toHaveLength(2);
+        expect(wrapper.find(Heading)).toHaveLength(3);
     });
     it("Renders all PatientStatus components", () => {
         expect(wrapper.find(PatientStatus)).toHaveLength(1);
@@ -58,13 +58,16 @@ describe("<PatientInfoModal/>", () => {
         expect(wrapper.find(PatientDetailsToProvideForm)).toHaveLength(1);
     });
     it("Renders all Divider components", () => {
-        expect(wrapper.find(Divider)).toHaveLength(2);
+        expect(wrapper.find(Divider)).toHaveLength(3);
+    });
+    it("Renders all Center components", () => {
+        expect(wrapper.find(Center)).toHaveLength(2);
     });
     it("Renders the last Heading containing the lastUpdated value with 0 decimals if it's > 1", () => {
         const patient = { ...DEFAULT_PATIENT };
         patient.status[0].lastUpdated = 10;
         let w = shallow(<PatientInfoModalContent patient={patient} />);
-        expect(w.find(Heading)).toHaveLength(2);
+        expect(w.find(Heading)).toHaveLength(3);
     });
     it("Verifies that no priority icon is rendered if patient is not flagged", () => {
         expect(wrapper.find(WarningTwoIcon)).toHaveLength(0);
