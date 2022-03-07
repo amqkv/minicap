@@ -70,7 +70,7 @@ async function getPatientsInfo(req, res) {
               RD.SymptomsRequired
     FROM Patient P, Users U, RequiredDetails RD, Doctor D
     WHERE D.User_AccountId=${req.params.userId} AND
-        P.Doctor_DoctorId= D.DoctorId AND
+          P.Doctor_DoctorId= D.DoctorId AND
           P.User_AccountId=U.AccountId AND
           P.PatientId=RD.Patient_PatientId
     `,
@@ -122,6 +122,7 @@ async function getPatientsInfo(req, res) {
                             ? Moment().diff(status.statusTime, "hours", true) - constants.MOMENT_TIMEZONE_ADJUSTMENT
                             : 0,
                         isReviewed: status.isReviewed,
+                        statusTime: status.statusTime,
                     });
                 }
             });

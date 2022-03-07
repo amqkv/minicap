@@ -19,10 +19,10 @@ export default function PatientInfoCard({ patient }: { patient: Patient }) {
             px="6"
             py="4"
             position="relative"
-            _hover={{ cursor: "pointer", backgroundColor: "#fafafa" }}>
+            _hover={{ cursor: "pointer", backgroundColor: "#fff" }}>
             <Flex>
                 {patient.isPrioritized ? (
-                    <WarningTwoIcon my={1} right="0px" position="absolute" w={7} h={7} color="red.500" pr={2} />
+                    <WarningTwoIcon my={1} mr={2} right="0px" position="absolute" w={7} h={7} color="red.500" pr={2} />
                 ) : (
                     ""
                 )}

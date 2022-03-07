@@ -1,10 +1,8 @@
-const Status = require("../models/status");
-const Sequelize = require("sequelize");
-const op = Sequelize.Op;
 const { QueryTypes } = require("sequelize");
+const Status = require("../models/status");
+
 const db = require("../config/database");
 const Patient = require("../models/patient");
-const moment = require("moment");
 
 // Create new status
 async function addStatus(req, res) {
@@ -21,11 +19,11 @@ async function addStatus(req, res) {
             where: { User_AccountId: req.body.accountId },
         });
         // splitting date format into year, month, day
-        var year = req.body.statusTime.substring(0, 4);
-        var month = req.body.statusTime.substring(5, 7);
-        var day = req.body.statusTime.substring(8, 10);
-        //@todo make it use sequelize functions soonTM
-        const status = await db
+        const year = req.body.statusTime.substring(0, 4);
+        const month = req.body.statusTime.substring(5, 7);
+        const day = req.body.statusTime.substring(8, 10);
+        // @todo make it use sequelize functions soonTM
+        await db
             .query(
                 `
                 SELECT * FROM dbo.Status
@@ -41,7 +39,7 @@ async function addStatus(req, res) {
                 }
             )
             .then(status => {
-                // status is the response from findOne() 
+                // status is the response from findOne()
                 // status has length 0 if there are no status card belonging to the patientID on the current day
                 if (status.length > 0) {
                     Status.update(
@@ -63,7 +61,7 @@ async function addStatus(req, res) {
 
                     // res.status(200).send("Status updated successfully.");
                 } else {
-                    //Create new status [No status created yet today]
+                    // Create new status [No status created yet today]
                     Status.create({
                         Temperature: req.body.temperature,
                         StatusTime: req.body.statusTime,
@@ -104,7 +102,6 @@ async function getAllStatus(req, res) {
         res.status(400).send("Failed to get all status");
     }
 }
-
 
 module.exports = {
     addStatus,
