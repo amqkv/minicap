@@ -18,15 +18,14 @@ describe("Test the test admin route ", () => {
         const data = {
             accountId: TEST_CONSTANTS.TESTER_ADMIN.AccountId,
         };
-        return request(app).get("/admins/").send(data).expect(200); 
+        return request(app).get("/admins/").send(data).expect(200);
     });
     it("user is NOT admin", () => {
         const data = {
             accountId: TEST_CONSTANTS.UNCONFIRMED_ACCOUNT.AccountId,
         };
-        return request(app).get("/admins/").send(data).expect(401); 
+        return request(app).get("/admins/").send(data).expect(401);
     });
-   
 });
 
 describe("PATCH: Assign a patient to a doctor", () => {
@@ -85,7 +84,7 @@ describe("PATCH: Update user role", () => {
             },
             {
                 where: {
-                    AccountId: "51",
+                    AccountId: "828",
                 },
             }
         );
@@ -94,7 +93,7 @@ describe("PATCH: Update user role", () => {
     it("Update successfuly the role of a user as an Admin", () => {
         const data = {
             accountId: "17",
-            userId: "51",
+            userId: "828",
             oldRole: "Patient",
             newRole: "HealthOfficial",
         };
@@ -104,7 +103,7 @@ describe("PATCH: Update user role", () => {
     it("Attempt to update to the same role as an Admin", () => {
         const data = {
             accountId: "17",
-            userId: "51",
+            userId: "828",
             oldRole: "Patient",
             newRole: "Patient",
         };
@@ -123,8 +122,8 @@ describe("PATCH: Update user role", () => {
 
     it("Attempt to update a non-existing user as a Non-Admin", () => {
         const data = {
-            accountId: "51",
-            userId: "51",
+            accountId: "828",
+            userId: "828",
             oldRole: "Patient",
             newRole: "HealthOfficial",
         };
@@ -134,7 +133,7 @@ describe("PATCH: Update user role", () => {
     it("Attempt to update a non-existing user as a Non-existing user", () => {
         const data = {
             accountId: "0",
-            userId: "51",
+            userId: "828",
             oldRole: "Patient",
             newRole: "HealthOfficial",
         };
