@@ -51,6 +51,7 @@ export default function DoctorDashboard({ patientList }: { patientList: Patient[
     const [filterOption, setFilterOption] = useState("none");
     const [patientListToMap, setPatientListToMap] = useState(patientList);
     const [noSearchResult, setNoSearchResult] = useState(false);
+    const [noFilterResult, setNoFilterResult] = useState(false);
     const { onOpen, isOpen, onClose } = useDisclosure();
     const highTemperaturePatientList = patientList.filter(patient => patient.status[0].temperature.value >= 38);
     // <TODO> filter patient list according to flagged patients
@@ -80,17 +81,22 @@ export default function DoctorDashboard({ patientList }: { patientList: Patient[
 
     function filterPatients(value: string) {
         setFilterOption(value);
+        let filteredList: Patient[] = [];
         switch (value) {
             case "temperature":
                 setPatientListToMap(highTemperaturePatientList);
+                filteredList = highTemperaturePatientList;
                 break;
             case "flag":
                 setPatientListToMap(flaggedPatientList);
+                filteredList = flaggedPatientList;
                 break;
             case "none":
                 setPatientListToMap(patientList);
+                filteredList = patientList;
                 break;
         }
+        setNoFilterResult(!filteredList.length ? true : false);
     }
 
     function onSearch(e: any) {
@@ -158,10 +164,10 @@ export default function DoctorDashboard({ patientList }: { patientList: Patient[
             </Box>
 
             <SimpleGrid minChildWidth="400px" rowGap={5} columnGap={2}>
-                {noSearchResult ? (
+                {noSearchResult || noFilterResult ? (
                     <Center>
-                        <Text fontSize="xl" color="gray.500">
-                            No patient found.
+                        <Text fontSize="xl" color="gray.500" mt={10}>
+                            No patient to show.
                         </Text>
                     </Center>
                 ) : (
