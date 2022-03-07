@@ -86,7 +86,7 @@ export function transformWeightTempData(statuses: PatientStatus[], day: string) 
 }
 
 // Filtering the statuses according to the day
-function dayCondition(status: PatientStatus, day: string) {
+export function dayCondition(status: PatientStatus, day: string) {
     if (day === DAY.TODAY) {
         return (
             0 <= status.lastUpdated - parseInt(moment().format("hh")) &&
