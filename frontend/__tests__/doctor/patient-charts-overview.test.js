@@ -6,7 +6,7 @@ import ScatterChart from "@frontend/components/scatter-chart";
 import { DEFAULT_PATIENT } from "@frontend/models/patient";
 import { Box, Center, Flex, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 const patientList = [DEFAULT_PATIENT, DEFAULT_PATIENT];
-describe("<PatientInfoCard/>", () => {
+describe("<PatientChartsOverview/>", () => {
     const wrapper = shallow(<PatientChartsOverview patientList={patientList} />);
 
     it("Renders all the Box components", () => {

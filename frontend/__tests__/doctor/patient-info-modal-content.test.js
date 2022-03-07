@@ -22,7 +22,7 @@ afterAll(() => {
     global.fetch = unmockedFetch;
 });
 
-describe("<PatientInfoModal/>", () => {
+describe("<PatientInfoModalContent/>", () => {
     useSession.mockReturnValue({
         data: {
             user: {
