@@ -1,17 +1,27 @@
-import { Box, Flex, Divider, Heading, Text, Image, Button } from "@chakra-ui/react";
+import { Box, Flex, Divider, Heading, Text, Image, Button, HStack } from "@chakra-ui/react";
 import { Patient } from "@frontend/models/patient";
 import PatientDetailsToProvideForm from "../forms/patient-details-to-provide-form";
 import PatientStatus from "./patient-status";
+import classes from "./patient-info-modal-content.module.css";
 import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import Check from "@frontend/public/svg/check-mark.svg";
+import { KeyedMutator } from "swr";
+import CheckMark from "../UI/Checkmark";
 
-export default function PatientInfoModalContent({ patient }: { patient: Patient }) {
+export default function PatientInfoModalContent({
+    patient,
+    onMutate,
+    onClose,
+}: {
+    patient: Patient;
+    onMutate: KeyedMutator<unknown>;
+    onClose: () => void;
+}) {
     const [currentStatus, setCurrentStatus] = useState(0);
-
     const reviewHandler = async () => {
         await fetch("/api/status/review-status", {
             method: "PATCH",
@@ -22,6 +32,8 @@ export default function PatientInfoModalContent({ patient }: { patient: Patient 
                 statusId: patient.status[currentStatus].statusId,
             }),
         });
+
+        onMutate();
     };
 
     const reviewAllHandler = async () => {
@@ -34,7 +46,10 @@ export default function PatientInfoModalContent({ patient }: { patient: Patient 
                 patientId: patient.patientId,
             }),
         });
+        onClose();
+        onMutate();
     };
+
     return (
         <Box>
             <Flex>
@@ -99,20 +114,26 @@ export default function PatientInfoModalContent({ patient }: { patient: Patient 
                     {patient.status.map((statusInfo, index) => {
                         return (
                             <SwiperSlide key={index}>
+                                <CheckMark
+                                    isColored={statusInfo.isReviewed}
+                                    color="#FF4545BD"
+                                    onClicking={reviewHandler}
+                                    isUnfillable={"false"}
+                                />
                                 <PatientStatus patient={patient} statusIndex={index} />
-                                <Check fill={patient.status[index].isReviewed ? "#FF4545BD" : "black"} />
                             </SwiperSlide>
                         );
                     })}
                 </Swiper>
+                <HStack spacing="24px">
+                    <Button backgroundColor={"#FF4545BD"} onClick={reviewHandler}>
+                        Mark as Reviewed
+                    </Button>
 
-                <Button backgroundColor={"#FF4545BD"} onClick={reviewHandler}>
-                    Mark as Reviewed
-                </Button>
-
-                <Button backgroundColor={"#FF4545BD"} onClick={reviewAllHandler}>
-                    Mark all as Reviewed
-                </Button>
+                    <Button backgroundColor={"#FF4545BD"} onClick={reviewAllHandler}>
+                        Mark all as Reviewed
+                    </Button>
+                </HStack>
             </Box>
         </Box>
     );

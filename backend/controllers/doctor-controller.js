@@ -123,7 +123,15 @@ async function getPatientsInfo(req, res) {
                     });
                 }
             });
-            patientsList.push({ ...patient, status: currentPatientStatus });
+            let isAllReviewed = true;
+            currentPatientStatus.some(status => {
+                if (status.isReviewed === false) {
+                    isAllReviewed = false;
+                    return true;
+                }
+            });
+
+            patientsList.push({ ...patient, status: currentPatientStatus, isAllReviewed });
             currentPatientStatus = [];
         });
         res.json(patientsList);

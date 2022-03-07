@@ -1,7 +1,3 @@
-const Sequelize = require("sequelize");
-const Status = require("../models/status");
-
-const op = Sequelize.Op;
 const { QueryTypes } = require("sequelize");
 const Status = require("../models/status");
 
@@ -99,7 +95,7 @@ async function getAllStatus(req, res) {
     }
 }
 
-// to review the status and update
+// review one single status and update
 async function reviewStatus(req, res) {
     try {
         await Status.update({ IsReviewed: "1" }, { where: { StatusId: req.body.statusId } });
@@ -109,6 +105,7 @@ async function reviewStatus(req, res) {
     }
 }
 
+// review all the statuses and update them
 async function reviewAllStatuses(req, res) {
     try {
         await Status.update({ IsReviewed: "1" }, { where: { Patient_PatientId: req.body.patientId } });
