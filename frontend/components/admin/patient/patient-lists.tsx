@@ -44,7 +44,7 @@ const PatientLists = ({ sessionId }: AppProps) => {
             {isError && <p id="error-message"> There is an error </p>}
 
             {!isError && !isLoading && (
-                <Box px={{ base: 0, sm: 1, md: 4, lg: 1 }} py={20}>
+                <Box px={{ base: 0, sm: 1, md: 4, lg: 1 }} py={5}>
                     <Box
                         overflowY={{ base: "auto", md: "scroll" }}
                         overflowX={"hidden"}
