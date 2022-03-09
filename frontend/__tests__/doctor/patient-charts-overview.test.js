@@ -4,7 +4,7 @@ import PieChart from "@frontend/components/pie-chart";
 import ScatterChart from "@frontend/components/scatter-chart";
 
 import { DEFAULT_PATIENT } from "@frontend/models/patient";
-import { Box, Center, Flex, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
+import { Box, Center, SimpleGrid, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 const patientList = [DEFAULT_PATIENT, DEFAULT_PATIENT];
 describe("<PatientChartsOverview/>", () => {
     const wrapper = shallow(<PatientChartsOverview patientList={patientList} />);
@@ -12,11 +12,11 @@ describe("<PatientChartsOverview/>", () => {
     it("Renders all the Box components", () => {
         expect(wrapper.find(Box)).toHaveLength(3);
     });
-    it("Renders all the Flex components", () => {
-        expect(wrapper.find(Flex)).toHaveLength(1);
-    });
     it("Renders all the Tab components", () => {
         expect(wrapper.find(Tab)).toHaveLength(6);
+    });
+    it("Renders all the SimpleGrid components", () => {
+        expect(wrapper.find(SimpleGrid)).toHaveLength(1);
     });
     it("Renders all the Tabs components", () => {
         expect(wrapper.find(Tabs)).toHaveLength(2);

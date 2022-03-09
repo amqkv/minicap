@@ -1,4 +1,4 @@
-import { Box, Center, Flex, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
+import { Box, Center, Flex, SimpleGrid, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import { extractStatuses, transformWeightTempData } from "@frontend/functions/data-transform-chart";
 import { Patient } from "@frontend/models/patient";
 import { DAY } from "@frontend/utils/constants";
@@ -8,11 +8,11 @@ import ScatterChart from "@frontend/components/scatter-chart";
 
 export default function PatientChartsOverview({ patientList }: { patientList: Patient[] }) {
     return (
-        <Flex>
-            <Box flex="0.7" m={10}>
+        <SimpleGrid minChildWidth="400px" rowGap={5} columnGap={2}>
+            <Box m={10}>
                 <Table patientList={patientList} />
             </Box>
-            <Box flex="1.65">
+            <Box>
                 <Tabs colorScheme="red">
                     <Center>
                         <TabList>
@@ -52,7 +52,7 @@ export default function PatientChartsOverview({ patientList }: { patientList: Pa
                     </TabPanels>
                 </Tabs>
             </Box>
-            <Box flex="1.65">
+            <Box>
                 <Tabs colorScheme="red">
                     <Center>
                         <TabList>
@@ -95,6 +95,7 @@ export default function PatientChartsOverview({ patientList }: { patientList: Pa
                     </TabPanels>
                 </Tabs>
             </Box>
-        </Flex>
+        </SimpleGrid>
+        // </Flex>
     );
 }
