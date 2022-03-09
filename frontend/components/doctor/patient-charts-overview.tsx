@@ -9,7 +9,7 @@ import ScatterChart from "@frontend/components/scatter-chart";
 export default function PatientChartsOverview({ patientList }: { patientList: Patient[] }) {
     return (
         <SimpleGrid minChildWidth="400px" rowGap={5} columnGap={2}>
-            <Box m={10}>
+            <Box m={10} mt={5}>
                 <Table patientList={patientList} />
             </Box>
             <Box>
