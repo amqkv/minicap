@@ -1,8 +1,7 @@
-import { Box, Flex, Divider, Heading, Text, Image, Button, HStack } from "@chakra-ui/react";
+import { Box, Flex, Divider, Heading, Text, Image, Button, HStack, Center } from "@chakra-ui/react";
 import { Patient } from "@frontend/models/patient";
 import PatientDetailsToProvideForm from "../forms/patient-details-to-provide-form";
 import PatientStatus from "./patient-status";
-import classes from "./patient-info-modal-content.module.css";
 import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
@@ -57,7 +56,7 @@ export default function PatientInfoModalContent({
                         src="https://images-ext-2.discordapp.net/external/pTKakmU5qrrmG0himz_tGUYOY4uXKwtSFmck1JV1Vcs/https/i.imgur.com/oJpKCRk.png"
                         alt="Patient Picture"
                         boxSize="100px"
-                        width="170px"
+                        width="130px"
                         mb={3}
                     />
                 </Box>
@@ -113,22 +112,30 @@ export default function PatientInfoModalContent({
                     {patient.status.map((statusInfo, index) => {
                         return (
                             <SwiperSlide key={index}>
-                                <CheckMark
+                               <Center>
+                                <HStack spacing="24px" align="center">
+                                    <Box>
+                                    <CheckMark
                                     isColored={statusInfo.isReviewed}
-                                    color="#FF4545BD"
+                                    color="#1F9D00"
                                     onClicking={reviewHandler}
                                     isUnfillable={"false"}
                                 />
-                                <PatientStatus patient={patient} statusIndex={index} />
+                                    </Box>   
+                               <Box>
+                               <PatientStatus patient={patient} statusIndex={index} />
+                               </Box>
+                                </HStack>
+                                </Center>       
                             </SwiperSlide>
                         );
                     })}
                 </Swiper>
-                <HStack spacing="24px">
-                    <Button backgroundColor={"#FF4545BD"} onClick={reviewAllHandler}>
+                <Center mt={4}>
+                <Button backgroundColor={"#FF4545BD"} onClick={reviewAllHandler}>
                         Mark all as Reviewed
-                    </Button>
-                </HStack>
+                    </Button>  
+                </Center>   
             </Box>
         </Box>
     );
