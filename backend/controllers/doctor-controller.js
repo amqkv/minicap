@@ -160,7 +160,6 @@ async function updatePriority(req, res) {
 
 // Update the priority state of a patient
 async function reviewPatient(req, res) {
-    console.log(req.body);
     await db
         .query(
             `UPDATE Status
@@ -174,7 +173,6 @@ async function reviewPatient(req, res) {
             }
         )
         .then(status => {
-            console.log(status[0]);
             if (status[0]) {
                 res.status(200).send("Task completed successfully!");
             } else {
