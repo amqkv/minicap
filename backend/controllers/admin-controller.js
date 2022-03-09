@@ -169,6 +169,7 @@ async function assignPatientDoctor(req, res) {
  */
 async function confirmAccount(req, res) {
     // can also be used to unconfirm account :)
+    console.log("EMAIL PASSWORD", process.env.ADMIN_EMAIL_SENDER_PASSWORD);
     const updated = await User.update(
         {
             ConfirmedFlag: req.body.ConfirmedFlag,
