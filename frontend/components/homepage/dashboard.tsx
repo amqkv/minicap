@@ -1,11 +1,10 @@
-import { Box, Center, Flex, Heading, ListIcon, ListItem, Text, UnorderedList } from "@chakra-ui/react";
+import { Box, Center, Flex, Heading, ListItem, UnorderedList } from "@chakra-ui/react";
 import Card from "./card";
 import { links, link } from "@frontend/components/homepage/dashboard-structure";
 import { useSession } from "next-auth/react";
 import Chart from "@frontend/components/homepage/line-chart";
 import { USER_ROLES } from "@frontend/utils/constants";
 import { StatusDataProps } from "@frontend/models/patient";
-import { ChevronRightIcon } from "@chakra-ui/icons";
 
 export default function Dashboard({ data }: { data: StatusDataProps[] }) {
     const { data: session } = useSession();
@@ -23,7 +22,7 @@ export default function Dashboard({ data }: { data: StatusDataProps[] }) {
             <Flex flexWrap={"wrap"}>
                 {/* Patient dashboard */}
                 {session?.user?.Role === USER_ROLES.patient ? (
-                    <Box flex="1" padding={"20px 10px 0 50px"}>
+                    <Box flex="1" margin={"20px 0px 0px 50px"}  w={{ sm: "60%", base: "100%" }}>
                         <Heading size={"lg"}>Your Status Chart:</Heading>
                         <Chart data={data} w={900} h={700} />
                     </Box>
@@ -33,7 +32,7 @@ export default function Dashboard({ data }: { data: StatusDataProps[] }) {
 
                 <Box flex="1">
                     {session?.user?.Role === USER_ROLES.patient ? (
-                        <Box margin={"20px 0 50px 10px"}>
+                        <Box margin={"20px 0px 50px 10px"}>
                             <Heading size={"lg"}>Announcement:</Heading>
                             <UnorderedList marginTop={"20px"}>
                                 <ListItem>You have 0 new message</ListItem>

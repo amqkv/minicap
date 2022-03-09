@@ -24,7 +24,9 @@ export default function PatientFormToFill({ requiredDetails, pastConditions }: P
 
     const { data: session } = useSession();
     const userId = session?.user?.AccountId;
-
+    const chartData = pastConditions; 
+    chartData.reverse();
+    
     // function to send data to backend and create new status
     async function handlePatientForm(event: any) {
         event.preventDefault();
@@ -114,7 +116,8 @@ export default function PatientFormToFill({ requiredDetails, pastConditions }: P
                     </Box>
 
                     <Box  ml={"20px"}>
-                        <Chart data={pastConditions} w={650} h={500} />
+                        
+                        <Chart data={chartData} w={650} h={500} />
                     </Box>
                 </SimpleGrid>
 
