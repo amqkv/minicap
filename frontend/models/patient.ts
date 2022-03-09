@@ -78,11 +78,11 @@ export const DEFAULT_PATIENT = {
 };
 
 export interface StatusDataProps {
-    StatusId: number;
+    StatusId?: number;
     Temperature: number;
     StatusTime: string;
-    IsReviewed: boolean;
-    Patient_PatientId: number;
+    IsReviewed?: boolean;
+    Patient_PatientId?: number;
     Weight: number;
     Symptoms: string;
 }

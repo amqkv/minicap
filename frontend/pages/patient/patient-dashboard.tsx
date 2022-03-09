@@ -17,15 +17,15 @@ export default function PatientDashboard() {
     // dashboard for hOfficial, iOfficer and admin will come later
     // can add options fields in dashboard-structure
     if (session?.user.Role === USER_ROLES.patient) {
-        return <Dashboard />;
+        return <Dashboard data={[]} />;
     } else if (session?.user.Role === USER_ROLES.doctor) {
-        return <Dashboard />;
+        return <Dashboard data={[]} />;
     } else if (session?.user.Role === USER_ROLES.hOfficial) {
-        return <Dashboard />;
+        return <Dashboard data={[]} />;
     } else if (session?.user.Role === USER_ROLES.iOfficer) {
-        return <Dashboard />;
+        return <Dashboard data={[]} />;
     } else if (session?.user.Role === USER_ROLES.admin) {
-        return <Dashboard />;
+        return <Dashboard data={[]} />;
     }
     return <p>Access Denied</p>;
 }
