@@ -56,22 +56,14 @@ const ApproveUsersRowCard = ({ session, userInfoSimple }: appProps) => {
                     <p style={{ display: "flex" }}>Desired Role: {userInfoSimple.Role}</p>
                 </Box>
             </SimpleGrid>
-            <Button
-                id={"reject-user-button"}
-                colorScheme="red"
-                mt={1}
-                style={{ display: "flex", marginLeft: "auto", alignSelf: "center" }}
-                onClick={userRejectHandler}>
-                Reject
-            </Button>
-            <Button
-                id={"confirm-user-button"}
-                colorScheme="green"
-                mt={1}
-                style={{ display: "flex", marginLeft: "2px", alignSelf: "center" }}
-                onClick={userConfirmHandler}>
-                Approve
-            </Button>
+            <Box mt={1} style={{ display: "flex", marginLeft: "auto", alignSelf: "center" }}>
+                <Button id={"reject-user-button"} colorScheme="red" mt={1} mr={2} onClick={userRejectHandler}>
+                    Reject
+                </Button>
+                <Button id={"confirm-user-button"} colorScheme="green" mt={1} mr={2} onClick={userConfirmHandler}>
+                    Approve
+                </Button>
+            </Box>
         </Fragment>
     );
     return <UserRowCard userInfoSimple={userInfoSimple} content={content} />;
