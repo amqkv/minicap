@@ -30,11 +30,9 @@ jobs:
           npm ci
 
       - name: Create env file
-        env:
-          ADMIN_EMAIL_SENDER_PASSWORD: ${{ secrets.ADMIN_EMAIL_SENDER_PASSWORD }}
         run: |
           touch ./backend/.env
-          echo ADMIN_EMAIL_SENDER_PASSWORD=$ADMIN_EMAIL_SENDER_PASSWORD > .env
+          echo ADMIN_EMAIL_SENDER_PASSWORD=${{ secrets.ADMIN_EMAIL_SENDER_PASSWORD }} > .env
 
       - name: frontend tests
         run: |
