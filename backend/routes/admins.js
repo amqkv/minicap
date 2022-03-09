@@ -31,6 +31,11 @@ router.patch("/confirm-user-account", authUser.verifyUser, authUser.verifyRole(c
     adminController.confirmAccount(req, res);
 });
 
+// Reject Account
+router.patch("/reject-user-account", authUser.verifyUser, authUser.verifyRole(constants.ROLE.ADMIN), (req, res) => {
+    adminController.rejectAccount(req, res);
+});
+
 module.exports = {
     router,
 };

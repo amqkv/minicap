@@ -4,6 +4,7 @@ const Patient = require("../models/patient");
 const Doctor = require("../models/doctor");
 const constants = require("../utils/constants");
 const db = require("../config/database");
+const emailSender = require("../utils/email-sender");
 
 /**
  * Update role of user as admin
@@ -197,9 +198,55 @@ async function confirmAccount(req, res) {
     }
 }
 
+/**
+ * Reject accounts as admin
+ */
+async function rejectAccount(req, res) {
+    const updated = await User.update(
+        {
+            RejectedFlag: req.body.rejectedFlag,
+        },
+        {
+            where: {
+                AccountId: req.body.userId,
+            },
+        }
+    ).catch(err => {
+        console.log("Error: ", err);
+        res.status(400).send("Failed to reject account");
+    });
+    if (updated[0]) {
+        // Send rejection email to rejected user
+        const updatedUser = await User.findOne({
+            where: {
+                AccountId: req.body.userId,
+            },
+        });
+        const mailOptions = {
+            from: constants.ADMIN_EMAIL_ACCOUNT,
+            to: updatedUser.Email,
+            subject: `Demand for account role of ${updatedUser.Role} has been rejected`,
+            html: `<h1>Hi ${updatedUser.FirstName},</h1> 
+            <br> <h2>your demand for the account role of ${updatedUser.Role} has been rejected for certain reasons, please contact us for more details.</h2>`,
+        };
+
+        emailSender.emailTransporter.sendMail(mailOptions, error => {
+            if (error) {
+                console.log("Email error: ", error);
+                res.status(400).send("Failed to send rejection email");
+            } else {
+                res.status(200).send("Account successfully rejected !");
+            }
+        });
+    } else {
+        res.status(400).send("Failed to reject account, user not found.");
+    }
+}
+
 module.exports = {
     updateRole,
     assignPatientDoctor,
     confirmAccount,
+    rejectAccount,
     getPatientsDoctors,
 };

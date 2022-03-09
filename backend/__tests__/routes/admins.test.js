@@ -148,6 +148,7 @@ describe("Confirm User Account", () => {
             accountId: TEST_CONSTANTS.TESTER_ADMIN.AccountId,
             userId: TEST_CONSTANTS.UNCONFIRMED_ACCOUNT.AccountId,
             ConfirmedFlag: BOOLEANS.FALSE,
+            RejectedFlag: BOOLEANS.FALSE,
         };
         return request(app).patch("/admins/confirm-user-account").send(resetData);
     });
@@ -167,13 +168,49 @@ describe("Confirm User Account", () => {
         };
         return request(app).patch("/admins/confirm-user-account").send(data).expect(400);
     });
-    it("Attempts to confirm an UNCONFIRMED account as NOT ADMIN", () => {
+    it("Attempts to confirm an UNCONFIRMED account as NON ADMIN", () => {
         const data = {
             accountId: TEST_CONSTANTS.UNCONFIRMED_ACCOUNT.AccountId,
             userId: TEST_CONSTANTS.UNCONFIRMED_ACCOUNT.AccountId,
             ConfirmedFlag: BOOLEANS.TRUE,
         };
         return request(app).patch("/admins/confirm-user-account").send(data).expect(401);
+    });
+});
+
+describe("Reject User Account", () => {
+    afterEach(() => {
+        // reset account used for test
+        const resetData = {
+            accountId: TEST_CONSTANTS.TESTER_ADMIN.AccountId,
+            userId: TEST_CONSTANTS.REJECTED_ACCOUNT.AccountId,
+            RejectedFlag: BOOLEANS.FALSE,
+        };
+        return request(app).patch("/admins/reject-user-account").send(resetData);
+    });
+    it("Attempts to reject an UNCONFIRMED account as an ADMIN", () => {
+        const data = {
+            accountId: TEST_CONSTANTS.TESTER_ADMIN.AccountId,
+            userId: TEST_CONSTANTS.REJECTED_ACCOUNT.AccountId,
+            rejectedFlag: BOOLEANS.TRUE,
+        };
+        return request(app).patch("/admins/reject-user-account").send(data).expect(200);
+    });
+    it("Attempts to reject a non-existing account as ADMIN", () => {
+        const data = {
+            accountId: TEST_CONSTANTS.TESTER_ADMIN.AccountId,
+            userId: 0,
+            rejectedFlag: BOOLEANS.FALSE,
+        };
+        return request(app).patch("/admins/reject-user-account").send(data).expect(400);
+    });
+    it("Attempts to reject an UNCONFIRMED account as NON ADMIN", () => {
+        const data = {
+            accountId: TEST_CONSTANTS.UNCONFIRMED_ACCOUNT.AccountId,
+            userId: TEST_CONSTANTS.REJECTED_ACCOUNT.AccountId,
+            rejectedFlag: BOOLEANS.FALSE,
+        };
+        return request(app).patch("/admins/reject-user-account").send(data).expect(401);
     });
 });
 
