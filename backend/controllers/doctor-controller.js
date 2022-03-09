@@ -158,8 +158,38 @@ async function updatePriority(req, res) {
         });
 }
 
+// Update the priority state of a patient
+async function reviewPatient(req, res) {
+    console.log(req.body);
+    await db
+        .query(
+            `UPDATE Status
+            SET IsReviewed=1
+            WHERE StatusId=(SELECT TOP(1) StatusId 
+                            FROM Status
+                            WHERE Patient_PatientId=${req.body.patientId}
+                            ORDER BY StatusTime DESC)`,
+            {
+                type: QueryTypes.UPDATE,
+            }
+        )
+        .then(status => {
+            console.log(status[0]);
+            if (status[0]) {
+                res.status(200).send("Task completed successfully!");
+            } else {
+                res.status(400).send("Failed to execute update.");
+            }
+        })
+        .catch(err => {
+            console.log("[Update Priority] Error: ", err);
+            res.status(500).send("Failed to execute priority update.");
+        });
+}
+
 module.exports = {
     updateRequiredDetails,
     getPatientsInfo,
     updatePriority,
+    reviewPatient,
 };
