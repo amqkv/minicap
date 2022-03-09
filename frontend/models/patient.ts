@@ -35,6 +35,17 @@ export interface PatientStatus {
     symptoms: { value: string; unit: string };
     lastUpdated: number;
     isReviewed: boolean;
+    statusTime: string;
+}
+
+export interface StatusDataProps {
+    StatusId?: number;
+    Temperature: number;
+    StatusTime: string;
+    IsReviewed?: boolean;
+    Patient_PatientId?: number;
+    Weight: number;
+    Symptoms: string;
 }
 
 export const DEFAULT_PATIENT = {
@@ -60,6 +71,7 @@ export const DEFAULT_PATIENT = {
             symptoms: { value: "", unit: "" },
             lastUpdated: 0,
             isReviewed: false,
+            statusTime: "",
         },
     ],
     isPrioritized: false,

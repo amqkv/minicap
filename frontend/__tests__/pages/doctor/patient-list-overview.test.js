@@ -1,10 +1,10 @@
 import { mount, shallow } from "enzyme";
 import PatientInfoModalContent from "@frontend/components/doctor/patient-info-modal-content";
 import PatientListOverview from "@frontend/pages/doctor/patient-list-overview";
-import PatientInfoModal from "@frontend/components/modal";
+import PatientInfoModal from "@frontend/components/modal/modal";
 import PatientInfoCard from "@frontend/components/doctor/patient-info-card";
 import { DEFAULT_PATIENT } from "@frontend/models/patient";
-import { Box, SimpleGrid, Heading } from "@chakra-ui/react";
+import { Box, SimpleGrid, Heading, RadioGroup, Text, Center, Input } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import { USER_ROLES } from "@frontend/utils/constants";
 import React from "react";
@@ -23,7 +23,10 @@ describe("Rendering <PatientListOverview/> if user is a doctor", () => {
     });
     const component = shallow(<PatientListOverview patientList={patientList} />);
     it("Renders all the Box components", () => {
-        expect(component.find(Box)).toHaveLength(4);
+        expect(component.find(Box)).toHaveLength(5);
+    });
+    it("Renders all the Text components", () => {
+        expect(component.find(Text)).toHaveLength(1);
     });
     it("Renders all the Heading components", () => {
         expect(component.find(Heading)).toHaveLength(1);
@@ -40,6 +43,10 @@ describe("Rendering <PatientListOverview/> if user is a doctor", () => {
     it("Renders all the PatientInfoModalContent components", () => {
         expect(component.find(PatientInfoModalContent)).toHaveLength(1);
     });
+    it("Calls handleClick when a patient card is clicked", () => {
+        component.find(Box).at(0).simulate("click");
+        expect(component.find(Box)).toHaveLength(5);
+    });
 });
 
 describe("Box onClick", () => {
@@ -52,6 +59,15 @@ describe("Box onClick", () => {
     });
     const component = shallow(<PatientListOverview patientList={patientList} />);
     it("Calls onOpen", () => {
-        component.find(Box).at(1).simulate("click");
+        component.find(Box).at(4).simulate("click");
+    });
+});
+
+describe("Filtering", () => {
+    const wrapper = shallow(<PatientListOverview patientList={patientList} />);
+    it("Filters the patients onClick", () => {
+        wrapper.find(RadioGroup).simulate("change", { target: { value: "flag" } });
+        expect(wrapper.find(Text)).toHaveLength(2);
+        expect(wrapper.find(Center)).toHaveLength(1);
     });
 });

@@ -34,7 +34,7 @@ const UserLists = ({ sessionId }: appProps) => {
             {isError && <p id="error-message"> There is an error </p>}
 
             {!!userRoles && (
-                <Box px={{ base: 0, sm: 1, md: 4, lg: 1 }} py={20}>
+                <Box px={{ base: 0, sm: 1, md: 4, lg: 1 }} py={5}>
                     <SimpleGrid
                         columns={{ sm: 1, md: 2, lg: 2, xl: 2 }}
                         gap="8"

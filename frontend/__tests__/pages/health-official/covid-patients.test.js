@@ -5,10 +5,11 @@ import { IMMIGRATION_OFFICER_MOCK_PATIENTS } from "@frontend/__tests__/__mock__/
 import CovidPatients from "@frontend/pages/health-official/covid-patients";
 import Circle from "@frontend/components/circle";
 import List from "@frontend/components/admin/list";
-import Modal from "@frontend/components/modal";
+import Modal from "@frontend/components/modal/modal";
 import Legend from "@frontend/components/legend";
 import { Input, Image, Flex, Button, Heading, Select } from "@chakra-ui/react";
 import { filter } from "@frontend/functions/sorting-filtering";
+import PatientInformationModalBody from "@frontend/components/modal/patient-information-modal-body";
 
 jest.mock("next-auth/react");
 
@@ -35,15 +36,15 @@ describe("health official covid patients page", () => {
         });
         const wrapper = shallow(<CovidPatients patients={IMMIGRATION_OFFICER_MOCK_PATIENTS} />);
 
-        expect(wrapper.find(Heading)).toHaveLength(3);
+        expect(wrapper.find(Heading)).toHaveLength(1);
         expect(wrapper.find(Select)).toHaveLength(1);
         expect(wrapper.find(Input)).toHaveLength(1);
         expect(wrapper.find(List)).toHaveLength(1);
         expect(wrapper.find(Legend)).toHaveLength(1);
         expect(wrapper.find(Modal)).toHaveLength(1);
         expect(wrapper.find(Circle)).toHaveLength(4);
-        expect(wrapper.find(Image)).toHaveLength(1);
         expect(wrapper.find(Button)).toHaveLength(3);
+        expect(wrapper.find(PatientInformationModalBody)).toHaveLength(1);
     });
     it("Click on a user and opens modal", () => {
         useSession.mockReturnValue({

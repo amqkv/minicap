@@ -51,4 +51,10 @@ export const links: link[] = [
         roleRequired: USER_ROLES.hOfficial,
         img: "https://imgur.com/eRLbmpq.png",
     },
+    {
+        label: "List of Covid Patients",
+        url: "/immigration-officer/find-users",
+        roleRequired: USER_ROLES.iOfficer,
+        img: "https://imgur.com/eRLbmpq.png",
+    },
 ];

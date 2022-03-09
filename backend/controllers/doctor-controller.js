@@ -122,6 +122,7 @@ async function getPatientsInfo(req, res) {
                             ? Moment().diff(status.statusTime, "hours", true) - constants.MOMENT_TIMEZONE_ADJUSTMENT
                             : 0,
                         isReviewed: status.isReviewed,
+                        statusTime: status.statusTime,
                     });
                 }
             });

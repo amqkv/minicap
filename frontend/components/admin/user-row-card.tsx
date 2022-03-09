@@ -4,7 +4,7 @@ import { ReactFragment } from "react";
 import classes from "./user-row-card.module.css";
 
 interface AppProps {
-    onUserSelect: ({ }: UserInfoSimple) => void;
+    onUserSelect?: ({}: UserInfoSimple) => void;
     userInfoSimple: UserInfoSimple;
     content?: ReactFragment;
 }
@@ -12,13 +12,18 @@ interface AppProps {
 // TODO Generalize Card component to reuse with Doctor-Patient Admin page
 const UserRowCard = ({ onUserSelect, userInfoSimple, content = "" }: AppProps) => {
     const onClickHandler = () => {
-        onUserSelect(userInfoSimple);
+        if (onUserSelect) {
+            onUserSelect(userInfoSimple);
+        }
     };
 
-    if (content === "") // default 
-    {
-        content = <p className={classes.rowFont}>
-            {userInfoSimple.LastName}, {userInfoSimple.FirstName}</p>
+    if (content === "") {
+        // default
+        content = (
+            <p className={classes.rowFont}>
+                {userInfoSimple.LastName}, {userInfoSimple.FirstName}
+            </p>
+        );
     }
     return (
         <ListItem paddingEnd={4} py={2}>
