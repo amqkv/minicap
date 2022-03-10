@@ -20,7 +20,7 @@ describe("test patient's form", () => {
         const wrapper = shallow(
             <PatientFormsToFill requiredDetails={DEFAULT_REQUIRED_DETAILS} pastConditions={DEFAULT_PAST_CONDITIONS} />
         );
-        expect(wrapper.find(Heading)).toHaveLength(3);
+        expect(wrapper.find(Heading)).toHaveLength(4);
         expect(wrapper.find(Button)).toHaveLength(1);
 
     });

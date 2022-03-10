@@ -5,6 +5,7 @@ import {
     validPhoneNumber,
     validPostalCode,
     allFieldsFilled,
+    validIntegerField,
 } from '@frontend/functions/validation';
 
 describe("validate password function", () => {
@@ -12,7 +13,6 @@ describe("validate password function", () => {
         expect(validPassword("Nicholas1!")).toBe(true);
         expect(validPassword("Kelvin2@")).toBe(true);
         expect(validPassword("Steven3#")).toBe(true);
-
     });
 
     it("refuses an invalid password", () => {
@@ -71,3 +71,16 @@ describe("validate postal code function", () => {
         expect(validPassword("111 111")).toBe(false);
     });
 });
+
+describe("validate integer function", () => {
+    it("accepts a valid integer", () => {
+        expect(validIntegerField("10")).toBe(true);
+        expect(validIntegerField("100")).toBe(true);
+    });
+    it("refuses an invalid integer", () => {
+        expect(validIntegerField("gasd")).toBe(false);
+        expect(validIntegerField("12das213")).toBe(false);
+        expect(validIntegerField("-1324")).toBe(false);
+    });
+});
+

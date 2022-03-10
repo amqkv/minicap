@@ -1,26 +1,26 @@
-import { Box, Container, List, Spinner} from "@chakra-ui/react";
+import { Box, Container, List, Spinner } from "@chakra-ui/react";
 import { Fragment } from "react";
 import UserList from "@frontend/components/admin/list";
 import UserInfoSimple from "@frontend/models/user-info-simple";
 import unconfirmedUsersList from "@frontend/hooks/unconfirmed-users-list";
 import ApproveUsersRowCard from "@frontend/components/admin/approve-users/approve-users-row-card";
 
-export default function ApproveUsers (sessionId: Number)  {
+export default function ApproveUsers(sessionId: number) {
     // data hook to fetch users list
-    const {users, isLoading, isError} = unconfirmedUsersList();
+    const { users, isLoading, isError } = unconfirmedUsersList();
 
-    if(isError) {
+    if (isError) {
         return (
             <Fragment>
                 <p> There is an error </p>
             </Fragment>
-        )
+        );
     }
     return (
         <Fragment>
             {isLoading && <Spinner />}
             {!!users && (
-                <Box>
+                <Box py={5}>
                     <Container>
                         <List spacing={10}>
                             <UserList
@@ -33,7 +33,7 @@ export default function ApproveUsers (sessionId: Number)  {
                                     alignItems: "left",
                                 }}
                                 key="1"
-                                title="pending"
+                                title="Pending Users"
                                 length={users["Users"].length}>
                                 {users["Users"].map((item: UserInfoSimple) => (
                                     <ApproveUsersRowCard
@@ -49,4 +49,4 @@ export default function ApproveUsers (sessionId: Number)  {
             )}
         </Fragment>
     );
-};
+}

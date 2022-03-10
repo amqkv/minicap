@@ -1,9 +1,8 @@
 import { useSession, getSession } from "next-auth/react";
 import { USER_ROLES } from "@frontend/utils/constants";
-import PatientFormToFill, {
-    requiredDetails,
-    PatientsFormsToFill,
-} from "@frontend/components/forms/patient-form-to-fill";
+import { requiredDetails,  PatientsFormsToFill} from "@frontend/components/forms/types/types";
+
+import PatientFormToFill from "@frontend/components/forms/patient-form-to-fill";
 import { serverURL } from "@frontend/config/index";
 import { NextPageContext } from "next";
 
@@ -23,7 +22,6 @@ export async function getServerSideProps(context: NextPageContext) {
     if (session?.user.Role === USER_ROLES.patient) {
         try {
             let response: any = await fetch(serverURL + "/patients/getRequiredDetails/" + userId);
-            console.log(response);
             requiredDetails = getFieldsForPatient(await response.json());
 
             response = await fetch(serverURL + "/status/getAllStatus/" + userId);
@@ -45,6 +43,8 @@ export default function PatientSymptomsDaily(props: PatientsFormsToFill) {
 
     if (session?.user.Role === USER_ROLES.patient && props.requiredDetails) {
         return <PatientFormToFill {...props} />;
+    } else if (session?.user.Role === USER_ROLES.patient){
+        return <p>No forms to fill come back later</p>
     }
     return <p>Access Denied</p>;
 }

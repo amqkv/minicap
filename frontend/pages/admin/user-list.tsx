@@ -7,6 +7,7 @@ export async function getServerSideProps(context: NextPageContext) {
     return {
         props: {
             session: await getSession(context),
+            pageId: "Manage Active Users"
         },
     };
 }

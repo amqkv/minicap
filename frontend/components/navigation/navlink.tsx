@@ -8,16 +8,17 @@ interface NavLinkProps {
     url: string;
     textDecoration?: boolean;
     styleProps?: Object;
+    passHref?: boolean;
 }
 
-const NavLink = ({ children, url, textDecoration, styleProps }: NavLinkProps) => {
+const NavLink = ({ children, url, textDecoration, styleProps, passHref }: NavLinkProps) => {
     const hoverStyling = {
         textDecoration: textDecoration ? "underline" : "none",
         textDecorationColor: MAIN_COLOR,
     };
 
     return (
-        <NextLink href={url}>
+        <NextLink href={url} passHref={passHref}>
             <Link px={2} py={1} rounded={"md"} _hover={hoverStyling} {...styleProps}>
                 {children}
             </Link>
