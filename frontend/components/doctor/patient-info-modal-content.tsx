@@ -1,14 +1,9 @@
-import { Box, Flex, Divider, Heading, Text, Image, Button, HStack, Center } from "@chakra-ui/react";
+import { Box, Flex, Divider, Heading, Text, Image, Button, Center } from "@chakra-ui/react";
 import { Patient } from "@frontend/models/patient";
 import PatientDetailsToProvideForm from "../forms/patient-details-to-provide-form";
-import PatientStatus from "./patient-status";
 import { useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper";
-import "swiper/css";
-import "swiper/css/navigation";
 import { KeyedMutator } from "swr";
-import CheckMark from "../UI/checkmark";
+import PatientInfoModalSwiper from "./patient-info-modal-swiper";
 
 export default function PatientInfoModalContent({
     patient,
@@ -101,41 +96,16 @@ export default function PatientInfoModalContent({
                         hr(s) ago:{" "}
                     </Heading>
                 </Box>
-                <Swiper
-                    navigation={true}
-                    modules={[Navigation]}
-                    onSlideChange={swiper => {
-                        setCurrentStatus(swiper.activeIndex);
-                        console.log(swiper.activeIndex);
-                    }}
-                    className="mySwiper">
-                    {patient.status.map((statusInfo, index) => {
-                        return (
-                            <SwiperSlide key={index}>
-                               <Center>
-                                <HStack spacing="24px" align="center">
-                                    <Box>
-                                    <CheckMark
-                                    isColored={statusInfo.isReviewed}
-                                    color="#1F9D00"
-                                    onClicking={reviewHandler}
-                                    isUnfillable={"false"}
-                                />
-                                    </Box>   
-                               <Box>
-                               <PatientStatus patient={patient} statusIndex={index} />
-                               </Box>
-                                </HStack>
-                                </Center>       
-                            </SwiperSlide>
-                        );
-                    })}
-                </Swiper>
+                <PatientInfoModalSwiper
+                    setCurrentStatus={setCurrentStatus}
+                    patient={patient}
+                    reviewHandler={reviewHandler}
+                />
                 <Center mt={4}>
-                <Button backgroundColor={"#FF4545BD"} onClick={reviewAllHandler}>
+                    <Button backgroundColor={"#FF4545BD"} onClick={reviewAllHandler}>
                         Mark all as Reviewed
-                    </Button>  
-                </Center>   
+                    </Button>
+                </Center>
             </Box>
         </Box>
     );

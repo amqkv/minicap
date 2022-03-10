@@ -4,6 +4,16 @@ import PatientDetailsToProvideForm from "@frontend/components/forms/patient-deta
 import PatientStatus from "@frontend/components/doctor/patient-status";
 import { DEFAULT_PATIENT } from "@frontend/models/patient";
 import { Box, Text, Divider, Heading, Flex } from "@chakra-ui/react";
+import PatientInfoModalSwiper from "@frontend/components/doctor/patient-info-modal-swiper";
+
+jest.mock("@frontend/components/doctor/patient-info-modal-swiper", () => {
+    return {
+        __esModule: true,
+        default: () => {
+            return <div></div>;
+        },
+    };
+});
 
 describe("<PatientInfoModal/>", () => {
     const wrapper = shallow(<PatientInfoModalContent patient={DEFAULT_PATIENT} />);

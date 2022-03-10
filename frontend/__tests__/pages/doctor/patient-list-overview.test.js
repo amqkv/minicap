@@ -8,9 +8,18 @@ import { Box, SimpleGrid, Heading } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import { USER_ROLES } from "@frontend/utils/constants";
 import React from "react";
+import PatientInfoModalSwiper from "@frontend/components/doctor/patient-info-modal-swiper";
 
 jest.mock("next-auth/react");
 
+jest.mock("@frontend/components/doctor/patient-info-modal-swiper", () => {
+    return {
+        __esModule: true,
+        default: () => {
+            return <div></div>;
+        },
+    };
+});
 const patientList = [DEFAULT_PATIENT, DEFAULT_PATIENT];
 global.window = { location: { pathname: "/" } };
 describe("Rendering <PatientListOverview/> if user is a doctor", () => {
