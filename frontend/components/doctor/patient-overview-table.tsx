@@ -6,6 +6,7 @@ export default function PatientOverviewTable({ patientList }: { patientList: Pat
     const flaggedPatientList = patientList.filter(patient => patient.isPrioritized);
     const malePatientList = patientList.filter(patient => patient.basicInformation.gender === "Male");
     const femalePatientList = patientList.filter(patient => patient.basicInformation.gender === "Female");
+    const unreviewedPatientList: Patient[] = patientList.filter(patient => !patient.status[0].isReviewed);
 
     return (
         <Table colorScheme="red">
@@ -20,6 +21,10 @@ export default function PatientOverviewTable({ patientList }: { patientList: Pat
                 </Tr>
             </Thead>
             <Tbody>
+                <Tr>
+                    <Td>Unreviewed</Td>
+                    <Td isNumeric>{unreviewedPatientList.length}</Td>
+                </Tr>
                 <Tr>
                     <Td>High temperature</Td>
                     <Td isNumeric>{highTemperaturePatientList.length}</Td>

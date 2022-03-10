@@ -28,6 +28,10 @@ router.patch("/updatePriority", authUser.verifyUser, authUser.verifyRole(constan
     doctorController.updatePriority(req, res);
 });
 
+router.patch("/reviewPatient", (req, res) => {
+    doctorController.reviewPatient(req, res);
+});
+
 module.exports = {
     router,
 };

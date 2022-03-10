@@ -54,8 +54,9 @@ export default function DoctorDashboard({ patientList }: { patientList: Patient[
     const [noFilterResult, setNoFilterResult] = useState(false);
     const { onOpen, isOpen, onClose } = useDisclosure();
     const highTemperaturePatientList = patientList.filter(patient => patient.status[0].temperature.value >= 38);
-    // <TODO> filter patient list according to flagged patients
     const flaggedPatientList: Patient[] = patientList.filter(patient => patient.isPrioritized);
+    const reviewedPatientList: Patient[] = patientList.filter(patient => patient.status[0].isReviewed);
+    const unreviewedPatientList: Patient[] = patientList.filter(patient => !patient.status[0].isReviewed);
     const { data: session } = useSession();
     const router = useRouter();
     const toast = useToast();
@@ -74,9 +75,23 @@ export default function DoctorDashboard({ patientList }: { patientList: Patient[
         }
     }, [router, session?.user.Role, toast]);
 
-    function handleClick(selectedPatient: Patient) {
+    async function handleClick(selectedPatient: Patient) {
         setSelectedPatient(selectedPatient);
         onOpen();
+        for (let i = 0; i < patientList.length; i++) {
+            if (patientList[i].patientId === selectedPatient.patientId) {
+                patientList[i].status[0].isReviewed = true;
+            }
+        }
+        try {
+            return await fetch(serverURL + "/doctors/reviewPatient", {
+                method: "PATCH",
+                body: JSON.stringify({
+                    patientId: selectedPatient.patientId,
+                }),
+                headers: { "Content-Type": "application/json" },
+            });
+        } catch {}
     }
 
     function filterPatients(value: string) {
@@ -93,6 +108,14 @@ export default function DoctorDashboard({ patientList }: { patientList: Patient[
                 break;
             case "none":
                 setPatientListToMap(patientList);
+                filteredList = patientList;
+                break;
+            case "reviewed":
+                setPatientListToMap(reviewedPatientList);
+                filteredList = patientList;
+                break;
+            case "unreviewed":
+                setPatientListToMap(unreviewedPatientList);
                 filteredList = patientList;
                 break;
         }
@@ -112,6 +135,12 @@ export default function DoctorDashboard({ patientList }: { patientList: Patient[
                 break;
             case "none":
                 listToSearch = patientList;
+                break;
+            case "reviewed":
+                listToSearch = reviewedPatientList;
+                break;
+            case "unreviewed":
+                listToSearch = unreviewedPatientList;
                 break;
         }
         const searchResults = listToSearch.filter(elm =>
@@ -159,6 +188,8 @@ export default function DoctorDashboard({ patientList }: { patientList: Patient[
                         <Radio value="none">None</Radio>
                         <Radio value="temperature">High Temperature</Radio>
                         <Radio value="flag">Flagged</Radio>
+                        <Radio value="reviewed">Reviewed</Radio>
+                        <Radio value="unreviewed">Unreviewed</Radio>
                     </Stack>
                 </RadioGroup>
             </Box>
