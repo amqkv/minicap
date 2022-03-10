@@ -3,6 +3,7 @@ import PatientInfoCard from "@frontend/components/doctor/patient-info-card";
 import PatientStatus from "@frontend/components/doctor/patient-status";
 import { DEFAULT_PATIENT } from "@frontend/models/patient";
 import { Box, Flex, Text, Divider } from "@chakra-ui/react";
+import { WarningTwoIcon } from "@chakra-ui/icons";
 
 describe("<PatientInfoCard/>", () => {
     const wrapper = shallow(<PatientInfoCard patient={DEFAULT_PATIENT} />);
@@ -21,6 +22,15 @@ describe("<PatientInfoCard/>", () => {
     });
     it("Renders all the PatientStatus components", () => {
         expect(wrapper.find(PatientStatus)).toHaveLength(1);
+    });
+    it("Verifies that no priority icon is rendered if patient is not flagged", () => {
+        expect(wrapper.find(WarningTwoIcon)).toHaveLength(0);
+    });
+    it("Renders high priority icon if patient is flagged", () => {
+        let prioritizedPatient = DEFAULT_PATIENT;
+        prioritizedPatient.isPrioritized = true;
+        let w = shallow(<PatientInfoCard patient={prioritizedPatient} />);
+        expect(w.find(WarningTwoIcon)).toHaveLength(1);
     });
     it("Renders the box borderColor gray if patient status hasn't been reviewed yet", () => {
         const patient = { ...DEFAULT_PATIENT };

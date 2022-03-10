@@ -22,6 +22,11 @@ export default function PatientInfoCard({ patient, clickHandler }: { patient: Pa
             position="relative"
             _hover={{ cursor: "pointer", backgroundColor: "#fff" }}>
             <Flex>
+                {patient.isPrioritized ? (
+                    <WarningTwoIcon my={1} mr={2} right="0px" position="absolute" w={7} h={7} color="red.500" pr={2} />
+                ) : (
+                    ""
+                )}
                 <Box flex="1.7">
                     <Image
                         src="https://images-ext-2.discordapp.net/external/pTKakmU5qrrmG0himz_tGUYOY4uXKwtSFmck1JV1Vcs/https/i.imgur.com/oJpKCRk.png"
@@ -47,11 +52,6 @@ export default function PatientInfoCard({ patient, clickHandler }: { patient: Pa
                         </Box>
                     </Box>
                 </Box>
-                {patient.status[0].temperature.value >= 38 ? (
-                    <Box>
-                        <WarningTwoIcon w={6} h={6} color="red.500" />
-                    </Box>
-                ) : null}
             </Flex>
 
             <Divider mb={3} />

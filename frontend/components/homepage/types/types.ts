@@ -1,15 +1,15 @@
 export interface CardProps {
     label: string;
     image?: string;
-    url:string;
-    style?: Object;
-  }
+    url: string;
+    style?: object;
+}
 
-  export interface CardPatientProps {
+export interface CardPatientProps {
     label: string;
     temperature: number;
     weight: number;
     symptoms: string;
-  }
+}
 
- 
+

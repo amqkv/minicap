@@ -6,6 +6,7 @@ export async function getServerSideProps(context: GetSessionParams | undefined) 
     return {
         props: {
             session: await getSession(context),
+            pageId: "Manage Patients"
         },
     };
 }

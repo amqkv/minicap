@@ -17,6 +17,9 @@ const TEST_CONSTANTS = {
     },
     PATIENT_ACCOUNT: {
         AccountId: "51"
+    },
+    UPDATE_ROLE_ACCOUNT: {
+        AccountId: "828"
     }
 };
 
@@ -27,8 +30,12 @@ const BOOLEANS = {
     FALSE: "0",
 };
 
+// Value to adjust the timezone linked to Moment
+const MOMENT_TIMEZONE_ADJUSTMENT = 5;
+
 module.exports = {
     ROLE,
     TEST_CONSTANTS,
     BOOLEANS,
+    MOMENT_TIMEZONE_ADJUSTMENT,
 };

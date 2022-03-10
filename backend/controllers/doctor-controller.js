@@ -3,7 +3,10 @@ const Moment = require("moment");
 const RequiredDetails = require("../models/required-details");
 const Status = require("../models/status");
 const db = require("../config/database");
+const Patient = require("../models/patient");
+const constants = require("../utils/constants");
 
+// Update form details required for patients to complete
 function updateRequiredDetails(req, res) {
     RequiredDetails.update(
         {
@@ -28,6 +31,7 @@ function updateRequiredDetails(req, res) {
         });
 }
 
+// Get all status in most recent order
 async function getAllStatus() {
     const allStatus = await Status.findAll({
         raw: true,
@@ -45,6 +49,7 @@ async function getAllStatus() {
     return allStatus;
 }
 
+// Get patient information of the current doctor
 async function getPatientsInfo(req, res) {
     // Getting all statuses
     const allStatus = await getAllStatus();
@@ -117,9 +122,10 @@ async function getPatientsInfo(req, res) {
                         symptoms: { value: status.symptoms ? status.symptoms : "", unit: "" },
                         lastUpdatedDate: new Date(status.statusTime).toLocaleDateString(),
                         lastUpdated: Moment().diff(status.statusTime, "hours", true)
-                            ? Moment().diff(status.statusTime, "hours", true)
+                            ? Moment().diff(status.statusTime, "hours", true) - constants.MOMENT_TIMEZONE_ADJUSTMENT
                             : 0,
                         isReviewed: status.isReviewed,
+                        statusTime: status.statusTime,
                     });
                 }
             });
@@ -163,8 +169,62 @@ async function getPatientsDashboardInfo(req, res) {
         });
 }
 
+// Update the priority state of a patient
+async function updatePriority(req, res) {
+    await Patient.update(
+        {
+            IsPrioritized: req.body.isPrioritized,
+        },
+        {
+            where: {
+                PatientId: req.body.patientId,
+            },
+        }
+    )
+        .then(patient => {
+            if (patient[0]) {
+                res.status(200).send("Priority of patient has been successfully updated !");
+            } else {
+                res.status(400).send("Failed to execute priority update.");
+            }
+        })
+        .catch(err => {
+            console.log("[Update Priority] Error: ", err);
+            res.status(500).send("Failed to execute priority update.");
+        });
+}
+
+// Update the priority state of a patient
+async function reviewPatient(req, res) {
+    await db
+        .query(
+            `UPDATE Status
+            SET IsReviewed=1
+            WHERE StatusId=(SELECT TOP(1) StatusId 
+                            FROM Status
+                            WHERE Patient_PatientId=${req.body.patientId}
+                            ORDER BY StatusTime DESC)`,
+            {
+                type: QueryTypes.UPDATE,
+            }
+        )
+        .then(status => {
+            if (status[0]) {
+                res.status(200).send("Task completed successfully!");
+            } else {
+                res.status(400).send("Failed to execute update.");
+            }
+        })
+        .catch(err => {
+            console.log("[Update Priority] Error: ", err);
+            res.status(500).send("Failed to execute priority update.");
+        });
+}
+
 module.exports = {
     updateRequiredDetails,
     getPatientsInfo,
     getPatientsDashboardInfo,
+    updatePriority,
+    reviewPatient,
 };

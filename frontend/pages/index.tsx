@@ -2,21 +2,35 @@ import { useSession, getSession } from "next-auth/react";
 import { GetServerSideProps } from "next";
 import LoginLogoutButton from "@frontend/components/login-logout-button";
 import { Box, Img, Flex, Heading } from "@chakra-ui/react";
-import PatientDashboard from "@frontend/pages/patient/patient-dashboard";
+import Dashboard from "@frontend/components/homepage/dashboard";
+import { USER_ROLES } from "@frontend/utils/constants";
+import { serverURL } from "@frontend/config";
 
 export const getServerSideProps: GetServerSideProps = async context => {
+    let session = await getSession(context);
+    let userId = session?.user.AccountId;
+    let role = session?.user.Role;
+    let data: any[] = [];
+
+    if (role === USER_ROLES.patient) {
+        const response = await fetch(serverURL + "/status/getAllStatus/" + userId);
+        data = await response.json();
+    }
+
     return {
         props: {
             session: await getSession(context),
+            data,
         },
     };
 };
 
-export default function Home() {
+export default function Home( {data} : {data: unknown[]}) {
     const { data: session } = useSession();
     if (session) {
-        return <PatientDashboard />;
+        return <Dashboard data={data} />;
     }
+
     return (
         <Flex
             padding={{ base: "5% 0%", md: "0 10%" }}
