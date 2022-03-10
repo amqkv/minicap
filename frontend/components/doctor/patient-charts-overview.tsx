@@ -96,6 +96,5 @@ export default function PatientChartsOverview({ patientList }: { patientList: Pa
                 </Tabs>
             </Box>
         </SimpleGrid>
-        // </Flex>
     );
 }
