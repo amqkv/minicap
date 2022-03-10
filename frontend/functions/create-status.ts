@@ -1,4 +1,3 @@
-import { Status } from "@chakra-ui/react";
 import { serverURL } from "@frontend/config/index";
 
 export interface StatusParameters {
@@ -15,6 +14,7 @@ export interface pastConditionsProps{
     Temperature: number;
     StatusTime: string;
     IsReviewed?: boolean;
+    Patient_PatientId?: number;
     UserId?: number;
     Weight: number;
     Symptoms: string;
@@ -34,13 +34,3 @@ export async function statusFilled({ temperature, weight, symptoms, isReviewed, 
         headers: { "Content-Type": "application/json" },
     });
 }
-
-
-
-export async function pastConditionsInformation(userId: number | undefined) {
-    return userId && await fetch(serverURL + "/getAllStatus/" + userId, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-    });
-}
-
