@@ -46,10 +46,12 @@ describe("GET:count of patients from the database", () => {
             .expect(200)
             .then(response => {
                 expect(response.body).toEqual(
-                    expect.objectContaining({
-                        "COVID Positive Patients": expect.any(Number),
-                        "COVID Negative Patients": expect.any(Number),
-                    })
+                    expect.arrayContaining([
+                        expect.objectContaining({
+                            "COVID Positive Patients": expect.any(Number),
+                            "COVID Negative Patients": expect.any(Number),
+                        }),
+                    ])
                 );
             }));
 });
