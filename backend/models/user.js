@@ -46,6 +46,9 @@ const User = db.define(
         ConfirmedFlag: {
             type: Sequelize.BOOLEAN,
         },
+        RejectedFlag: {
+            type: Sequelize.BOOLEAN,
+        },
     },
     {
         timestamps: false,
