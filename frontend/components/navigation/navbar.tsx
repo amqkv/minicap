@@ -13,7 +13,7 @@ export default function Navbar() {
 
     return (
         <>
-            <Box zIndex={1000} as="header" px={4} backgroundColor="white">
+            <Box zIndex={69420} as="header" px={4} backgroundColor="white">
                 <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
                     <Flex alignItems={"center"} width={"100%"} justifyContent={"space-between"}>
                         <Menu>
