@@ -18,12 +18,12 @@ describe("<PatientOverviewTable/>", () => {
         expect(wrapper.find(Tbody)).toHaveLength(1);
     });
     it("Renders all the Tr components", () => {
-        expect(wrapper.find(Tr)).toHaveLength(5);
+        expect(wrapper.find(Tr)).toHaveLength(6);
     });
     it("Renders all the Th components", () => {
         expect(wrapper.find(Th)).toHaveLength(2);
     });
     it("Renders all the Td components", () => {
-        expect(wrapper.find(Td)).toHaveLength(8);
+        expect(wrapper.find(Td)).toHaveLength(10);
     });
 });
