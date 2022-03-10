@@ -98,11 +98,6 @@ async function getAllStatus(req, res) {
             order: [["StatusTime", "DESC"]],
             
         });
-
-        // for(let i = 0; i < allStatus.length; i++){
-        //     allStatus[i].StatusTime = allStatus[i].StatusTime.substring(0, 10);
-        // }
-
         res.status(200).json(allStatus);
     } catch {
         res.status(400).send("Failed to get all status");

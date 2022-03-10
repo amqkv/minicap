@@ -34,13 +34,3 @@ export async function statusFilled({ temperature, weight, symptoms, isReviewed, 
         headers: { "Content-Type": "application/json" },
     });
 }
-
-
-
-// export async function pastConditionsInformation(userId: number | undefined) {
-//     return userId && await fetch(serverURL + "/getAllStatus/" + userId, {
-//         method: "GET",
-//         headers: { "Content-Type": "application/json" },
-//     });
-// }
-

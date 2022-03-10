@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import { checkboxForms } from "@frontend/functions/checkbox-form";
 import { PatientsFormsToFill } from "./types/types";
 import Chart from "@frontend/components/homepage/line-chart";
+import { DEFAULT_STATUS } from "@frontend/models/patient";
 
 export default function PatientFormToFill({ requiredDetails, pastConditions }: PatientsFormsToFill) {
     // initialize constants
@@ -37,12 +38,11 @@ export default function PatientFormToFill({ requiredDetails, pastConditions }: P
         // initialize values for statusValues
         const statusValues: StatusParameters = {
             accountId: userId,
-            temperature: 37,
-            weight: 80,
-            symptoms: " ",
-            isReviewed: false,
             statusTime: time,
+            ...DEFAULT_STATUS,
         };
+
+        
 
         const checkboxValues = checkboxForms(requiredDetails, event);
         const newStatusValues = { ...statusValues, ...checkboxValues };

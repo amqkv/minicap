@@ -21,17 +21,15 @@ export default function Dashboard({ data }: { data: StatusDataProps[] }) {
             </Heading>
             <Flex flexWrap={"wrap"}>
                 {/* Patient dashboard */}
-                {session?.user?.Role === USER_ROLES.patient ? (
-                    <Box flex="1" margin={"20px 0px 0px 50px"}  w={{ sm: "60%", base: "100%" }}>
+                {session?.user?.Role === USER_ROLES.patient && (
+                    <Box flex="1" margin={"20px 0px 0px 50px"} w={{ sm: "60%", base: "100%" }}>
                         <Heading size={"lg"}>Your Status Chart:</Heading>
                         <Chart data={data} w={900} h={700} />
                     </Box>
-                ) : (
-                    <></>
                 )}
 
                 <Box flex="1">
-                    {session?.user?.Role === USER_ROLES.patient ? (
+                    {session?.user?.Role === USER_ROLES.patient && (
                         <Box margin={"20px 0px 50px 10px"}>
                             <Heading size={"lg"}>Announcement:</Heading>
                             <UnorderedList marginTop={"20px"}>
@@ -43,8 +41,6 @@ export default function Dashboard({ data }: { data: StatusDataProps[] }) {
                                 </ListItem>
                             </UnorderedList>
                         </Box>
-                    ) : (
-                        <></>
                     )}
                     <Center>
                         <Flex flexWrap={"wrap"}>

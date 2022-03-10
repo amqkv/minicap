@@ -27,10 +27,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
 };
 
 export default function Home({ data }: {data: StatusDataProps[]}) {
-    console.log( data);
-
     const { data: session } = useSession();
-    console.log( data);
     if (session) {
         return <Dashboard data={data} />;
     }
