@@ -4,9 +4,8 @@ import { links, link } from "@frontend/components/homepage/dashboard-structure";
 import { useSession } from "next-auth/react";
 import Chart from "@frontend/components/homepage/line-chart";
 import { USER_ROLES } from "@frontend/utils/constants";
-import { StatusDataProps } from "@frontend/models/patient";
 
-export default function Dashboard({ data }: { data: StatusDataProps[] }) {
+export default function Dashboard(  {data} : {data: unknown[]}) {
     const { data: session } = useSession();
     const userRole = session?.user?.Role;
     const userName = session?.user?.FirstName + " " + session?.user?.LastName;

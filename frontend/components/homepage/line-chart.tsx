@@ -4,15 +4,15 @@ import moment from "moment";
 import { pastConditionsProps } from "@frontend/functions/create-status";
 
 interface ChartProps{
-    data: pastConditionsProps[],
+    data: unknown[],
     w: number,
     h: number,
 }
 
 export default function Chart({ data, w , h }: ChartProps) {
     // fix date format
-    data.forEach((d: pastConditionsProps) => {
-        d.StatusTime = moment(d.StatusTime).format('L');
+    data.forEach((d: unknown) => {
+        (d as pastConditionsProps).StatusTime = moment((d as pastConditionsProps).StatusTime).format('L');
     })
 
     return (
