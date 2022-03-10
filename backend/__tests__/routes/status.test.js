@@ -1,6 +1,6 @@
+const request = require("supertest");
 const db = require("../../config/database");
 const app = require("../../index");
-const request = require("supertest");
 const Status = require("../../models/status");
 
 const testStatus = {
