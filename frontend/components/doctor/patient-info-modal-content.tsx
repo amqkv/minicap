@@ -8,11 +8,49 @@ import LineChart from "@frontend/components/line-chart";
 import { formatPatientStatusData } from "@frontend/functions/data-transform-chart";
 import { useSession } from "next-auth/react";
 import { BOOLEANS } from "@frontend/utils/constants";
+import PatientInfoModalSwiper from "./patient-info-modal-swiper";
+import { useState } from "react";
+import { KeyedMutator } from "swr";
 
-export default function PatientInfoModalContent({ patient }: { patient: Patient }) {
+export default function PatientInfoModalContent({
+    patient,
+    onMutate,
+    onClose,
+}: {
+    patient: Patient;
+    onMutate: KeyedMutator<unknown>;
+    onClose: () => void;
+}) {
     const toast = useToast();
     const { data: session } = useSession();
+    const [currentStatus, setCurrentStatus] = useState(0);
+    const reviewHandler = async () => {
+        await fetch("/api/status/review-status", {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                statusId: patient.status[currentStatus].statusId,
+            }),
+        });
 
+        onMutate();
+    };
+
+    const reviewAllHandler = async () => {
+        await fetch("/api/status/review-status/all", {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                patientId: patient.patientId,
+            }),
+        });
+        onClose();
+        onMutate();
+    };
     async function modifyPriority() {
         await fetch(serverURL + "/doctors/updatePriority/", {
             method: "PATCH",
@@ -110,7 +148,17 @@ export default function PatientInfoModalContent({ patient }: { patient: Patient 
                         </Heading>
                     </Flex>
                 </Box>
-                <PatientStatus patient={patient} />
+                <PatientInfoModalSwiper
+                    patient={patient}
+                    setCurrentStatus={setCurrentStatus}
+                    reviewHandler={reviewHandler}
+                />
+                <Center mt={4} mb={4}>
+                    <Button backgroundColor={"#FF4545BD"} onClick={reviewAllHandler}>
+                        Mark all as Reviewed
+                    </Button>
+                </Center>
+
                 <Divider />
                 <Center>
                     <Heading mt={6} size={"md"}>

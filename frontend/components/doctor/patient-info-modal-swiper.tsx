@@ -28,7 +28,7 @@ const PatientInfoModalSwiper = ({ patient, setCurrentStatus, reviewHandler }: Ap
                 return (
                     <SwiperSlide key={index}>
                         <Center>
-                            <HStack spacing="24px" align="center">
+                            <HStack align="center">
                                 <Box>
                                     <CheckMark
                                         isColored={statusInfo.isReviewed}

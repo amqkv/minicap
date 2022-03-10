@@ -25,7 +25,7 @@ export default function PatientStatus({ patient, statusIndex }: { patient: Patie
         <Box m={1} align="center">
             {Object.keys(patient.status[statusIndex]).map(statusDetail =>
                 requiredDetails[statusDetail] ? (
-                    <Text fontSize="sm" key={statusDetail} width="200px">
+                    <Text fontSize="sm" key={statusDetail} width="300px">
                         <b>{statusDetail.charAt(0).toUpperCase() + statusDetail.slice(1)}: &nbsp;</b>
                         {status[statusDetail].value} {status[statusDetail].unit}
                     </Text>
