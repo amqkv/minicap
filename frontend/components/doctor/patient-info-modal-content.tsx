@@ -3,7 +3,6 @@ import { WarningTwoIcon } from "@chakra-ui/icons";
 import { Patient } from "@frontend/models/patient";
 import { serverURL } from "@frontend/config/index";
 import PatientDetailsToProvideForm from "../forms/patient-details-to-provide-form";
-import PatientStatus from "./patient-status";
 import LineChart from "@frontend/components/line-chart";
 import { formatPatientStatusData } from "@frontend/functions/data-transform-chart";
 import { useSession } from "next-auth/react";
@@ -51,7 +50,7 @@ export default function PatientInfoModalContent({
         onClose();
         onMutate();
     };
-    async function modifyPriority() {
+    const modifyPriority = async () => {
         await fetch(serverURL + "/doctors/updatePriority/", {
             method: "PATCH",
             headers: {
@@ -71,7 +70,7 @@ export default function PatientInfoModalContent({
                     duration: 3000,
                     isClosable: true,
                 });
-                window.location.reload();
+                onMutate();
             })
             .catch(err => {
                 console.log(err);
@@ -83,7 +82,7 @@ export default function PatientInfoModalContent({
                     isClosable: true,
                 });
             });
-    }
+    };
 
     return (
         <Box>

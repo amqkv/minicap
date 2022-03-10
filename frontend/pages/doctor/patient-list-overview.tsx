@@ -27,6 +27,7 @@ import { USER_ROLES } from "@frontend/utils/constants";
 import { useRouter } from "next/router";
 import { Search2Icon } from "@chakra-ui/icons";
 import usePatientInfo from "@frontend/hooks/use-patient-info";
+import PatientList from "@frontend/components/doctor/patient-list";
 
 export async function getServerSideProps(context: any) {
     const session = await getSession(context);
@@ -51,15 +52,12 @@ export async function getServerSideProps(context: any) {
 export default function DoctorDashboard() {
     const [selectedPatient, setSelectedPatient] = useState<Patient>(DEFAULT_PATIENT);
     const [filterOption, setFilterOption] = useState("none");
-    const [noSearchResult, setNoSearchResult] = useState(false);
-    const [noFilterResult, setNoFilterResult] = useState(false);
+    const [searchTerm, setSearchTerm] = useState("");
     const { data: session } = useSession();
     const router = useRouter();
     const toast = useToast();
     const { onOpen, isOpen, onClose } = useDisclosure();
     const {
-        patientListToMap,
-        setPatientListToMap,
         patientList,
         highTemperaturePatientList,
         flaggedPatientList,
@@ -86,85 +84,16 @@ export default function DoctorDashboard() {
         }
     }, [router, session?.user.Role, toast]);
 
-    async function handleClick(selectedPatient: Patient) {
-        setSelectedPatient(selectedPatient);
-        onOpen();
-        // for (let i = 0; i < patientList.length; i++) {
-        //     if (patientList[i].patientId === selectedPatient.patientId) {
-        //         patientList[i].status[0].isReviewed = true;
-        //     }
-        // }
-        // try {
-        //     return await fetch(serverURL + "/doctors/reviewPatient", {
-        //         method: "PATCH",
-        //         body: JSON.stringify({
-        //             patientId: selectedPatient.patientId,
-        //         }),
-        //         headers: { "Content-Type": "application/json" },
-        //     });
-        // } catch {}
-    }
-
     function filterPatients(value: string) {
         setFilterOption(value);
-        //to delete after changes
-        let filteredList: Patient[] = [];
-        switch (value) {
-            case "temperature":
-                setPatientListToMap(highTemperaturePatientList);
-                filteredList = highTemperaturePatientList;
-                break;
-            case "flag":
-                setPatientListToMap(flaggedPatientList);
-                filteredList = flaggedPatientList;
-                break;
-            case "none":
-                setPatientListToMap(patientList);
-                filteredList = patientList;
-                break;
-            case "reviewed":
-                setPatientListToMap(reviewedPatientList);
-                filteredList = patientList;
-                break;
-            case "false":
-                setPatientListToMap(unreviewedPatientList);
-                filteredList = patientList;
-                break;
-        }
-        setNoFilterResult(!filteredList.length ? true : false);
     }
 
     function onSearch(e: any) {
         e.preventDefault();
         const searchedName: string = e.target.value;
-        let listToSearch: Patient[] = [];
-        switch (filterOption) {
-            case "temperature":
-                listToSearch = highTemperaturePatientList;
-                break;
-            case "flag":
-                listToSearch = flaggedPatientList;
-                break;
-            case "none":
-                listToSearch = patientList;
-                break;
-            case "reviewed":
-                listToSearch = reviewedPatientList;
-                break;
-            case "unreviewed":
-                listToSearch = unreviewedPatientList;
-                break;
-        }
-        const searchResults = listToSearch.filter(elm =>
-            `${elm.basicInformation.firstName?.toLowerCase()} ${elm.basicInformation.lastName?.toLowerCase()}`.includes(
-                searchedName.toLowerCase()
-            )
-        );
-        setPatientListToMap(searchResults);
-        setNoSearchResult(!searchResults.length ? true : false);
+        setSearchTerm(searchedName);
     }
     return (
-        // branch part 1
         <>
             {isLoading && <Spinner />}
             {isError && <p> There is an error loading the data</p>}
@@ -181,6 +110,7 @@ export default function DoctorDashboard() {
                             </InputLeftElement>
                             <Input
                                 onChange={onSearch}
+                                value={searchTerm}
                                 placeholder={"Search patient name..."}
                                 flex="3.9"
                                 mr={2}
@@ -208,69 +138,50 @@ export default function DoctorDashboard() {
                             </Stack>
                         </RadioGroup>
                     </Box>
-                    {/* //branch part 2 */}
 
                     <SimpleGrid minChildWidth="400px" rowGap={5} columnGap={2}>
                         {/* Changed the way list are shown, otherwise these lists don't update on changes */}
-                        {filterOption === "none" &&
-                            patientList?.map((patient: Patient) => (
-                                <PatientInfoCard
-                                    patient={patient}
-                                    clickHandler={() => handleClick(patient)}
-                                    key={`patient-${patient.patientId}`}
-                                />
-                            ))}
-                        {filterOption === "temperature" &&
-                            highTemperaturePatientList?.map((patient: Patient) => (
-                                <PatientInfoCard
-                                    patient={patient}
-                                    clickHandler={() => handleClick(patient)}
-                                    key={`patient-${patient.patientId}`}
-                                />
-                            ))}
-                        {filterOption === "flag" &&
-                            flaggedPatientList?.map((patient: Patient) => (
-                                <PatientInfoCard
-                                    patient={patient}
-                                    clickHandler={() => handleClick(patient)}
-                                    key={`patient-${patient.patientId}`}
-                                />
-                            ))}
-                        {filterOption === "true" &&
-                            reviewedPatientList?.map((patient: Patient) => (
-                                <PatientInfoCard
-                                    patient={patient}
-                                    clickHandler={() => handleClick(patient)}
-                                    key={`patient-${patient.patientId}`}
-                                />
-                            ))}
-                        {filterOption === "false" &&
-                            unreviewedPatientList?.map((patient: Patient) => (
-                                <PatientInfoCard
-                                    patient={patient}
-                                    clickHandler={() => handleClick(patient)}
-                                    key={`patient-${patient.patientId}`}
-                                />
-                            ))}
-                    </SimpleGrid>
-
-                    {/* <SimpleGrid minChildWidth="400px" rowGap={5} columnGap={2}>
-                        {noSearchResult || noFilterResult ? (
-                            <Center>
-                                <Text fontSize="xl" color="gray.500" mt={10}>
-                                    No patient to show.
-                                </Text>
-                            </Center>
-                        ) : (
-                            patientListToMap?.map((patient: Patient) => (
-                                <PatientInfoCard
-                                    patient={patient}
-                                    clickHandler={() => handleClick(patient)}
-                                    key={`patient-${patient.patientId}`}
-                                />
-                            ))
+                        {filterOption === "none" && (
+                            <PatientList
+                                patientList={patientList}
+                                searchTerm={searchTerm}
+                                setSelectedPatient={setSelectedPatient}
+                                onOpen={onOpen}
+                            />
                         )}
-                    </SimpleGrid> */}
+                        {filterOption === "temperature" && (
+                            <PatientList
+                                patientList={highTemperaturePatientList}
+                                searchTerm={searchTerm}
+                                setSelectedPatient={setSelectedPatient}
+                                onOpen={onOpen}
+                            />
+                        )}
+                        {filterOption === "flag" && (
+                            <PatientList
+                                patientList={flaggedPatientList}
+                                searchTerm={searchTerm}
+                                setSelectedPatient={setSelectedPatient}
+                                onOpen={onOpen}
+                            />
+                        )}
+                        {filterOption === "true" && (
+                            <PatientList
+                                patientList={reviewedPatientList}
+                                searchTerm={searchTerm}
+                                setSelectedPatient={setSelectedPatient}
+                                onOpen={onOpen}
+                            />
+                        )}
+                        {filterOption === "false" && (
+                            <PatientList
+                                patientList={unreviewedPatientList}
+                                searchTerm={searchTerm}
+                                setSelectedPatient={setSelectedPatient}
+                                onOpen={onOpen}
+                            />
+                        )}
+                    </SimpleGrid>
 
                     <PatientInfoModal isOpen={isOpen} onClose={onClose}>
                         <PatientInfoModalContent patient={selectedPatient} onMutate={mutate} onClose={onClose} />
@@ -278,6 +189,5 @@ export default function DoctorDashboard() {
                 </Box>
             )}
         </>
-        //main part 2
     );
 }

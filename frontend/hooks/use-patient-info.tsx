@@ -9,7 +9,6 @@ const usePatientList = (userId: number | undefined) => {
     const response = useSWR(!!userId ? [`/doctors/get-patients-info`, userId] : null, fetcher);
 
     const patientList: Patient[] = response.data;
-    const [patientListToMap, setPatientListToMap] = useState(patientList);
     const error = response.error;
     const mutate = response.mutate;
 
@@ -24,8 +23,6 @@ const usePatientList = (userId: number | undefined) => {
     const unreviewedPatientList = patientList?.filter(patient => patient.isAllReviewed.toString() === "false");
 
     return {
-        patientListToMap,
-        setPatientListToMap,
         patientList,
         highTemperaturePatientList,
         flaggedPatientList,
