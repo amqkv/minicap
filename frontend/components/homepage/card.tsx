@@ -1,6 +1,6 @@
 import { Box, Text, Image } from "@chakra-ui/react";
 import Link from "@frontend/components/navigation/navlink";
-import { CardProps } from "./types/card";
+import { CardProps } from "./types/types";
 
 export default function Card({ label, image, url }: CardProps) {
     return (

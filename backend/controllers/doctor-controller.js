@@ -133,6 +133,31 @@ async function getPatientsInfo(req, res) {
     }
 }
 
+async function getPatientsDashboardInfo(req, res) {
+    await db
+        .query(
+            `SELECT allPatients.cnt as allPatientCnt, todayStatus.highTempCnt as highTempPatientCnt
+                FROM (SELECT COUNT(*) as cnt
+                        FROM Patient P, Doctor D
+                        WHERE D.User_AccountId=${req.params.userId} AND
+                            P.Doctor_DoctorId=D.DoctorId) AS allPatients,
+                    (SELECT COUNT(*) AS highTempCnt
+                        FROM Status S, Patient P, Doctor D
+                        WHERE DATEPART(yy, S.StatusTime) = ${Moment().format("YYYY")} AND
+                            DATEPART(mm, S.StatusTime) = ${Moment().format("MM")} AND
+                            DATEPART(dd, S.StatusTime) = ${Moment().format("DD")} AND
+                            S.Temperature >= 38 AND
+                            P.PatientId = S.Patient_PatientId AND
+                            D.User_AccountId = ${req.params.userId}) AS todayStatus`,
+            {
+                type: QueryTypes.SELECT,
+            }
+        )
+        .then(patientDashboardInfo => {
+            res.json(patientDashboardInfo[0]);
+        });
+}
+
 // Update the priority state of a patient
 async function updatePriority(req, res) {
     await Patient.update(
@@ -188,6 +213,7 @@ async function reviewPatient(req, res) {
 module.exports = {
     updateRequiredDetails,
     getPatientsInfo,
+    getPatientsDashboardInfo,
     updatePriority,
     reviewPatient,
 };

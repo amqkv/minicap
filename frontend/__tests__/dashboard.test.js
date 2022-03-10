@@ -16,23 +16,9 @@ describe("<Dashboard />", () => {
                 },
             },
         });
-        const wrapper = shallow(<Dashboard />);
+        const wrapper = shallow(<Dashboard data={[]}/>);
 
-        expect(wrapper.find(Heading)).toHaveLength(1);
-        expect(wrapper.find(Card)).toHaveLength(3);
-    });
-
-    it("renders a <Dashboard /> component when user is logged in", () => {
-        useSession.mockReturnValue({
-            data: {
-                user: {
-                    Role: USER_ROLES.doctor,
-                },
-            },
-        });
-        const wrapper = shallow(<Dashboard />);
-
-        expect(wrapper.find(Heading)).toHaveLength(1);
+        expect(wrapper.find(Heading)).toHaveLength(3);
         expect(wrapper.find(Card)).toHaveLength(3);
     });
 });

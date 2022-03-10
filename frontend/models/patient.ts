@@ -76,3 +76,11 @@ export const DEFAULT_PATIENT = {
     ],
     isPrioritized: false,
 };
+
+export const DEFAULT_STATUS = {
+    temperature: 37,
+    weight: 80,
+    symptoms: " ",
+    isReviewed: false,
+}
+
