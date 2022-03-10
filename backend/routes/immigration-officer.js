@@ -10,6 +10,9 @@ router.get("/findUsersStatus", (req, res) => {
     immigrationOfficerController.findUsersStatus(req, res);
 });
 
+router.get("/countUsersStatus", (req, res) => {
+    immigrationOfficerController.countUsersStatus(req, res);
+});
 
 module.exports = {
     router,

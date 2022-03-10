@@ -12,8 +12,8 @@ afterAll(async () => {
 });
 
 describe("GET:list of patients from the database", () => {
-    it("Returns code 200 after querying the list of patients", () => {
-        return request(app)
+    it("Returns code 200 after querying the list of patients", () =>
+        request(app)
             .get("/immigration-officer/findUsersStatus")
             .expect("Content-Type", /json/)
             .expect(200)
@@ -35,6 +35,21 @@ describe("GET:list of patients from the database", () => {
                         }),
                     ])
                 );
-            });
-    });
+            }));
+});
+
+describe("GET:count of patients from the database", () => {
+    it("Returns code 200 after querying the count of patients", () =>
+        request(app)
+            .get("/immigration-officer/countUsersStatus")
+            .expect("Content-Type", /json/)
+            .expect(200)
+            .then(response => {
+                expect(response.body).toEqual(
+                    expect.objectContaining({
+                        "COVID Positive Patients": expect.any(Number),
+                        "COVID Negative Patients": expect.any(Number),
+                    })
+                );
+            }));
 });
