@@ -43,7 +43,7 @@ export default function Chart({ statuses, title, h, w, day }: ChartProps) {
                             <Pie
                                 data={data}
                                 isAnimationActive={false}
-                                cx="45%"
+                                // cx="45%"
                                 label={renderCustomizedLabel}
                                 outerRadius={80}
                                 fill="#8884d8"
