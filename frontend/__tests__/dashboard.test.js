@@ -5,7 +5,6 @@ import Card from "@frontend/components/homepage/card";
 import Chart from "@frontend/components/line-chart"; 
 import { useSession } from "next-auth/react";
 import { USER_ROLES } from "@frontend/utils/constants";
-import {STATUS_VALUES} from "@frontend/__tests__/__mock__/mock";
 
 jest.mock("next-auth/react");
 
@@ -22,7 +21,6 @@ afterAll(() => {
     global.fetch = unmockedFetch;
 });
 
-// const MOCK_STATUS_ARRAY = [STATUS_VALUES,STATUS_VALUES];
 const mockData = [
     {
         Temperature: 37,

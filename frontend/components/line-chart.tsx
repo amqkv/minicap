@@ -1,7 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
 import moment from "moment";
-import { StatusDataProps } from "@frontend/models/patient";
 import { pastConditionsProps } from "@frontend/functions/create-status";
 
 interface ChartProps {

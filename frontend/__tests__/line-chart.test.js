@@ -3,13 +3,6 @@ import Chart from "@frontend/components/line-chart";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
 import { Box } from "@chakra-ui/react";
 
-// const STATUS_DATA_PROPS_MOCK = {
-//     Temperature: 37,
-//     StatusTime: "2022-02-01",
-//     Weight: 70,
-//     Symptoms: "Testing",
-// };
-// const mockData = [STATUS_DATA_PROPS_MOCK,STATUS_DATA_PROPS_MOCK];
 const mockData = [
     {
         Temperature: 37,
