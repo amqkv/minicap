@@ -23,7 +23,7 @@ export function transformSymptomsData(statuses: PatientStatus[], day: string) {
     let total = 0;
     // Going through all statuses and counting the recurring ones
     statuses.map(status => {
-        if (day === DAY.ALL || day === status.statusTime.substring(0, 10)) {
+        if (day === status.statusTime.substring(0, 10) || day === DAY.ALL) {
             currentStatus = status.symptoms.value.split(",").map(value => value.trim());
             total += currentStatus.length;
             currentStatus.map(symptom => {

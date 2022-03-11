@@ -82,7 +82,7 @@ describe("transformWeightTempData", () => {
         ];
         expect(transformWeightTempData(mockStatus, DAY.ALL).data).toHaveLength(2);
     });
-    it("Does not return data if the day is invalid", () => {
+    it("Returns appropriate data array for specified day", () => {
         const mockStatus = [
             {
                 weight: { value: 10, unit: "" },
@@ -90,7 +90,7 @@ describe("transformWeightTempData", () => {
                 symptoms: { value: "", unit: "" },
                 lastUpdated: 0,
                 isReviewed: false,
-                statusTime: "",
+                statusTime: "2022-03-09",
             },
             {
                 weight: { value: 0, unit: "" },
@@ -101,8 +101,51 @@ describe("transformWeightTempData", () => {
                 statusTime: "",
             },
         ];
-        expect(transformWeightTempData(mockStatus, "").data).toHaveLength(0);
+        expect(transformWeightTempData(mockStatus, "2022-03-09").data).toHaveLength(1);
     });
+    it("Returns appropriate data array for all days", () => {
+        const mockStatus = [
+            {
+                weight: { value: 10, unit: "" },
+                temperature: { value: 40, unit: "" },
+                symptoms: { value: "", unit: "" },
+                lastUpdated: 0,
+                isReviewed: false,
+                statusTime: "2022-03-09",
+            },
+            {
+                weight: { value: 0, unit: "" },
+                temperature: { value: 0, unit: "" },
+                symptoms: { value: "fever", unit: "" },
+                lastUpdated: 0,
+                isReviewed: false,
+                statusTime: "",
+            },
+        ];
+        expect(transformWeightTempData(mockStatus, DAY.ALL).data).toHaveLength(2);
+    });
+    it("Does not return data if the day is invalid", () => {
+        const mockStatus = [
+            {
+                weight: { value: 10, unit: "" },
+                temperature: { value: 40, unit: "" },
+                symptoms: { value: "", unit: "" },
+                lastUpdated: 0,
+                isReviewed: false,
+                statusTime: "2022-03-03",
+            },
+            {
+                weight: { value: 0, unit: "" },
+                temperature: { value: 0, unit: "" },
+                symptoms: { value: "fever", unit: "" },
+                lastUpdated: 0,
+                isReviewed: false,
+                statusTime: "2022-03-03",
+            },
+        ];
+        expect(transformWeightTempData(mockStatus, "teehee").data).toHaveLength(0);
+    });
+
     it("Does not set the lowestWeight value if the weight is higher", () => {
         const mockStatus = [
             {
@@ -122,7 +165,7 @@ describe("transformWeightTempData", () => {
                 statusTime: "",
             },
         ];
-        expect(transformWeightTempData(mockStatus, "").data).toHaveLength(0);
+        expect(transformWeightTempData(mockStatus, "invalid").data).toHaveLength(0);
     });
 });
 

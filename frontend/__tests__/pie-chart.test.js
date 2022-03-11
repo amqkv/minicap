@@ -43,6 +43,6 @@ describe("<PieChart/>", () => {
 
     it("Renders all the Center components (if data is null)", () => {
         const w = shallow(<Chart statuses={extractStatuses(patientList)} title="Test" h={250} w={450} day={""} />);
-        expect(w.find(Center)).toHaveLength(1);
+        expect(w.find(Center)).toHaveLength(2);
     });
 });
