@@ -11,7 +11,7 @@ import PatientCard from "./patient-card";
 import { useRouter } from "next/router";
 import { checkboxForms } from "@frontend/functions/checkbox-form";
 import { PatientsFormsToFill } from "./types/types";
-import Chart from "@frontend/components/homepage/line-chart";
+import Chart from "@frontend/components/line-chart";
 import { DEFAULT_STATUS } from "@frontend/models/patient";
 
 export default function PatientFormToFill({ requiredDetails, pastConditions }: PatientsFormsToFill) {

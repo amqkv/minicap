@@ -1,18 +1,18 @@
 import { Box } from "@chakra-ui/react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
 import moment from "moment";
-import { StatusDataProps } from "@frontend/models/patient";
+import { pastConditionsProps } from "@frontend/functions/create-status";
 
 interface ChartProps {
-    data: StatusDataProps[];
+    data: unknown[];
     w: number;
     h: number;
 }
 
 export default function Chart({ data, w, h }: ChartProps) {
-    data.forEach((d: StatusDataProps) => {
-        d.StatusTime = moment(d.StatusTime).format("L");
-    });
+    data.forEach((d: unknown) => {
+        (d as pastConditionsProps).StatusTime = moment((d as pastConditionsProps).StatusTime).format('L');
+    })
     return (
         <Box w={w} h={h}>
             <LineChart width={w} height={h} data={data}>

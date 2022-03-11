@@ -2,7 +2,7 @@ import { Box, Center, Flex, Heading, ListItem, UnorderedList } from "@chakra-ui/
 import Card from "./card";
 import { links, link } from "@frontend/components/homepage/dashboard-structure";
 import { useSession } from "next-auth/react";
-import Chart from "@frontend/components/homepage/line-chart";
+import Chart from "@frontend/components/line-chart";
 import { USER_ROLES } from "@frontend/utils/constants";
 
 export default function Dashboard(  {data} : {data: unknown[]}) {
@@ -12,7 +12,7 @@ export default function Dashboard(  {data} : {data: unknown[]}) {
 
     // reverse data array for line chart
     data.reverse();
-
+    
     return (
         <>
             <Heading paddingLeft={"50px"}>
