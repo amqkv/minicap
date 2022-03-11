@@ -43,7 +43,7 @@ export default function Chart({ statuses, title, h, w, day }: ChartProps) {
                             <Pie
                                 data={data}
                                 isAnimationActive={false}
-                                cx="45%"
+                                // cx="45%"
                                 label={renderCustomizedLabel}
                                 outerRadius={80}
                                 fill="#8884d8"
@@ -56,8 +56,8 @@ export default function Chart({ statuses, title, h, w, day }: ChartProps) {
                     </Center>
                 </Box>
             ) : (
-                <Center height={301}>
-                    <Text color="#636363" fontSize="lg" mt={6}>
+                <Center height={h}>
+                    <Text color="#636363" fontSize="lg">
                         No data provided yet.
                     </Text>
                 </Center>
