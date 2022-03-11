@@ -12,9 +12,7 @@ jest.mock("@frontend/hooks/unconfirmed-users-list");
 
 describe("Test rendering of different element on approve user page", () => {
     const dummyUsers = {
-        Users: [
-            DEFAULT_USER_SIMPLE
-        ],
+        Users: [DEFAULT_USER_SIMPLE],
     };
     it("Test the User Card component [Approval Version]", () => {
         let wrapper = shallow(<ApproveUsersRowCard userInfoSimple={dummyUsers.Users[0]} />);
@@ -23,7 +21,7 @@ describe("Test rendering of different element on approve user page", () => {
 
         let child = wrapper.dive();
 
-        expect(child.find(Button)).toHaveLength(1);
+        expect(child.find(Button)).toHaveLength(2);
         expect(child.find(ListItem)).toHaveLength(1);
     });
     it("Test Approve Users List Component", () => {

@@ -3,13 +3,42 @@ import Chart from "@frontend/components/line-chart";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
 import { Box } from "@chakra-ui/react";
 
-const STATUS_DATA_PROPS_MOCK = {
-    Temperature: 0,
-    StatusTime: "",
-    Weight: 0,
-    Symptoms: "",
-};
-const mockData = [STATUS_DATA_PROPS_MOCK];
+// const STATUS_DATA_PROPS_MOCK = {
+//     Temperature: 37,
+//     StatusTime: "2022-02-01",
+//     Weight: 70,
+//     Symptoms: "Testing",
+// };
+// const mockData = [STATUS_DATA_PROPS_MOCK,STATUS_DATA_PROPS_MOCK];
+const mockData = [
+    {
+        Temperature: 37,
+        StatusTime: "03/09/2022",
+        Weight: 70,
+        Symptoms: "Testing 1 ",
+        IsReviewed: true,
+        Patient_PatientId: 3,
+        StatusId: 264,
+    },
+    {
+        Temperature: 38,
+        StatusTime: "03/08/2022",
+        Weight: 70,
+        Symptoms: "Testing 2 ",
+        IsReviewed: true,
+        Patient_PatientId: 3,
+        StatusId: 264,
+    },
+    {
+        Temperature: 38,
+        StatusTime: "03/01/2022",
+        Weight: 70,
+        Symptoms: "Testing 3 ",
+        IsReviewed: true,
+        Patient_PatientId: 3,
+        StatusId: 264,
+    },
+];
 
 describe("<LineChart/>", () => {
     const wrapper = shallow(<Chart data={mockData} w={300} h={300} />);

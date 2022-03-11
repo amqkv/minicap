@@ -24,14 +24,14 @@ const getPendingUsers = async (req, res) => {
     const pendingUsers = await User.findAll({
         where: {
             ConfirmedFlag: false,
+            RejectedFlag: false,
         },
         attributes: ["AccountId", "FirstName", "LastName", "Role", "ConfirmedFlag"],
-    })
-        .catch(err => {
-            console.log("Get Pending Users List Error: ", err);
-            res.status(400).send("Error fetching pending users list!");
-        });
-	res.json({ Users: pendingUsers });
+    }).catch(err => {
+        console.log("Get Pending Users List Error: ", err);
+        res.status(400).send("Error fetching pending users list!");
+    });
+    res.json({ Users: pendingUsers });
 };
 
 module.exports = {
