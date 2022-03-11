@@ -27,6 +27,10 @@ const nextConfig = {
                 source: "/api/admin/confirm-user-account",
                 destination: `http://localhost:3001/admins/confirm-user-account`,
             },
+            {
+                source: "/api/admin/reject-user-account",
+                destination: `http://localhost:3001/admins/reject-user-account`,
+            },
         ];
     },
 };

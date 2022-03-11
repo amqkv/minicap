@@ -96,12 +96,15 @@ async function getAllStatus(req, res) {
                 Patient_PatientId: PatientId,
             },
             order: [["StatusTime", "DESC"]],
+            
         });
         res.status(200).json(allStatus);
     } catch {
         res.status(400).send("Failed to get all status");
     }
 }
+
+
 
 module.exports = {
     addStatus,

@@ -3,6 +3,7 @@ import { GetServerSideProps } from "next";
 import LoginLogoutButton from "@frontend/components/login-logout-button";
 import { Box, Img, Flex, Heading } from "@chakra-ui/react";
 import Dashboard from "@frontend/components/homepage/dashboard";
+
 import { serverURL } from "@frontend/config";
 import { USER_ROLES } from "@frontend/utils/constants";
 
@@ -24,9 +25,10 @@ export const getServerSideProps: GetServerSideProps = async context => {
     };
 };
 
-export default function Home({ data }: { data: unknown[] }) {
-    const { data: session } = useSession();
 
+export default function Home({ data }: { data: unknown[] }) {
+
+    const { data: session } = useSession();
     if (session) {
         return <Dashboard data={data} />;
     }

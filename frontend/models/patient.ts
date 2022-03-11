@@ -76,3 +76,18 @@ export const DEFAULT_PATIENT = {
     ],
     isPrioritized: false,
 };
+
+export const DEFAULT_STATUS = {
+    temperature: 37,
+    weight: 80,
+    symptoms: " ",
+    isReviewed: false,
+};
+
+export const FILTER_OPTIONS = {
+    NONE: "none",
+    TEMPERATURE: "temperature",
+    FLAG: "flag",
+    REVIEWED: "reviewed",
+    UNREVIEWED: "unreviewed",
+};

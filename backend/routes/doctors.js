@@ -18,6 +18,10 @@ router.get("/getPatientsInfo/:userId", (req, res) => {
     doctorController.getPatientsInfo(req, res);
 });
 
+router.get("/getPatientsDashboardInfo/:userId", (req, res) => {
+    doctorController.getPatientsDashboardInfo(req, res);
+});
+
 /**
  * Update the priority state of a patient
  * Middlewares:
@@ -26,6 +30,10 @@ router.get("/getPatientsInfo/:userId", (req, res) => {
  */
 router.patch("/updatePriority", authUser.verifyUser, authUser.verifyRole(constants.ROLE.DOCTOR), (req, res) => {
     doctorController.updatePriority(req, res);
+});
+
+router.patch("/reviewPatient", (req, res) => {
+    doctorController.reviewPatient(req, res);
 });
 
 module.exports = {

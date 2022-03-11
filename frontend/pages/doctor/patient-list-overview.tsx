@@ -3,7 +3,7 @@ import PatientInfoModal from "@frontend/components/modal/modal";
 import PatientInfoModalContent from "@frontend/components/doctor/patient-info-modal-content";
 import PatientChartsOverview from "@frontend/components/doctor/patient-charts-overview";
 import { serverURL } from "@frontend/config";
-import { DEFAULT_PATIENT, Patient } from "@frontend/models/patient";
+import { DEFAULT_PATIENT, FILTER_OPTIONS, Patient } from "@frontend/models/patient";
 import {
     Box,
     Text,
@@ -54,8 +54,9 @@ export default function DoctorDashboard({ patientList }: { patientList: Patient[
     const [noFilterResult, setNoFilterResult] = useState(false);
     const { onOpen, isOpen, onClose } = useDisclosure();
     const highTemperaturePatientList = patientList.filter(patient => patient.status[0].temperature.value >= 38);
-    // <TODO> filter patient list according to flagged patients
     const flaggedPatientList: Patient[] = patientList.filter(patient => patient.isPrioritized);
+    const reviewedPatientList: Patient[] = patientList.filter(patient => patient.status[0].isReviewed);
+    const unreviewedPatientList: Patient[] = patientList.filter(patient => !patient.status[0].isReviewed);
     const { data: session } = useSession();
     const router = useRouter();
     const toast = useToast();
@@ -74,9 +75,23 @@ export default function DoctorDashboard({ patientList }: { patientList: Patient[
         }
     }, [router, session?.user.Role, toast]);
 
-    function handleClick(selectedPatient: Patient) {
+    async function handleClick(selectedPatient: Patient) {
         setSelectedPatient(selectedPatient);
         onOpen();
+        for (let i = 0; i < patientList.length; i++) {
+            if (patientList[i].patientId === selectedPatient.patientId) {
+                patientList[i].status[0].isReviewed = true;
+            }
+        }
+        try {
+            return await fetch(serverURL + "/doctors/reviewPatient", {
+                method: "PATCH",
+                body: JSON.stringify({
+                    patientId: selectedPatient.patientId,
+                }),
+                headers: { "Content-Type": "application/json" },
+            });
+        } catch {}
     }
 
     function filterPatients(value: string) {
@@ -95,6 +110,14 @@ export default function DoctorDashboard({ patientList }: { patientList: Patient[
                 setPatientListToMap(patientList);
                 filteredList = patientList;
                 break;
+            case "reviewed":
+                setPatientListToMap(reviewedPatientList);
+                filteredList = patientList;
+                break;
+            case "unreviewed":
+                setPatientListToMap(unreviewedPatientList);
+                filteredList = patientList;
+                break;
         }
         setNoFilterResult(!filteredList.length ? true : false);
     }
@@ -104,14 +127,20 @@ export default function DoctorDashboard({ patientList }: { patientList: Patient[
         const searchedName: string = e.target.value;
         let listToSearch: Patient[] = [];
         switch (filterOption) {
-            case "temperature":
+            case FILTER_OPTIONS.TEMPERATURE:
                 listToSearch = highTemperaturePatientList;
                 break;
-            case "flag":
+            case FILTER_OPTIONS.FLAG:
                 listToSearch = flaggedPatientList;
                 break;
-            case "none":
+            case FILTER_OPTIONS.NONE:
                 listToSearch = patientList;
+                break;
+            case FILTER_OPTIONS.REVIEWED:
+                listToSearch = reviewedPatientList;
+                break;
+            case FILTER_OPTIONS.UNREVIEWED:
+                listToSearch = unreviewedPatientList;
                 break;
         }
         const searchResults = listToSearch.filter(elm =>
@@ -127,7 +156,9 @@ export default function DoctorDashboard({ patientList }: { patientList: Patient[
             <Heading size="xl" mx={10} mt={8}>
                 Patients
             </Heading>
-            <PatientChartsOverview patientList={patientList} />
+            <Box minHeight="415px">
+                <PatientChartsOverview patientList={patientList} />
+            </Box>
             {/* Search bar */}
             <Box mx={10} mb={3}>
                 <InputGroup>
@@ -153,12 +184,15 @@ export default function DoctorDashboard({ patientList }: { patientList: Patient[
             <Box mx={10}>
                 <RadioGroup my={4} onChange={e => filterPatients(e)} value={filterOption} colorScheme={"red"}>
                     <Stack direction="row">
+                        {" "}
                         <Text>
                             <b>Filter by:</b> &nbsp;
                         </Text>
-                        <Radio value="none">None</Radio>
-                        <Radio value="temperature">High Temperature</Radio>
-                        <Radio value="flag">Flagged</Radio>
+                        <Radio value={FILTER_OPTIONS.NONE}>None</Radio>
+                        <Radio value={FILTER_OPTIONS.TEMPERATURE}>High Temperature</Radio>
+                        <Radio value={FILTER_OPTIONS.FLAG}>Flagged</Radio>
+                        <Radio value={FILTER_OPTIONS.REVIEWED}>Reviewed</Radio>
+                        <Radio value={FILTER_OPTIONS.UNREVIEWED}>Unreviewed</Radio>
                     </Stack>
                 </RadioGroup>
             </Box>
