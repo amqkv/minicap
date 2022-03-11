@@ -7,7 +7,7 @@ import Circle from "@frontend/components/circle";
 import List from "@frontend/components/admin/list";
 import Modal from "@frontend/components/modal/modal";
 import Legend from "@frontend/components/legend";
-import { Input, Image, Flex, Button, Heading, Select } from "@chakra-ui/react";
+import { Input, Flex, Button, Select } from "@chakra-ui/react";
 import { filter } from "@frontend/functions/sorting-filtering";
 import PatientInformationModalBody from "@frontend/components/modal/patient-information-modal-body";
 
@@ -36,7 +36,6 @@ describe("health official covid patients page", () => {
         });
         const wrapper = shallow(<CovidPatients patients={IMMIGRATION_OFFICER_MOCK_PATIENTS} />);
 
-        expect(wrapper.find(Heading)).toHaveLength(1);
         expect(wrapper.find(Select)).toHaveLength(1);
         expect(wrapper.find(Input)).toHaveLength(1);
         expect(wrapper.find(List)).toHaveLength(1);
