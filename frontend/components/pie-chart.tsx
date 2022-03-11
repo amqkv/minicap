@@ -56,8 +56,8 @@ export default function Chart({ statuses, title, h, w, day }: ChartProps) {
                     </Center>
                 </Box>
             ) : (
-                <Center height={301}>
-                    <Text color="#636363" fontSize="lg" mt={6}>
+                <Center height={h}>
+                    <Text color="#636363" fontSize="lg">
                         No data provided yet.
                     </Text>
                 </Center>

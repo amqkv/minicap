@@ -156,7 +156,9 @@ export default function DoctorDashboard({ patientList }: { patientList: Patient[
             <Heading size="xl" mx={10} mt={8}>
                 Patients
             </Heading>
-            <PatientChartsOverview patientList={patientList} />
+            <Box minHeight="375px">
+                <PatientChartsOverview patientList={patientList} />
+            </Box>
             {/* Search bar */}
             <Box mx={10} mb={3}>
                 <InputGroup>
@@ -182,6 +184,7 @@ export default function DoctorDashboard({ patientList }: { patientList: Patient[
             <Box mx={10}>
                 <RadioGroup my={4} onChange={e => filterPatients(e)} value={filterOption} colorScheme={"red"}>
                     <Stack direction="row">
+                        {" "}
                         <Text>
                             <b>Filter by:</b> &nbsp;
                         </Text>

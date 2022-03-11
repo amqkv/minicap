@@ -21,10 +21,9 @@ export function transformSymptomsData(statuses: PatientStatus[], day: string) {
     let currentStatus: string[] = [];
     let currentSymptom = "";
     let total = 0;
-
     // Going through all statuses and counting the recurring ones
     statuses.map(status => {
-        if (dayCondition(status, day)) {
+        if (day === DAY.ALL || day === status.statusTime.substring(0, 10)) {
             currentStatus = status.symptoms.value.split(",").map(value => value.trim());
             total += currentStatus.length;
             currentStatus.map(symptom => {
@@ -66,7 +65,7 @@ export function transformWeightTempData(statuses: PatientStatus[], day: string) 
 
     // Formatting the weight & temperature data object + finding the domain ranges
     statuses.map(status => {
-        if (dayCondition(status, day)) {
+        if (day === DAY.ALL || day === status.statusTime.substring(0, 10)) {
             data.push({ x: status.weight.value, y: status.temperature.value });
         }
         if (status.weight.value > highestWeight) highestWeight = status.weight.value;
@@ -83,24 +82,6 @@ export function transformWeightTempData(statuses: PatientStatus[], day: string) 
         domainY: [30, highestTemp + 2],
     };
     return { data, details };
-}
-
-// Filtering the statuses according to the day
-export function dayCondition(status: PatientStatus, day: string) {
-    if (day === DAY.TODAY) {
-        return (
-            0 <= status.lastUpdated - parseInt(moment().format("hh")) &&
-            status.lastUpdated - parseInt(moment().format("hh")) < 24
-        );
-    } else if (day === DAY.YESTERDAY) {
-        return (
-            24 <= status.lastUpdated - parseInt(moment().format("hh")) &&
-            status.lastUpdated - parseInt(moment().format("hh")) < 48
-        );
-    } else if (day === DAY.ALL) {
-        return true;
-    }
-    return false;
 }
 
 // Transforming the status history object to plug into the line chart
