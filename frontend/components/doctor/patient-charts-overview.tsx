@@ -11,13 +11,14 @@ export default function PatientChartsOverview({ patientList }: { patientList: Pa
     const today = new Date().toISOString().slice(0, 10);
     const datePickerStyle: CSSProperties = { border: "2px solid #e6e6e6", padding: "5px 10px", borderRadius: "10px" };
     const [pieChartDate, setPieChartDate] = useState(today);
-    const [lineChartDate, setLineChartDate] = useState(today);
+    const [scatterChartDate, setScatterChartDate] = useState(today);
 
-    function pickDate(e: any, chart: string) {
+    function pickDate(date: string, chart: string) {
         if (chart === "pie") {
-            setPieChartDate(e.target.value);
-        } else if (chart === "line") {
-            setLineChartDate(e.target.value);
+            setPieChartDate(date);
+        }
+        if (chart === "scatter") {
+            setScatterChartDate(date);
         }
     }
 
@@ -47,11 +48,11 @@ export default function PatientChartsOverview({ patientList }: { patientList: Pa
                             <Center height="40px">
                                 <label htmlFor="SymptomDate">Date picked:&emsp;</label>
                                 <input
-                                    // className="chakra-input css-1cxpn8z"
+                                    id="pieChartInput"
                                     type="date"
                                     name="SymptomDate"
                                     max={today}
-                                    onChange={e => pickDate(e, "pie")}
+                                    onChange={e => pickDate(e.target.value, "pie")}
                                     defaultValue={today}
                                     style={datePickerStyle}
                                 />
@@ -82,19 +83,19 @@ export default function PatientChartsOverview({ patientList }: { patientList: Pa
                             <ScatterChart
                                 statuses={extractStatuses(patientList)}
                                 transformDataFn={transformWeightTempData}
-                                day={lineChartDate}
+                                day={scatterChartDate}
                                 title={"Patients' Temperature and Weight Today"}
-                                h={260}
+                                h={275}
                                 w={400}
                             />
                             <Center>
                                 <label htmlFor="WeightTempDate">Date picked:&emsp;</label>
                                 <input
-                                    // className="chakra-input css-1cxpn8z"
+                                    id="scatterChartInput"
                                     type="date"
                                     name="WeightTempDate"
                                     max={today}
-                                    onChange={e => pickDate(e, "line")}
+                                    onChange={e => pickDate(e.target.value, "scatter")}
                                     defaultValue={today}
                                     style={datePickerStyle}
                                 />
@@ -106,7 +107,7 @@ export default function PatientChartsOverview({ patientList }: { patientList: Pa
                                 transformDataFn={transformWeightTempData}
                                 day={DAY.ALL}
                                 title={"Patients' Temperature and Weight of All Time"}
-                                h={260}
+                                h={275}
                                 w={400}
                             />
                         </TabPanel>

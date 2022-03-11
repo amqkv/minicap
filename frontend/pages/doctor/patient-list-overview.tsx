@@ -156,7 +156,7 @@ export default function DoctorDashboard({ patientList }: { patientList: Patient[
             <Heading size="xl" mx={10} mt={8}>
                 Patients
             </Heading>
-            <Box minHeight="375px">
+            <Box minHeight="415px">
                 <PatientChartsOverview patientList={patientList} />
             </Box>
             {/* Search bar */}
