@@ -11,6 +11,13 @@ export const getServerSideProps: GetServerSideProps = async context => {
     const session = await getSession(context);
     const role = session?.user.Role;
     let data: unknown[] = [];
+    let userId = session?.user.AccountId;
+
+
+    if (role === USER_ROLES.patient) {
+        const response = await fetch(serverURL + "/status/getAllStatus/" + userId);
+        data = await response.json();
+    }
 
     if (role === USER_ROLES.iOfficer) {
         const response = await fetch(serverURL + "/immigration-officer/countUsersStatus");
