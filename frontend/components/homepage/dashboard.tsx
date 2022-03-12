@@ -2,17 +2,13 @@ import { Box, Center, Flex, Heading, ListItem, UnorderedList } from "@chakra-ui/
 import Card from "./card";
 import { links, link } from "@frontend/components/homepage/dashboard-structure";
 import { useSession } from "next-auth/react";
-import Chart from "@frontend/components/line-chart";
 import { USER_ROLES } from "@frontend/utils/constants";
 import DashboardCharts from "@frontend/components/homepage/dashboard-charts";
 
-export default function Dashboard({ data, stats }: { data: unknown[], stats: {unassignedPatientsCount: Number, pendingCount: Number} }) {
+export default function Dashboard({ data, stats, statusFilled }: { data: unknown[], stats: {unassignedPatientsCount: Number, pendingCount: Number}, statusFilled: boolean }) {
     const { data: session } = useSession();
     const userRole = session?.user?.Role;
     const userName = session?.user?.FirstName + " " + session?.user?.LastName;
-
-    // reverse data array for line chart
-    data.reverse();
 
     return (
         <>
@@ -29,11 +25,16 @@ export default function Dashboard({ data, stats }: { data: unknown[], stats: {un
                             <Box margin={"20px 0px 30px 10%"}>
                                 <Heading size={"lg"}>Announcement:</Heading>
                                 <UnorderedList marginTop={"20px"}>
-                                    <ListItem>You have 0 new message</ListItem>
-                                    <ListItem>You can add or update today's status when clicking on forms</ListItem>
+                                    <ListItem>You have 0 new message.</ListItem>
+                                    {!statusFilled && (
+                                        <ListItem color="red">
+                                            You have not filled Today's status. Please fill it as soon as possible.
+                                        </ListItem>
+                                    )}
+                                    <ListItem>You can add or update today's status when clicking on forms.</ListItem>
                                     <ListItem>
                                         If you have tested positive for Covid-19, please consult quarantine information
-                                        page for further instructions
+                                        page for further instructions.
                                     </ListItem>
                                 </UnorderedList>
                             </Box>
