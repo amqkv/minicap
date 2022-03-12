@@ -25,10 +25,6 @@ export const getServerSideProps: GetServerSideProps = async context => {
         statusOfTheDay = await response.json();
 
         statusFilled = statusOfTheDay[0].StatusTime.substring(0, 10) === today;
-
-        console.log(statusOfTheDay[0].StatusTime.substring(0, 10));
-        console.log(today);
-        console.log(statusFilled)
     }
     let stats: { unassignedPatientsCount: Number; pendingCount: Number } = {
         unassignedPatientsCount: NaN,
@@ -62,15 +58,15 @@ export const getServerSideProps: GetServerSideProps = async context => {
 export default function Home({
     data,
     stats,
-    statusFilled
+    statusFilled,
 }: {
     data: unknown[];
     stats: { unassignedPatientsCount: Number; pendingCount: Number };
-    statusFilled:boolean;
+    statusFilled: boolean;
 }) {
     const { data: session } = useSession();
     if (session) {
-        return <Dashboard data={data} stats={stats} statusFilled={statusFilled}/>;
+        return <Dashboard data={data} stats={stats} statusFilled={statusFilled} />;
     }
 
     return (
