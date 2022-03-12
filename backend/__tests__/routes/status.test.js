@@ -33,12 +33,23 @@ describe("GET: getting all status for this user", () => {
         return request(app).get(`/status/getAllStatus/${userId}`).expect(400);
     });
 
-    // TODO: Fix unit test
-    // it("Returns code 200 and array of status", async () => {
-    //     const userId = 51;
-    //     const response = await request(app).get(`/status/getAllStatus/${userId}`);
-    //     expect(response.body).toHaveLength(5);
-    // });
+    it("Returns code 200 and array of status", async () => {
+        const userId = 51;
+        const response = await request(app).get(`/status/getAllStatus/${userId}`);
+        expect(response.body).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    IsReviewed: expect.any(Boolean),
+                    Patient_PatientId: expect.any(Number),
+                    StatusId: expect.any(Number),
+                    StatusTime: expect.any(String),
+                    Symptoms: expect.any(String),
+                    Temperature: expect.any(Number),
+                    Weight: expect.any(Number),
+                }),
+            ])
+        );
+    });
 });
 
 describe("GET: getting all status for this user for charts", () => {
@@ -47,12 +58,23 @@ describe("GET: getting all status for this user for charts", () => {
         return request(app).get(`/status/getAllStatusChart/${userId}`).expect(400);
     });
 
-    // TODO: Fix unit test
-    // it("Returns code 200 and array of status", async () => {
-    //     const userId = 51;
-    //     const response = await request(app).get(`/status/getAllStatusChart/${userId}`);
-    //     expect(response.body).toHaveLength(5);
-    // });
+    it("Returns code 200 and array of status", async () => {
+        const userId = 51;
+        const response = await request(app).get(`/status/getAllStatusChart/${userId}`);
+        expect(response.body).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    IsReviewed: expect.any(Boolean),
+                    Patient_PatientId: expect.any(Number),
+                    StatusId: expect.any(Number),
+                    StatusTime: expect.any(String),
+                    Symptoms: expect.any(String),
+                    Temperature: expect.any(Number),
+                    Weight: expect.any(Number),
+                }),
+            ])
+        );
+    });
 });
 
 describe("POST: Adding a new status", () => {
