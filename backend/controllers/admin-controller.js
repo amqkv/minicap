@@ -243,10 +243,36 @@ async function rejectAccount(req, res) {
     }
 }
 
+async function getDashboardStats(req, res) {
+    Promise.all([
+        // counting number of unassigned patients
+        Patient.count({
+            where: {
+                Doctor_DoctorId: null,
+            },
+        }),
+        // counting number of pending user accounts
+        User.count({
+            where: {
+                ConfirmedFlag: false,
+                RejectedFlag: false,
+            },
+        }),
+    ])
+        // return value as json object
+        .then(counts => {
+            res.json({
+                unassignedPatientsCount: counts[0],
+                pendingCount: counts[1],
+            });
+        });
+} 
+
 module.exports = {
     updateRole,
     assignPatientDoctor,
     confirmAccount,
     rejectAccount,
     getPatientsDoctors,
+    getDashboardStats
 };
