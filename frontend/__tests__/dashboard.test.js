@@ -2,7 +2,7 @@ import { shallow } from "enzyme";
 import Dashboard from "@frontend/components/homepage/dashboard";
 import { Heading } from "@chakra-ui/react";
 import Card from "@frontend/components/homepage/card";
-import Chart from "@frontend/components/line-chart"; 
+import Chart from "@frontend/components/line-chart";
 import { useSession } from "next-auth/react";
 import { USER_ROLES } from "@frontend/utils/constants";
 
@@ -59,7 +59,7 @@ describe("<Dashboard />", () => {
             },
         },
     });
-    const wrapper = shallow(<Dashboard data={mockData}/>);
+    const wrapper = shallow(<Dashboard data={mockData} />);
 
     it("renders a <Dashboard /> component when PATIENT user is logged in", () => {
         expect(wrapper.find(Heading)).toHaveLength(1);
@@ -70,11 +70,11 @@ describe("<Dashboard />", () => {
         useSession.mockReturnValue({
             data: {
                 user: {
-                    Role: USER_ROLES.doctor,
+                    Role: USER_ROLES.admin,
                 },
             },
         });
-        const wrapper = shallow(<Dashboard />);
+        const wrapper = shallow(<Dashboard data={[]} />);
 
         expect(wrapper.find(Heading)).toHaveLength(1);
         expect(wrapper.find(Card)).toHaveLength(3);
