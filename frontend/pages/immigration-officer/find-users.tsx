@@ -4,7 +4,7 @@ import { useSession, getSession } from "next-auth/react";
 import { USER_ROLES } from "@frontend/utils/constants";
 import Legend from "@frontend/components/legend";
 import { serverURL } from "@frontend/config/index";
-import { Flex, Text, Box, Input, useDisclosure, Heading, Divider, Image, useToast, Button } from "@chakra-ui/react";
+import { Flex, Text, Box, Input, Button } from "@chakra-ui/react";
 import Circle from "@frontend/components/circle";
 import { PatientBasicInformation } from "@frontend/models/patient";
 import Modal from "@frontend/components/modal/modal";
@@ -24,6 +24,7 @@ export async function getServerSideProps(context: NextPageContext) {
         props: {
             patients,
             session,
+            pageId: "Patients List ",
         },
     };
 }
@@ -51,9 +52,6 @@ const UserListPage = ({ patients }: { patients: PatientBasicInformation[] }) => 
     if (session?.user.Role === USER_ROLES.iOfficer) {
         return (
             <Box padding={{ base: " 5% 0%", md: "0 15%" }}>
-                {/* rendering the page title */}
-                <Heading paddingBottom="15px"> Patients List </Heading>
-
                 {/* rendering the search bar */}
                 <Flex
                     paddingBottom={{ base: "5px", md: "40px" }}

@@ -55,7 +55,7 @@ export default function Chart({ statuses, transformDataFn, day, title, h, w }: C
                     </Center>
                 </Box>
             ) : (
-                <Center>
+                <Center height={h + 20}>
                     <Text color="#636363" fontSize="lg" mt={6}>
                         No data provided yet.
                     </Text>

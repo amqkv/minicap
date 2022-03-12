@@ -7,7 +7,7 @@ interface NavLinkProps {
     children?: ReactNode;
     url: string;
     textDecoration?: boolean;
-    styleProps?: Object;
+    styleProps?: object;
     passHref?: boolean;
 }
 

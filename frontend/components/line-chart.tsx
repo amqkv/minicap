@@ -5,8 +5,8 @@ import { pastConditionsProps } from "@frontend/functions/create-status";
 
 interface ChartProps {
     data: unknown[];
-    w: number;
-    h: number;
+    w: number|undefined;
+    h: number|undefined;
 }
 
 export default function Chart({ data, w, h }: ChartProps) {
@@ -21,7 +21,7 @@ export default function Chart({ data, w, h }: ChartProps) {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Line type="monotone" dataKey="Temperature" stroke="#8884d8" activeDot={{ r: 8 }} />
+                <Line type="monotone" dataKey="Temperature" stroke="#8884d8" activeDot={{ r: 4 }} />
                 <Line type="monotone" dataKey="Weight" stroke="#82ca9d" />
             </LineChart>
         </Box>

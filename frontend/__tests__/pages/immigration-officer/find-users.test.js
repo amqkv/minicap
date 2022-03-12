@@ -2,12 +2,12 @@ import { useSession } from "next-auth/react";
 import { shallow } from "enzyme";
 import { USER_ROLES } from "@frontend/utils/constants";
 import { IMMIGRATION_OFFICER_MOCK_PATIENTS } from "@frontend/__tests__/__mock__/mock";
-import UserList, { filterByText } from "@frontend/pages/immigration-officer/find-users";
+import UserList from "@frontend/pages/immigration-officer/find-users";
 import Circle from "@frontend/components/circle";
 import List from "@frontend/components/admin/list";
 import Modal from "@frontend/components/modal/modal";
 import Legend from "@frontend/components/legend";
-import { Input, Image, Flex, Heading, Button, Select } from "@chakra-ui/react";
+import { Input, Flex, Button } from "@chakra-ui/react";
 import { filter } from "@frontend/functions/sorting-filtering";
 import CovidPatients from "@frontend/pages/health-official/covid-patients";
 import PatientInformationModalBody from "@frontend/components/modal/patient-information-modal-body";
@@ -38,7 +38,6 @@ describe("immigration officer find users page", () => {
         const wrapper = shallow(<UserList patients={IMMIGRATION_OFFICER_MOCK_PATIENTS} />);
 
         expect(wrapper.find(Input)).toHaveLength(1);
-        expect(wrapper.find(Heading)).toHaveLength(1);
         expect(wrapper.find(List)).toHaveLength(1);
         expect(wrapper.find(Legend)).toHaveLength(1);
         expect(wrapper.find(Modal)).toHaveLength(1);

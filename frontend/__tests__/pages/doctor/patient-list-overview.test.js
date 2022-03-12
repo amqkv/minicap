@@ -1,10 +1,10 @@
-import { mount, shallow } from "enzyme";
+import { shallow } from "enzyme";
 import PatientInfoModalContent from "@frontend/components/doctor/patient-info-modal-content";
 import PatientListOverview from "@frontend/pages/doctor/patient-list-overview";
 import PatientInfoModal from "@frontend/components/modal/modal";
 import PatientInfoCard from "@frontend/components/doctor/patient-info-card";
-import { DEFAULT_PATIENT } from "@frontend/models/patient";
-import { Box, SimpleGrid, Heading, RadioGroup, Text, Center, Input } from "@chakra-ui/react";
+import { DEFAULT_PATIENT, FILTER_OPTIONS } from "@frontend/models/patient";
+import { Box, SimpleGrid, Heading, RadioGroup, Text, Center, Input, Radio } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import { USER_ROLES } from "@frontend/utils/constants";
 import React from "react";
@@ -23,7 +23,7 @@ describe("Rendering <PatientListOverview/> if user is a doctor", () => {
     });
     const component = shallow(<PatientListOverview patientList={patientList} />);
     it("Renders all the Box components", () => {
-        expect(component.find(Box)).toHaveLength(5);
+        expect(component.find(Box)).toHaveLength(6);
     });
     it("Renders all the Text components", () => {
         expect(component.find(Text)).toHaveLength(1);
@@ -43,10 +43,6 @@ describe("Rendering <PatientListOverview/> if user is a doctor", () => {
     it("Renders all the PatientInfoModalContent components", () => {
         expect(component.find(PatientInfoModalContent)).toHaveLength(1);
     });
-    it("Calls handleClick when a patient card is clicked", () => {
-        component.find(Box).at(0).simulate("click");
-        expect(component.find(Box)).toHaveLength(5);
-    });
 });
 
 describe("Box onClick", () => {
@@ -63,11 +59,28 @@ describe("Box onClick", () => {
     });
 });
 
-describe("Filtering", () => {
-    const wrapper = shallow(<PatientListOverview patientList={patientList} />);
-    it("Filters the patients onClick", () => {
-        wrapper.find(RadioGroup).simulate("change", { target: { value: "flag" } });
-        expect(wrapper.find(Text)).toHaveLength(2);
-        expect(wrapper.find(Center)).toHaveLength(1);
+describe("onChange functions", () => {
+    useSession.mockReturnValue({
+        data: {
+            user: {
+                Role: USER_ROLES.doctor,
+            },
+        },
     });
+    const component = shallow(<PatientListOverview patientList={patientList} />);
+    it("onChange -> filterPatient + onSearch", ()=>{
+        const mockEvent = {
+            preventDefault: () => {},
+            target: {value: "test"}
+        };
+        let radiogroup = component.find(RadioGroup);
+        const tags = [FILTER_OPTIONS.TEMPERATURE, FILTER_OPTIONS.FLAG, FILTER_OPTIONS.NONE, FILTER_OPTIONS.REVIEWED, FILTER_OPTIONS.UNREVIEWED];
+        tags.forEach(tag =>{
+            radiogroup.simulate("change", tag);
+            component.update();
+            component.find(Input).simulate("change", mockEvent);
+            // @todo investigate function result expect statements
+            // Where can the result of the filter be found? Can it be tested somehow?
+        });
+    }); 
 });
