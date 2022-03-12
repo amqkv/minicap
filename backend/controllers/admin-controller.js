@@ -1,8 +1,10 @@
 const { QueryTypes } = require("sequelize");
 const User = require("../models/user");
 const Patient = require("../models/patient");
+const Doctor = require("../models/doctor");
 const constants = require("../utils/constants");
 const db = require("../config/database");
+const emailSender = require("../utils/email-sender");
 
 /**
  * Update role of user as admin
@@ -14,7 +16,7 @@ async function updateRole(req, res) {
     if (req.body.newRole === req.body.oldRole) {
         await res.status(200).send("Same role");
     } else {
-        await User.update(
+        const updated = await User.update(
             {
                 Role: req.body.newRole,
             },
@@ -23,24 +25,52 @@ async function updateRole(req, res) {
                     AccountId: req.body.userId,
                 },
             }
-        )
-            .then(user => {
-                if (user[0]) {
-                    res.status(200).send("Role successfully updated !");
-                } else {
-                    res.status(400).send("Failed to execute the role update");
-                }
-            })
-            .catch(err => {
-                res.status(500).send(`Error:${err}`);
-            });
+        ).catch(err => {
+            res.status(500).send(`Error:${err}`);
+        });
+
+        // Update successful
+        if (updated[0]) {
+            // Remove user from patient table if old role patient
+            if (req.body.oldRole === constants.ROLE.PATIENT) {
+                await Patient.destroy({
+                    where: {
+                        User_AccountId: req.body.userId,
+                    },
+                });
+            }
+            // Add user to patient table if new role patient
+            if (req.body.newRole === constants.ROLE.PATIENT) {
+                await Patient.create({
+                    User_AccountId: req.body.userId,
+                    IsPrioritized: constants.BOOLEANS.FALSE,
+                    HasCovid: constants.BOOLEANS.FALSE,
+                });
+            }
+            // Remove user from doctor table if old role doctor
+            if (req.body.oldRole === constants.ROLE.DOCTOR) {
+                await Doctor.destroy({
+                    where: {
+                        User_AccountId: req.body.userId,
+                    },
+                });
+            }
+            // Add user to doctor table if new role doctor
+            if (req.body.newRole === constants.ROLE.DOCTOR) {
+                await Doctor.create({
+                    User_AccountId: req.body.userId,
+                });
+            }
+            res.status(200).send("Role successfully updated !");
+        } else {
+            res.status(400).send("Failed to execute the role update");
+        }
     }
 }
 
 /**
  * Get all patients of each doctors as admin
  */
-
 async function getPatientsDoctors(req, res) {
     let response = {};
 
@@ -123,7 +153,6 @@ async function assignPatientDoctor(req, res) {
     )
         .then(patient => {
             if (patient[0]) {
-                console.log("Patient has been assigned to doctor");
                 res.status(200).send("Patient has been assigned to a doctor");
             } else {
                 res.status(400).send("Failed to execute the assignment");
@@ -135,9 +164,12 @@ async function assignPatientDoctor(req, res) {
         });
 }
 
-function confirmAccount(req, res) {
+/**
+ * Confirm accounts as admin
+ */
+async function confirmAccount(req, res) {
     // can also be used to unconfirm account :)
-    User.update(
+    const updated = await User.update(
         {
             ConfirmedFlag: req.body.ConfirmedFlag,
         },
@@ -146,19 +178,75 @@ function confirmAccount(req, res) {
                 AccountId: req.body.userId,
             },
         }
-    )
-        .then(() => {
-            res.status(200).send("Account successfully confirmed !");
-        })
-        .catch(err => {
-            console.log("[Approve-User] Error: ", err);
-            res.status(400).send("Failed to confirm account");
+    ).catch(err => {
+        console.log("[Approve-User] Error: ", err);
+        res.status(400).send("Failed to confirm account");
+    });
+    if (updated && updated[0]) {
+        const updatedUser = await User.findOne({
+            where: {
+                AccountId: req.body.userId,
+            },
         });
+        // Add user to Doctor table when approved
+        if (updatedUser.Role === constants.ROLE.DOCTOR) {
+            await Doctor.create({
+                User_AccountId: req.body.userId,
+            });
+        }
+        res.status(200).send("Account successfully confirmed !");
+    }
+}
+
+/**
+ * Reject accounts as admin
+ */
+async function rejectAccount(req, res) {
+    const updated = await User.update(
+        {
+            RejectedFlag: req.body.rejectedFlag,
+        },
+        {
+            where: {
+                AccountId: req.body.userId,
+            },
+        }
+    ).catch(err => {
+        console.log("Error: ", err);
+        res.status(400).send("Failed to reject account");
+    });
+    if (updated[0]) {
+        // Send rejection email to rejected user
+        const updatedUser = await User.findOne({
+            where: {
+                AccountId: req.body.userId,
+            },
+        });
+        const mailOptions = {
+            from: constants.ADMIN_EMAIL_ACCOUNT,
+            to: updatedUser.Email,
+            subject: `Demand for account role of ${updatedUser.Role} has been rejected`,
+            html: `<h1>Hi ${updatedUser.FirstName},</h1> 
+            <br> <h2>your demand for the account role of ${updatedUser.Role} has been rejected for certain reasons, please contact us for more details.</h2>`,
+        };
+
+        emailSender.emailTransporter.sendMail(mailOptions, error => {
+            if (error) {
+                console.log("Email error: ", error);
+                res.status(400).send("Failed to send rejection email");
+            } else {
+                res.status(200).send("Account successfully rejected !");
+            }
+        });
+    } else {
+        res.status(400).send("Failed to reject account, user not found.");
+    }
 }
 
 module.exports = {
     updateRole,
     assignPatientDoctor,
     confirmAccount,
+    rejectAccount,
     getPatientsDoctors,
 };

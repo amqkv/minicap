@@ -1,5 +1,5 @@
 import { Text, Box, Heading, Divider } from "@chakra-ui/react";
-import { CardPatientProps } from "@frontend/components/homepage/types/card";
+import { CardPatientProps } from "@frontend/components/homepage/types/types";
 
 export default function PatientCard({ label, temperature, weight, symptoms }: CardPatientProps) {
     return (

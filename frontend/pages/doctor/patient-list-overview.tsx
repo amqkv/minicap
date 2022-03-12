@@ -1,13 +1,30 @@
 import PatientInfoCard from "@frontend/components/doctor/patient-info-card";
 import PatientInfoModal from "@frontend/components/modal/modal";
 import PatientInfoModalContent from "@frontend/components/doctor/patient-info-modal-content";
+import PatientChartsOverview from "@frontend/components/doctor/patient-charts-overview";
 import { serverURL } from "@frontend/config";
-import { DEFAULT_PATIENT, Patient } from "@frontend/models/patient";
-import { Box, Heading, SimpleGrid, useDisclosure, useToast } from "@chakra-ui/react";
+import { DEFAULT_PATIENT, FILTER_OPTIONS, Patient } from "@frontend/models/patient";
+import {
+    Box,
+    Text,
+    Heading,
+    Radio,
+    RadioGroup,
+    SimpleGrid,
+    Stack,
+    useDisclosure,
+    useToast,
+    Input,
+    InputLeftElement,
+    Button,
+    InputGroup,
+    Center,
+} from "@chakra-ui/react";
 import { getSession, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { USER_ROLES } from "@frontend/utils/constants";
 import { useRouter } from "next/router";
+import { Search2Icon } from "@chakra-ui/icons";
 
 export async function getServerSideProps(context: any) {
     const session = await getSession(context);
@@ -19,7 +36,6 @@ export async function getServerSideProps(context: any) {
         if (session?.user.Role === USER_ROLES.doctor) {
             const patientListResponse: any = await fetch(serverURL + "/doctors/getPatientsInfo/" + userId);
             patientList = await patientListResponse.json();
-            console.log(session.user);
         }
     } catch {}
     return {
@@ -32,7 +48,15 @@ export async function getServerSideProps(context: any) {
 
 export default function DoctorDashboard({ patientList }: { patientList: Patient[] }) {
     const [selectedPatient, setSelectedPatient] = useState<Patient>(DEFAULT_PATIENT);
+    const [filterOption, setFilterOption] = useState("none");
+    const [patientListToMap, setPatientListToMap] = useState(patientList);
+    const [noSearchResult, setNoSearchResult] = useState(false);
+    const [noFilterResult, setNoFilterResult] = useState(false);
     const { onOpen, isOpen, onClose } = useDisclosure();
+    const highTemperaturePatientList = patientList.filter(patient => patient.status[0].temperature.value >= 38);
+    const flaggedPatientList: Patient[] = patientList.filter(patient => patient.isPrioritized);
+    const reviewedPatientList: Patient[] = patientList.filter(patient => patient.status[0].isReviewed);
+    const unreviewedPatientList: Patient[] = patientList.filter(patient => !patient.status[0].isReviewed);
     const { data: session } = useSession();
     const router = useRouter();
     const toast = useToast();
@@ -49,24 +73,144 @@ export default function DoctorDashboard({ patientList }: { patientList: Patient[
             });
             router.push("/");
         }
-    }, [router, session?.user.Role]);
+    }, [router, session?.user.Role, toast]);
 
-    function handleClick(selectedPatient: Patient) {
+    async function handleClick(selectedPatient: Patient) {
         setSelectedPatient(selectedPatient);
         onOpen();
+        for (let i = 0; i < patientList.length; i++) {
+            if (patientList[i].patientId === selectedPatient.patientId) {
+                patientList[i].status[0].isReviewed = true;
+            }
+        }
+        try {
+            return await fetch(serverURL + "/doctors/reviewPatient", {
+                method: "PATCH",
+                body: JSON.stringify({
+                    patientId: selectedPatient.patientId,
+                }),
+                headers: { "Content-Type": "application/json" },
+            });
+        } catch {}
     }
 
+    function filterPatients(value: string) {
+        setFilterOption(value);
+        let filteredList: Patient[] = [];
+        switch (value) {
+            case "temperature":
+                setPatientListToMap(highTemperaturePatientList);
+                filteredList = highTemperaturePatientList;
+                break;
+            case "flag":
+                setPatientListToMap(flaggedPatientList);
+                filteredList = flaggedPatientList;
+                break;
+            case "none":
+                setPatientListToMap(patientList);
+                filteredList = patientList;
+                break;
+            case "reviewed":
+                setPatientListToMap(reviewedPatientList);
+                filteredList = patientList;
+                break;
+            case "unreviewed":
+                setPatientListToMap(unreviewedPatientList);
+                filteredList = patientList;
+                break;
+        }
+        setNoFilterResult(!filteredList.length ? true : false);
+    }
+
+    function onSearch(e: any) {
+        e.preventDefault();
+        const searchedName: string = e.target.value;
+        let listToSearch: Patient[] = [];
+        switch (filterOption) {
+            case FILTER_OPTIONS.TEMPERATURE:
+                listToSearch = highTemperaturePatientList;
+                break;
+            case FILTER_OPTIONS.FLAG:
+                listToSearch = flaggedPatientList;
+                break;
+            case FILTER_OPTIONS.NONE:
+                listToSearch = patientList;
+                break;
+            case FILTER_OPTIONS.REVIEWED:
+                listToSearch = reviewedPatientList;
+                break;
+            case FILTER_OPTIONS.UNREVIEWED:
+                listToSearch = unreviewedPatientList;
+                break;
+        }
+        const searchResults = listToSearch.filter(elm =>
+            `${elm.basicInformation.firstName?.toLowerCase()} ${elm.basicInformation.lastName?.toLowerCase()}`.includes(
+                searchedName.toLowerCase()
+            )
+        );
+        setPatientListToMap(searchResults);
+        setNoSearchResult(!searchResults.length ? true : false);
+    }
     return (
         <Box my={10}>
-            <Heading size="xl" m={10} my={8}>
+            <Heading size="xl" mx={10} mt={8}>
                 Patients
             </Heading>
+            <Box minHeight="415px">
+                <PatientChartsOverview patientList={patientList} />
+            </Box>
+            {/* Search bar */}
+            <Box mx={10} mb={3}>
+                <InputGroup>
+                    <InputLeftElement size="xs">
+                        <Search2Icon color={"gray.400"} />
+                    </InputLeftElement>
+                    <Input
+                        onChange={onSearch}
+                        placeholder={"Search patient name..."}
+                        flex="3.9"
+                        mr={2}
+                        pl={10}
+                        name="search"
+                        borderColor={"gray.400"}
+                        _placeholder={{ color: "gray.600" }}
+                    />
+                    <Button flex="0.1" colorScheme={"red"} minWidth={"70px"} type={"submit"}>
+                        Search
+                    </Button>
+                </InputGroup>
+            </Box>
+            {/* Filter options */}
+            <Box mx={10}>
+                <RadioGroup my={4} onChange={e => filterPatients(e)} value={filterOption} colorScheme={"red"}>
+                    <Stack direction="row">
+                        {" "}
+                        <Text>
+                            <b>Filter by:</b> &nbsp;
+                        </Text>
+                        <Radio value={FILTER_OPTIONS.NONE}>None</Radio>
+                        <Radio value={FILTER_OPTIONS.TEMPERATURE}>High Temperature</Radio>
+                        <Radio value={FILTER_OPTIONS.FLAG}>Flagged</Radio>
+                        <Radio value={FILTER_OPTIONS.REVIEWED}>Reviewed</Radio>
+                        <Radio value={FILTER_OPTIONS.UNREVIEWED}>Unreviewed</Radio>
+                    </Stack>
+                </RadioGroup>
+            </Box>
+
             <SimpleGrid minChildWidth="400px" rowGap={5} columnGap={2}>
-                {patientList.map((patient: Patient) => (
-                    <Box onClick={() => handleClick(patient)} key={`patient-${patient.patientId}`}>
-                        <PatientInfoCard patient={patient} />
-                    </Box>
-                ))}
+                {noSearchResult || noFilterResult ? (
+                    <Center>
+                        <Text fontSize="xl" color="gray.500" mt={10}>
+                            No patient to show.
+                        </Text>
+                    </Center>
+                ) : (
+                    patientListToMap.map((patient: Patient) => (
+                        <Box onClick={() => handleClick(patient)} key={`patient-${patient.patientId}`}>
+                            <PatientInfoCard patient={patient} />
+                        </Box>
+                    ))
+                )}
             </SimpleGrid>
             <PatientInfoModal isOpen={isOpen} onClose={onClose}>
                 <PatientInfoModalContent patient={selectedPatient} />

@@ -136,3 +136,7 @@ export const STATUS_VALUES: StatusParameters = {
     isReviewed: false,
     statusTime: time,
 };
+
+export const TEST_PATIENT_STATUS: any = {
+    
+}

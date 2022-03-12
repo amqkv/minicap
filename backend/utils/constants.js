@@ -16,9 +16,18 @@ const TEST_CONSTANTS = {
         AccountId: "1", // this is test@test.com
     },
     PATIENT_ACCOUNT: {
-        AccountId: "51"
+        AccountId: "51",
+    },
+    UPDATE_ROLE_ACCOUNT: {
+        AccountId: "828",
+    },
+    REJECTED_ACCOUNT: {
+        AccountId: "859",
     },
 };
+
+// Email used to send rejection to rejected users
+const ADMIN_EMAIL_ACCOUNT = "cocotracker@outlook.com";
 
 // sequelize doesnt like BOOLEAN which translates to an INTEGER in the request.
 // mostly for the tests right now, the function themselves accept true BOOLEAN values
@@ -35,4 +44,5 @@ module.exports = {
     TEST_CONSTANTS,
     BOOLEANS,
     MOMENT_TIMEZONE_ADJUSTMENT,
+    ADMIN_EMAIL_ACCOUNT,
 };

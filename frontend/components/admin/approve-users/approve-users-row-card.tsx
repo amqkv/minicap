@@ -7,14 +7,13 @@ import { mutate } from "swr";
 import { BOOLEANS } from "@frontend/utils/constants";
 
 interface appProps {
-    session: Number;
+    session: number;
     userInfoSimple: UserInfoSimple;
 }
 
 const ApproveUsersRowCard = ({ session, userInfoSimple }: appProps) => {
     const userConfirmHandler = async () => {
-        // handle edit
-        //console.log("click");
+        // handle confirm
         await fetch("/api/admin/confirm-user-account", {
             method: "PATCH",
             headers: {
@@ -24,6 +23,22 @@ const ApproveUsersRowCard = ({ session, userInfoSimple }: appProps) => {
                 accountId: session,
                 userId: userInfoSimple.AccountId,
                 ConfirmedFlag: BOOLEANS.TRUE,
+            }),
+        });
+        // Call for other fetches with SWR to revalidate the data using this route
+        mutate("/api/users/pending");
+    };
+    const userRejectHandler = async () => {
+        // handle reject
+        await fetch("/api/admin/reject-user-account", {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                accountId: session,
+                userId: userInfoSimple.AccountId,
+                rejectedFlag: BOOLEANS.TRUE,
             }),
         });
         // Call for other fetches with SWR to revalidate the data using this route
@@ -41,17 +56,17 @@ const ApproveUsersRowCard = ({ session, userInfoSimple }: appProps) => {
                     <p style={{ display: "flex" }}>Desired Role: {userInfoSimple.Role}</p>
                 </Box>
             </SimpleGrid>
-            <Button
-                id={"confirm-user-button"}
-                colorScheme="green"
-                mt={1}
-                style={{ display: "flex", marginLeft: "auto", alignSelf: "center" }}
-                onClick={userConfirmHandler}>
-                Approve
-            </Button>
+            <Box mt={1} style={{ display: "flex", marginLeft: "auto", alignSelf: "center" }}>
+                <Button id={"reject-user-button"} colorScheme="red" mt={1} mr={2} onClick={userRejectHandler}>
+                    Reject
+                </Button>
+                <Button id={"confirm-user-button"} colorScheme="green" mt={1} mr={2} onClick={userConfirmHandler}>
+                    Approve
+                </Button>
+            </Box>
         </Fragment>
     );
-    return <UserRowCard onUserSelect={userConfirmHandler} userInfoSimple={userInfoSimple} content={content} />;
+    return <UserRowCard userInfoSimple={userInfoSimple} content={content} />;
 };
 
 export default ApproveUsersRowCard;

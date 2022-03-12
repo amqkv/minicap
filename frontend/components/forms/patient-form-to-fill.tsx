@@ -1,4 +1,4 @@
-import { Button, Box, Heading, UseToastOptions, useToast, SimpleGrid, Text } from "@chakra-ui/react";
+import { Button, Box, Heading, UseToastOptions, useToast, SimpleGrid, Text, Flex } from "@chakra-ui/react";
 import PatientInputs from "@frontend/components/inputs/unit-input";
 import PatientTextarea from "@frontend/components/inputs/patient-textarea-input";
 import { pastConditionsProps, statusFilled, StatusParameters } from "@frontend/functions/create-status";
@@ -11,6 +11,8 @@ import PatientCard from "./patient-card";
 import { useRouter } from "next/router";
 import { checkboxForms } from "@frontend/functions/checkbox-form";
 import { PatientsFormsToFill } from "./types/types";
+import Chart from "@frontend/components/line-chart";
+import { DEFAULT_STATUS } from "@frontend/models/patient";
 
 export default function PatientFormToFill({ requiredDetails, pastConditions }: PatientsFormsToFill) {
     // initialize constants
@@ -23,6 +25,8 @@ export default function PatientFormToFill({ requiredDetails, pastConditions }: P
 
     const { data: session } = useSession();
     const userId = session?.user?.AccountId;
+    const chartData = pastConditions;
+    chartData.reverse();
 
     // function to send data to backend and create new status
     async function handlePatientForm(event: any) {
@@ -32,14 +36,10 @@ export default function PatientFormToFill({ requiredDetails, pastConditions }: P
         let error = false;
 
         // initialize values for statusValues
-        // TODO: decide on default value for weight
         const statusValues: StatusParameters = {
             accountId: userId,
-            temperature: 37,
-            weight: 0,
-            symptoms: " ",
-            isReviewed: false,
             statusTime: time,
+            ...DEFAULT_STATUS,
         };
 
         const checkboxValues = checkboxForms(requiredDetails, event);
@@ -57,8 +57,6 @@ export default function PatientFormToFill({ requiredDetails, pastConditions }: P
             setTemperatureError(true);
             error = true;
         } else setTemperatureError(false);
-
-        console.log(statusValues);
 
         // popup if error
         if (error) {
@@ -85,34 +83,43 @@ export default function PatientFormToFill({ requiredDetails, pastConditions }: P
             <Box paddingLeft={"20px"}>
                 <Heading size="lg">Your Doctor: Dr Sawkon Di Zenoots</Heading>
                 <Heading size="lg">Today's Condition</Heading>
-                <Box w={{ base: "100%", md: "35%" }} paddingRight={"10px"}>
-                    <form onSubmit={handlePatientForm}>
-                    <Heading size="md" margin={"30px 0 10px 20px"}>Please fill out the following field for your doctor:</Heading>
+                <SimpleGrid minChildWidth="400px" rowGap={5} columnGap={1}>
+                    <Box w={{ sm: "100%", base: "100%", md: "80%" }} paddingLeft={"50px"}>
+                        <form onSubmit={handlePatientForm}>
+                            <Heading size="md" margin={"30px 0 10px 20px"}>
+                                Please fill out the following field for your doctor:
+                            </Heading>
 
-                        {temperature && (
-                            <PatientInputs
-                                error={temperatureError}
-                                label="Temperature"
-                                units="°C"
-                                name={"temperature"}
-                            />
-                        )}
-                        {weight && <PatientInputs error={weightError} label="Weight" units="lbs" name={"weight"} />}
-                        {symptoms && <PatientTextarea label="Symptoms" units="" name={"symptoms"} />}
-                        <Text margin="0 0 10px 30px">(Please separate the symptoms with a comma)</Text>
-                        <Button
-                            colorScheme="pink"
-                            size="md"
-                            margin={"20px 0 0 20px"}
-                            _hover={{ opacity: "80%" }}
-                            type="submit">
-                            Submit
-                        </Button>
-                    </form>
-                </Box>
+                            {temperature && (
+                                <PatientInputs
+                                    error={temperatureError}
+                                    label="Temperature"
+                                    units="°C"
+                                    name={"temperature"}
+                                />
+                            )}
+                            {weight && <PatientInputs error={weightError} label="Weight" units="lbs" name={"weight"} />}
+                            {symptoms && <PatientTextarea label="Symptoms" units="" name={"symptoms"} />}
+                            <Text margin="0 0 10px 30px">
+                                (Please separate the symptoms with a comma (e.g., "fever, headache, sore throat"))
+                            </Text>
+                            <Button
+                                colorScheme="pink"
+                                size="md"
+                                margin={"20px 0 0 20px"}
+                                _hover={{ opacity: "80%" }}
+                                type="submit">
+                                Submit
+                            </Button>
+                        </form>
+                    </Box>
+
+                    <Box ml={"20px"}>
+                        <Chart data={chartData} w={650} h={500} />
+                    </Box>
+                </SimpleGrid>
 
                 <Heading margin={"30px"}>Previous Day's Conditions</Heading>
-
                 <SimpleGrid minChildWidth="300px" rowGap={2} spacing={"20px"}>
                     {pastConditions.map(
                         ({

@@ -23,6 +23,7 @@ async function register(req, res) {
         Role: req.body.accountRole,
         ConfirmedFlag:
             req.body.accountRole === constants.ROLE.PATIENT ? constants.BOOLEANS.TRUE : constants.BOOLEANS.FALSE,
+        RejectedFlag: constants.BOOLEANS.FALSE,
     });
     if (newUser) {
         // Add User to Patient table if user is a patient

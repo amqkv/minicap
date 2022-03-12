@@ -1,35 +1,34 @@
 import { useSession, getSession } from "next-auth/react";
-import { USER_ROLES } from "@frontend/utils/constants";
+import { MAIN_COLOR, USER_ROLES } from "@frontend/utils/constants";
 import { GetServerSideProps } from "next";
+import { serverURL } from "@frontend/config/index";
 import {
-    Heading,
-    Text,
     Box,
+    Heading,
     Accordion,
+    AccordionItem,
     AccordionButton,
     AccordionIcon,
-    AccordionItem,
     AccordionPanel,
+    Text,
 } from "@chakra-ui/react";
 import NavLink from "@frontend/components/navigation/navlink";
 import { otherLinks } from "@frontend/utils/quarantine-constants";
-import { MAIN_COLOR } from "@frontend/utils/constants";
-import { serverURL } from "@frontend/config/index";
 
 export const getServerSideProps: GetServerSideProps = async context => {
-    let session = await getSession(context);
-    let accountId = session?.user.AccountId;
+    const session = await getSession(context);
+    const accountId = session?.user.AccountId;
     let hasCovid = false;
 
     try {
-        let response: any = await fetch(serverURL + "/patients/isPositive/" + accountId);
-        hasCovid = await response.json();
+        hasCovid = await (await fetch(serverURL + "/patients/isPositive/" + accountId)).json();
     } catch {}
 
     return {
         props: {
             session,
             hasCovid,
+            pageId: "COVID-19: How to quarantine or isolate at home",
         },
     };
 };
@@ -51,14 +50,11 @@ export default function Quarantine({ hasCovid }: { hasCovid: boolean }) {
     if (session?.user.Role === USER_ROLES.patient && hasCovid) {
         return (
             <Box margin={{ base: paddingList, md: "5% 15%" }} paddingBottom={paddingSection}>
-                <Heading as="h1" size="xl" paddingBottom={paddingList}>
-                    COVID-19: How to quarantine or isolate at home
-                </Heading>
                 {/* initial paragraph */}
                 <Text fontSize={fontSize} paddingBottom={paddingList}>
                     Quarantine or isolation can reduce the spread of COVID-19, including its variants, in your household
-                    and community. That's why it's important to follow the advice of your local public health authority
-                    about when and how to quarantine or isolate.
+                    and community. Thats why it&apos;s important to follow the advice of your local public health
+                    authority about when and how to quarantine or isolate.
                 </Text>
 
                 <Heading as="h2" size={headingSize} paddingBottom={paddingList}>
@@ -133,8 +129,8 @@ export default function Quarantine({ hasCovid }: { hasCovid: boolean }) {
                 </Heading>
 
                 <Text fontSize={fontSize} paddingBottom={paddingList} id="quarantine">
-                    If you've travelled outside of Canada recently, advice for your quarantine or isolation period may
-                    be different.
+                    If you&apos;ve travelled outside of Canada recently, advice for your quarantine or isolation period
+                    may be different.
                     <NavLink passHref url="https://travel.gc.ca/travel-covid" styleProps={linkStyling} textDecoration>
                         <Text _hover={hoverColor} fontSize={fontSize}>
                             Consult COVID-19: Travel, testing and borders
@@ -172,8 +168,8 @@ export default function Quarantine({ hasCovid }: { hasCovid: boolean }) {
                         There may be different quarantine requirements if you or any of your other household members are
                         vaccinated against COVID-19. Follow the instructions from your local public health authority.
                         <br />
-                        If you've been tested for COVID-19 and are waiting for your results, you <b>must</b> quarantine
-                        until:
+                        If you&apos;ve been tested for COVID-19 and are waiting for your results, you <b>must</b>{" "}
+                        quarantine until:
                     </Text>
 
                     <Box marginLeft={marginLeft} paddingBottom={paddingList}>
@@ -223,7 +219,7 @@ export default function Quarantine({ hasCovid }: { hasCovid: boolean }) {
                     </Box>
 
                     <Text fontSize={fontSize} paddingBottom={paddingList}>
-                        If you're in quarantine and start to develop symptoms, you must:
+                        If you&apos;re in quarantine and start to develop symptoms, you must:
                     </Text>
 
                     <Box marginLeft={marginLeft} paddingBottom={paddingList}>
@@ -300,7 +296,7 @@ export default function Quarantine({ hasCovid }: { hasCovid: boolean }) {
                         <ul>
                             <li>
                                 <Text fontSize={fontSize}>
-                                    you've been diagnosed with COVID-19, whether you have symptoms or not
+                                    you&apos;ve been diagnosed with COVID-19, whether you have symptoms or not
                                 </Text>
                             </li>
                             <li>
@@ -356,8 +352,8 @@ export default function Quarantine({ hasCovid }: { hasCovid: boolean }) {
                                         <ul>
                                             <li>
                                                 <Text fontSize={fontSize}>
-                                                    ensure you follow their advice for when you're no longer at risk of
-                                                    spreading COVID-19 to others
+                                                    ensure you follow their advice for when you&apos;re no longer at
+                                                    risk of spreading COVID-19 to others
                                                 </Text>
                                             </li>
                                         </ul>
@@ -379,7 +375,7 @@ export default function Quarantine({ hasCovid }: { hasCovid: boolean }) {
                     </Box>
 
                     <Text fontSize={fontSize} paddingBottom={paddingList}>
-                        If you're isolating at home, your household members may need to quarantine after their last
+                        If you&apos;re isolating at home, your household members may need to quarantine after their last
                         exposure to you. Your local public health authority will determine their length of quarantine
                         based on a variety of factors, including:
                     </Text>
@@ -451,9 +447,9 @@ export default function Quarantine({ hasCovid }: { hasCovid: boolean }) {
                                 </h2>
                                 <AccordionPanel pb={4}>
                                     <Text fontSize={fontSize}>
-                                        If you're in quarantine and do <b>not</b> live with the person who exposed you
-                                        to COVID-19, wear a well-constructed and well-fitting <b>non-medical mask</b>{" "}
-                                        when:
+                                        If you&apos;re in quarantine and do <b>not</b> live with the person who exposed
+                                        you to COVID-19, wear a well-constructed and well-fitting{" "}
+                                        <b>non-medical mask</b> when:
                                     </Text>
                                     <Box marginLeft={marginLeft} paddingBottom={paddingList}>
                                         <ul>
@@ -525,7 +521,8 @@ export default function Quarantine({ hasCovid }: { hasCovid: boolean }) {
                                         styleProps={linkStyling}
                                         textDecoration>
                                         <Text _hover={hoverColor} fontSize={fontSize} paddingBottom={paddingList}>
-                                            What to do if you're in quarantine and start to develop severe symptoms.
+                                            What to do if you&apos;re in quarantine and start to develop severe
+                                            symptoms.
                                         </Text>
                                     </NavLink>
                                     <Text fontSize={fontSize}>Learn more about:</Text>
@@ -558,7 +555,7 @@ export default function Quarantine({ hasCovid }: { hasCovid: boolean }) {
                                 </h2>
                                 <AccordionPanel pb={4}>
                                     <Text fontSize={fontSize}>
-                                        If you're in isolation, wear a <b>medical mask</b> when:
+                                        If you&apos;re in isolation, wear a <b>medical mask</b> when:
                                     </Text>
                                     <Box marginLeft={marginLeft} paddingBottom={paddingList}>
                                         <ul>
@@ -699,7 +696,7 @@ export default function Quarantine({ hasCovid }: { hasCovid: boolean }) {
                     </Heading>
 
                     <Text fontSize={fontSize} paddingBottom={paddingList}>
-                        If you're in quarantine or isolation, you should:
+                        If you&apos;re in quarantine or isolation, you should:
                     </Text>
                     <Box marginLeft={marginLeft}>
                         <ul>
@@ -726,8 +723,8 @@ export default function Quarantine({ hasCovid }: { hasCovid: boolean }) {
                                 <ul>
                                     <li>
                                         <Text fontSize={fontSize}>
-                                            use hand sanitizer that's at least 60% alcohol if soap and water aren't
-                                            available
+                                            use hand sanitizer that&apos;s at least 60% alcohol if soap and water
+                                            aren&apos;t available
                                         </Text>
                                     </li>
                                 </ul>
@@ -786,7 +783,7 @@ export default function Quarantine({ hasCovid }: { hasCovid: boolean }) {
                         Actions to avoid
                     </Heading>
                     <Text fontSize={fontSize} paddingBottom={paddingList}>
-                        If you're in quarantine or isolation, do <b>not:</b>
+                        If you&apos;re in quarantine or isolation, do <b>not:</b>
                     </Text>
                     <Box marginLeft={marginLeft} paddingBottom={paddingList}>
                         <ul>
@@ -879,8 +876,8 @@ export default function Quarantine({ hasCovid }: { hasCovid: boolean }) {
                         </ul>
                     </Box>
                     <Text fontSize={fontSize} paddingBottom={paddingList}>
-                        If you're staying in a hotel for your quarantine or isolation, avoid shared public spaces, such
-                        as:
+                        If you&apos;re staying in a hotel for your quarantine or isolation, avoid shared public spaces,
+                        such as:
                     </Text>
                     <Box marginLeft={marginLeft} paddingBottom={paddingList}>
                         <ul>
@@ -948,14 +945,16 @@ export default function Quarantine({ hasCovid }: { hasCovid: boolean }) {
                                 <ul>
                                     <li>
                                         <Text fontSize={fontSize}>
-                                            if unavailable, wear a <b>non-medical</b> mask that's well constructed and
-                                            well fitting
+                                            if unavailable, wear a <b>non-medical</b> mask that&apos;s well constructed
+                                            and well fitting
                                         </Text>
                                     </li>
                                 </ul>
                             </Box>
                             <li>
-                                <Text fontSize={fontSize}>if you're breathing well, you should also wear a mask</Text>
+                                <Text fontSize={fontSize}>
+                                    if you&apos;re breathing well, you should also wear a mask
+                                </Text>
                             </li>
                             <li>
                                 <Text fontSize={fontSize}>
@@ -1020,8 +1019,8 @@ export default function Quarantine({ hasCovid }: { hasCovid: boolean }) {
                     </Heading>
 
                     <Text fontSize={fontSize} paddingBottom={paddingList}>
-                        Avoid quarantine or isolation at home if you can't separate yourself from others, such as if
-                        you:
+                        Avoid quarantine or isolation at home if you can&apos;t separate yourself from others, such as
+                        if you:
                     </Text>
                     <Box marginLeft={marginLeft} paddingBottom={paddingList}>
                         <ul>
@@ -1038,8 +1037,8 @@ export default function Quarantine({ hasCovid }: { hasCovid: boolean }) {
                             </li>
                             <li>
                                 <Text fontSize={fontSize}>
-                                    live in a co-living setting where there's close interactions with others and you
-                                    share common spaces, such as a:
+                                    live in a co-living setting where there&apos;s close interactions with others and
+                                    you share common spaces, such as a:
                                 </Text>
                             </li>
                             <Box marginLeft={marginLeft} paddingBottom={paddingList}>
@@ -1074,8 +1073,8 @@ export default function Quarantine({ hasCovid }: { hasCovid: boolean }) {
                         </ul>
                     </Box>
                     <Text fontSize={fontSize} paddingBottom={paddingList}>
-                        Your local public health authority may advise you to quarantine or isolate somewhere you won't
-                        have to share:
+                        Your local public health authority may advise you to quarantine or isolate somewhere you
+                        won&apos;t have to share:
                     </Text>
                     <Box marginLeft={marginLeft} paddingBottom={paddingList}>
                         <ul>
@@ -1094,8 +1093,8 @@ export default function Quarantine({ hasCovid }: { hasCovid: boolean }) {
                         Follow this advice by renting a hotel room or similar space, if you can.
                     </Text>
                     <Text fontSize={fontSize} paddingBottom={paddingList}>
-                        If you can't avoid close interactions with others, and you or your household members can't
-                        relocate, you should use a separate:
+                        If you can&apos;t avoid close interactions with others, and you or your household members
+                        can&apos;t relocate, you should use a separate:
                     </Text>
                     <Box marginLeft={marginLeft} paddingBottom={paddingList}>
                         <ul>
