@@ -62,14 +62,7 @@ describe("<Dashboard />", () => {
     const wrapper = shallow(<Dashboard data={mockData}/>);
 
     it("renders a <Dashboard /> component when user is logged in", () => {
-        expect(wrapper.find(Heading)).toHaveLength(3);
+        expect(wrapper.find(Heading)).toHaveLength(1);
         expect(wrapper.find(Card)).toHaveLength(3);
-        expect(wrapper.find(Chart)).toHaveLength(1);
-
-    });
-
-    it("renders a <Chart /> component when user is logged in", () => {
-        expect(wrapper.find(Chart)).toHaveLength(1);
-      
     });
 });
