@@ -1,19 +1,53 @@
-import { Box } from "@chakra-ui/react";
+import {
+    Box,
+    Stat,
+    StatLabel,
+    StatNumber,
+    StatHelpText,
+    StatArrow,
+    StatGroup,
+    List,
+    ListItem,
+    Heading,
+} from "@chakra-ui/react";
 import { USER_ROLES } from "@frontend/utils/constants";
 import { BarChart, CartesianGrid, YAxis, Tooltip, Legend, Bar } from "recharts";
 
 interface DashboardChartsProps {
     role: string | undefined;
     data?: unknown[];
+    stats?: { unassignedPatientsCount: Number; pendingCount: Number };
 }
 
-export default function DashboardCharts({ role, data }: DashboardChartsProps) {
-    if (data) {
+export default function DashboardCharts({ role, data, stats }: DashboardChartsProps) {
+    if (data || stats) {
         switch (role) {
             case USER_ROLES.patient:
                 return <></>;
             case USER_ROLES.admin:
-                return <></>;
+                if (stats) {
+                    return (
+                        <StatGroup stats={stats} mt={50} size={"lg"}>
+                            <List spacing={5}>
+                                <ListItem>
+                                    <Heading>CoCo Tracker Users</Heading>
+                                </ListItem>
+                                <ListItem>
+                                    <Stat>
+                                        <StatLabel fontSize={"lg"}>Unassigned Patients</StatLabel>
+                                        <StatNumber>{stats.unassignedPatientsCount}</StatNumber>
+                                    </Stat>
+                                </ListItem>
+                                <ListItem>
+                                    <Stat>
+                                        <StatLabel fontSize={"lg"}>Pending Users</StatLabel>
+                                        <StatNumber>{stats.pendingCount}</StatNumber>
+                                    </Stat>
+                                </ListItem>
+                            </List>
+                        </StatGroup>
+                    );
+                } else return <></>;
             case USER_ROLES.doctor:
                 return <></>;
             case USER_ROLES.hOfficial:

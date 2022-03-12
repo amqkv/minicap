@@ -4,7 +4,7 @@ import { links, link } from "@frontend/components/homepage/dashboard-structure";
 import { useSession } from "next-auth/react";
 import DashboardCharts from "@frontend/components/homepage/dashboard-charts";
 
-export default function Dashboard({ data }: { data: unknown[] }) {
+export default function Dashboard({ data, stats }: { data: unknown[], stats: {unassignedPatientsCount: Number, pendingCount: Number} }) {
     const { data: session } = useSession();
     const userRole = session?.user?.Role;
     const userName = session?.user?.FirstName + " " + session?.user?.LastName;
@@ -21,7 +21,7 @@ export default function Dashboard({ data }: { data: unknown[] }) {
                 </Heading>
                 <Center marginTop={"5%"}>
                     <Flex flexDirection={{ base: "column", md: "row" }}>
-                        <DashboardCharts role={userRole} data={data} />
+                        <DashboardCharts role={userRole} data={data} stats={stats} />
                       
                         <Flex flexWrap="wrap">
                             {links.map(({ label, url, roleRequired, img }: link) => {
