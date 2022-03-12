@@ -15,6 +15,13 @@ export const getServerSideProps: GetServerSideProps = async context => {
         unassignedPatientsCount: NaN,
         pendingCount: NaN,
     };
+    let userId = session?.user.AccountId;
+
+
+    if (role === USER_ROLES.patient) {
+        const response = await fetch(serverURL + "/status/getAllStatus/" + userId);
+        data = await response.json();
+    }
 
     if (role === USER_ROLES.iOfficer) {
         const response = await fetch(serverURL + "/immigration-officer/countUsersStatus");

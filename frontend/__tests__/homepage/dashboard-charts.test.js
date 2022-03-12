@@ -34,7 +34,7 @@ describe("test the dashboard <DashboardCharts/> [ADMIN version]", () => {
 
     it("renders the Admin dashboard chart when ADMIN is logged in", () => {
         const mockStats = { unassignedPatientsCount: 420, pendingCount: 69 };
-        const component = shallow(<DashboardCharts role={USER_ROLES.admin} stats={mockStats} />);
+        const component = shallow(<DashboardCharts role={USER_ROLES.admin} data={[]} stats={mockStats} />);
         expect(component.find(Stat)).toHaveLength(2);
         expect(component.find(StatNumber)).toHaveLength(2);
         expect(component.find(StatNumber).at(0).props().children).toBe(mockStats.unassignedPatientsCount);
