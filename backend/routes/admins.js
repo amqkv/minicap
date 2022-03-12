@@ -36,6 +36,11 @@ router.patch("/reject-user-account", authUser.verifyUser, authUser.verifyRole(co
     adminController.rejectAccount(req, res);
 });
 
+// Get Dashboard Stats
+router.get("/get-dashboard-stats", (req, res) => {
+    adminController.getDashboardStats(req, res)
+});
+
 module.exports = {
     router,
 };

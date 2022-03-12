@@ -30,10 +30,23 @@ export const getServerSideProps: GetServerSideProps = async context => {
         console.log(today);
         console.log(statusFilled)
     }
+    let stats: { unassignedPatientsCount: Number; pendingCount: Number } = {
+        unassignedPatientsCount: NaN,
+        pendingCount: NaN,
+    };
+
+    if (role === USER_ROLES.patient) {
+        const response = await fetch(serverURL + "/status/getAllStatusChart/" + userId);
+        data = await response.json();
+    }
 
     if (role === USER_ROLES.iOfficer) {
         const response = await fetch(serverURL + "/immigration-officer/countUsersStatus");
         data = await response.json();
+    }
+    if (role === USER_ROLES.admin) {
+        const response = await fetch(serverURL + "/admins/get-dashboard-stats");
+        stats = await response.json();
     }
 
     return {
@@ -41,14 +54,23 @@ export const getServerSideProps: GetServerSideProps = async context => {
             session,
             data,
             statusFilled,
+            stats,
         },
     };
 };
 
-export default function Home({ data, statusFilled }: { data: unknown[], statusFilled:boolean }) {
+export default function Home({
+    data,
+    stats,
+    statusFilled
+}: {
+    data: unknown[];
+    stats: { unassignedPatientsCount: Number; pendingCount: Number };
+    statusFilled:boolean;
+}) {
     const { data: session } = useSession();
     if (session) {
-        return <Dashboard data={data} statusFilled={statusFilled} />;
+        return <Dashboard data={data} stats={stats} statusFilled={statusFilled}/>;
     }
 
     return (

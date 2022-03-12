@@ -5,13 +5,10 @@ import { useSession } from "next-auth/react";
 import { USER_ROLES } from "@frontend/utils/constants";
 import DashboardCharts from "@frontend/components/homepage/dashboard-charts";
 
-export default function Dashboard({ data, statusFilled }: { data: unknown[]; statusFilled: boolean }) {
+export default function Dashboard({ data, stats, statusFilled }: { data: unknown[], stats: {unassignedPatientsCount: Number, pendingCount: Number}, statusFilled: boolean }) {
     const { data: session } = useSession();
     const userRole = session?.user?.Role;
     const userName = session?.user?.FirstName + " " + session?.user?.LastName;
-
-    console.log("in dashboard");
-    console.log(statusFilled);
 
     return (
         <>
@@ -21,7 +18,7 @@ export default function Dashboard({ data, statusFilled }: { data: unknown[]; sta
                 </Heading>
 
                 <Flex flexWrap={"wrap"}>
-                    <DashboardCharts role={userRole} data={data} />
+                    <DashboardCharts role={userRole} data={data} stats={stats}/>
 
                     <Box flex="1">
                         {session?.user?.Role === USER_ROLES.patient && (

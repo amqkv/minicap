@@ -1,13 +1,14 @@
-import { Box, Heading, useBreakpointValue } from "@chakra-ui/react";
+import { Box, Heading, List, ListItem, useBreakpointValue, Stat, StatLabel, StatNumber, StatGroup } from "@chakra-ui/react";
 import { USER_ROLES } from "@frontend/utils/constants";
 import { BarChart, CartesianGrid, YAxis, Tooltip, Legend, Bar } from "recharts";
 import Chart from "@frontend/components/line-chart";
 interface DashboardChartsProps {
     role: string | undefined;
     data?: unknown[];
+    stats?: { unassignedPatientsCount: Number; pendingCount: Number };
 }
 
-export default function DashboardCharts({ role, data }: DashboardChartsProps) {
+export default function DashboardCharts({ role, data, stats  }: DashboardChartsProps) {
     const size = useBreakpointValue({ base: 300, md: 700 });
 
     if (data) {
@@ -20,7 +21,29 @@ export default function DashboardCharts({ role, data }: DashboardChartsProps) {
                     </Box>
                 );
             case USER_ROLES.admin:
-                return <></>;
+                if (stats) {
+                    return (
+                        <StatGroup stats={stats} mt={50} ml={10} size={"lg"}>
+                            <List spacing={5}>
+                                <ListItem>
+                                    <Heading>CoCo Tracker Users</Heading>
+                                </ListItem>
+                                <ListItem>
+                                    <Stat>
+                                        <StatLabel fontSize={"lg"}>Unassigned Patients</StatLabel>
+                                        <StatNumber>{stats.unassignedPatientsCount}</StatNumber>
+                                    </Stat>
+                                </ListItem>
+                                <ListItem>
+                                    <Stat>
+                                        <StatLabel fontSize={"lg"}>Pending Users</StatLabel>
+                                        <StatNumber>{stats.pendingCount}</StatNumber>
+                                    </Stat>
+                                </ListItem>
+                            </List>
+                        </StatGroup>
+                    );
+                } else return <></>;
             case USER_ROLES.doctor:
                 return <></>;
             case USER_ROLES.hOfficial:
