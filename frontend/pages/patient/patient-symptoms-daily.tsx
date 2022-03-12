@@ -19,6 +19,8 @@ export async function getServerSideProps(context: NextPageContext) {
     let userId = session?.user.AccountId;
     let requiredDetails: requiredDetails | null = null;
     let pastConditions = [];
+    let statusChartData = [];
+
     if (session?.user.Role === USER_ROLES.patient) {
         try {
             let response: any = await fetch(serverURL + "/patients/getRequiredDetails/" + userId);
@@ -26,6 +28,9 @@ export async function getServerSideProps(context: NextPageContext) {
 
             response = await fetch(serverURL + "/status/getAllStatus/" + userId);
             pastConditions = await response.json();
+
+            response  = await fetch(serverURL + "/status/getAllStatusChart/" + userId);
+            statusChartData = await response.json();
         } catch {}
     }
 
@@ -34,6 +39,7 @@ export async function getServerSideProps(context: NextPageContext) {
             session,
             pastConditions,
             requiredDetails,
+            statusChartData,
         },
     };
 }

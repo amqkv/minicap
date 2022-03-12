@@ -13,9 +13,8 @@ export const getServerSideProps: GetServerSideProps = async context => {
     let data: unknown[] = [];
     let userId = session?.user.AccountId;
 
-
     if (role === USER_ROLES.patient) {
-        const response = await fetch(serverURL + "/status/getAllStatus/" + userId);
+        const response = await fetch(serverURL + "/status/getAllStatusChart/" + userId);
         data = await response.json();
     }
 
@@ -32,9 +31,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
     };
 };
 
-
 export default function Home({ data }: { data: unknown[] }) {
-
     const { data: session } = useSession();
     if (session) {
         return <Dashboard data={data} />;

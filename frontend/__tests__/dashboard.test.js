@@ -2,7 +2,6 @@ import { shallow } from "enzyme";
 import Dashboard from "@frontend/components/homepage/dashboard";
 import { Heading } from "@chakra-ui/react";
 import Card from "@frontend/components/homepage/card";
-import Chart from "@frontend/components/line-chart"; 
 import { useSession } from "next-auth/react";
 import { USER_ROLES } from "@frontend/utils/constants";
 

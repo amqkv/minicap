@@ -15,6 +15,10 @@ router.get("/getAllStatus/:userId", (req, res) => {
     statusController.getAllStatus(req, res);
 });
 
+// find previous status in database
+router.get("/getAllStatusChart/:userId", (req, res) => {
+    statusController.getAllStatusChart(req, res);
+});
 
 
 module.exports = {

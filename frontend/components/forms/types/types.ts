@@ -9,4 +9,5 @@ export interface requiredDetails {
 export interface PatientsFormsToFill {
     requiredDetails: requiredDetails;
     pastConditions: pastConditionsProps[];
+    statusChartData: pastConditionsProps[]
 }

@@ -104,9 +104,28 @@ async function getAllStatus(req, res) {
     }
 }
 
-
+// get all previous status for charts
+async function getAllStatusChart(req, res) {
+    try {
+        const { PatientId } = await Patient.findOne({
+            raw: true,
+            where: { User_AccountId: req.params.userId },
+        });
+        const allStatus = await Status.findAll({
+            where: {
+                Patient_PatientId: PatientId,
+            },
+            order: [["StatusTime", "ASC"]],
+            
+        });
+        res.status(200).json(allStatus);
+    } catch {
+        res.status(400).send("Failed to get all status");
+    }
+}
 
 module.exports = {
     addStatus,
     getAllStatus,
+    getAllStatusChart,
 };
