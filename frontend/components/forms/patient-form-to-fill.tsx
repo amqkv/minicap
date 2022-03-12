@@ -1,4 +1,4 @@
-import { Button, Box, Heading, UseToastOptions, useToast, SimpleGrid, Text} from "@chakra-ui/react";
+import { Button, Box, Heading, UseToastOptions, useToast, SimpleGrid, Text } from "@chakra-ui/react";
 import PatientInputs from "@frontend/components/inputs/unit-input";
 import PatientTextarea from "@frontend/components/inputs/patient-textarea-input";
 import { pastConditionsProps, statusFilled, StatusParameters } from "@frontend/functions/create-status";
@@ -26,7 +26,6 @@ export default function PatientFormToFill({ requiredDetails, pastConditions, sta
     const { data: session } = useSession();
     const userId = session?.user?.AccountId;
     const chartData = statusChartData;
-   
 
     // function to send data to backend and create new status
     async function handlePatientForm(event: any) {
