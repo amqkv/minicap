@@ -6,7 +6,7 @@ import Chart from "@frontend/components/line-chart";
 import { USER_ROLES } from "@frontend/utils/constants";
 import DashboardCharts from "@frontend/components/homepage/dashboard-charts";
 
-export default function Dashboard({ data }: { data: unknown[] }) {
+export default function Dashboard({ data, stats }: { data: unknown[], stats: {unassignedPatientsCount: Number, pendingCount: Number} }) {
     const { data: session } = useSession();
     const userRole = session?.user?.Role;
     const userName = session?.user?.FirstName + " " + session?.user?.LastName;
@@ -22,7 +22,7 @@ export default function Dashboard({ data }: { data: unknown[] }) {
                 </Heading>
 
                 <Flex flexWrap={"wrap"}>
-                    <DashboardCharts role={userRole} data={data} />
+                    <DashboardCharts role={userRole} data={data} stats={stats}/>
 
                     <Box flex="1">
                         {session?.user?.Role === USER_ROLES.patient && (

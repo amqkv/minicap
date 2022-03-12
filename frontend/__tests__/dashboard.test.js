@@ -2,7 +2,7 @@ import { shallow } from "enzyme";
 import Dashboard from "@frontend/components/homepage/dashboard";
 import { Heading } from "@chakra-ui/react";
 import Card from "@frontend/components/homepage/card";
-import Chart from "@frontend/components/line-chart"; 
+import Chart from "@frontend/components/line-chart";
 import { useSession } from "next-auth/react";
 import { USER_ROLES } from "@frontend/utils/constants";
 
@@ -52,17 +52,28 @@ const mockData = [
 ];
 
 describe("<Dashboard />", () => {
-    useSession.mockReturnValue({
-        data: {
-            user: {
-                Role: USER_ROLES.patient,
+    it("renders a <Dashboard /> component when PATIENT user is logged in", () => {
+        useSession.mockReturnValue({
+            data: {
+                user: {
+                    Role: USER_ROLES.patient,
+                },
             },
-        },
-    });
-    const wrapper = shallow(<Dashboard data={mockData}/>);
-
-    it("renders a <Dashboard /> component when user is logged in", () => {
+        });
+        const wrapper = shallow(<Dashboard data={mockData} />);
         expect(wrapper.find(Heading)).toHaveLength(2);
         expect(wrapper.find(Card)).toHaveLength(3);
+    });
+
+    it("renders a <Dashboard /> component when ADMIN user is logged in", () => {
+        useSession.mockReturnValue({
+            data: {
+                user: {
+                    Role: USER_ROLES.admin,
+                },
+            },
+        });
+        const component = shallow(<Dashboard data={[]} />);
+        expect(component.find(Heading)).toHaveLength(1);
     });
 });

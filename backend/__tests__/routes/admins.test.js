@@ -245,3 +245,19 @@ describe("GET: Get Doctors with their associated Patients and Unassigned Patient
         );
     });
 });
+
+describe("GET:fetch admin dashboard stats", () => {
+    it("Returns code 200 after querying the count of unassigned patients and pending accounts", () =>
+        request(app)
+            .get("/admins/get-dashboard-stats")
+            .expect("Content-Type", /json/)
+            .expect(200)
+            .then(response => {
+                expect(response.body).toEqual(
+                    expect.objectContaining({
+                        unassignedPatientsCount: expect.any(Number),
+                        pendingCount: expect.any(Number),
+                    })
+                );
+            }));
+});
