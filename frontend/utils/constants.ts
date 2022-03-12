@@ -18,7 +18,5 @@ export const BOOLEANS = {
 };
 
 export const DAY = {
-    TODAY: "today",
-    YESTERDAY: "yesterday",
     ALL: "all",
 };

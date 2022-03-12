@@ -3,7 +3,7 @@ import PatientInfoModal from "@frontend/components/modal/modal";
 import PatientInfoModalContent from "@frontend/components/doctor/patient-info-modal-content";
 import PatientChartsOverview from "@frontend/components/doctor/patient-charts-overview";
 import { serverURL } from "@frontend/config";
-import { DEFAULT_PATIENT, Patient } from "@frontend/models/patient";
+import { DEFAULT_PATIENT, FILTER_OPTIONS, Patient } from "@frontend/models/patient";
 import {
     Box,
     Text,

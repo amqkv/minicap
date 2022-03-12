@@ -4,7 +4,7 @@ import { useSession, getSession } from "next-auth/react";
 import { MAIN_COLOR, USER_ROLES } from "@frontend/utils/constants";
 import Legend from "@frontend/components/legend";
 import { serverURL } from "@frontend/config/index";
-import { Flex, Text, Box, Input, Heading, Divider, Image, Select, Button } from "@chakra-ui/react";
+import { Flex, Text, Box, Input, Divider, Select, Button } from "@chakra-ui/react";
 import Circle from "@frontend/components/circle";
 import { PatientBasicInformation } from "@frontend/models/patient";
 import Modal from "@frontend/components/modal/modal";
@@ -25,6 +25,7 @@ export async function getServerSideProps(context: NextPageContext) {
         props: {
             patients,
             session,
+            pageId: "Covid Patients List",
         },
     };
 }
@@ -69,11 +70,6 @@ const CovidPatients = ({ patients }: { patients: PatientBasicInformation[] }) =>
     if (session?.user.Role === USER_ROLES.hOfficial) {
         return (
             <Box padding={{ base: " 5% 0%", md: "0 15%" }}>
-                {/* rendering the page title */}
-                <Heading paddingBottom="10px" margin={{ base: "0 20px ", md: "0px" }}>
-                    Covid Patients List
-                </Heading>
-
                 {/* rendering the search bar */}
                 <Flex
                     paddingBottom={{ base: "5px", md: "40px" }}
@@ -144,11 +140,11 @@ const CovidPatients = ({ patients }: { patients: PatientBasicInformation[] }) =>
                         <Select
                             size="sm"
                             flex="1"
-                            value={selectedPatient?.hasCovid as any}
+                            value={selectedPatient?.hasCovid?.toString()}
                             icon={<Circle color={selectedPatient?.hasCovid ? "red" : "green"} diameter={24} />}
                             onChange={changeStatus}>
-                            <option value={true as any}>Positive</option>
-                            <option value={false as any}>Negative</option>
+                            <option value={true.toString()}>Positive</option>
+                            <option value={false.toString()}>Negative</option>
                         </Select>
                     </Flex>
                 </Modal>

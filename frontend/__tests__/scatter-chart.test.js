@@ -40,7 +40,7 @@ describe("<ScatterChart/>", () => {
                 h={300}
             />
         );
-        expect(w.find(Center)).toHaveLength(1);
+        expect(w.find(Center)).toHaveLength(2);
     });
     it("Renders all the ScatterChart components", () => {
         expect(wrapper.find(ScatterChart)).toHaveLength(1);

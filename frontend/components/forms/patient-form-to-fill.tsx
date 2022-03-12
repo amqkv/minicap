@@ -11,7 +11,7 @@ import PatientCard from "./patient-card";
 import { useRouter } from "next/router";
 import { checkboxForms } from "@frontend/functions/checkbox-form";
 import { PatientsFormsToFill } from "./types/types";
-import Chart from "@frontend/components/homepage/line-chart";
+import Chart from "@frontend/components/line-chart";
 import { DEFAULT_STATUS } from "@frontend/models/patient";
 
 export default function PatientFormToFill({ requiredDetails, pastConditions }: PatientsFormsToFill) {
@@ -25,9 +25,9 @@ export default function PatientFormToFill({ requiredDetails, pastConditions }: P
 
     const { data: session } = useSession();
     const userId = session?.user?.AccountId;
-    const chartData = pastConditions; 
+    const chartData = pastConditions;
     chartData.reverse();
-    
+
     // function to send data to backend and create new status
     async function handlePatientForm(event: any) {
         event.preventDefault();
@@ -41,8 +41,6 @@ export default function PatientFormToFill({ requiredDetails, pastConditions }: P
             statusTime: time,
             ...DEFAULT_STATUS,
         };
-
-        
 
         const checkboxValues = checkboxForms(requiredDetails, event);
         const newStatusValues = { ...statusValues, ...checkboxValues };
@@ -86,8 +84,7 @@ export default function PatientFormToFill({ requiredDetails, pastConditions }: P
                 <Heading size="lg">Your Doctor: Dr Sawkon Di Zenoots</Heading>
                 <Heading size="lg">Today's Condition</Heading>
                 <SimpleGrid minChildWidth="400px" rowGap={5} columnGap={1}>
-                    <Box  
-                    w={{ sm: "100%", base: "100%", md: "80%" }} paddingLeft={"50px"}>
+                    <Box w={{ sm: "100%", base: "100%", md: "80%" }} paddingLeft={"50px"}>
                         <form onSubmit={handlePatientForm}>
                             <Heading size="md" margin={"30px 0 10px 20px"}>
                                 Please fill out the following field for your doctor:
@@ -103,7 +100,9 @@ export default function PatientFormToFill({ requiredDetails, pastConditions }: P
                             )}
                             {weight && <PatientInputs error={weightError} label="Weight" units="lbs" name={"weight"} />}
                             {symptoms && <PatientTextarea label="Symptoms" units="" name={"symptoms"} />}
-                            <Text margin="0 0 10px 30px">(Please separate the symptoms with a comma)</Text>
+                            <Text margin="0 0 10px 30px">
+                                (Please separate the symptoms with a comma (e.g., "fever, headache, sore throat"))
+                            </Text>
                             <Button
                                 colorScheme="pink"
                                 size="md"
@@ -115,8 +114,7 @@ export default function PatientFormToFill({ requiredDetails, pastConditions }: P
                         </form>
                     </Box>
 
-                    <Box  ml={"20px"}>
-                        
+                    <Box ml={"20px"}>
                         <Chart data={chartData} w={650} h={500} />
                     </Box>
                 </SimpleGrid>

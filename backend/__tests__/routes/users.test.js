@@ -73,6 +73,7 @@ describe("POST: Register a user", () => {
                         PostalCode: expect.any(String),
                         Role: expect.any(String),
                         ConfirmedFlag: 1,
+                        RejectedFlag: 0,
                     })
                 );
             });
@@ -98,6 +99,7 @@ describe("POST: Register a user", () => {
                         PostalCode: expect.any(String),
                         Role: expect.any(String),
                         ConfirmedFlag: 0,
+                        RejectedFlag: 0,
                     })
                 );
             });
@@ -186,7 +188,5 @@ describe("GET: pending users list", () => {
 });
 
 describe("Test homepage route ", () => {
-    it("connect to /", () => {
-        return request(app).get("/").send().expect(200);
-    });
+    it("connect to /", () => request(app).get("/").send().expect(200));
 });
