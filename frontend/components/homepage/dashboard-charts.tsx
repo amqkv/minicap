@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, ListItem, UnorderedList, useBreakpointValue } from "@chakra-ui/react";
+import { Box, Heading, useBreakpointValue } from "@chakra-ui/react";
 import { USER_ROLES } from "@frontend/utils/constants";
 import { BarChart, CartesianGrid, YAxis, Tooltip, Legend, Bar } from "recharts";
 import Chart from "@frontend/components/line-chart";

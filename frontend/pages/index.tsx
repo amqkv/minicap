@@ -12,10 +12,23 @@ export const getServerSideProps: GetServerSideProps = async context => {
     const role = session?.user.Role;
     let data: unknown[] = [];
     let userId = session?.user.AccountId;
+    let statusOfTheDay = [];
+    const today = new Date().toISOString().slice(0, 10);
+    let statusFilled = true;
 
     if (role === USER_ROLES.patient) {
-        const response = await fetch(serverURL + "/status/getAllStatusChart/" + userId);
+        let response = await fetch(serverURL + "/status/getAllStatusChart/" + userId);
         data = await response.json();
+
+        // status filled for the day?
+        response = await fetch(serverURL + "/status/getAllStatus/" + userId);
+        statusOfTheDay = await response.json();
+
+        statusFilled = statusOfTheDay[0].StatusTime.substring(0, 10) === today;
+
+        console.log(statusOfTheDay[0].StatusTime.substring(0, 10));
+        console.log(today);
+        console.log(statusFilled)
     }
 
     if (role === USER_ROLES.iOfficer) {
@@ -27,14 +40,15 @@ export const getServerSideProps: GetServerSideProps = async context => {
         props: {
             session,
             data,
+            statusFilled,
         },
     };
 };
 
-export default function Home({ data }: { data: unknown[] }) {
+export default function Home({ data, statusFilled }: { data: unknown[], statusFilled:boolean }) {
     const { data: session } = useSession();
     if (session) {
-        return <Dashboard data={data} />;
+        return <Dashboard data={data} statusFilled={statusFilled} />;
     }
 
     return (
