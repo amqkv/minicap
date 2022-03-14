@@ -22,20 +22,6 @@ export default function PatientInfoModalContent({
 }) {
     const toast = useToast();
     const { data: session } = useSession();
-    const [currentStatus, setCurrentStatus] = useState(0);
-    const reviewHandler = async () => {
-        await fetch("/api/status/review-status", {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                statusId: patient.status[currentStatus].statusId,
-            }),
-        });
-
-        onMutate();
-    };
 
     const reviewAllHandler = async () => {
         await fetch("/api/status/review-status/all", {
@@ -59,7 +45,7 @@ export default function PatientInfoModalContent({
             body: JSON.stringify({
                 accountId: session?.user.AccountId,
                 patientId: patient.patientId,
-                isPrioritized: patient.isPrioritized ? BOOLEANS.FALSE : BOOLEANS.TRUE,
+                isPrioritized: (!patient.isPrioritized).toString(),
             }),
         })
             .then(() => {
@@ -147,13 +133,9 @@ export default function PatientInfoModalContent({
                         </Heading>
                     </Flex>
                 </Box>
-                <PatientInfoModalSwiper
-                    patient={patient}
-                    setCurrentStatus={setCurrentStatus}
-                    reviewHandler={reviewHandler}
-                />
+                <PatientInfoModalSwiper patient={patient} onMutate={onMutate} />
                 <Center mt={4} mb={4}>
-                    <Button backgroundColor={"#FF4545BD"} onClick={reviewAllHandler}>
+                    <Button id="review-all-button" backgroundColor={"#FF4545BD"} onClick={reviewAllHandler}>
                         Mark all as Reviewed
                     </Button>
                 </Center>

@@ -1,16 +1,16 @@
 import { Box } from "@chakra-ui/react";
-import Check from "@frontend/public/svg/check-mark.svg";
+import Check from "../../public/svg/check-mark.svg";
 import { useState } from "react";
 
 interface AppProps {
     isColored: boolean;
 
     color: string;
-    onClicking?: () => void;
+    onClicking: () => void;
     isUnfillable?: string;
 }
 
-const CheckMark = ({ isColored, color, onClicking = () => void 0, isUnfillable }: AppProps) => {
+const CheckMark = ({ isColored, color, onClicking, isUnfillable }: AppProps) => {
     const [isFilled, setIsFilled] = useState(isColored);
 
     const clickHandler = () => {

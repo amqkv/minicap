@@ -54,8 +54,8 @@ export const DEFAULT_PATIENT = {
     patientId: 0,
     doctorId: 0,
     basicInformation: {
-        firstName: "",
-        lastName: "",
+        firstName: "first",
+        lastName: "last",
         gender: "",
         height: 0,
         dob: "",
@@ -76,6 +76,7 @@ export const DEFAULT_PATIENT = {
             statusTime: "",
         },
     ],
+    isAllReviewed: false,
     isPrioritized: false,
 };
 

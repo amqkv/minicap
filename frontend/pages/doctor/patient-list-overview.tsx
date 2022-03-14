@@ -98,95 +98,102 @@ export default function DoctorDashboard() {
             {isLoading && <Spinner />}
             {isError && <p> There is an error loading the data</p>}
             {!!patientList && (
-                <Box my={10}>
-                    <Heading size="xl" m={10} my={8}>
-                        Patients
-                    </Heading>
-                    <PatientChartsOverview patientList={patientList} />
-                    <Box mx={10} mb={3}>
-                        <InputGroup>
-                            <InputLeftElement size="xs">
-                                <Search2Icon color={"gray.400"} />
-                            </InputLeftElement>
-                            <Input
-                                onChange={onSearch}
-                                value={searchTerm}
-                                placeholder={"Search patient name..."}
-                                flex="3.9"
-                                mr={2}
-                                pl={10}
-                                name="search"
-                                borderColor={"gray.400"}
-                                _placeholder={{ color: "gray.600" }}
-                            />
-                            <Button flex="0.1" colorScheme={"red"} minWidth={"70px"} type={"submit"}>
-                                Search
-                            </Button>
-                        </InputGroup>
-                    </Box>
-                    <Box mx={10}>
-                        <RadioGroup my={4} onChange={e => filterPatients(e)} value={filterOption} colorScheme={"red"}>
-                            <Stack direction="row">
-                                <Text>
-                                    <b>Filter by:</b> &nbsp;
-                                </Text>
-                                <Radio value="none">None</Radio>
-                                <Radio value="temperature">High Temperature</Radio>
-                                <Radio value="flag">Flagged</Radio>
-                                <Radio value="true">Reviewed</Radio>
-                                <Radio value="false">Unreviewed</Radio>
-                            </Stack>
-                        </RadioGroup>
-                    </Box>
+                <>
+                    <Box my={10}>
+                        <Heading size="xl" m={10} my={8}>
+                            Patients
+                        </Heading>
+                        <Box minHeight="415px">
+                            <PatientChartsOverview patientList={patientList} />
+                        </Box>
+                        <Box mx={10} mb={3}>
+                            <InputGroup>
+                                <InputLeftElement size="xs">
+                                    <Search2Icon color={"gray.400"} />
+                                </InputLeftElement>
+                                <Input
+                                    onChange={onSearch}
+                                    value={searchTerm}
+                                    placeholder={"Search patient name..."}
+                                    flex="3.9"
+                                    mr={2}
+                                    pl={10}
+                                    name="search"
+                                    borderColor={"gray.400"}
+                                    _placeholder={{ color: "gray.600" }}
+                                />
+                                <Button flex="0.1" colorScheme={"red"} minWidth={"70px"} type={"submit"}>
+                                    Search
+                                </Button>
+                            </InputGroup>
+                        </Box>
+                        <Box mx={10}>
+                            <RadioGroup
+                                my={4}
+                                onChange={e => filterPatients(e)}
+                                value={filterOption}
+                                colorScheme={"red"}>
+                                <Stack direction="row">
+                                    <Text>
+                                        <b>Filter by:</b> &nbsp;
+                                    </Text>
+                                    <Radio value={FILTER_OPTIONS.NONE}>None</Radio>
+                                    <Radio value={FILTER_OPTIONS.TEMPERATURE}>High Temperature</Radio>
+                                    <Radio value={FILTER_OPTIONS.FLAG}>Flagged</Radio>
+                                    <Radio value={FILTER_OPTIONS.REVIEWED}>Reviewed</Radio>
+                                    <Radio value={FILTER_OPTIONS.UNREVIEWED}>Unreviewed</Radio>
+                                </Stack>
+                            </RadioGroup>
+                        </Box>
 
-                    <SimpleGrid minChildWidth="400px" rowGap={5} columnGap={2}>
-                        {/* Changed the way list are shown, otherwise these lists don't update on changes */}
-                        {filterOption === "none" && (
-                            <PatientList
-                                patientList={patientList}
-                                searchTerm={searchTerm}
-                                setSelectedPatient={setSelectedPatient}
-                                onOpen={onOpen}
-                            />
-                        )}
-                        {filterOption === "temperature" && (
-                            <PatientList
-                                patientList={highTemperaturePatientList}
-                                searchTerm={searchTerm}
-                                setSelectedPatient={setSelectedPatient}
-                                onOpen={onOpen}
-                            />
-                        )}
-                        {filterOption === "flag" && (
-                            <PatientList
-                                patientList={flaggedPatientList}
-                                searchTerm={searchTerm}
-                                setSelectedPatient={setSelectedPatient}
-                                onOpen={onOpen}
-                            />
-                        )}
-                        {filterOption === "true" && (
-                            <PatientList
-                                patientList={reviewedPatientList}
-                                searchTerm={searchTerm}
-                                setSelectedPatient={setSelectedPatient}
-                                onOpen={onOpen}
-                            />
-                        )}
-                        {filterOption === "false" && (
-                            <PatientList
-                                patientList={unreviewedPatientList}
-                                searchTerm={searchTerm}
-                                setSelectedPatient={setSelectedPatient}
-                                onOpen={onOpen}
-                            />
-                        )}
-                    </SimpleGrid>
-
+                        <SimpleGrid minChildWidth="400px" rowGap={5} columnGap={2}>
+                            {/* Changed the way list are shown, otherwise these lists don't update on changes */}
+                            {filterOption === FILTER_OPTIONS.NONE && (
+                                <PatientList
+                                    patientList={patientList}
+                                    searchTerm={searchTerm}
+                                    setSelectedPatient={setSelectedPatient}
+                                    onOpen={onOpen}
+                                />
+                            )}
+                            {filterOption === FILTER_OPTIONS.TEMPERATURE && (
+                                <PatientList
+                                    patientList={highTemperaturePatientList}
+                                    searchTerm={searchTerm}
+                                    setSelectedPatient={setSelectedPatient}
+                                    onOpen={onOpen}
+                                />
+                            )}
+                            {filterOption === FILTER_OPTIONS.FLAG && (
+                                <PatientList
+                                    patientList={flaggedPatientList}
+                                    searchTerm={searchTerm}
+                                    setSelectedPatient={setSelectedPatient}
+                                    onOpen={onOpen}
+                                />
+                            )}
+                            {filterOption === FILTER_OPTIONS.REVIEWED && (
+                                <PatientList
+                                    patientList={reviewedPatientList}
+                                    searchTerm={searchTerm}
+                                    setSelectedPatient={setSelectedPatient}
+                                    onOpen={onOpen}
+                                />
+                            )}
+                            {filterOption === FILTER_OPTIONS.UNREVIEWED && (
+                                <PatientList
+                                    patientList={unreviewedPatientList}
+                                    searchTerm={searchTerm}
+                                    setSelectedPatient={setSelectedPatient}
+                                    onOpen={onOpen}
+                                />
+                            )}
+                        </SimpleGrid>
+                    </Box>
                     <PatientInfoModal isOpen={isOpen} onClose={onClose}>
                         <PatientInfoModalContent patient={selectedPatient} onMutate={mutate} onClose={onClose} />
                     </PatientInfoModal>
-                </Box>
+                </>
             )}
         </>
     );
