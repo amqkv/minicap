@@ -10,11 +10,12 @@ router.post("/addStatus", (req, res) => {
     statusController.addStatus(req, res);
 });
 
-// set status to reviewed
+// set status to reviewed given a status id
 router.patch("/review-status", (req, res) => {
     statusController.reviewStatus(req, res);
 });
 
+// set all status to reviewed given a patient id
 router.patch("/review-status/all", (req, res) => {
     statusController.reviewAllStatuses(req, res);
 });
