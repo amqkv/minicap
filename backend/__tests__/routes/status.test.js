@@ -77,20 +77,6 @@ describe("GET: getting all status for this user for charts", () => {
     });
 });
 
-describe("GET: getting all status for this user for charts", () => {
-    it("Returns code 400 if user id is not associated to a user", () => {
-        const userId = 10000000;
-        return request(app).get(`/status/getAllStatusChart/${userId}`).expect(400);
-    });
-
-    // TODO: Fix unit test
-    // it("Returns code 200 and array of status", async () => {
-    //     const userId = 51;
-    //     const response = await request(app).get(`/status/getAllStatusChart/${userId}`);
-    //     expect(response.body).toHaveLength(5);
-    // });
-});
-
 describe("POST: Adding a new status", () => {
     it("User fills the status form for the first time in the day", async () => {
         await request(app)
@@ -130,5 +116,26 @@ describe("POST: Adding a new status", () => {
                     })
                 );
             });
+    });
+});
+describe("PATCH: Turn status to reviewed", () => {
+    it("review a single status", async () => {
+        const statusId = 2;
+        await request(app).patch("/status/review-status").send({ statusId }).expect(200);
+    });
+
+    it("review all status of a user", async () => {
+        const patientId = 27;
+        await request(app).patch("/status/review-status/all").send({ patientId }).expect(200);
+    });
+
+    it("return error on review a single status", async () => {
+        const patientId = 27;
+        await request(app).patch("/status/review-status").send({ patientId }).expect(400);
+    });
+
+    it("return error review all status of a user", async () => {
+        const statusId = 2;
+        await request(app).patch("/status/review-status/all").send({ statusId }).expect(400);
     });
 });
