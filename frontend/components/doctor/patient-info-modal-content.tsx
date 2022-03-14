@@ -45,7 +45,7 @@ export default function PatientInfoModalContent({
             body: JSON.stringify({
                 accountId: session?.user.AccountId,
                 patientId: patient.patientId,
-                isPrioritized: (!patient.isPrioritized).toString(),
+                isPrioritized: (+!patient.isPrioritized).toString(),
             }),
         })
             .then(() => {
@@ -57,6 +57,7 @@ export default function PatientInfoModalContent({
                     isClosable: true,
                 });
                 onMutate();
+                patient.isPrioritized = !patient.isPrioritized;
             })
             .catch(err => {
                 console.log(err);

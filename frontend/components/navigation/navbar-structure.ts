@@ -24,8 +24,8 @@ export const links: link[] = [
         roleRequired: USER_ROLES.admin,
     },
     {
-        text: "PATIENT INFO",
-        url: "/doctor/patientinfo",
+        text: "PATIENTS INFO",
+        url: "/doctor/patient-list-overview",
         roleRequired: USER_ROLES.doctor,
     },
     {
