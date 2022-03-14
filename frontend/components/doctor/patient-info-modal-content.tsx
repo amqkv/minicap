@@ -136,7 +136,7 @@ export default function PatientInfoModalContent({
                 <PatientInfoModalSwiper patient={patient} onMutate={onMutate} />
                 <Center mt={4} mb={4}>
                     <Button id="review-all-button" backgroundColor={"#FF4545BD"} onClick={reviewAllHandler}>
-                        Mark all as Reviewed
+                        Mark all as Reviewed and Close
                     </Button>
                 </Center>
 
