@@ -104,6 +104,25 @@ async function getAllStatus(req, res) {
     }
 }
 
+// get all previous status for charts
+async function getAllStatusChart(req, res) {
+    try {
+        const { PatientId } = await Patient.findOne({
+            raw: true,
+            where: { User_AccountId: req.params.userId },
+        });
+        const allStatus = await Status.findAll({
+            where: {
+                Patient_PatientId: PatientId,
+            },
+            order: [["StatusTime", "ASC"]],
+            
+        });
+        res.status(200).json(allStatus);
+    } catch {
+        res.status(400).send("Failed to get all status");
+    }
+}
 // review one single status and update
 async function reviewStatus(req, res) {
     try {
@@ -127,6 +146,7 @@ async function reviewAllStatuses(req, res) {
 module.exports = {
     addStatus,
     getAllStatus,
+    getAllStatusChart,
     reviewStatus,
     reviewAllStatuses,
 };

@@ -33,10 +33,60 @@ describe("GET: getting all status for this user", () => {
         return request(app).get(`/status/getAllStatus/${userId}`).expect(400);
     });
 
+    it("Returns code 200 and array of status", async () => {
+        const userId = 51;
+        const response = await request(app).get(`/status/getAllStatus/${userId}`);
+        expect(response.body).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    IsReviewed: expect.any(Boolean),
+                    Patient_PatientId: expect.any(Number),
+                    StatusId: expect.any(Number),
+                    StatusTime: expect.any(String),
+                    Symptoms: expect.any(String),
+                    Temperature: expect.any(Number),
+                    Weight: expect.any(Number),
+                }),
+            ])
+        );
+    });
+});
+
+describe("GET: getting all status for this user for charts", () => {
+    it("Returns code 400 if user id is not associated to a user", () => {
+        const userId = 10000000;
+        return request(app).get(`/status/getAllStatusChart/${userId}`).expect(400);
+    });
+
+    it("Returns code 200 and array of status", async () => {
+        const userId = 51;
+        const response = await request(app).get(`/status/getAllStatusChart/${userId}`);
+        expect(response.body).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    IsReviewed: expect.any(Boolean),
+                    Patient_PatientId: expect.any(Number),
+                    StatusId: expect.any(Number),
+                    StatusTime: expect.any(String),
+                    Symptoms: expect.any(String),
+                    Temperature: expect.any(Number),
+                    Weight: expect.any(Number),
+                }),
+            ])
+        );
+    });
+});
+
+describe("GET: getting all status for this user for charts", () => {
+    it("Returns code 400 if user id is not associated to a user", () => {
+        const userId = 10000000;
+        return request(app).get(`/status/getAllStatusChart/${userId}`).expect(400);
+    });
+
     // TODO: Fix unit test
     // it("Returns code 200 and array of status", async () => {
     //     const userId = 51;
-    //     const response = await request(app).get(`/status/getAllStatus/${userId}`);
+    //     const response = await request(app).get(`/status/getAllStatusChart/${userId}`);
     //     expect(response.body).toHaveLength(5);
     // });
 });

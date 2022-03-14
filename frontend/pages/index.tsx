@@ -6,31 +6,68 @@ import Dashboard from "@frontend/components/homepage/dashboard";
 
 import { serverURL } from "@frontend/config";
 import { USER_ROLES } from "@frontend/utils/constants";
+import { promises } from "stream";
 
 export const getServerSideProps: GetServerSideProps = async context => {
     const session = await getSession(context);
     const role = session?.user.Role;
     let data: unknown[] = [];
+    let userId = session?.user.AccountId;
+    let statusOfTheDay = [];
+    const today = new Date().toISOString().slice(0, 10);
+    let statusFilled = true;
+
+    if (role === USER_ROLES.patient) {
+        let response = await Promise.all([
+            fetch(serverURL + "/status/getAllStatusChart/" + userId),
+            fetch(serverURL + "/status/getAllStatus/" + userId),
+        ]);
+        let fetchData = await Promise.all([response[0].json(), response[1].json()]);
+        data = fetchData[0];
+        statusOfTheDay = fetchData[1];
+        statusFilled = statusOfTheDay[0].StatusTime.substring(0, 10) === today;
+    }
+    let stats: { unassignedPatientsCount: Number; pendingCount: Number } = {
+        unassignedPatientsCount: NaN,
+        pendingCount: NaN,
+    };
+
+    if (role === USER_ROLES.patient) {
+        const response = await fetch(serverURL + "/status/getAllStatusChart/" + userId);
+        data = await response.json();
+    }
 
     if (role === USER_ROLES.iOfficer) {
         const response = await fetch(serverURL + "/immigration-officer/countUsersStatus");
         data = await response.json();
+    }
+    if (role === USER_ROLES.admin) {
+        const response = await fetch(serverURL + "/admins/get-dashboard-stats");
+        stats = await response.json();
     }
 
     return {
         props: {
             session,
             data,
+            statusFilled,
+            stats,
         },
     };
 };
 
-
-export default function Home({ data }: { data: unknown[] }) {
-
+export default function Home({
+    data,
+    stats,
+    statusFilled,
+}: {
+    data: unknown[];
+    stats: { unassignedPatientsCount: Number; pendingCount: Number };
+    statusFilled: boolean;
+}) {
     const { data: session } = useSession();
     if (session) {
-        return <Dashboard data={data} />;
+        return <Dashboard data={data} stats={stats} statusFilled={statusFilled} />;
     }
 
     return (

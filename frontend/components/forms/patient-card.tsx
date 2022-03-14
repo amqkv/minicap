@@ -5,7 +5,6 @@ export default function PatientCard({ label, temperature, weight, symptoms }: Ca
     return (
         <Box
             padding={"10px"}
-            //w={"25%"}
             border={"solid"}
             boxShadow="dark-lg"
             rounded="md"

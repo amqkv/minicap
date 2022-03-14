@@ -57,4 +57,22 @@ export const links: link[] = [
         roleRequired: USER_ROLES.iOfficer,
         img: "https://imgur.com/eRLbmpq.png",
     },
+    { // temp admin images will make new ones later probably
+        label: "Manage Patients",
+        url: "/admin/patient-list",
+        roleRequired: USER_ROLES.admin,
+        img: "https://imgur.com/DkXs8lt.png",
+    },
+    {
+        label: "Manage Users",
+        url: "/admin/user-list",
+        roleRequired: USER_ROLES.admin,
+        img: "https://imgur.com/DkXs8lt.png",
+    },
+    {
+        label: "Approve Pending Users",
+        url: "/admin/approve-users",
+        roleRequired: USER_ROLES.admin,
+        img: "https://imgur.com/DkXs8lt.png",
+    },
 ];
