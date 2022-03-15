@@ -3,17 +3,40 @@ import { WarningTwoIcon } from "@chakra-ui/icons";
 import { Patient } from "@frontend/models/patient";
 import { serverURL } from "@frontend/config/index";
 import PatientDetailsToProvideForm from "../forms/patient-details-to-provide-form";
-import PatientStatus from "./patient-status";
 import LineChart from "@frontend/components/line-chart";
 import { formatPatientStatusData } from "@frontend/functions/data-transform-chart";
 import { useSession } from "next-auth/react";
 import { BOOLEANS } from "@frontend/utils/constants";
+import PatientInfoModalSwiper from "./patient-info-modal-swiper";
+import { useState } from "react";
+import { KeyedMutator } from "swr";
 
-export default function PatientInfoModalContent({ patient }: { patient: Patient }) {
+export default function PatientInfoModalContent({
+    patient,
+    onMutate,
+    onClose,
+}: {
+    patient: Patient;
+    onMutate: KeyedMutator<unknown>;
+    onClose: () => void;
+}) {
     const toast = useToast();
     const { data: session } = useSession();
 
-    async function modifyPriority() {
+    const reviewAllHandler = async () => {
+        await fetch("/api/status/review-status/all", {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                patientId: patient.patientId,
+            }),
+        });
+        onClose();
+        onMutate();
+    };
+    const modifyPriority = async () => {
         await fetch(serverURL + "/doctors/updatePriority/", {
             method: "PATCH",
             headers: {
@@ -22,7 +45,7 @@ export default function PatientInfoModalContent({ patient }: { patient: Patient 
             body: JSON.stringify({
                 accountId: session?.user.AccountId,
                 patientId: patient.patientId,
-                isPrioritized: patient.isPrioritized ? BOOLEANS.FALSE : BOOLEANS.TRUE,
+                isPrioritized: (+!patient.isPrioritized).toString(),
             }),
         })
             .then(() => {
@@ -33,7 +56,8 @@ export default function PatientInfoModalContent({ patient }: { patient: Patient 
                     duration: 3000,
                     isClosable: true,
                 });
-                window.location.reload();
+                onMutate();
+                patient.isPrioritized = !patient.isPrioritized;
             })
             .catch(err => {
                 console.log(err);
@@ -45,7 +69,7 @@ export default function PatientInfoModalContent({ patient }: { patient: Patient 
                     isClosable: true,
                 });
             });
-    }
+    };
 
     return (
         <Box>
@@ -110,7 +134,13 @@ export default function PatientInfoModalContent({ patient }: { patient: Patient 
                         </Heading>
                     </Flex>
                 </Box>
-                <PatientStatus patient={patient} />
+                <PatientInfoModalSwiper patient={patient} onMutate={onMutate} />
+                <Center mt={4} mb={4}>
+                    <Button id="review-all-button" backgroundColor={"#FF4545BD"} onClick={reviewAllHandler}>
+                        Mark all as Reviewed and Close
+                    </Button>
+                </Center>
+
                 <Divider />
                 <Center>
                     <Heading mt={6} size={"md"}>

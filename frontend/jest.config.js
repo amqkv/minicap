@@ -82,6 +82,7 @@ module.exports = {
     moduleNameMapper: {
         "\\.(css|less)$": "identity-obj-proxy",
         "^@frontend/(.*)$": "<rootDir>/$1",
+        "\\.svg$": "<rootDir>/__tests__/__mock__/svg.js",
     },
 
     // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader

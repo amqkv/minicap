@@ -24,6 +24,10 @@ const TEST_CONSTANTS = {
     REJECTED_ACCOUNT: {
         AccountId: "859",
     },
+    // Status for the review test
+    STATUS_TEST_ID: 2,
+    // Patient for the review test
+    STATUS_PATIENT_ID: 27,
 };
 
 // Email used to send rejection to rejected users

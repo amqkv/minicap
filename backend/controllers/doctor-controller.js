@@ -36,6 +36,7 @@ async function getAllStatus() {
     const allStatus = await Status.findAll({
         raw: true,
         attributes: [
+            [Sequelize.col("Status.StatusId"), "statusId"],
             [Sequelize.col("Status.Weight"), "weight"],
             [Sequelize.col("Status.Patient_PatientId"), "patientId"],
             [Sequelize.col("Status.Temperature"), "temperature"],
@@ -115,9 +116,11 @@ async function getPatientsInfo(req, res) {
             allStatus.map(status => {
                 if (status.patientId === patient.patientId) {
                     currentPatientStatus.push({
+                        statusId: status.statusId,
                         weight: { value: status.weight, unit: "lbs" },
                         temperature: { value: status.temperature, unit: "°C" },
                         symptoms: { value: status.symptoms ? status.symptoms : "", unit: "" },
+                        lastUpdatedDate: new Date(status.statusTime).toLocaleDateString(),
                         lastUpdated: Moment().diff(status.statusTime, "hours", true)
                             ? Moment().diff(status.statusTime, "hours", true) - constants.MOMENT_TIMEZONE_ADJUSTMENT
                             : 0,
@@ -126,7 +129,15 @@ async function getPatientsInfo(req, res) {
                     });
                 }
             });
-            patientsList.push({ ...patient, status: currentPatientStatus });
+            let isAllReviewed = true;
+            currentPatientStatus.some(status => {
+                if (status.isReviewed === false) {
+                    isAllReviewed = false;
+                    return true;
+                }
+            });
+
+            patientsList.push({ ...patient, status: currentPatientStatus, isAllReviewed });
             currentPatientStatus = [];
         });
         res.json(patientsList);

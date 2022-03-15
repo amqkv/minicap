@@ -3,7 +3,7 @@ import { WarningTwoIcon } from "@chakra-ui/icons";
 import { Patient } from "@frontend/models/patient";
 import PatientStatus from "./patient-status";
 
-export default function PatientInfoCard({ patient }: { patient: Patient }) {
+export default function PatientInfoCard({ patient, clickHandler }: { patient: Patient; clickHandler: () => void }) {
     return (
         <Box
             maxW="sm"
@@ -18,6 +18,7 @@ export default function PatientInfoCard({ patient }: { patient: Patient }) {
             height="100%"
             px="6"
             py="4"
+            onClick={clickHandler}
             position="relative"
             _hover={{ cursor: "pointer", backgroundColor: "#fff" }}>
             <Flex>
@@ -54,7 +55,7 @@ export default function PatientInfoCard({ patient }: { patient: Patient }) {
             </Flex>
 
             <Divider mb={3} />
-            <PatientStatus patient={patient} />
+            <PatientStatus patient={patient} statusIndex={0} />
             <Text color={"gray.500"} fontSize="xs" mt={2} bottom="10px" position="absolute">
                 Last updated{" "}
                 {patient.status[0].lastUpdated > 1

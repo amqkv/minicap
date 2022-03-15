@@ -123,9 +123,30 @@ async function getAllStatusChart(req, res) {
         res.status(400).send("Failed to get all status");
     }
 }
+// review one single status and update
+async function reviewStatus(req, res) {
+    try {
+        await Status.update({ IsReviewed: "1" }, { where: { StatusId: req.body.statusId } });
+        res.status(200).send("Status updated.");
+    } catch {
+        res.status(400).send("Failed to update status");
+    }
+}
+
+// review all the statuses and update them
+async function reviewAllStatuses(req, res) {
+    try {
+        await Status.update({ IsReviewed: "1" }, { where: { Patient_PatientId: req.body.patientId } });
+        res.status(200).send("Statuses updated.");
+    } catch {
+        res.status(400).send("Failed to update statuses");
+    }
+}
 
 module.exports = {
     addStatus,
     getAllStatus,
     getAllStatusChart,
+    reviewStatus,
+    reviewAllStatuses,
 };
