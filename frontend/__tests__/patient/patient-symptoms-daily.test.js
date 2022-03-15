@@ -63,4 +63,93 @@ describe("test patient's form", () => {
         component.find("form").simulate("submit", mockEvent);
         component.update();
     });
+
+	it("activates the onSubmit with no errors in form, temp+weight", () => {
+        const mockEvent = {
+            preventDefault: () => {},
+            target: [{ value: 3 }, { value: 3 }],
+        };
+		const REQUIRED_DETAILS = {
+			Weight: true,
+			Temperature: true,
+		};
+        const component = shallow(
+            <PatientFormsToFill requiredDetails={REQUIRED_DETAILS} pastConditions={DEFAULT_PAST_CONDITIONS} />
+        );
+        //component.setProps();
+        component.find("form").simulate("submit", mockEvent);
+        component.update();
+    });
+	it("activates the onSubmit with no errors in form, temp+symptoms", () => {
+        const mockEvent = {
+            preventDefault: () => {},
+            target: [{ value: 3 }, { value: "symptoms" }],
+        };
+        const REQUIRED_DETAILS = {
+			Temperature: true,
+			Symptoms: true
+		};
+        const component = shallow(
+            <PatientFormsToFill requiredDetails={REQUIRED_DETAILS} pastConditions={DEFAULT_PAST_CONDITIONS} />
+        );
+        component.find("form").simulate("submit", mockEvent);
+        component.update();
+    });
+	it("activates the onSubmit with no errors in form, weight+symptoms", () => {
+        const mockEvent = {
+            preventDefault: () => {},
+            target: [{ value: 3 }, { value: "symptoms" }],
+        };
+        const REQUIRED_DETAILS = {
+			Weight: true,
+			Symptoms: true,
+		};
+        const component = shallow(
+            <PatientFormsToFill requiredDetails={REQUIRED_DETAILS} pastConditions={DEFAULT_PAST_CONDITIONS} />
+        );
+        component.find("form").simulate("submit", mockEvent);
+        component.update();
+    });
+	it("activates the onSubmit with no errors in form, only temperature", () => {
+        const mockEvent = {
+            preventDefault: () => {},
+            target: [{ value: 3 }],
+        };
+        const REQUIRED_DETAILS = {
+			Temperature: true,
+		};
+        const component = shallow(
+            <PatientFormsToFill requiredDetails={REQUIRED_DETAILS} pastConditions={DEFAULT_PAST_CONDITIONS} />
+        );
+        component.find("form").simulate("submit", mockEvent);
+        component.update();
+    });
+	it("activates the onSubmit with no errors in form, only weight", () => {
+        const mockEvent = {
+            preventDefault: () => {},
+            target: [{ value: 3 }],
+        };
+        const REQUIRED_DETAILS = {
+			Weight: true,
+		};
+        const component = shallow(
+            <PatientFormsToFill requiredDetails={REQUIRED_DETAILS} pastConditions={DEFAULT_PAST_CONDITIONS} />
+        );
+        component.find("form").simulate("submit", mockEvent);
+        component.update();
+    });
+	it("activates the onSubmit with no errors in form, only symptoms", () => {
+        const mockEvent = {
+            preventDefault: () => {},
+            target: [{ value: "symptoms" }],
+        };
+        const REQUIRED_DETAILS = {
+			Symptoms: true
+		};
+        const component = shallow(
+            <PatientFormsToFill requiredDetails={REQUIRED_DETAILS} pastConditions={DEFAULT_PAST_CONDITIONS} />
+        );
+        component.find("form").simulate("submit", mockEvent);
+        component.update();
+    });
 });
