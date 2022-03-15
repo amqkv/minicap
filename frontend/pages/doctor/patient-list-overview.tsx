@@ -1,4 +1,3 @@
-import PatientInfoCard from "@frontend/components/doctor/patient-info-card";
 import PatientInfoModal from "@frontend/components/modal/modal";
 import PatientInfoModalContent from "@frontend/components/doctor/patient-info-modal-content";
 import PatientChartsOverview from "@frontend/components/doctor/patient-charts-overview";
@@ -18,7 +17,6 @@ import {
     InputLeftElement,
     Button,
     InputGroup,
-    Center,
     Spinner,
 } from "@chakra-ui/react";
 import { getSession, useSession } from "next-auth/react";
@@ -48,7 +46,7 @@ export async function getServerSideProps(context: any) {
         },
     };
 }
-// Delete the excess
+
 export default function DoctorDashboard() {
     const [selectedPatient, setSelectedPatient] = useState<Patient>(DEFAULT_PATIENT);
     const [filterOption, setFilterOption] = useState("none");
@@ -67,8 +65,6 @@ export default function DoctorDashboard() {
         isLoading,
         isError,
     } = usePatientInfo(session?.user.AccountId);
-
-    // <TODO> filter patient list according to flagged patients
 
     useEffect(() => {
         if (session?.user.Role !== USER_ROLES.doctor) {
