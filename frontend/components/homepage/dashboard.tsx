@@ -5,7 +5,15 @@ import { useSession } from "next-auth/react";
 import { USER_ROLES } from "@frontend/utils/constants";
 import DashboardCharts from "@frontend/components/homepage/dashboard-charts";
 
-export default function Dashboard({ data, stats, statusFilled }: { data: unknown[], stats: {unassignedPatientsCount: Number, pendingCount: Number}, statusFilled: boolean }) {
+export default function Dashboard({
+    data,
+    stats,
+    statusFilled,
+}: {
+    data: unknown[];
+    stats: { unassignedPatientsCount: number; pendingCount: number };
+    statusFilled: boolean;
+}) {
     const { data: session } = useSession();
     const userRole = session?.user?.Role;
     const userName = session?.user?.FirstName + " " + session?.user?.LastName;
@@ -18,8 +26,6 @@ export default function Dashboard({ data, stats, statusFilled }: { data: unknown
                 </Heading>
 
                 <Flex flexWrap={"wrap"}>
-                    <DashboardCharts role={userRole} data={data} stats={stats}/>
-
                     <Box flex="1">
                         {session?.user?.Role === USER_ROLES.patient && (
                             <Box margin={"20px 0px 30px 10%"}>
@@ -41,6 +47,8 @@ export default function Dashboard({ data, stats, statusFilled }: { data: unknown
                         )}
                         <Center>
                             <Flex flexWrap={"wrap"}>
+                                <DashboardCharts role={userRole} data={data} stats={stats} />
+
                                 {links.map(({ label, url, roleRequired, img }: link) => {
                                     const renderCard = roleRequired === userRole || !roleRequired;
                                     return renderCard && <Card key={label} label={label} image={img} url={url} />;
