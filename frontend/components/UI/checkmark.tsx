@@ -15,15 +15,12 @@ const CheckMark = ({ isColored, color, onClicking, isUnfillable }: AppProps) => 
 
     const clickHandler = () => {
         if (isUnfillable === "true") {
-            console.log("hello");
             onClicking();
             setIsFilled(!isFilled);
         } else if (isUnfillable === "false" && isFilled === false) {
-            console.log("hi");
             onClicking();
             setIsFilled(true);
         } else {
-            console.log("bye");
             return;
         }
     };

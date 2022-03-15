@@ -2,6 +2,7 @@ const request = require("supertest");
 const db = require("../../config/database");
 const app = require("../../index");
 const Status = require("../../models/status");
+const { TEST_CONSTANTS } = require("../../utils/constants");
 
 const testStatus = {
     accountId: 678,
@@ -120,22 +121,22 @@ describe("POST: Adding a new status", () => {
 });
 describe("PATCH: Turn status to reviewed", () => {
     it("review a single status", async () => {
-        const statusId = 2;
+        const statusId = TEST_CONSTANTS.STATUS_TEST_ID;
         await request(app).patch("/status/review-status").send({ statusId }).expect(200);
     });
 
     it("review all status of a user", async () => {
-        const patientId = 27;
+        const patientId = TEST_CONSTANTS.STATUS_PATIENT_ID;
         await request(app).patch("/status/review-status/all").send({ patientId }).expect(200);
     });
 
     it("return error on review a single status", async () => {
-        const patientId = 27;
+        const patientId = TEST_CONSTANTS.STATUS_PATIENT_ID;
         await request(app).patch("/status/review-status").send({ patientId }).expect(400);
     });
 
     it("return error review all status of a user", async () => {
-        const statusId = 2;
+        const statusId = TEST_CONSTANTS.STATUS_TEST_ID;
         await request(app).patch("/status/review-status/all").send({ statusId }).expect(400);
     });
 });
