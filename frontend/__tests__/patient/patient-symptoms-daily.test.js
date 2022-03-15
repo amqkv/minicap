@@ -1,5 +1,5 @@
 import { shallow } from "enzyme";
-import { Button, Heading, Box } from "@chakra-ui/react";
+import { Button, Heading } from "@chakra-ui/react";
 import PatientFormsToFill from "@frontend/components/forms/patient-form-to-fill";
 import { DEFAULT_REQUIRED_DETAILS, DEFAULT_PAST_CONDITIONS } from "../__mock__/mock";
 import { useSession } from "next-auth/react";
@@ -35,7 +35,6 @@ describe("test patient's form", () => {
         const component = shallow(
             <PatientFormsToFill requiredDetails={DEFAULT_REQUIRED_DETAILS} pastConditions={DEFAULT_PAST_CONDITIONS} />
         );
-        //component.setProps();
         component.find("form").simulate("submit", mockEvent);
         component.update();
     });
@@ -47,7 +46,6 @@ describe("test patient's form", () => {
         const component = shallow(
             <PatientFormsToFill requiredDetails={DEFAULT_REQUIRED_DETAILS} pastConditions={DEFAULT_PAST_CONDITIONS} />
         );
-        //component.setProps();
         component.find("form").simulate("submit", mockEvent);
         component.update();
     });
@@ -59,7 +57,6 @@ describe("test patient's form", () => {
         const component = shallow(
             <PatientFormsToFill requiredDetails={DEFAULT_REQUIRED_DETAILS} pastConditions={DEFAULT_PAST_CONDITIONS} />
         );
-        //component.setProps();
         component.find("form").simulate("submit", mockEvent);
         component.update();
     });
@@ -76,7 +73,6 @@ describe("test patient's form", () => {
         const component = shallow(
             <PatientFormsToFill requiredDetails={REQUIRED_DETAILS} pastConditions={DEFAULT_PAST_CONDITIONS} />
         );
-        //component.setProps();
         component.find("form").simulate("submit", mockEvent);
         component.update();
     });
