@@ -29,7 +29,7 @@ describe("PATCH: update the list of details that the patient has to provide", ()
             weight: true,
             temperature: true,
             symptoms: true,
-            patientId: 3,
+            patientId: 7,
         };
         return request(app).patch("/doctors/updateRequiredDetails").send(data).expect(200);
     });
@@ -76,7 +76,7 @@ describe("PATCH: update the priority of a patient as a doctor", () => {
     it("Returns 200: Priority is updated successfully by a doctor", async () => {
         const data = {
             accountId: 239,
-            patientId: 3,
+            patientId: 7,
             isPrioritized: constants.BOOLEANS.TRUE,
         };
         await request(app).patch("/doctors/updatePriority").send(data).expect(200);
