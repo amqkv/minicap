@@ -1,7 +1,6 @@
 import { Button } from "@chakra-ui/react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { MAIN_COLOR } from "@frontend/utils/constants";
-import { useRouter } from "next/router";
 
 function LoginLogoutButton({}) {
     const { data: session } = useSession();
