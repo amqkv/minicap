@@ -7,6 +7,7 @@ import Dashboard from "@frontend/components/homepage/dashboard";
 import { serverURL } from "@frontend/config";
 import { USER_ROLES } from "@frontend/utils/constants";
 import { promises } from "stream";
+import moment from "moment";
 
 export const getServerSideProps: GetServerSideProps = async context => {
     const session = await getSession(context);
@@ -14,7 +15,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
     let data: unknown[] = [];
     let userId = session?.user.AccountId;
     let statusOfTheDay = [];
-    const today = new Date().toISOString().slice(0, 10);
+    const today = moment().format().substring(0, 10);
     let statusFilled = true;
 
     if (role === USER_ROLES.patient) {
@@ -27,15 +28,10 @@ export const getServerSideProps: GetServerSideProps = async context => {
         statusOfTheDay = fetchData[1];
         statusFilled = statusOfTheDay[0].StatusTime.substring(0, 10) === today;
     }
-    let stats: { unassignedPatientsCount: Number; pendingCount: Number } = {
+    let stats: { unassignedPatientsCount: number; pendingCount: number } = {
         unassignedPatientsCount: NaN,
         pendingCount: NaN,
     };
-
-    if (role === USER_ROLES.patient) {
-        const response = await fetch(serverURL + "/status/getAllStatusChart/" + userId);
-        data = await response.json();
-    }
 
     if (role === USER_ROLES.iOfficer) {
         const response = await fetch(serverURL + "/immigration-officer/countUsersStatus");
@@ -62,7 +58,7 @@ export default function Home({
     statusFilled,
 }: {
     data: unknown[];
-    stats: { unassignedPatientsCount: Number; pendingCount: Number };
+    stats: { unassignedPatientsCount: number; pendingCount: number };
     statusFilled: boolean;
 }) {
     const { data: session } = useSession();
