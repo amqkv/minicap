@@ -32,7 +32,7 @@ describe("PATCH: Assign a patient to a doctor", () => {
     it("Patient has been assigned to a doctor", () => {
         const data = {
             accountId: "17",
-            patientId: "3",
+            patientId: "7",
             doctor_doctorId: "3",
         };
         return request(app).patch("/admins/assign-patient-doctor").send(data).expect(200);
