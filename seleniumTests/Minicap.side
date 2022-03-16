@@ -1109,7 +1109,7 @@
         ["xpath=//div[@id='PageContents']/div[2]/div/div/input", "xpath:idRelative"],
         ["xpath=//input", "xpath:position"]
       ],
-      "value": "testing"
+      "value": "what"
     }, {
       "id": "475dac07-2ac6-4ff8-9e82-44180209f849",
       "comment": "",
