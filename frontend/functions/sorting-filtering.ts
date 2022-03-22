@@ -3,36 +3,37 @@ import { PatientBasicInformation } from "@frontend/models/patient";
 interface filter {
     searchText: string;
     arr: PatientBasicInformation[];
-    alphabeticalSort: boolean;
+    sort: string;
     positivesOnly: boolean;
     negativesOnly: boolean;
+    ascending: boolean;
 }
-
-export function compare(a: any, b: any) {
-    // filtered normally a to z
-    if (a.lastName.toLowerCase() < b.lastName.toLowerCase()) {
-        return -1;
-    }
-    if (a.lastName.toLowerCase() > b.lastName.toLowerCase()) {
-        return 1;
-    }
-    return 0;
-}
-
-export function compareReverse(a: any, b: any) {
-    // filtered normally a to z
-    if (a.lastName.toLowerCase() < b.lastName.toLowerCase()) {
-        return 1;
-    }
-    if (a.lastName.toLowerCase() > b.lastName.toLowerCase()) {
-        return -1;
-    }
-    return 0;
-}
-
-export function filter({ searchText, arr, alphabeticalSort, positivesOnly, negativesOnly }: filter) {
+export function filter({ searchText, arr, sort, positivesOnly, negativesOnly, ascending }: filter) {
     const lowerCaseSearchtext = searchText.toLowerCase();
-    let filteredArr = [];
+    const filteredArr = [];
+
+    function compare(a: any, b: any) {
+        // filtered normally a to z
+        if (a[sort].toLowerCase() < b[sort].toLowerCase()) {
+            return -1;
+        }
+        if (a[sort].toLowerCase() > b[sort].toLowerCase()) {
+            return 1;
+        }
+        return 0;
+    }
+
+    function compareReverse(a: any, b: any) {
+        // filtered normally a to z
+        if (a[sort].toLowerCase() < b[sort].toLowerCase()) {
+            return 1;
+        }
+        if (a[sort].toLowerCase() > b[sort].toLowerCase()) {
+            return -1;
+        }
+        return 0;
+    }
+
     for (let i = 0; i < arr.length; i++) {
         if (
             arr[i].firstName?.toLowerCase().includes(lowerCaseSearchtext) ||
@@ -55,6 +56,6 @@ export function filter({ searchText, arr, alphabeticalSort, positivesOnly, negat
             }
         }
     }
-    alphabeticalSort ? filteredArr.sort(compare) : filteredArr.sort(compareReverse);
+    ascending ? filteredArr.sort(compare) : filteredArr.sort(compareReverse);
     return filteredArr;
 }

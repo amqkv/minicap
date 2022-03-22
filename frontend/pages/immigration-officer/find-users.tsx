@@ -11,7 +11,7 @@ import Modal from "@frontend/components/modal/modal";
 import { ArrowDownIcon, ArrowUpIcon } from "@chakra-ui/icons";
 import { MAIN_COLOR } from "@frontend/utils/constants";
 import useFilteredPatients from "@frontend/hooks/use-filtered-patients";
-import usePatientModal from "@frontend/hooks/usePatientModal";
+import usePatientModal from "@frontend/hooks/use-patient-modal";
 import inputStyling from "@frontend/components/inputs/input-styling";
 import PatientInformationModalBody from "@frontend/components/modal/patient-information-modal-body";
 
@@ -47,7 +47,7 @@ const UserListPage = ({ patients }: { patients: PatientBasicInformation[] }) => 
         positiveNegativeFilter,
     } = useFilteredPatients(patients);
 
-    const { isOpen, modalClose, openModal, selectedPatient } = usePatientModal(null);
+    const { isOpen, modalClose, openModal, selectedPatient } = usePatientModal({});
 
     if (session?.user.Role === USER_ROLES.iOfficer) {
         return (

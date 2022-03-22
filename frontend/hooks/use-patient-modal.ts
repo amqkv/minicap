@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { PatientBasicInformation } from "@frontend/models/patient";
-import { successfulToast, unsuccessfulToast } from "@frontend/utils/popups";
 import { useDisclosure, useToast } from "@chakra-ui/react";
 
-export default function usePatientModal(toastId: string | null) {
+export default function usePatientModal({ toastId }: { toastId?: string | null }) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [selectedPatient, setSelectedPatient] = useState<PatientBasicInformation | null>(null);
     const toast = useToast();

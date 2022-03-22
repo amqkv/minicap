@@ -48,11 +48,12 @@ export default function Dashboard({
                         <Center>
                             <Flex flexWrap={"wrap"}>
                                 <DashboardCharts role={userRole} data={data} stats={stats} />
-
-                                {links.map(({ label, url, roleRequired, img }: link) => {
-                                    const renderCard = roleRequired === userRole || !roleRequired;
-                                    return renderCard && <Card key={label} label={label} image={img} url={url} />;
-                                })}
+                                <Flex flexWrap={"wrap"} flex={1}>
+                                    {links.map(({ label, url, roleRequired, img }: link) => {
+                                        const renderCard = roleRequired === userRole || !roleRequired;
+                                        return renderCard && <Card key={label} label={label} image={img} url={url} />;
+                                    })}
+                                </Flex>
                             </Flex>
                         </Center>
                     </Box>

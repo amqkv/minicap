@@ -3,7 +3,8 @@ import { PatientBasicInformation } from "@frontend/models/patient";
 import { filter } from "@frontend/functions/sorting-filtering";
 
 export default function useFilteredPatients(patients: PatientBasicInformation[]) {
-    const [alphabeticalSort, setAlphabeticalSort] = useState(true);
+    const [sort, setSort] = useState("firstName");
+    const [ascending, setAscending] = useState(true);
     const [positivesOnly, setPositivesOnly] = useState(false);
     const [negativesOnly, setNegativesOnly] = useState(false);
     const [searchText, setSearchText] = useState("");
@@ -21,14 +22,23 @@ export default function useFilteredPatients(patients: PatientBasicInformation[])
         }
     }
 
+    function changeSort(sortKey: string) {
+        if (sort === sortKey) {
+            setAscending(!ascending);
+        } else {
+            setSort(sortKey);
+            setAscending(true);
+        }
+    }
+
     useEffect(() => {
-        setFilteredPatients(filter({ searchText, arr: patients, alphabeticalSort, positivesOnly, negativesOnly }));
-    }, [searchText, alphabeticalSort, positivesOnly, negativesOnly]);
+        setFilteredPatients(filter({ searchText, arr: patients, sort, positivesOnly, negativesOnly, ascending }));
+    }, [searchText, sort, positivesOnly, negativesOnly, patients, ascending]);
 
     // return everything needed
     return {
-        alphabeticalSort,
-        setAlphabeticalSort,
+        changeSort,
+        ascending,
         filteredPatients,
         positivesOnly,
         negativesOnly,

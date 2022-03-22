@@ -11,7 +11,7 @@ import Modal from "@frontend/components/modal/modal";
 import { successfulToast, unsuccessfulToast } from "@frontend/utils/popups";
 import { ArrowUpIcon, ArrowDownIcon } from "@chakra-ui/icons";
 import useFilteredPatients from "@frontend/hooks/use-filtered-patients";
-import usePatientModal from "@frontend/hooks/usePatientModal";
+import usePatientModal from "@frontend/hooks/use-patient-modal";
 import inputStyling from "@frontend/components/inputs/input-styling";
 import changeCovidStatus from "@frontend/functions/change-patient-covid-status";
 import PatientInformationModalBody from "@frontend/components/modal/patient-information-modal-body";
@@ -38,10 +38,10 @@ const buttonProps = {
 
 const CovidPatients = ({ patients }: { patients: PatientBasicInformation[] }) => {
     const { data: session } = useSession();
-    const { isOpen, modalClose, openModal, selectedPatient, setSelectedPatient, toast } = usePatientModal(toastId);
+    const { isOpen, modalClose, openModal, selectedPatient, setSelectedPatient, toast } = usePatientModal({ toastId });
     const {
-        alphabeticalSort,
-        setAlphabeticalSort,
+        changeSort,
+        ascending,
         filteredPatients,
         positivesOnly,
         negativesOnly,
@@ -101,13 +101,9 @@ const CovidPatients = ({ patients }: { patients: PatientBasicInformation[] }) =>
                                 background={negativesOnly ? MAIN_COLOR : "white"}>
                                 Negative <Circle color="green" diameter={24} style={{ marginLeft: "10px" }} />
                             </Button>
-                            <Button {...buttonProps} onClick={() => setAlphabeticalSort(!alphabeticalSort)}>
+                            <Button {...buttonProps} onClick={() => changeSort("lastName")}>
                                 Alphabetical
-                                {alphabeticalSort ? (
-                                    <ArrowUpIcon marginLeft="10px" />
-                                ) : (
-                                    <ArrowDownIcon marginLeft="10px" />
-                                )}
+                                {ascending ? <ArrowUpIcon marginLeft="10px" /> : <ArrowDownIcon marginLeft="10px" />}
                             </Button>
                         </Flex>
                     </Box>
