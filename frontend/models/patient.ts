@@ -50,7 +50,7 @@ export interface StatusDataProps {
     Symptoms: string;
 }
 
-export const DEFAULT_PATIENT = {
+export const DEFAULT_PATIENT: Patient = {
     patientId: 0,
     doctorId: 0,
     basicInformation: {
@@ -68,6 +68,7 @@ export const DEFAULT_PATIENT = {
     },
     status: [
         {
+            statusId: 0,
             weight: { value: 0, unit: "" },
             temperature: { value: 0, unit: "" },
             symptoms: { value: "", unit: "" },
