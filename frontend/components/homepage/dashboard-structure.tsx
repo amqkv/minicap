@@ -35,7 +35,7 @@ export const links: link[] = [
     },
     {
         label: "Messages",
-        url: "#",
+        url: "/doctor/message-list",
         roleRequired: USER_ROLES.doctor,
         img: "https://imgur.com/gycpeKh.png",
     },

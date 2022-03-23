@@ -18,6 +18,9 @@ const TEST_CONSTANTS = {
     PATIENT_ACCOUNT: {
         AccountId: "51",
     },
+    DOCTOR_ACCOUNT: {
+        AccountId: "239",
+    },
     UPDATE_ROLE_ACCOUNT: {
         AccountId: "828",
     },

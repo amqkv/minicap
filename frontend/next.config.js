@@ -23,6 +23,10 @@ const nextConfig = {
                 destination: `${serverURL}/doctors/getPatientsInfo/:userId`,
             },
             {
+                source: "/doctors/get-patients-name/:userId",
+                destination: `${serverURL}/doctors/getPatientsName/:userId`,
+            },
+            {
                 source: "/api/status/review-status",
                 destination: `${serverURL}/status/review-status`,
             },
