@@ -11,7 +11,7 @@ export default function PatientInfoModal({ isOpen, onClose, children }: AppProps
     return (
         <Modal isOpen={isOpen} onClose={onClose} isCentered>
             <ModalOverlay />
-            <ModalContent p={1} px={5} pt={5} minWidth={600}>
+            <ModalContent p={1} px={5} pt={5}>
                 {children}
             </ModalContent>
         </Modal>

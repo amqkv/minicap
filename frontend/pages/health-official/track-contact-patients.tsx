@@ -1,15 +1,12 @@
 import { NextPageContext } from "next";
-import { getSession, useSession } from "next-auth/react";
-import List from "@frontend/components/admin/list";
-import inputStyling from "@frontend/components/inputs/input-styling";
-import { Flex, Box, Text, Button, Input } from "@chakra-ui/react";
+import { useSession, getSession } from "next-auth/react";
 import { USER_ROLES } from "@frontend/utils/constants";
-import { ArrowUpIcon, ArrowDownIcon } from "@chakra-ui/icons";
+import { Flex, Text, Box } from "@chakra-ui/react";
 import useFilteredPatients from "@frontend/hooks/use-filtered-patients";
-
-interface TrackContractPatientsProps {
-    patients: object[];
-}
+import inputStyling from "@frontend/components/inputs/input-styling";
+import FilteredPatients from "@frontend/components/patient/filtered-patients";
+import NavLink from "@frontend/components/navigation/navlink";
+import { PatientBasicInformation } from "@frontend/models/patient";
 
 export async function getServerSideProps(context: NextPageContext) {
     const session = await getSession(context);
@@ -23,52 +20,46 @@ export async function getServerSideProps(context: NextPageContext) {
     };
 }
 
-const buttonProps = {
-    variant: "outline",
-    size: "lg",
-};
-
-export default function TrackContactPatients({ patients }: TrackContractPatientsProps) {
+const UserListPage = ({ patients }: { patients: PatientBasicInformation[] }) => {
     const { data: session } = useSession();
-    const { alphabeticalSort, setAlphabeticalSort, filteredPatients, searchText, setSearchText } =
+    const { sort, changeSort, ascending, filteredPatients, setSearchText, filterValue, filterKey, changeFilter } =
         useFilteredPatients(patients);
 
-    if (session?.user.Role !== USER_ROLES.hOfficial) {
-        return <p>Access Denied</p>;
-    }
+    const filteredPatientsListProps = {
+        sort,
+        changeSort,
+        ascending,
+        setSearchText,
+        filterValue,
+        filterKey,
+        changeFilter,
+        options: ["alphabetical", "number", "date"],
+    };
 
-    return (
-        <Box padding={{ base: "2% 5%", md: "2vh 5vh" }}>
-            <Box flex="1">
-                <Input
-                    placeholder={"Enter name or email"}
-                    marginBottom="20px"
-                    width="100%"
-                    size="lg"
-                    isInvalid
-                    errorBorderColor="gray.400"
-                    value={searchText}
-                    onChange={event => setSearchText(event.target.value)}
-                />
-                <Button {...buttonProps} onClick={() => setAlphabeticalSort(!alphabeticalSort)} marginBottom="10px">
-                    Alphabetical
-                    {alphabeticalSort ? <ArrowUpIcon marginLeft="10px" /> : <ArrowDownIcon marginLeft="10px" />}
-                </Button>
+    if (session?.user.Role === USER_ROLES.hOfficial) {
+        return (
+            <Box padding={{ base: " 5% 2%", md: "2% 15%" }}>
+                <FilteredPatients {...filteredPatientsListProps}>
+                    {filteredPatients.map(({ firstName, lastName, id, number, date }: PatientBasicInformation) => (
+                        <NavLink key={id} url={"/health-official/track-contact/" + id}>
+                            <Flex key={id} {...inputStyling}>
+                                <Text fontSize="2xl" flex={1}>
+                                    {firstName} {lastName}
+                                </Text>
+                                <Text fontSize="2xl" flex={1} textAlign="center">
+                                    ({number})
+                                </Text>
+                                <Text fontSize="2xl" flex={1} textAlign="end">
+                                    {date}
+                                </Text>
+                            </Flex>
+                        </NavLink>
+                    ))}
+                </FilteredPatients>
             </Box>
+        );
+    }
+    return <p>Access Denied</p>;
+};
 
-            <List>
-                <Flex {...inputStyling} padding="14px 25px" justifyContent={"space-between"}>
-                    <Text fontSize="2xl" flex={1}>
-                        ballsack
-                    </Text>
-                    <Text fontSize="2xl" flex={1} textAlign="center">
-                        (3)
-                    </Text>
-                    <Text fontSize="2xl" flex={1} textAlign="end">
-                        RANDOM DATE
-                    </Text>
-                </Flex>
-            </List>
-        </Box>
-    );
-}
+export default UserListPage;

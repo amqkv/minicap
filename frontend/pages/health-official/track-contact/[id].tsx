@@ -1,10 +1,8 @@
 import { NextPageContext } from "next";
 import { useSession, getSession } from "next-auth/react";
-import { USER_ROLES } from "@frontend/utils/constants";
+import { MAIN_COLOR, USER_ROLES } from "@frontend/utils/constants";
 import Legend from "@frontend/components/legend";
-import { serverURL } from "@frontend/config/index";
-import { Flex, Text, Box } from "@chakra-ui/react";
-import Circle from "@frontend/components/circle";
+import { Flex, Text, Box, Divider, Button } from "@chakra-ui/react";
 import { PatientBasicInformation } from "@frontend/models/patient";
 import Modal from "@frontend/components/modal/modal";
 import useFilteredPatients from "@frontend/hooks/use-filtered-patients";
@@ -14,15 +12,14 @@ import PatientInformationModalBody from "@frontend/components/modal/patient-info
 import FilteredPatients from "@frontend/components/patient/filtered-patients";
 
 export async function getServerSideProps(context: NextPageContext) {
-    const response = await fetch(serverURL + "/immigration-officer/findUsersStatus");
-    const patients: PatientBasicInformation[] = await response.json();
     const session = await getSession(context);
+    const name = "fakeName";
 
     return {
         props: {
-            patients,
+            contacts: [],
             session,
-            pageId: "Patients List ",
+            pageId: "People in Contact with " + name,
         },
     };
 }
@@ -41,29 +38,52 @@ const UserListPage = ({ patients }: { patients: PatientBasicInformation[] }) => 
         filterValue,
         filterKey,
         changeFilter,
-        options: ["alphabetical", "positive", "negative"],
+        options: ["alphabetical"],
         legend: <Legend />,
     };
 
-    if (session?.user.Role === USER_ROLES.iOfficer) {
+    async function handleInvalidContact() {
+        console.log("hi");
+    }
+
+    async function handleSendEmail() {
+        console.log("hi");
+    }
+
+    if (session?.user.Role === USER_ROLES.hOfficial) {
         return (
             <Box padding={{ base: " 5% 2%", md: "2% 15%" }}>
                 <FilteredPatients {...filteredPatientsListProps}>
                     {filteredPatients.map((patient: PatientBasicInformation) => (
                         <Flex key={patient.id} {...inputStyling} onClick={() => openModal(patient)}>
-                            {/* getting info from backend */}
                             <Text fontSize="2xl" flex={3}>
                                 {patient.firstName} {patient.lastName}
                             </Text>
-                            <Box flex={3} />
-                            {/* change the color so that it matches the patient state from the database */}
-                            <Circle color={patient.hasCovid ? "red" : "green"} diameter={24} />
                         </Flex>
                     ))}
                 </FilteredPatients>
 
                 <Modal isOpen={isOpen} onClose={modalClose}>
                     <PatientInformationModalBody patient={selectedPatient} />
+                    <Divider color="black" backgroundColor="black" height={"1px"} margin="5px 0" />
+                    <Flex>
+                        <Button
+                            variant="outline"
+                            size="lg"
+                            onClick={handleInvalidContact}
+                            background={MAIN_COLOR}
+                            _hover={{ opacity: "90%" }}>
+                            Invalid Contact
+                        </Button>
+                        <Button
+                            variant="outline"
+                            size="lg"
+                            onClick={handleSendEmail}
+                            background={MAIN_COLOR}
+                            _hover={{ opacity: "90%" }}>
+                            Send Email
+                        </Button>
+                    </Flex>
                 </Modal>
             </Box>
         );

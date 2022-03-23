@@ -28,6 +28,8 @@ export interface PatientBasicInformation {
     dob?: string;
     age?: number;
     height?: number;
+    number?: number;
+    date?: Date;
 }
 
 export interface PatientStatus {

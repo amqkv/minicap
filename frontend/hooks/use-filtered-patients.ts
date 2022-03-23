@@ -5,20 +5,19 @@ import { filter } from "@frontend/functions/sorting-filtering";
 export default function useFilteredPatients(patients: PatientBasicInformation[]) {
     const [sort, setSort] = useState("firstName");
     const [ascending, setAscending] = useState(true);
-    const [positivesOnly, setPositivesOnly] = useState(false);
-    const [negativesOnly, setNegativesOnly] = useState(false);
+    const [filterValue, setFilterValue] = useState("");
+    const [filterKey, setFilterKey] = useState("");
     const [searchText, setSearchText] = useState("");
     const [filteredPatients, setFilteredPatients] = useState(patients);
 
     // to make sure the filters functions properly
     // if the positive button is activated, then the negative button should disable, vice-versa
-    function positiveNegativeFilter(clickedButton: boolean) {
-        if (clickedButton) {
-            setPositivesOnly(!positivesOnly);
-            setNegativesOnly(false);
+    function changeFilter(key: string, value: string) {
+        if (filterKey === key) {
+            setFilterKey("");
         } else {
-            setPositivesOnly(false);
-            setNegativesOnly(!negativesOnly);
+            setFilterValue(value);
+            setFilterKey(key);
         }
     }
 
@@ -32,18 +31,18 @@ export default function useFilteredPatients(patients: PatientBasicInformation[])
     }
 
     useEffect(() => {
-        setFilteredPatients(filter({ searchText, arr: patients, sort, positivesOnly, negativesOnly, ascending }));
-    }, [searchText, sort, positivesOnly, negativesOnly, patients, ascending]);
+        setFilteredPatients(filter({ searchText, arr: patients, sort, filterValue, filterKey, ascending }));
+    }, [searchText, sort, patients, ascending, filterValue, filterKey]);
 
     // return everything needed
     return {
+        sort,
         changeSort,
         ascending,
         filteredPatients,
-        positivesOnly,
-        negativesOnly,
-        searchText,
         setSearchText,
-        positiveNegativeFilter,
+        filterValue,
+        filterKey,
+        changeFilter,
     };
 }
