@@ -50,6 +50,19 @@ export default function Quarantine({ hasCovid }: { hasCovid: boolean }) {
     if (session?.user.Role === USER_ROLES.patient && hasCovid) {
         return (
             <Box margin={{ base: paddingList, md: "5% 15%" }} paddingBottom={paddingSection}>
+                <Text fontSize={fontSize} paddingBottom={paddingList}>
+                    The information on this page was taken from:
+                    <NavLink
+                        passHref
+                        url="https://www.canada.ca/en/public-health/services/diseases/2019-novel-coronavirus-infection/symptoms/provincial-territorial-resources-covid-19.html"
+                        styleProps={linkStyling}
+                        textDecoration>
+                        <Text _hover={hoverColor} fontSize={fontSize}>
+                            the Government of Canada
+                        </Text>
+                    </NavLink>
+                </Text>
+
                 {/* initial paragraph */}
                 <Text fontSize={fontSize} paddingBottom={paddingList}>
                     Quarantine or isolation can reduce the spread of COVID-19, including its variants, in your household
