@@ -15,7 +15,7 @@ const MessageListPage = () => {
     const { data: session } = useSession();
 
     if (session?.user.Role === USER_ROLES.doctor) {
-        return MessageList(session.user.AccountId);
+        return <MessageList sessionId={session.user.AccountId} />;
     }
     return (
         <div className={"error-message"}>

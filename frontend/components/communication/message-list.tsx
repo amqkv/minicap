@@ -1,13 +1,21 @@
-import { Box, Container, List, Spinner } from "@chakra-ui/react";
+import { Box, Container, Spinner } from "@chakra-ui/react";
 import { Fragment } from "react";
 import UserList from "@frontend/components/admin/list";
 import UserInfoSimple from "@frontend/models/user-info-simple";
 import usePatientNameList from "@frontend/hooks/use-patient-name";
-import ApproveUsersRowCard from "@frontend/components/admin/approve-users/approve-users-row-card";
+import UserRowCard from "../admin/user-row-card";
 
-export default function MessageList(sessionId: number) {
-    // data hook to fetch users list
-    const { isLoading, isError } = usePatientNameList(sessionId);
+interface appProps {
+    sessionId: number;
+}
+
+const MessageList = ({ sessionId }: appProps) => {
+    // data hook to fetch list of message
+    const { patientNames, isLoading, isError } = usePatientNameList(sessionId);
+
+    const patientSelectedHandler = (patient: UserInfoSimple) => {
+        console.log("dab", patient.AccountId);
+    };
 
     if (isError) {
         return (
@@ -19,14 +27,25 @@ export default function MessageList(sessionId: number) {
     return (
         <Fragment>
             {isLoading && <Spinner />}
-            {
-                <Box py={5}>
-                    <h1>bonjour</h1>
-                    <Container>
-                        <List spacing={10}>bonjour</List>
+            {isError && <p id="error-message"> There is an error </p>}
+            {!!patientNames && (
+                <Box px={{ base: 0, sm: 1, md: 4, lg: 1 }} py={5}>
+                    <Container py={2} bg={"pink"} borderRadius={7}>
+                        <UserList>
+                            {Object.keys(patientNames).map(key => {
+                                return (
+                                    <UserRowCard
+                                        key={patientNames[key].AccountId}
+                                        onUserSelect={patientSelectedHandler}
+                                        userInfoSimple={patientNames[key]}
+                                    />
+                                );
+                            })}
+                        </UserList>
                     </Container>
                 </Box>
-            }
+            )}
         </Fragment>
     );
-}
+};
+export default MessageList;

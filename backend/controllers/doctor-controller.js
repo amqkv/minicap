@@ -150,7 +150,7 @@ async function getPatientsInfo(req, res) {
 async function getPatientsName(req, res) {
     await db
         .query(
-            `SELECT P.PatientId, U.FirstName, U.LastName 
+            `SELECT U.AccountId, U.FirstName, U.LastName 
             FROM Doctor D, Patient P, Users U
             WHERE D.User_AccountId='${req.params.userId}' AND D.DoctorId = P.Doctor_DoctorId AND P.User_AccountId = U.AccountId`,
             {
