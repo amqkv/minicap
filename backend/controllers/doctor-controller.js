@@ -244,6 +244,22 @@ async function makeAppointment(req, res) {
         });
 }
 
+async function getAppointments(req, res) {
+    await db
+        .query(
+            `SELECT A.Patient_PatientId, A.Date, A.Time
+                        FROM Appointment A, Doctor D
+                        WHERE D.User_AccountId=${req.params.userId}
+                            AND A.Doctor_DoctorId=D.DoctorId`,
+            { type: QueryTypes.SELECT }
+        )
+        .then(appointments => {
+            console.log(appointments);
+            res.json(appointments);
+        })
+        .catch(err => console.log(err));
+}
+
 module.exports = {
     updateRequiredDetails,
     getPatientsInfo,
@@ -251,4 +267,5 @@ module.exports = {
     updatePriority,
     reviewPatient,
     makeAppointment,
+    getAppointments,
 };

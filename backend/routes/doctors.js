@@ -41,6 +41,10 @@ router.post("/makeAppointment/:userId", (req, res) => {
     doctorController.makeAppointment(req, res);
 });
 
+router.get("/getAppointments/:userId", (req, res) => {
+    doctorController.getAppointments(req, res);
+});
+
 module.exports = {
     router,
 };
