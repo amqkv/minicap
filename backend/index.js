@@ -6,6 +6,20 @@ const app = express();
 const path = require("path");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const http = require("http");
+const socketio = require("socket.io");
+
+// Socket server
+const server = http.createServer(app);
+const io = socketio(server);
+
+io.on("connection", socket => {
+    console.log("WE GOT A NEW CONNECTION !");
+
+    socket.on("disconnect", () => {
+        console.log("USER LEFT.");
+    });
+});
 
 //  Database
 const db = require("./config/database");
