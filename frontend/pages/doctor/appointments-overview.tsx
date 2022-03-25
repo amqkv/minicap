@@ -1,11 +1,11 @@
 import { Box, Button, Flex, Heading, useDisclosure } from "@chakra-ui/react";
 import NewAppointmentForm from "@frontend/components/forms/new-appointment-form";
-import { CalendarIcon, AddIcon } from "@chakra-ui/icons";
 import { BsCalendarPlus } from "react-icons/bs";
 import PatientInfoModal from "@frontend/components/modal/modal";
+import { getSession } from "next-auth/react";
+
 export default function AppointmentsOverview() {
     const { onOpen, isOpen, onClose } = useDisclosure();
-
     return (
         <Box m={10}>
             <Heading>Appointments</Heading>

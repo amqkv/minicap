@@ -221,10 +221,34 @@ async function reviewPatient(req, res) {
         });
 }
 
+async function makeAppointment(req, res) {
+    console.log(req.body);
+
+    await db
+        .query(
+            `INSERT INTO Appointment(Patient_PatientId, Doctor_DoctorId, Date, Time)
+                        SELECT ${req.body.patientId} , DoctorId, '${req.body.date}' , '${req.body.time}' 
+                            FROM Doctor
+                            WHERE User_AccountId=${req.params.userId}`,
+            {
+                type: QueryTypes.INSERT,
+            }
+        )
+        .then(apt => {
+            console.log(apt);
+            res.status(200).send("Appointment successfully made!");
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(404).send("Could not create appointment.");
+        });
+}
+
 module.exports = {
     updateRequiredDetails,
     getPatientsInfo,
     getPatientsDashboardInfo,
     updatePriority,
     reviewPatient,
+    makeAppointment,
 };

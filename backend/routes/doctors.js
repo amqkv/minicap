@@ -36,6 +36,11 @@ router.patch("/reviewPatient", (req, res) => {
     doctorController.reviewPatient(req, res);
 });
 
+// Add a new appointment with a patient
+router.post("/makeAppointment/:userId", (req, res) => {
+    doctorController.makeAppointment(req, res);
+});
+
 module.exports = {
     router,
 };
