@@ -53,7 +53,7 @@ export default function NewAppointmentForm() {
     }
 
     return (
-        <Box>
+        <Box mb={6} mt={2} mx={4}>
             <Heading size="lg">New appointment</Heading>
             <Box>
                 <Flex my={3}>
