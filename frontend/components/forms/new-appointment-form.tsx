@@ -1,25 +1,11 @@
 import { Box, Button, Flex, FormLabel, Heading, Select, Text, useToast } from "@chakra-ui/react";
+import { APPOINTMENT_TIMESLOTS } from "@frontend/models/appointment";
 import { CSSProperties, useState } from "react";
 const patientList = [
     { patientId: 1, firstName: "Peppa", lastName: "Pig", age: "39", gender: "Male" },
     { patientId: 2, firstName: "Dwayne", lastName: "The Rock", age: "52", gender: "Male" },
 ];
-const timeChoices = [
-    "9:00-9:30",
-    "9:30-10:00",
-    "10:30-11:00",
-    "11:00-11:30",
-    "11:30-12:00",
-    "12:30-13:00",
-    "13:00-13:30",
-    "13:30-14:00",
-    "14:30-15:00",
-    "15:00-15:30",
-    "15:30-16:00",
-    "16:30-17:00",
-    "17:00-17:30",
-    "17:30-18:00",
-];
+
 const defaultAppointmnent = { patientId: 0, date: "", time: "" };
 export default function NewAppointmentForm() {
     const [appointment, setAppointment] = useState(defaultAppointmnent);
@@ -92,7 +78,7 @@ export default function NewAppointmentForm() {
                         name="apt-time"
                         maxWidth={150}
                         onChange={e => selectTime(e.target.value)}>
-                        {timeChoices.map(timeslot => (
+                        {APPOINTMENT_TIMESLOTS.map(timeslot => (
                             <option key={timeslot} value={timeslot}>
                                 {timeslot}
                             </option>
