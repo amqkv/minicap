@@ -8,6 +8,12 @@ export interface Patient {
     isAllReviewed: boolean;
 }
 
+export interface Patient_HealthOfficial extends PatientBasicInformation {
+    status: PatientStatus[];
+    isPrioritized: boolean;
+    patientId: number;
+}
+
 export interface RequiredDetails {
     weight: boolean;
     temperature: boolean;

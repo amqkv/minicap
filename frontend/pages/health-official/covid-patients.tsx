@@ -6,7 +6,7 @@ import Legend from "@frontend/components/legend";
 import { serverURL } from "@frontend/config/index";
 import { Flex, Text, Box, Input, Divider, Select, Button } from "@chakra-ui/react";
 import Circle from "@frontend/components/circle";
-import { PatientBasicInformation } from "@frontend/models/patient";
+import { Patient, PatientBasicInformation, Patient_HealthOfficial } from "@frontend/models/patient";
 import Modal from "@frontend/components/modal/modal";
 import { successfulToast, unsuccessfulToast } from "@frontend/utils/popups";
 import { ArrowUpIcon, ArrowDownIcon } from "@chakra-ui/icons";
@@ -14,11 +14,12 @@ import useFilteredPatients from "@frontend/hooks/use-filtered-patients";
 import usePatientModal from "@frontend/hooks/usePatientModal";
 import inputStyling from "@frontend/components/inputs/input-styling";
 import changeCovidStatus from "@frontend/functions/change-patient-covid-status";
-import PatientInformationModalBody from "@frontend/components/modal/patient-information-modal-body";
+import PatientInformationModalBody from "@frontend/components/health-official/patient-modal-health_official";
+import PatientChartsOverview from "@frontend/components/health-official/patient-charts-overview";
 
 export async function getServerSideProps(context: NextPageContext) {
-    const response = await fetch(serverURL + "/immigration-officer/findUsersStatus");
-    const patients: PatientBasicInformation[] = await response.json();
+    const response = await fetch(serverURL + "/health-official/findUserStatus");
+    const patients: Patient_HealthOfficial[] = await response.json();
     const session = await getSession(context);
 
     return {
@@ -36,7 +37,7 @@ const buttonProps = {
     size: "lg",
 };
 
-const CovidPatients = ({ patients }: { patients: PatientBasicInformation[] }) => {
+const CovidPatients = ({ patients }: { patients: Patient_HealthOfficial[] }) => {
     const { data: session } = useSession();
     const { isOpen, modalClose, openModal, selectedPatient, setSelectedPatient, toast } = usePatientModal(toastId);
     const {
@@ -70,6 +71,8 @@ const CovidPatients = ({ patients }: { patients: PatientBasicInformation[] }) =>
     if (session?.user.Role === USER_ROLES.hOfficial) {
         return (
             <Box padding={{ base: " 5% 0%", md: "0 15%" }}>
+                <PatientChartsOverview patientList={filteredPatients as Patient_HealthOfficial[]} />
+
                 {/* rendering the search bar */}
                 <Flex
                     paddingBottom={{ base: "5px", md: "40px" }}
@@ -131,7 +134,7 @@ const CovidPatients = ({ patients }: { patients: PatientBasicInformation[] }) =>
                 </Box>
 
                 <Modal isOpen={isOpen} onClose={modalClose}>
-                    <PatientInformationModalBody patient={selectedPatient} />
+                    <PatientInformationModalBody patient={selectedPatient as Patient_HealthOfficial} />
                     <Divider color="black" backgroundColor="black" height={"1px"} margin="5px 0" />
                     <Flex padding={"10px 0"} justifyContent="center">
                         <Text fontSize="md" p="5px 0" flex="1">
