@@ -40,6 +40,7 @@ export default function PatientInformationModalBody({ patient }: AppProps) {
                     Telephone: {patient?.phoneNumber}
                 </Text>
                 <Divider color="black" backgroundColor="black" height={"1px"} margin="5px 0" />
+
                 <PatientStatusSwiper patient={patient} />
 
                 <Center>

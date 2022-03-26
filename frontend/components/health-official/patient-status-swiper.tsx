@@ -1,5 +1,5 @@
 import PatientStatus from "./patient-status";
-import { Box, Center, HStack, Text } from "@chakra-ui/react";
+import { Box, Center, Flex, Heading, HStack, Text } from "@chakra-ui/react";
 import { CSSProperties } from "react";
 import { Patient_HealthOfficial } from "@frontend/models/patient";
 import { Carousel } from "react-responsive-carousel";
@@ -30,6 +30,18 @@ const PatientStatusSwiper = ({ patient }: AppProps) => {
     } else {
         return (
             <div>
+                <Box mb="10px" className="header">
+                    <Flex>
+                        <Heading size="md" flex="3">
+                            {" "}
+                            Details updated{" "}
+                            {patient.status[0].lastUpdated > 1
+                                ? patient.status[0].lastUpdated.toFixed(0)
+                                : patient.status[0].lastUpdated.toFixed(1)}{" "}
+                            hr(s) ago:{" "}
+                        </Heading>
+                    </Flex>
+                </Box>
                 <Carousel
                     // Custom arrows because the original one don't look visible with the white background
                     renderArrowPrev={(onClickHandler, hasPrev, label) =>
