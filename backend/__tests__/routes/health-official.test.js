@@ -42,3 +42,29 @@ describe("PATCH: list of patients from the database", () => {
             });
     });
 });
+
+describe("GET: list of all patients with their statuses", () => {
+    it("Returns list", async () => {
+        const response = await request(app).get(`/health-official/findUserStatus`);
+        expect(response.body).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    hasCovid: expect.any(Boolean),
+                    firstName: expect.any(String),
+                    lastName: expect.any(String),
+                    email: expect.any(String),
+                    phoneNumber: expect.any(String),
+                    address: expect.any(String),
+                    city: expect.any(String),
+                    postalCode: expect.any(String),
+                    id: expect.any(Number),
+                    patientId: expect.any(Number),
+                    isPrioritized: expect.any(Boolean),
+                    gender: expect.any(String),
+                    dob: expect.any(String),
+                    status: expect.any(Array),
+                }),
+            ])
+        );
+    });
+});

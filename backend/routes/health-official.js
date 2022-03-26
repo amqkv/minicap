@@ -10,6 +10,10 @@ router.patch("/updatePatientStatus", (req, res) => {
     healthOfficialController.updatePatientStatus(req, res);
 });
 
+router.get("/findUserStatus", (req, res) => {
+    healthOfficialController.getUserStatus(req, res);
+});
+
 module.exports = {
     router,
 };
