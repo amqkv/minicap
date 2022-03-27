@@ -244,6 +244,9 @@ async function makeAppointment(req, res) {
 }
 
 async function getAppointments(req, res) {
+    let appointmentDate = "";
+    const pastAppointments = [];
+    const upcomingAppointments = [];
     await db
         .query(
             `SELECT A.AppointmentId AS appointmentId, 
@@ -267,9 +270,25 @@ async function getAppointments(req, res) {
         )
         .then(appointments => {
             console.log(appointments);
+            // console.log(Moment().diff(appointmentDate, "minutes"));
+            // console.log(appointmentDate.isBefore());
+            appointments.map(appointment => {
+                appointmentDate = Moment(
+                    `${appointment.Date} ${appointment.Time.substring(0, appointment.Time.indexOf(" "))}`,
+                    "YYYY-MM-DD HH:mm"
+                );
+                if (appointmentDate.isBefore()) {
+                    pastAppointments.push(appointment);
+                } else if (appointmentDate.isAfter()) {
+                    upcomingAppointments.push(appointment);
+                }
+            });
+            //     console.log(appointments);
+            //     res.json(appointments);
+            // })
+            // .catch(err => console.log(err));
             res.json(appointments);
-        })
-        .catch(err => console.log(err));
+        });
 }
 
 module.exports = {
