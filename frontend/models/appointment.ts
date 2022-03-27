@@ -1,9 +1,28 @@
 export interface Appointment {
-    DoctorId?: number;
-    PatientId: number;
-    Date: string;
-    Time: string;
+    doctorId?: number;
+    appointmentId: number;
+    patientId: number;
+    firstName: string;
+    lastName: string;
+    age: number;
+    gender: string;
+    date: string;
+    time: string;
+    status: string;
 }
+
+export interface CalendarEvent {
+    id: number;
+    title: string;
+    start: Date;
+    end: Date;
+}
+
+export const APPOINTMENT_STATUS = {
+    CONFIRMED: "confirmed",
+    PENDING: "pending",
+    DENIED: "denied",
+};
 
 export const APPOINTMENT_TIMESLOTS = [
     "09:00 - 09:30",
@@ -21,3 +40,18 @@ export const APPOINTMENT_TIMESLOTS = [
     "17:00 - 17:30",
     "17:30 - 18:00",
 ];
+
+export const SECTION = {
+    UPCOMING: "UPCOMING",
+    PAST: "PAST",
+};
+
+export const APPOINTMENT_DETAILS = {
+    year: 0,
+    month: 0,
+    day: 0,
+    startHour: 0,
+    startMinute: 0,
+    endHour: 0,
+    endMinute: 0,
+};

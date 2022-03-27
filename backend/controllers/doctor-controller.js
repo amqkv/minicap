@@ -234,8 +234,7 @@ async function makeAppointment(req, res) {
                 type: QueryTypes.INSERT,
             }
         )
-        .then(apt => {
-            console.log(apt);
+        .then(() => {
             res.status(200).send("Appointment successfully made!");
         })
         .catch(err => {
@@ -245,40 +244,32 @@ async function makeAppointment(req, res) {
 }
 
 async function getAppointments(req, res) {
-    let appointmentDate = "";
-    const pastAppointments = [];
-    const upcomingAppointments = [];
     await db
         .query(
-            `SELECT A.Patient_PatientId, A.Date, A.Time
-                        FROM Appointment A, Doctor D
+            `SELECT A.AppointmentId AS appointmentId, 
+                    A.Patient_PatientId AS patientId, 
+                    U.FirstName AS firstName,
+                    U.LastName AS lastName,
+                    DATEDIFF(YEAR, U.DateOfBirth, GETDATE()) AS age,
+                    U.Gender AS gender,
+                    A.Date AS date, 
+                    A.Time AS time,
+                    A.Status AS status
+                        FROM Appointment A, Doctor D, Users U, Patient P
                         WHERE D.User_AccountId=${req.params.userId}
                             AND A.Doctor_DoctorId=D.DoctorId
-                        ORDER BY A.Date DESC, A.Time ASC
-                            `,
+                            AND U.AccountId=P.User_AccountId
+                            AND P.PatientID=A.Patient_PatientID
+                        ORDER BY 
+                                    CASE WHEN A.Date >= getdate() THEN A.Date + A.Time END ASC,
+                                    CASE WHEN A.Date < getdate() THEN A.Date + A.Time END DESC`,
             { type: QueryTypes.SELECT }
         )
         .then(appointments => {
             console.log(appointments);
-            // console.log(Moment().diff(appointmentDate, "minutes"));
-            // console.log(appointmentDate.isBefore());
-            appointments.map(appointment => {
-                appointmentDate = Moment(
-                    `${appointment.Date} ${appointment.Time.substring(0, appointment.Time.indexOf(" "))}`,
-                    "YYYY-MM-DD HH:mm"
-                );
-                if (appointmentDate.isBefore()) {
-                    pastAppointments.push(appointment);
-                } else if (appointmentDate.isAfter()) {
-                    upcomingAppointments.push(appointment);
-                }
-            });
-            //     console.log(appointments);
-            //     res.json(appointments);
-            // })
-            // .catch(err => console.log(err));
             res.json(appointments);
-        });
+        })
+        .catch(err => console.log(err));
 }
 
 module.exports = {
