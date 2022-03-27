@@ -46,10 +46,14 @@ const BOOLEANS = {
 // Value to adjust the timezone linked to Moment
 const MOMENT_TIMEZONE_ADJUSTMENT = 5;
 
+// Client URL
+const CLIENT_URL = "http://localhost:3000";
+
 module.exports = {
     ROLE,
     TEST_CONSTANTS,
     BOOLEANS,
     MOMENT_TIMEZONE_ADJUSTMENT,
     ADMIN_EMAIL_ACCOUNT,
+    CLIENT_URL,
 };

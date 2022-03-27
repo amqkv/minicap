@@ -17,7 +17,7 @@ export const links: link[] = [
     },
     {
         label: "Messages",
-        url: "#",
+        url: "/communication/message-box",
         roleRequired: USER_ROLES.patient,
         img: "https://imgur.com/gycpeKh.png",
     },

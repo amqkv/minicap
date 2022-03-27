@@ -4,17 +4,29 @@ import UserList from "@frontend/components/admin/list";
 import UserInfoSimple from "@frontend/models/user-info-simple";
 import usePatientNameList from "@frontend/hooks/use-patient-name";
 import UserRowCard from "../admin/user-row-card";
+import { useRouter } from "next/router";
 
 interface appProps {
     sessionId: number;
 }
 
 const MessageList = ({ sessionId }: appProps) => {
+    const router = useRouter();
     // data hook to fetch list of message
     const { patientNames, isLoading, isError } = usePatientNameList(sessionId);
 
     const patientSelectedHandler = (patient: UserInfoSimple) => {
         console.log("dab", patient.AccountId);
+        if (patient) {
+            router.push({
+                pathname: "./message-box",
+                query: {
+                    patientAccountId: patient.AccountId,
+                    patientFirstName: patient.FirstName,
+                    patientLastName: patient.LastName,
+                },
+            });
+        }
     };
 
     if (isError) {
