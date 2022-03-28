@@ -1,80 +1,55 @@
-import {
-    Center,
-    Text,
-    Box,
-    Container,
-    Flex,
-    Spinner,
-    Input,
-    InputGroup,
-    InputRightElement,
-    Button,
-} from "@chakra-ui/react";
-import { Fragment, useState, useEffect, useRef } from "react";
-import socketio from "socket.io-client";
-import { SOCKET_URL, USER_ROLES } from "../../utils/constants";
-import { useRouter, withRouter } from "next/router";
-import { useSession, getSession } from "next-auth/react";
+import { Center, Text, Box, Container, Flex, Input, InputGroup, InputRightElement, Button } from "@chakra-ui/react";
+import { Fragment, useState, useEffect, useRef, useReducer } from "react";
+import socketio, { Socket } from "socket.io-client";
+import { USER_ROLES, SOCKET_URL } from "../../utils/constants";
+import { useSession } from "next-auth/react";
 
-export async function getServerSideProps(context: any) {
-    return {
-        props: {
-            session: await getSession(context),
-        },
-    };
+export interface MessageBoxProps {
+    patientId?: number;
+    firstName?: string;
+    lastName?: string;
+    doctorName?: string;
+    socket?: Socket;
 }
 
-// Connection to socket server
-const socket = socketio(SOCKET_URL);
+interface MessageData {
+    room?: string;
+    author?: number;
+    message?: string;
+}
 
-const MessageBox = () => {
-    const [messageValue, setMessageValue] = useState("");
-    const [roomValue, setRoomValue] = useState("");
-    const [messageList, setMessageList] = useState<any[]>([]);
-    const router = useRouter();
-    const { patientAccountId, patientFirstName, patientLastName } = router.query;
+export const socket = socketio(SOCKET_URL);
 
-    // Socket room initialization depending on user role
-    useEffect(() => {
-        if (session?.user.Role === USER_ROLES.doctor) {
-            setRoomValue(`room_${patientAccountId}`);
-        } else if (session?.user.Role === USER_ROLES.patient) {
-            setRoomValue(`room_${session?.user.AccountId}`);
-        }
-        socket.emit("join_room", roomValue);
-    }, [patientAccountId, roomValue]);
-
+const MessageBox = ({ patientId, firstName, lastName, doctorName }: MessageBoxProps) => {
     const { data: session } = useSession();
+    const roomValue = `room_${patientId}`;
+    const [messageList, setMessageList] = useState<MessageData[]>([]);
 
-    // Message input handler
-    async function handleMessage(event: any) {
-        setMessageValue(event.target.value);
-    }
+    useEffect(() => {
+        socket.emit("join_room", roomValue);
+        socket.on("receive_message", data => {
+            setMessageList(list => [...list, data]);
+        });
+    }, []);
 
     // Message Send handler
     async function handleSend(event: any) {
         event.preventDefault();
-        if (messageValue !== "") {
+        const messageInput = event.target[0];
+        if (messageInput.value !== "") {
             const messageData = {
                 room: roomValue,
                 author: session?.user.AccountId,
-                message: messageValue,
+                message: messageInput.value,
             };
-            await socket.emit("send_message", messageData);
-            setMessageValue("");
+            socket.emit("send_message", messageData);
+            messageInput.value = "";
             setMessageList(list => [...list, messageData]);
         }
     }
 
-    // Message Receivr
-    useEffect(() => {
-        socket.on("receive_message", data => {
-            setMessageList(list => [...list, data]);
-        });
-    }, [socket]);
-
     // Scroll to most recent message
-    const mostRecentMessage: any = useRef(null);
+    const mostRecentMessage = useRef<null | HTMLDivElement>(null);
     function scrollToBottom() {
         mostRecentMessage.current?.scrollIntoView({ behavior: "smooth" });
     }
@@ -88,10 +63,10 @@ const MessageBox = () => {
                 <Center>
                     {session?.user.Role === USER_ROLES.doctor ? (
                         <Text fontSize="3xl">
-                            Chat with Patient {patientFirstName} {patientLastName}
+                            Chat with Patient {firstName} {lastName}
                         </Text>
                     ) : (
-                        <Text fontSize="3xl">Chat with Doctor</Text>
+                        <Text fontSize="3xl">Chat with Dr. {doctorName}</Text>
                     )}
                 </Center>
                 <Container>
@@ -153,13 +128,7 @@ const MessageBox = () => {
                     </Container>
                     <form onSubmit={handleSend}>
                         <InputGroup size="md" border="0.1px">
-                            <Input
-                                type="text"
-                                placeholder="Enter message"
-                                bg="white"
-                                value={messageValue}
-                                onChange={handleMessage}
-                            />
+                            <Input type="text" placeholder="Enter message" bg="white" />
                             <InputRightElement width="4.5rem">
                                 <Button h="1.75rem" size="sm" bg="blue.200" _hover={{ opacity: "75%" }} type="submit">
                                     Send
@@ -172,4 +141,4 @@ const MessageBox = () => {
         </Fragment>
     );
 };
-export default withRouter(MessageBox);
+export default MessageBox;

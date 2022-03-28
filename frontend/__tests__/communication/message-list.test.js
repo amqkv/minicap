@@ -1,13 +1,11 @@
 import React from "react";
 import { useSession } from "next-auth/react";
-import MessageListPage from "@frontend/pages/doctor/message-list";
+import MessageListPage from "@frontend/pages/communication/message-list";
 import MessageList from "@frontend/components/communication/message-list";
 import { USER_ROLES } from "@frontend/utils/constants";
-import { Box, Spinner } from "@chakra-ui/react";
+import { Spinner } from "@chakra-ui/react";
 import { shallow } from "enzyme";
 import usePatientNameList from "@frontend/hooks/use-patient-name";
-import UserRowCard from "@frontend/components/admin/user-row-card";
-import UserModal from "@frontend/components/admin/user-modal";
 
 jest.mock("next-auth/react");
 jest.mock("@frontend/hooks/use-patient-name");

@@ -14,13 +14,25 @@ afterAll(() => {
 
 describe("Test get Patient details route ", () => {
     it("connect to /getRequiredDetails/:AccountId with valid patient id", () => {
-        const url = "/patients/getRequiredDetails/" + TEST_CONSTANTS.PATIENT_ACCOUNT.AccountId;
+        const url = `/patients/getRequiredDetails/${TEST_CONSTANTS.PATIENT_ACCOUNT.AccountId}`;
         return request(app).get(url).expect(200).expect("Content-Type", /json/);
     });
-    //@todo ERROR CATCHING IN THIS ROUTE
-    it("connect to /getRequiredDetails/:AccountId with an invalid id", () => {
-        const url = "/patients/getRequiredDetails/" + TEST_CONSTANTS.PATIENT_ACCOUNT.AccountId;
-        return expect(true).toBe(true);
+
+    // @todo ERROR CATCHING IN THIS ROUTE
+    // it("connect to /getRequiredDetails/:AccountId with an invalid id", () => {
+    //     const url = `/patients/getRequiredDetails/${TEST_CONSTANTS.PATIENT_ACCOUNT.AccountId}`;
+    //     return expect(true).toBe(true);
+    // });
+});
+
+describe("GET: get assigned doctor of current patient", () => {
+    it("Returns code 200 and assigned doctor of patient", async () => {
+        const userId = TEST_CONSTANTS.PATIENT_ACCOUNT.AccountId;
+        await request(app).get(`/patients/getAssignedDoctor/${userId}`).expect(200);
+    });
+    it("Returns code 400 if user is not a patient", async () => {
+        const userId = 0;
+        await request(app).get(`/patients/getAssignedDoctor/${userId}`).expect(400);
     });
 });
 

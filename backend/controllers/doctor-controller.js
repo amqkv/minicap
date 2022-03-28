@@ -1,6 +1,5 @@
 const { QueryTypes, Sequelize } = require("sequelize");
 const Moment = require("moment");
-const User = require("../models/user");
 const RequiredDetails = require("../models/required-details");
 const Status = require("../models/status");
 const db = require("../config/database");
@@ -151,8 +150,8 @@ async function getPatientsName(req, res) {
     await db
         .query(
             `SELECT U.AccountId, U.FirstName, U.LastName 
-            FROM Doctor D, Patient P, Users U
-            WHERE D.User_AccountId='${req.params.userId}' AND D.DoctorId = P.Doctor_DoctorId AND P.User_AccountId = U.AccountId`,
+                FROM Doctor D, Patient P, Users U
+                WHERE D.User_AccountId='${req.params.userId}' AND D.DoctorId = P.Doctor_DoctorId AND P.User_AccountId = U.AccountId`,
             {
                 type: QueryTypes.SELECT,
             }

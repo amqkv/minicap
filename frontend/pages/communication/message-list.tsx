@@ -1,12 +1,13 @@
 import { useSession, getSession } from "next-auth/react";
 import MessageList from "@frontend/components/communication/message-list";
 import { USER_ROLES } from "@frontend/utils/constants";
+import { NextPageContext } from "next";
 
-export async function getServerSideProps(context: any) {
+export async function getServerSideProps(context: NextPageContext) {
     return {
         props: {
             session: await getSession(context),
-            pageId: "Communication with Patients",
+            pageId: "List of Patients to Communicate",
         },
     };
 }

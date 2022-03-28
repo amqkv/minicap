@@ -14,9 +14,7 @@ const MessageList = ({ sessionId }: appProps) => {
     const router = useRouter();
     // data hook to fetch list of message
     const { patientNames, isLoading, isError } = usePatientNameList(sessionId);
-
     const patientSelectedHandler = (patient: UserInfoSimple) => {
-        console.log("dab", patient.AccountId);
         if (patient) {
             router.push({
                 pathname: "./message-box",
