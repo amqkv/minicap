@@ -9,7 +9,7 @@ import Modal from "@frontend/components/modal/modal";
 import Legend from "@frontend/components/legend";
 import { Input, Flex, Button, Select } from "@chakra-ui/react";
 import { filter } from "@frontend/functions/sorting-filtering";
-import PatientInformationModalBody from "@frontend/components/modal/patient-information-modal-body";
+import PatientInformationModalBody from "@frontend/components/health-official/patient-modal-health_official";
 
 jest.mock("next-auth/react");
 

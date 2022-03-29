@@ -1,13 +1,13 @@
 import { Box, Center, SimpleGrid, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import { extractStatuses, transformWeightTempData } from "@frontend/functions/data-transform-chart";
-import { Patient } from "@frontend/models/patient";
+import { Patient_HealthOfficial } from "@frontend/models/patient";
 import { DAY } from "@frontend/utils/constants";
 import PieChart from "@frontend/components/pie-chart";
-import Table from "@frontend/components/doctor/patient-overview-table";
+import Table from "@frontend/components/health-official/patient-overview-table";
 import ScatterChart from "@frontend/components/scatter-chart";
 import { CSSProperties, useState } from "react";
 
-export default function PatientChartsOverview({ patientList }: { patientList: Patient[] }) {
+export default function PatientChartsOverview({ patientList }: { patientList: Patient_HealthOfficial[] }) {
     const today = new Date().toISOString().slice(0, 10);
     const datePickerStyle: CSSProperties = { border: "2px solid #e6e6e6", padding: "5px 10px", borderRadius: "10px" };
     const [pieChartDate, setPieChartDate] = useState(today);

@@ -29,6 +29,7 @@
             {
                 "allowForLoopAfterthoughts": true
             }
-        ]
+        ],
+        "no-restricted-syntax": 0
     }
 }
