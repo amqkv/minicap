@@ -6,6 +6,8 @@ import { NextPageContext } from "next";
 
 export async function getServerSideProps(context: NextPageContext) {
     const session = await getSession(context);
+
+    // Get information related to doctor for patient's page
     if (session?.user.Role === USER_ROLES.patient) {
         const response = await fetch(serverURL + `/patients/getAssignedDoctor/${session?.user.AccountId}`);
         const doctorName = await response.json();
@@ -13,16 +15,18 @@ export async function getServerSideProps(context: NextPageContext) {
             props: {
                 session,
                 pageId: `Conversation with Dr. ${doctorName.LastName}`,
-                patientId: session?.user.AccountId,
+                patient_accountId: session?.user.AccountId,
                 doctorName: doctorName.LastName,
             },
         };
     }
+
+    // Get information related to patient for doctor's page
     return {
         props: {
             session,
             pageId: `Conversation with ${context.query?.patientFirstName} ${context.query?.patientLastName}`,
-            patientId: context.query?.patientAccountId,
+            patient_accountId: context.query?.patientAccountId,
             firstName: context.query?.patientFirstName,
             lastName: context.query?.patientLastName,
         },

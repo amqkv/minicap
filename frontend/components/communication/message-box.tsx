@@ -1,50 +1,30 @@
 import { Center, Text, Box, Container, Flex, Input, InputGroup, InputRightElement, Button } from "@chakra-ui/react";
-import { Fragment, useState, useEffect, useRef, useReducer } from "react";
-import socketio, { Socket } from "socket.io-client";
-import { USER_ROLES, SOCKET_URL } from "../../utils/constants";
+import { Fragment, useEffect, useRef } from "react";
+import { USER_ROLES } from "../../utils/constants";
 import { useSession } from "next-auth/react";
+import useWebSockets from "../../hooks/use-web-sockets";
 
 export interface MessageBoxProps {
-    patientId?: number;
+    patient_accountId?: number;
     firstName?: string;
     lastName?: string;
     doctorName?: string;
-    socket?: Socket;
 }
 
-interface MessageData {
-    room?: string;
-    author?: number;
-    message?: string;
-}
-
-export const socket = socketio(SOCKET_URL);
-
-const MessageBox = ({ patientId, firstName, lastName, doctorName }: MessageBoxProps) => {
+const MessageBox = ({ patient_accountId, firstName, lastName, doctorName }: MessageBoxProps) => {
     const { data: session } = useSession();
-    const roomValue = `room_${patientId}`;
-    const [messageList, setMessageList] = useState<MessageData[]>([]);
-
-    useEffect(() => {
-        socket.emit("join_room", roomValue);
-        socket.on("receive_message", data => {
-            setMessageList(list => [...list, data]);
-        });
-    }, []);
+    const { messageList, send } = useWebSockets({
+        patient_accountId: patient_accountId,
+        enabled: Boolean(patient_accountId),
+    });
 
     // Message Send handler
     async function handleSend(event: any) {
         event.preventDefault();
         const messageInput = event.target[0];
         if (messageInput.value !== "") {
-            const messageData = {
-                room: roomValue,
-                author: session?.user.AccountId,
-                message: messageInput.value,
-            };
-            socket.emit("send_message", messageData);
+            send(messageInput.value, session?.user.AccountId);
             messageInput.value = "";
-            setMessageList(list => [...list, messageData]);
         }
     }
 
@@ -103,7 +83,7 @@ const MessageBox = ({ patientId, firstName, lastName, doctorName }: MessageBoxPr
                                             mb="2"
                                             maxWidth="20rem"
                                             borderRadius={8}>
-                                            {messageContent.message}
+                                            {messageContent.content}
                                         </Text>
                                     </Flex>
                                 );
@@ -118,7 +98,7 @@ const MessageBox = ({ patientId, firstName, lastName, doctorName }: MessageBoxPr
                                             mb="2"
                                             maxWidth="20rem"
                                             borderRadius={8}>
-                                            {messageContent.message}
+                                            {messageContent.content}
                                         </Text>
                                     </Flex>
                                 );

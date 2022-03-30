@@ -6,7 +6,7 @@ function communication(io) {
         });
 
         socket.on("send_message", data => {
-            socket.to(data.room).emit("receive_message", data);
+            socket.to(data.roomId).emit("receive_message", data);
         });
     });
 }
