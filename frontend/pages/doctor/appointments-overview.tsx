@@ -10,26 +10,41 @@ import AppointmentReminders from "@frontend/components/doctor/appointment-remind
 import moment, { Moment } from "moment";
 import { MinusIcon } from "@chakra-ui/icons";
 import AppointmentCalendar from "@frontend/components/doctor/appointment-calendar";
+import { PatientBasicInformation } from "@frontend/models/patient";
+
 export async function getServerSideProps(context: any) {
     const session = await getSession(context);
     const userId = session?.user.AccountId;
-
-    let appointmentList: Appointment[] = [];
-
+    let appointmentAndPatientList: { appointmentList: Appointment[]; patientList: PatientBasicInformation[] } = {
+        appointmentList: [],
+        patientList: [],
+    };
     try {
         if (session?.user.Role === USER_ROLES.doctor) {
-            const appointmentListResponse: any = await fetch(serverURL + "/doctors/getAppointments/" + userId);
-            appointmentList = await appointmentListResponse.json();
+            const appointmentListResponse: any = await fetch(
+                serverURL + "/doctors/getAppointmentsAndPatients/" + userId
+            );
+            appointmentAndPatientList = await appointmentListResponse.json();
         }
     } catch {}
     return {
         props: {
             session,
-            appointmentList,
+            appointmentList: appointmentAndPatientList.appointmentList,
+            patientList: appointmentAndPatientList.patientList,
+            userId,
         },
     };
 }
-export default function AppointmentsOverview({ appointmentList }: { appointmentList: Appointment[] }) {
+export default function AppointmentsOverview({
+    appointmentList,
+    patientList,
+    userId,
+}: {
+    appointmentList: Appointment[];
+    patientList: PatientBasicInformation[];
+    userId: number;
+}) {
     const { onOpen, isOpen, onClose } = useDisclosure();
 
     function sortAppointments(section: string): Appointment[] {
@@ -57,10 +72,9 @@ export default function AppointmentsOverview({ appointmentList }: { appointmentL
             <Heading>Appointments</Heading>
             <Flex>
                 {/* Calendar */}
-                <Box flex="1.75">
+                <Box>
                     <AppointmentCalendar appointmentList={appointmentList} />
                 </Box>
-
                 {/* Legend */}
                 <Box flex="1" h={650}>
                     <Box fontSize="lg" flex="1" h="10vh">
@@ -74,38 +88,39 @@ export default function AppointmentsOverview({ appointmentList }: { appointmentL
                             <MinusIcon w={6} h={6} color="red.200" mr={3} /> Denied
                         </Text>
                     </Box>
-
-                    {/* Upcoming appointments */}
-                    <Box h="35vh">
-                        <Heading size="lg" my={6} display="inline-block">
-                            Upcoming
-                        </Heading>
-                        <Button variant="ghost" onClick={onOpen} float="right">
-                            <BsCalendarPlus style={{ width: "25px", height: "25px" }} />
-                        </Button>
+                    <Box h={600}>
+                        {/* Upcoming appointments */}
                         <Box>
-                            <AppointmentReminders
-                                appointmentList={sortAppointments(SECTION.UPCOMING)}
-                                section={SECTION.UPCOMING}
-                            />
+                            <Heading size="lg" my={6} display="inline-block">
+                                Upcoming
+                            </Heading>
+                            <Button variant="ghost" onClick={onOpen} float="right">
+                                <BsCalendarPlus style={{ width: "25px", height: "25px" }} />
+                            </Button>
+                            <Box h={250} overflowY="auto">
+                                <AppointmentReminders
+                                    appointmentList={sortAppointments(SECTION.UPCOMING)}
+                                    section={SECTION.UPCOMING}
+                                />
+                            </Box>
                         </Box>
-                    </Box>
-                    {/* Past appointments */}
-                    <Box h="25vh">
-                        <Heading size="lg" mt={6} mb={4}>
-                            Past
-                        </Heading>
+                        {/* Past appointments */}
                         <Box>
-                            <AppointmentReminders
-                                appointmentList={sortAppointments(SECTION.PAST)}
-                                section={SECTION.PAST}
-                            />
+                            <Heading size="lg" mt={6} mb={4}>
+                                Past
+                            </Heading>
+                            <Box h={175} overflowY="auto">
+                                <AppointmentReminders
+                                    appointmentList={sortAppointments(SECTION.PAST)}
+                                    section={SECTION.PAST}
+                                />
+                            </Box>
                         </Box>
                     </Box>
                 </Box>
             </Flex>
             <PatientInfoModal isOpen={isOpen} onClose={onClose}>
-                <NewAppointmentForm />
+                <NewAppointmentForm userId={userId} patientList={patientList} />
             </PatientInfoModal>
         </Box>
     );

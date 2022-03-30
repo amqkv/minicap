@@ -1,31 +1,36 @@
 import { Box, Button, Flex, FormLabel, Heading, Select, Text, useToast } from "@chakra-ui/react";
+import { serverURL } from "@frontend/config";
 import { APPOINTMENT_TIMESLOTS } from "@frontend/models/appointment";
+import { Patient, PatientBasicInformation } from "@frontend/models/patient";
 import { CSSProperties, useState } from "react";
-const patientList = [
-    { patientId: 1, firstName: "Peppa", lastName: "Pig", age: "39", gender: "Male" },
-    { patientId: 2, firstName: "Dwayne", lastName: "The Rock", age: "52", gender: "Male" },
-];
+// const patientList = [
+//     { patientId: 1, firstName: "Peppa", lastName: "Pig", age: "39", gender: "Male" },
+//     { patientId: 2, firstName: "Dwayne", lastName: "The Rock", age: "52", gender: "Male" },
+// ];
 
 const defaultAppointmnent = { patientId: 0, date: "", time: "" };
-export default function NewAppointmentForm() {
+export default function NewAppointmentForm({
+    userId,
+    patientList,
+}: {
+    userId: number;
+    patientList: PatientBasicInformation[];
+}) {
     const [appointment, setAppointment] = useState(defaultAppointmnent);
-    const today = new Date().toISOString().slice(0, 10);
     const datePickerStyle: CSSProperties = { border: "1px solid #e6e6e6", padding: "5px 10px", borderRadius: "6px" };
     const toast = useToast();
     function selectPatient(patientId: string) {
         setAppointment({ ...appointment, patientId: parseInt(patientId) });
-        console.log(patientId);
     }
 
     function pickDate(appointmentDate: string) {
         setAppointment({ ...appointment, date: appointmentDate });
-        console.log(appointmentDate);
     }
     function selectTime(time: string) {
         setAppointment({ ...appointment, time: time });
-        console.log(time);
     }
-    function scheduleAppointment() {
+    async function scheduleAppointment() {
+        console.log(appointment);
         if (appointment.patientId === 0 || appointment.date === "" || appointment.time === "") {
             toast({
                 title: "Form incomplete! All fields need to be filled.",
@@ -33,6 +38,20 @@ export default function NewAppointmentForm() {
                 status: "error",
                 duration: 3000,
                 isClosable: true,
+            });
+        } else {
+            await fetch(serverURL + "/doctors/makeAppointment/" + userId, {
+                method: "POST",
+                body: JSON.stringify(appointment),
+                headers: { "Content-Type": "application/json" },
+            }).then(res => {
+                toast({
+                    title: "Appointment set!",
+                    description: "An email has been sent to your patient.",
+                    status: "success",
+                    isClosable: true,
+                });
+                window.location.reload();
             });
         }
         console.log(appointment);
@@ -54,7 +73,7 @@ export default function NewAppointmentForm() {
                         onChange={e => selectPatient(e.target.value)}>
                         {patientList.map(patient => (
                             <option key={`patient-${patient.patientId}`} value={patient.patientId}>
-                                {patient.firstName} {patient.lastName} ({patient.age} {patient.gender.substring(0, 1)})
+                                {patient.firstName} {patient.lastName} ({patient.age} {patient.gender?.substring(0, 1)})
                             </option>
                         ))}
                     </Select>

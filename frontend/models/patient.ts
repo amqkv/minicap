@@ -15,6 +15,7 @@ export interface RequiredDetails {
 }
 
 export interface PatientBasicInformation {
+    patientId?: number;
     firstName?: string;
     lastName?: string;
     email?: string;

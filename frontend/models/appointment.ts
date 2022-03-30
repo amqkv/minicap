@@ -21,7 +21,7 @@ export interface CalendarEvent {
 export const APPOINTMENT_STATUS = {
     CONFIRMED: "confirmed",
     PENDING: "pending",
-    DENIED: "denied",
+    DECLINED: "declined",
 };
 
 export const APPOINTMENT_TIMESLOTS = [
