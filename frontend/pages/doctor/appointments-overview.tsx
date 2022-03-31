@@ -71,14 +71,14 @@ export default function AppointmentsOverview({
     return (
         <Box m={10}>
             <Heading>Appointments</Heading>
-            <Flex>
+            <Flex flexDirection={{ base: "column", sm: "column", md: "column", lg: "row" }}>
                 {/* Calendar */}
-                <Box>
+                <Box display={{ base: "none", md: "none", lg: "none", xl: "block", sm: "none" }} flex="1">
                     <AppointmentCalendar appointmentList={appointmentList} />
                 </Box>
                 {/* Legend */}
-                <Box flex="1" h={650}>
-                    <Box fontSize="lg" flex="1" h="10vh">
+                <Box flex="1" h={650} minW={450}>
+                    <Box fontSize="lg" flex="1" h="10vh" mt={4}>
                         <Text>
                             <MinusIcon w={6} h={6} color="green.200" mr={3} /> Confirmed
                         </Text>
@@ -89,17 +89,17 @@ export default function AppointmentsOverview({
                             <MinusIcon w={6} h={6} color="red.200" mr={3} /> Denied
                         </Text>
                     </Box>
-                    <Box h={600}>
+                    <Box h={{ sm: "800", lg: "600" }}>
                         {/* Upcoming appointments */}
                         <Box>
-                            <Heading size="lg" my={6} display="inline-block">
+                            <Heading size="lg" my={2} display="inline-block">
                                 Upcoming
                             </Heading>
                             <Button variant="ghost" onClick={onOpen} float="right">
                                 <BsCalendarPlus style={{ width: "25px", height: "25px" }} />
                             </Button>
-                            <Box h={250}>
-                                <Scrollbars>
+                            <Box h={{ sm: "400", md: "400", lg: "250" }} overflowX="hidden">
+                                <Scrollbars autoHide>
                                     <AppointmentReminders
                                         appointmentList={sortAppointments(SECTION.UPCOMING)}
                                         section={SECTION.UPCOMING}
@@ -112,8 +112,8 @@ export default function AppointmentsOverview({
                             <Heading size="lg" mt={6} mb={4}>
                                 Past
                             </Heading>
-                            <Box h={175}>
-                                <Scrollbars>
+                            <Box h={{ sm: "300", md: "300", lg: "175" }} overflowX="hidden">
+                                <Scrollbars autoHide>
                                     <AppointmentReminders
                                         appointmentList={sortAppointments(SECTION.PAST)}
                                         section={SECTION.PAST}

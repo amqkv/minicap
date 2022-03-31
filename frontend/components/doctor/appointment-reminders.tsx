@@ -33,7 +33,7 @@ export default function AppointmentReminders({
         }
     }
     return (
-        <Box>
+        <Box mr={4}>
             {appointmentList.length ? (
                 appointmentList.map(appointment => (
                     <Box
