@@ -41,12 +41,9 @@ router.post("/makeAppointment/:userId", (req, res) => {
     doctorController.makeAppointment(req, res);
 });
 
+// Fetching appointments and patient list for Appointments page
 router.get("/getAppointmentsAndPatients/:userId", (req, res) => {
     doctorController.getAppointmentsAndPatients(req, res);
-});
-
-router.post("/testemail/:userId", (req, res) => {
-    doctorController.sendAppointmentEmail(req, res);
 });
 
 module.exports = {
