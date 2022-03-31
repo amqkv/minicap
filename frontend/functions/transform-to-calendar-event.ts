@@ -43,6 +43,5 @@ export function transformToEvent(appointmentList: Appointment[]) {
             ),
         });
     });
-    console.log(events);
     return events;
 }

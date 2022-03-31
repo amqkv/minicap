@@ -1,12 +1,8 @@
 import { Box, Button, Flex, FormLabel, Heading, Select, useToast } from "@chakra-ui/react";
 import { serverURL } from "@frontend/config";
 import { Appointment, APPOINTMENT_TIMESLOTS } from "@frontend/models/appointment";
-import { Patient, PatientBasicInformation } from "@frontend/models/patient";
+import { PatientBasicInformation } from "@frontend/models/patient";
 import { CSSProperties, useState } from "react";
-// const patientList = [
-//     { patientId: 1, firstName: "Peppa", lastName: "Pig", age: "39", gender: "Male" },
-//     { patientId: 2, firstName: "Dwayne", lastName: "The Rock", age: "52", gender: "Male" },
-// ];
 
 const defaultAppointmnent = { patientId: 0, date: "", time: "" };
 export default function NewAppointmentForm({

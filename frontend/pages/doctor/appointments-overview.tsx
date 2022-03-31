@@ -11,6 +11,7 @@ import moment, { Moment } from "moment";
 import { MinusIcon } from "@chakra-ui/icons";
 import AppointmentCalendar from "@frontend/components/doctor/appointment-calendar";
 import { PatientBasicInformation } from "@frontend/models/patient";
+import { Scrollbars } from "react-custom-scrollbars-2";
 
 export async function getServerSideProps(context: any) {
     const session = await getSession(context);
@@ -97,11 +98,13 @@ export default function AppointmentsOverview({
                             <Button variant="ghost" onClick={onOpen} float="right">
                                 <BsCalendarPlus style={{ width: "25px", height: "25px" }} />
                             </Button>
-                            <Box h={250} overflowY="auto">
-                                <AppointmentReminders
-                                    appointmentList={sortAppointments(SECTION.UPCOMING)}
-                                    section={SECTION.UPCOMING}
-                                />
+                            <Box h={250}>
+                                <Scrollbars>
+                                    <AppointmentReminders
+                                        appointmentList={sortAppointments(SECTION.UPCOMING)}
+                                        section={SECTION.UPCOMING}
+                                    />
+                                </Scrollbars>
                             </Box>
                         </Box>
                         {/* Past appointments */}
@@ -109,11 +112,13 @@ export default function AppointmentsOverview({
                             <Heading size="lg" mt={6} mb={4}>
                                 Past
                             </Heading>
-                            <Box h={175} overflowY="auto">
-                                <AppointmentReminders
-                                    appointmentList={sortAppointments(SECTION.PAST)}
-                                    section={SECTION.PAST}
-                                />
+                            <Box h={175}>
+                                <Scrollbars>
+                                    <AppointmentReminders
+                                        appointmentList={sortAppointments(SECTION.PAST)}
+                                        section={SECTION.PAST}
+                                    />
+                                </Scrollbars>
                             </Box>
                         </Box>
                     </Box>
