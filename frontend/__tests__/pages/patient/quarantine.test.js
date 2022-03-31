@@ -46,11 +46,11 @@ describe("<Quarantine />", () => {
         });
 
         const wrapper = shallow(<Quarantine hasCovid />);
-        expect(wrapper.find(Text)).toHaveLength(183);
+        expect(wrapper.find(Text)).toHaveLength(185);
         expect(wrapper.find(Accordion)).toHaveLength(1);
         expect(wrapper.find(AccordionItem)).toHaveLength(3);
         expect(wrapper.find(Heading)).toHaveLength(10);
-        expect(wrapper.find(NavLink)).toHaveLength(24);
+        expect(wrapper.find(NavLink)).toHaveLength(25);
         expect(wrapper.find(Box)).toHaveLength(64);
         expect(wrapper.find("li")).toHaveLength(142);
         expect(wrapper.find("ul")).toHaveLength(50);

@@ -5,14 +5,14 @@ import { pastConditionsProps } from "@frontend/functions/create-status";
 
 interface ChartProps {
     data: unknown[];
-    w: number|undefined;
-    h: number|undefined;
+    w: number | undefined;
+    h: number | undefined;
 }
 
 export default function Chart({ data, w, h }: ChartProps) {
     data.forEach((d: unknown) => {
-        (d as pastConditionsProps).StatusTime = moment((d as pastConditionsProps).StatusTime).format('L');
-    })
+        (d as pastConditionsProps).StatusTime = moment((d as pastConditionsProps).StatusTime).format("L");
+    });
     return (
         <Box w={w} h={h}>
             <LineChart width={w} height={h} data={data}>
