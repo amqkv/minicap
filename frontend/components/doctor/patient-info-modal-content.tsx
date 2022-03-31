@@ -149,7 +149,7 @@ export default function PatientInfoModalContent({
                 </Center>
                 <Center>
                     <Box mt={4}>
-                        <LineChart data={formatPatientStatusData(patient.status)} w={550} h={300} />
+                        <LineChart data={formatPatientStatusData(patient.status)} w={400} h={300} />
                     </Box>
                 </Center>
             </Box>
