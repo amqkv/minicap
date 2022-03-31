@@ -10,13 +10,14 @@ export async function getServerSideProps(context: NextPageContext) {
     // Get information related to doctor for patient's page
     if (session?.user.Role === USER_ROLES.patient) {
         const response = await fetch(serverURL + `/patients/getAssignedDoctor/${session?.user.AccountId}`);
-        const doctorName = await response.json();
+        const doctor = await response.json();
         return {
             props: {
                 session,
-                pageId: `Conversation with Dr. ${doctorName.LastName}`,
+                pageId: `Conversation with Dr. ${doctor.LastName}`,
                 patient_accountId: session?.user.AccountId,
-                doctorName: doctorName.LastName,
+                doctor_accountId: doctor.AccountId,
+                doctorName: doctor.LastName,
             },
         };
     }
@@ -27,6 +28,7 @@ export async function getServerSideProps(context: NextPageContext) {
             session,
             pageId: `Conversation with ${context.query?.patientFirstName} ${context.query?.patientLastName}`,
             patient_accountId: context.query?.patientAccountId,
+            doctor_accountId: session?.user.AccountId,
             firstName: context.query?.patientFirstName,
             lastName: context.query?.patientLastName,
         },

@@ -5,13 +5,14 @@ import { useSession } from "next-auth/react";
 import useWebSockets from "../../hooks/use-web-sockets";
 
 export interface MessageBoxProps {
-    patient_accountId?: number;
+    patient_accountId: number;
+    doctor_accountId: number;
     firstName?: string;
     lastName?: string;
     doctorName?: string;
 }
 
-const MessageBox = ({ patient_accountId, firstName, lastName, doctorName }: MessageBoxProps) => {
+const MessageBox = ({ patient_accountId, doctor_accountId, firstName, lastName, doctorName }: MessageBoxProps) => {
     const { data: session } = useSession();
     const { messageList, send } = useWebSockets({
         patient_accountId: patient_accountId,
@@ -23,7 +24,10 @@ const MessageBox = ({ patient_accountId, firstName, lastName, doctorName }: Mess
         event.preventDefault();
         const messageInput = event.target[0];
         if (messageInput.value !== "") {
-            send(messageInput.value, session?.user.AccountId);
+            session?.user.Role === USER_ROLES.doctor &&
+                send(session?.user.AccountId, messageInput.value, session?.user.AccountId, patient_accountId);
+            session?.user.Role === USER_ROLES.patient &&
+                send(session?.user.AccountId, messageInput.value, doctor_accountId, session?.user.AccountId);
             messageInput.value = "";
         }
     }
@@ -70,8 +74,8 @@ const MessageBox = ({ patient_accountId, firstName, lastName, doctorName }: Mess
                                 backgroundColor: `#7A7777`,
                             },
                         }}>
-                        {messageList.map((messageContent, index) => {
-                            if (messageContent.author === session?.user.AccountId) {
+                        {messageList.map((message, index) => {
+                            if (message.Author_AccountId === session?.user.AccountId) {
                                 return (
                                     <Flex key={index}>
                                         <Text
@@ -83,7 +87,7 @@ const MessageBox = ({ patient_accountId, firstName, lastName, doctorName }: Mess
                                             mb="2"
                                             maxWidth="20rem"
                                             borderRadius={8}>
-                                            {messageContent.content}
+                                            {message.Content}
                                         </Text>
                                     </Flex>
                                 );
@@ -98,7 +102,7 @@ const MessageBox = ({ patient_accountId, firstName, lastName, doctorName }: Mess
                                             mb="2"
                                             maxWidth="20rem"
                                             borderRadius={8}>
-                                            {messageContent.content}
+                                            {message.Content}
                                         </Text>
                                     </Flex>
                                 );
