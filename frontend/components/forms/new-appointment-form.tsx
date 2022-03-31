@@ -1,6 +1,6 @@
-import { Box, Button, Flex, FormLabel, Heading, Select, Text, useToast } from "@chakra-ui/react";
+import { Box, Button, Flex, FormLabel, Heading, Select, useToast } from "@chakra-ui/react";
 import { serverURL } from "@frontend/config";
-import { APPOINTMENT_TIMESLOTS } from "@frontend/models/appointment";
+import { Appointment, APPOINTMENT_TIMESLOTS } from "@frontend/models/appointment";
 import { Patient, PatientBasicInformation } from "@frontend/models/patient";
 import { CSSProperties, useState } from "react";
 // const patientList = [
@@ -10,15 +10,19 @@ import { CSSProperties, useState } from "react";
 
 const defaultAppointmnent = { patientId: 0, date: "", time: "" };
 export default function NewAppointmentForm({
+    appointmentList,
     userId,
     patientList,
 }: {
+    appointmentList: Appointment[];
     userId: number;
     patientList: PatientBasicInformation[];
 }) {
     const [appointment, setAppointment] = useState(defaultAppointmnent);
     const datePickerStyle: CSSProperties = { border: "1px solid #e6e6e6", padding: "5px 10px", borderRadius: "6px" };
+    const today = new Date().toISOString().slice(0, 10);
     const toast = useToast();
+
     function selectPatient(patientId: string) {
         setAppointment({ ...appointment, patientId: parseInt(patientId) });
     }
@@ -26,9 +30,21 @@ export default function NewAppointmentForm({
     function pickDate(appointmentDate: string) {
         setAppointment({ ...appointment, date: appointmentDate });
     }
+
     function selectTime(time: string) {
         setAppointment({ ...appointment, time: time });
     }
+
+    function disableOption(timeslot: string) {
+        for (let i = 0; i < appointmentList.length; i++) {
+            console.log(appointmentList[i].date);
+            if (appointmentList[i].date === appointment.date && appointmentList[i].time === timeslot) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     async function scheduleAppointment() {
         console.log(appointment);
         if (appointment.patientId === 0 || appointment.date === "" || appointment.time === "") {
@@ -87,6 +103,7 @@ export default function NewAppointmentForm({
                         name="apt-date"
                         onChange={e => pickDate(e.target.value)}
                         style={datePickerStyle}
+                        min={today}
                     />
                     <FormLabel mx={3} fontSize="lg" htmlFor="apt-time">
                         at
@@ -98,7 +115,7 @@ export default function NewAppointmentForm({
                         maxWidth={150}
                         onChange={e => selectTime(e.target.value)}>
                         {APPOINTMENT_TIMESLOTS.map(timeslot => (
-                            <option key={timeslot} value={timeslot}>
+                            <option key={timeslot} value={timeslot} disabled={disableOption(timeslot)}>
                                 {timeslot}
                             </option>
                         ))}

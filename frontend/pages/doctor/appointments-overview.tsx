@@ -120,7 +120,7 @@ export default function AppointmentsOverview({
                 </Box>
             </Flex>
             <PatientInfoModal isOpen={isOpen} onClose={onClose}>
-                <NewAppointmentForm userId={userId} patientList={patientList} />
+                <NewAppointmentForm userId={userId} patientList={patientList} appointmentList={appointmentList} />
             </PatientInfoModal>
         </Box>
     );
