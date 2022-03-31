@@ -1,9 +1,10 @@
-import { Box, Center, Flex, Heading, ListItem, UnorderedList } from "@chakra-ui/react";
+import { Box, Button, Center, Flex, Heading, ListItem, UnorderedList, useDisclosure } from "@chakra-ui/react";
 import Card from "./card";
 import { links, link } from "@frontend/components/homepage/dashboard-structure";
 import { useSession } from "next-auth/react";
 import { USER_ROLES } from "@frontend/utils/constants";
 import DashboardCharts from "@frontend/components/homepage/dashboard-charts";
+import PatientInfoModal from "@frontend/components/modal/modal";
 
 export default function Dashboard({
     data,
@@ -17,6 +18,7 @@ export default function Dashboard({
     const { data: session } = useSession();
     const userRole = session?.user?.Role;
     const userName = session?.user?.FirstName + " " + session?.user?.LastName;
+    const { onOpen, isOpen, onClose } = useDisclosure();
 
     return (
         <>
@@ -30,21 +32,32 @@ export default function Dashboard({
                         {session?.user?.Role === USER_ROLES.patient && (
                             <Box margin={"20px 0px 30px 10%"}>
                                 <Heading size={"lg"}>Announcement:</Heading>
-                                <UnorderedList marginTop={"20px"}>
-                                    <ListItem>You have 0 new message.</ListItem>
-                                    {!statusFilled && (
-                                        <ListItem color="red">
-                                            You have not filled Today's status. Please fill it as soon as possible.
-                                        </ListItem>
-                                    )}
-                                    <ListItem>You can add or update today's status when clicking on forms.</ListItem>
-                                    <ListItem>
-                                        If you have tested positive for Covid-19, please consult quarantine information
-                                        page for further instructions.
-                                    </ListItem>
-                                </UnorderedList>
+                                <Flex>
+                                    <Box flex="1">
+                                        <UnorderedList marginTop={"20px"}>
+                                            <ListItem>You have 0 new message.</ListItem>
+                                            {!statusFilled && (
+                                                <ListItem color="red">
+                                                    You have not filled Today's status. Please fill it as soon as
+                                                    possible.
+                                                </ListItem>
+                                            )}
+                                            <ListItem>
+                                                You can add or update today's status when clicking on forms.
+                                            </ListItem>
+                                            <ListItem>
+                                                If you have tested positive for Covid-19, please consult quarantine
+                                                information page for further instructions.
+                                            </ListItem>
+                                        </UnorderedList>
+                                    </Box>
+                                    <Box flex="1">
+                                        <Button onClick={onOpen} marginTop={"20px"}>Confirm Appointment</Button>
+                                    </Box>
+                                </Flex>
                             </Box>
                         )}
+
                         <Center>
                             <Flex flexWrap={"wrap"}>
                                 <DashboardCharts role={userRole} data={data} stats={stats} />
@@ -57,6 +70,10 @@ export default function Dashboard({
                         </Center>
                     </Box>
                 </Flex>
+                {/* Appointment modal */}
+                <PatientInfoModal isOpen={isOpen} onClose={onClose}>
+                    <p> Hello </p>
+                </PatientInfoModal>
             </Box>
         </>
     );
