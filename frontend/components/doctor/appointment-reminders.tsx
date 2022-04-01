@@ -1,5 +1,5 @@
 import { Box, Center, Flex, Text } from "@chakra-ui/react";
-import { Appointment, APPOINTMENT_STATUS, Breakpoint, SECTION } from "@frontend/models/appointment";
+import { Appointment, APPOINTMENT_STATUS, SECTION } from "@frontend/models/appointment";
 import moment from "moment";
 import { Scrollbars } from "react-custom-scrollbars-2";
 
