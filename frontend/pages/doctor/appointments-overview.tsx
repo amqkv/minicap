@@ -11,7 +11,6 @@ import moment, { Moment } from "moment";
 import { MinusIcon } from "@chakra-ui/icons";
 import AppointmentCalendar from "@frontend/components/doctor/appointment-calendar";
 import { PatientBasicInformation } from "@frontend/models/patient";
-import { Scrollbars } from "react-custom-scrollbars-2";
 
 export async function getServerSideProps(context: any) {
     const session = await getSession(context);
@@ -37,6 +36,7 @@ export async function getServerSideProps(context: any) {
         },
     };
 }
+
 export default function AppointmentsOverview({
     appointmentList,
     patientList,
@@ -47,6 +47,10 @@ export default function AppointmentsOverview({
     userId: number;
 }) {
     const { onOpen, isOpen, onClose } = useDisclosure();
+    const reminderDimensions = {
+        upcomingH: ["400px", "400px", "250px", "250px"],
+        pastH: ["300px", "300px", "175px", "175px"],
+    };
 
     function sortAppointments(section: string): Appointment[] {
         const upcomingAppointments: Appointment[] = [];
@@ -78,7 +82,7 @@ export default function AppointmentsOverview({
                 </Box>
                 {/* Legend */}
                 <Box flex="1" h={650} minW={450}>
-                    <Box fontSize="lg" flex="1" h="10vh" mt={4}>
+                    <Box fontSize="lg" flex="1" h="10vh" mt={4} mb={4}>
                         <Text>
                             <MinusIcon w={6} h={6} color="green.200" mr={3} /> Confirmed
                         </Text>
@@ -98,27 +102,24 @@ export default function AppointmentsOverview({
                             <Button variant="ghost" onClick={onOpen} float="right">
                                 <BsCalendarPlus style={{ width: "25px", height: "25px" }} />
                             </Button>
-                            <Box h={{ sm: "400", md: "400", lg: "250" }} overflowX="hidden">
-                                <Scrollbars autoHide>
-                                    <AppointmentReminders
-                                        appointmentList={sortAppointments(SECTION.UPCOMING)}
-                                        section={SECTION.UPCOMING}
-                                    />
-                                </Scrollbars>
+                            <Box h={reminderDimensions.upcomingH}>
+                                <AppointmentReminders
+                                    appointmentList={sortAppointments(SECTION.UPCOMING)}
+                                    section={SECTION.UPCOMING}
+                                    dimensions={reminderDimensions.upcomingH}
+                                />
                             </Box>
                         </Box>
-                        {/* Past appointments */}
                         <Box>
                             <Heading size="lg" mt={6} mb={4}>
                                 Past
                             </Heading>
-                            <Box h={{ sm: "300", md: "300", lg: "175" }} overflowX="hidden">
-                                <Scrollbars autoHide>
-                                    <AppointmentReminders
-                                        appointmentList={sortAppointments(SECTION.PAST)}
-                                        section={SECTION.PAST}
-                                    />
-                                </Scrollbars>
+                            <Box h={reminderDimensions.pastH}>
+                                <AppointmentReminders
+                                    appointmentList={sortAppointments(SECTION.PAST)}
+                                    section={SECTION.PAST}
+                                    dimensions={reminderDimensions.pastH}
+                                />
                             </Box>
                         </Box>
                     </Box>

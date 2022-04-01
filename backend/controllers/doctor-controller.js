@@ -257,8 +257,6 @@ async function sendAppointmentEmail(req, res) {
 }
 
 async function makeAppointment(req, res) {
-    console.log(req.body);
-
     await db
         .query(
             `INSERT INTO Appointment(Patient_PatientId, Doctor_DoctorId, Date, Time, Status)
