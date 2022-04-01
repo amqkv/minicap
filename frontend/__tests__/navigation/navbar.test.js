@@ -9,7 +9,7 @@ import { IconButton, Stack } from "@chakra-ui/react";
 
 jest.mock("next-auth/react");
 // Using DOCTOR ROLE to test standard rendering.
-const numberOfDoctorNavLinks = 2;
+const numberOfDoctorNavLinks = 3;
 
 describe("<Navbar />", () => {
     it("renders a <Logo /> component and a Home <NavLink> when the user isn't logged in", () => {
@@ -60,11 +60,11 @@ describe("<Navbar />", () => {
             },
         });
         let wrapper = shallow(<NavBar />);
-		// Icon renders
-		expect(wrapper.find(IconButton)).toHaveLength(1);
-		expect(wrapper.find(Stack)).toHaveLength(0);
-		wrapper.find(IconButton).props().onClick();
-		expect(wrapper.find(Stack)).toHaveLength(1);
-		expect(wrapper.find(NavLink)).toHaveLength(numberOfDoctorNavLinks * 2);
+        // Icon renders
+        expect(wrapper.find(IconButton)).toHaveLength(1);
+        expect(wrapper.find(Stack)).toHaveLength(0);
+        wrapper.find(IconButton).props().onClick();
+        expect(wrapper.find(Stack)).toHaveLength(1);
+        expect(wrapper.find(NavLink)).toHaveLength(numberOfDoctorNavLinks * 2);
     });
 });
