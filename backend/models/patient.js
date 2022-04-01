@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 const db = require("../config/database");
-const Users = require("../models/user");
+const Users = require("./user");
 
 // Patient model associated with Database Patients table
 const Patient = db.define(
