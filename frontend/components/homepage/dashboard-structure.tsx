@@ -41,7 +41,7 @@ export const links: link[] = [
     },
     {
         label: "Appointments",
-        url: "#",
+        url: "doctor/appointments-overview",
         roleRequired: USER_ROLES.doctor,
         img: "https://imgur.com/eRLbmpq.png",
     },
@@ -57,7 +57,8 @@ export const links: link[] = [
         roleRequired: USER_ROLES.iOfficer,
         img: "https://imgur.com/eRLbmpq.png",
     },
-    { // temp admin images will make new ones later probably
+    {
+        // temp admin images will make new ones later probably
         label: "Manage Patients",
         url: "/admin/patient-list",
         roleRequired: USER_ROLES.admin,

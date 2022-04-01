@@ -34,7 +34,7 @@ describe("<PatientInfoCard/>", () => {
     });
     it("Renders the box borderColor gray if patient status hasn't been reviewed yet", () => {
         const patient = { ...DEFAULT_PATIENT };
-        patient.status[0].isReviewed = true;
+        patient.isAllReviewed = true;
         const notReviewedWrapper = shallow(<PatientInfoCard patient={patient} />);
         expect(notReviewedWrapper.find(Box).get(0).props).toHaveProperty("borderColor", "gray.200");
     });
