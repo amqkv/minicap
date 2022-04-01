@@ -52,7 +52,8 @@ export default function Dashboard({
                                         </UnorderedList>
                                     </Box>
                                     <Box flex="1">
-                                        <Button onClick={onOpen} marginTop={"20px"}>Confirm Appointment</Button>
+                                        <Heading size={'md'}>Your doctor has scheduled an appointment with you. Please confirm the appointment. </Heading>
+                                        <Button onClick={onOpen} marginTop={"5px"}>Confirm Appointment</Button>
                                     </Box>
                                 </Flex>
                             </Box>
