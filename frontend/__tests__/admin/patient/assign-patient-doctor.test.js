@@ -7,7 +7,7 @@ import PatientItem from "@frontend/components/admin/patient/patient-item";
 import usePatientDoctorData from "@frontend/hooks/use-patient-doctor-data";
 import PatientModal from "@frontend/components/admin/patient/patient-modal";
 import { shallow } from "enzyme";
-import { Box, RadioGroup, Spinner } from "@chakra-ui/react";
+import { Box, Spinner } from "@chakra-ui/react";
 import { PATIENT_INFO_SIMPLE, UNASSIGNED_PATIENT_INFO_SIMPLE } from "@frontend/__tests__/__mock__/mock";
 
 jest.mock("next-auth/react");

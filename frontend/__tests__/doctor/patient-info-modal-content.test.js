@@ -2,11 +2,25 @@ import { shallow } from "enzyme";
 import PatientInfoModalContent from "@frontend/components/doctor/patient-info-modal-content";
 import PatientDetailsToProvideForm from "@frontend/components/forms/patient-details-to-provide-form";
 import { DEFAULT_PATIENT } from "@frontend/models/patient";
-import { Box, Text, Divider, Heading, Flex, Button, Center } from "@chakra-ui/react";
+import { Box, Text, Divider, Heading, Flex, Button } from "@chakra-ui/react";
 import { WarningTwoIcon } from "@chakra-ui/icons";
 import { useSession } from "next-auth/react";
 import PatientInfoModalSwiper from "@frontend/components/doctor/patient-info-modal-swiper";
 jest.mock("next-auth/react");
+
+// jest.mock("@chakra-ui/react", () => {
+//     // --> Original module
+//     const originalModule = jest.requireActual("@chakra-ui/react");
+
+//     return {
+//         __esModule: true,
+//         ...originalModule,
+//         useToast: jest.fn().mockImplementation(() => ({})),
+//     };
+// });
+
+// // eslint-disable-next-line @typescript-eslint/no-var-requires
+// const mockToast = require("@chakra-ui/react").useToast;
 
 const unmockedFetch = global.fetch;
 
@@ -72,16 +86,20 @@ describe("<PatientInfoModalContent/>", () => {
         expect(w.find(WarningTwoIcon)).toHaveLength(1);
     });
     it("Calls modify priority button when priority flag is off", async () => {
+        const mutate = jest.fn();
         const component = shallow(
-            <PatientInfoModalContent patient={DEFAULT_PATIENT} onMutate={jest.fn} onClose={jest.fn} />
+            <PatientInfoModalContent patient={DEFAULT_PATIENT} onMutate={mutate} onClose={jest.fn} />
         );
         await component.find(Button).at(0).simulate("click");
+        expect(mutate.mock.calls).toHaveLength(1);
     });
     it("Calls modify priority button when priority flag is on", async () => {
+        const mutate = jest.fn();
         const component = shallow(
-            <PatientInfoModalContent patient={prioritizedPatient} onMutate={jest.fn} onClose={jest.fn} />
+            <PatientInfoModalContent patient={prioritizedPatient} onMutate={mutate} onClose={jest.fn} />
         );
         await component.find(Button).at(0).simulate("click");
+        expect(mutate.mock.calls).toHaveLength(1);
     });
     it("Calls modify priority button and return an error", async () => {
         global.fetch = jest.fn().mockImplementationOnce(() =>
@@ -96,6 +114,7 @@ describe("<PatientInfoModalContent/>", () => {
         );
 
         await component.find(Button).at(0).simulate("click");
+        expect(global.fetch).toBeCalled();
     });
     it("Calls review all button", async () => {
         const mutate = jest.fn();
@@ -104,7 +123,7 @@ describe("<PatientInfoModalContent/>", () => {
             <PatientInfoModalContent patient={prioritizedPatient} onMutate={mutate} onClose={close} />
         );
         await component.find("#review-all-button").at(0).simulate("click");
-        expect(mutate.mock.calls.length).toBe(1);
-        expect(close.mock.calls.length).toBe(1);
+        expect(mutate.mock.calls).toHaveLength(1);
+        expect(close.mock.calls).toHaveLength(1);
     });
 });
