@@ -6,9 +6,7 @@ import PatientDetailsToProvideForm from "../forms/patient-details-to-provide-for
 import LineChart from "@frontend/components/line-chart";
 import { formatPatientStatusData } from "@frontend/functions/data-transform-chart";
 import { useSession } from "next-auth/react";
-import { BOOLEANS } from "@frontend/utils/constants";
 import PatientInfoModalSwiper from "./patient-info-modal-swiper";
-import { useState } from "react";
 import { KeyedMutator } from "swr";
 
 export default function PatientInfoModalContent({

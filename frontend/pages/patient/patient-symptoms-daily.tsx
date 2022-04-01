@@ -8,39 +8,35 @@ import { NextPageContext } from "next";
 
 function getFieldsForPatient(requiredDetails: requiredDetails[]) {
     let temp: any = {};
-    requiredDetails.map((detail: any) => {
+    requiredDetails.map(detail => {
         temp = { ...temp, ...detail };
     });
     return temp;
 }
 
 export async function getServerSideProps(context: NextPageContext) {
-    let session = await getSession(context);
-    let userId = session?.user.AccountId;
+    const session = await getSession(context);
+    const userId = session?.user.AccountId;
     let requiredDetails: requiredDetails | null = null;
     let pastConditions = [];
     let statusChartData = [];
 
     if (session?.user.Role === USER_ROLES.patient) {
         try {
-
-            let response = await Promise.all([
+            const response = await Promise.all([
                 await fetch(serverURL + "/patients/getRequiredDetails/" + userId),
                 await fetch(serverURL + "/status/getAllStatus/" + userId),
                 await fetch(serverURL + "/status/getAllStatusChart/" + userId),
             ]);
 
-            let fetchData = await Promise.all([
-                response[0].json(),
-                response[1].json(),
-                response[2].json(),
-            ]);
+            const fetchData = await Promise.all([response[0].json(), response[1].json(), response[2].json()]);
 
             requiredDetails = getFieldsForPatient(fetchData[0]);
             pastConditions = fetchData[1];
             statusChartData = fetchData[2];
-
-        } catch {}
+        } catch {
+            console.log("There was an error loading the data.");
+        }
     }
 
     return {
@@ -55,7 +51,6 @@ export async function getServerSideProps(context: NextPageContext) {
 
 export default function PatientSymptomsDaily(props: PatientsFormsToFill) {
     const { data: session } = useSession();
-
     if (session?.user.Role === USER_ROLES.patient && props.requiredDetails) {
         return <PatientFormToFill {...props} />;
     } else if (session?.user.Role === USER_ROLES.patient) {
