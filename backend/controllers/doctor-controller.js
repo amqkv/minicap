@@ -222,6 +222,47 @@ async function reviewPatient(req, res) {
         });
 }
 
+async function getAppointmentsAndPatients(req, res) {
+    const patientList = await db.query(
+        `SELECT P.PatientId AS patientId, 
+            P.Doctor_DoctorID AS doctorId, 
+            U.FirstName AS firstName, 
+            U.LastName AS lastName,
+            U.Gender AS gender, 
+            DATEDIFF(YEAR, U.DateOfBirth, GETDATE()) AS age
+        FROM Patient P, Users U, Doctor D
+        WHERE D.User_AccountId=${req.params.userId} AND
+        P.Doctor_DoctorId= D.DoctorId AND
+        P.User_AccountId=U.AccountId`,
+        { type: QueryTypes.SELECT }
+    );
+    await db
+        .query(
+            `SELECT A.AppointmentId AS appointmentId, 
+                    A.Patient_PatientId AS patientId, 
+                    U.FirstName AS firstName,
+                    U.LastName AS lastName,
+                    DATEDIFF(YEAR, U.DateOfBirth, GETDATE()) AS age,
+                    U.Gender AS gender,
+                    A.Date AS date, 
+                    A.Time AS time,
+                    A.Status AS status
+                        FROM Appointment A, Doctor D, Users U, Patient P
+                        WHERE D.User_AccountId=${req.params.userId}
+                            AND A.Doctor_DoctorId=D.DoctorId
+                            AND U.AccountId=P.User_AccountId
+                            AND P.PatientID=A.Patient_PatientID
+                        ORDER BY 
+                                    CASE WHEN A.Date >= getdate() THEN A.Date + A.Time END ASC,
+                                    CASE WHEN A.Date < getdate() THEN A.Date + A.Time END DESC`,
+            { type: QueryTypes.SELECT }
+        )
+        .then(appointmentList => {
+            res.json({ appointmentList, patientList });
+        })
+        .catch(err => console.log(err));
+}
+
 async function makeAppointment(req, res) {
     await db
         .query(
@@ -270,47 +311,6 @@ async function makeAppointment(req, res) {
             console.log(err);
             res.status(404).send("Could not create appointment.");
         });
-}
-
-async function getAppointmentsAndPatients(req, res) {
-    const patientList = await db.query(
-        `SELECT P.PatientId AS patientId, 
-            P.Doctor_DoctorID AS doctorId, 
-            U.FirstName AS firstName, 
-            U.LastName AS lastName,
-            U.Gender AS gender, 
-            DATEDIFF(YEAR, U.DateOfBirth, GETDATE()) AS age
-        FROM Patient P, Users U, Doctor D
-        WHERE D.User_AccountId=${req.params.userId} AND
-        P.Doctor_DoctorId= D.DoctorId AND
-        P.User_AccountId=U.AccountId`,
-        { type: QueryTypes.SELECT }
-    );
-    await db
-        .query(
-            `SELECT A.AppointmentId AS appointmentId, 
-                    A.Patient_PatientId AS patientId, 
-                    U.FirstName AS firstName,
-                    U.LastName AS lastName,
-                    DATEDIFF(YEAR, U.DateOfBirth, GETDATE()) AS age,
-                    U.Gender AS gender,
-                    A.Date AS date, 
-                    A.Time AS time,
-                    A.Status AS status
-                        FROM Appointment A, Doctor D, Users U, Patient P
-                        WHERE D.User_AccountId=${req.params.userId}
-                            AND A.Doctor_DoctorId=D.DoctorId
-                            AND U.AccountId=P.User_AccountId
-                            AND P.PatientID=A.Patient_PatientID
-                        ORDER BY 
-                                    CASE WHEN A.Date >= getdate() THEN A.Date + A.Time END ASC,
-                                    CASE WHEN A.Date < getdate() THEN A.Date + A.Time END DESC`,
-            { type: QueryTypes.SELECT }
-        )
-        .then(appointmentList => {
-            res.json({ appointmentList, patientList });
-        })
-        .catch(err => console.log(err));
 }
 
 module.exports = {
