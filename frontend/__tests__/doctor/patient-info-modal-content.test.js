@@ -8,20 +8,6 @@ import { useSession } from "next-auth/react";
 import PatientInfoModalSwiper from "@frontend/components/doctor/patient-info-modal-swiper";
 jest.mock("next-auth/react");
 
-// jest.mock("@chakra-ui/react", () => {
-//     // --> Original module
-//     const originalModule = jest.requireActual("@chakra-ui/react");
-
-//     return {
-//         __esModule: true,
-//         ...originalModule,
-//         useToast: jest.fn().mockImplementation(() => ({})),
-//     };
-// });
-
-// // eslint-disable-next-line @typescript-eslint/no-var-requires
-// const mockToast = require("@chakra-ui/react").useToast;
-
 const unmockedFetch = global.fetch;
 
 beforeAll(() => {
