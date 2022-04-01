@@ -14,19 +14,19 @@ afterAll(() => {
 
 describe("Test get Patient details route ", () => {
     it("connect to /getRequiredDetails/:AccountId with valid patient id", () => {
-        const url = "/patients/getRequiredDetails/" + TEST_CONSTANTS.PATIENT_ACCOUNT.AccountId;
+        const url = `/patients/getRequiredDetails/${TEST_CONSTANTS.PATIENT_ACCOUNT.AccountId}`;
         return request(app).get(url).expect(200).expect("Content-Type", /json/);
     });
-    //@todo ERROR CATCHING IN THIS ROUTE
+    // @todo ERROR CATCHING IN THIS ROUTE
     it("connect to /getRequiredDetails/:AccountId with an invalid id", () => {
-        const url = "/patients/getRequiredDetails/" + TEST_CONSTANTS.PATIENT_ACCOUNT.AccountId;
-        return expect(true).toBe(true);
+        const url = `/patients/getRequiredDetails/9999999999999999999999999999999`;
+        return request(app).get(url).expect(400);
     });
 });
 
 describe("Test get patient hasCovid", () => {
     it("connect to /isPositive/:accountId with valid patient id", async () => {
-        const url = "/patients/isPositive/" + TEST_CONSTANTS.PATIENT_ACCOUNT.AccountId;
+        const url = `/patients/isPositive/${TEST_CONSTANTS.PATIENT_ACCOUNT.AccountId}`;
         const data = await request(app)
             .get(url)
             .expect(200)
@@ -36,7 +36,7 @@ describe("Test get patient hasCovid", () => {
     });
 
     it("connect to /isPositive/:accountId with invalid patient id", async () => {
-        const url = "/patients/isPositive/" + TEST_CONSTANTS.PATIENT_ACCOUNT.TESTER_ADMIN;
+        const url = `/patients/isPositive/${TEST_CONSTANTS.PATIENT_ACCOUNT.TESTER_ADMIN}`;
         const data = await request(app)
             .get(url)
             .expect(400)
