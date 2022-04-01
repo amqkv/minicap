@@ -22,12 +22,21 @@ const TEST_CONSTANTS = {
         AccountId: "828",
     },
     REJECTED_ACCOUNT: {
-        AccountId: "859",
+        AccountId: "1211",
+    },
+    APPOINTMENT_PATIENT_ACCOUNT: {
+        PatientId: "598",
+    },
+    INVALID_EMAIL_ACCOUNT: {
+        PatientId: "599",
     },
     // Status for the review test
     STATUS_TEST_ID: 2,
     // Patient for the review test
     STATUS_PATIENT_ID: 27,
+    DOCTOR_ACCOUNT: {
+        AccountId: "1202",
+    },
 };
 
 // Email used to send rejection to rejected users

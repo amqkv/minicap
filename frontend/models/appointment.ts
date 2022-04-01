@@ -55,3 +55,5 @@ export const APPOINTMENT_DETAILS = {
     endHour: 0,
     endMinute: 0,
 };
+
+export const DEFAULT_APPOINTMENT = { patientId: 0, date: "", time: "" };

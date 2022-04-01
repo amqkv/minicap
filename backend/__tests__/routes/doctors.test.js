@@ -1,8 +1,9 @@
 const request = require("supertest");
 const app = require("../../index");
 const db = require("../../config/database");
-const constants = require("../../utils/constants");
 const Patient = require("../../models/patient");
+const Appointment = require("../../models/appointment");
+const { TEST_CONSTANTS, BOOLEANS } = require("../../utils/constants");
 
 beforeAll(() => {
     // test DB
@@ -64,7 +65,7 @@ describe("PATCH: update the priority of a patient as a doctor", () => {
     afterAll(async () => {
         await Patient.update(
             {
-                IsPrioritized: constants.BOOLEANS.FALSE,
+                IsPrioritized: BOOLEANS.FALSE,
             },
             {
                 where: {
@@ -78,7 +79,7 @@ describe("PATCH: update the priority of a patient as a doctor", () => {
         const data = {
             accountId: 239,
             patientId: 7,
-            isPrioritized: constants.BOOLEANS.TRUE,
+            isPrioritized: BOOLEANS.TRUE,
         };
         await request(app).patch("/doctors/updatePriority").send(data).expect(200);
     });
@@ -87,7 +88,7 @@ describe("PATCH: update the priority of a patient as a doctor", () => {
         const data = {
             accountId: 239,
             patientId: 0,
-            isPrioritized: constants.BOOLEANS.TRUE,
+            isPrioritized: BOOLEANS.TRUE,
         };
         await request(app).patch("/doctors/updatePriority").send(data).expect(400);
     });
@@ -103,7 +104,7 @@ describe("PATCH: update the priority of a patient as a doctor", () => {
     it("Returns 500: Priority not updated due to missing patient attribute", async () => {
         const data = {
             accountId: 239,
-            isPrioritized: constants.BOOLEANS.TRUE,
+            isPrioritized: BOOLEANS.TRUE,
         };
         await request(app).patch("/doctors/updatePriority").send(data).expect(500);
     });
@@ -112,8 +113,37 @@ describe("PATCH: update the priority of a patient as a doctor", () => {
         const data = {
             accountId: 51,
             patiendId: 3,
-            isPrioritized: constants.BOOLEANS.TRUE,
+            isPrioritized: BOOLEANS.TRUE,
         };
         await request(app).patch("/doctors/updatePriority").send(data).expect(401);
+    });
+});
+
+describe("POST: makeAppointment - Adding a new appointment", () => {
+    it("Returns code 200 if appointment has been created successfully", async () => {
+        const testAppointment = {
+            patientId: TEST_CONSTANTS.APPOINTMENT_PATIENT_ACCOUNT.PatientId,
+            date: "2022-03-03",
+            time: "9:00 - 9:30",
+        };
+        await request(app).post("/doctors/makeAppointment/109").send(testAppointment).expect(200);
+        await Appointment.destroy({ where: { Patient_PatientId: testAppointment.patientId } });
+    });
+
+    it("Returns code 404 if user does not exist", async () => {
+        const testAppointment = {
+            patientId: 23617826387126,
+            date: "2022-03-03",
+            time: "9:00 - 9:30",
+        };
+        await request(app).post("/doctors/makeAppointment/109").send(testAppointment).expect(404);
+    });
+});
+
+describe("GET: getAppointmentsAndPatients", () => {
+    it("Returns code 200 and object of appointments & patients if user is a doctor", async () => {
+        await request(app)
+            .get(`/doctors/getAppointmentsAndPatients/${TEST_CONSTANTS.DOCTOR_ACCOUNT.AccountId}`)
+            .expect(200);
     });
 });

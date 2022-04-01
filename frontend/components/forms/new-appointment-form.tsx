@@ -1,10 +1,9 @@
 import { Box, Button, Flex, FormLabel, Heading, Select, useToast } from "@chakra-ui/react";
 import { serverURL } from "@frontend/config";
-import { Appointment, APPOINTMENT_TIMESLOTS } from "@frontend/models/appointment";
+import { Appointment, APPOINTMENT_TIMESLOTS, DEFAULT_APPOINTMENT } from "@frontend/models/appointment";
 import { PatientBasicInformation } from "@frontend/models/patient";
 import { CSSProperties, useState } from "react";
 
-const defaultAppointmnent = { patientId: 0, date: "", time: "" };
 export default function NewAppointmentForm({
     appointmentList,
     userId,
@@ -14,7 +13,7 @@ export default function NewAppointmentForm({
     userId: number;
     patientList: PatientBasicInformation[];
 }) {
-    const [appointment, setAppointment] = useState(defaultAppointmnent);
+    const [appointment, setAppointment] = useState(DEFAULT_APPOINTMENT);
     const datePickerStyle: CSSProperties = { border: "1px solid #e6e6e6", padding: "5px 10px", borderRadius: "6px" };
     const today = new Date().toISOString().slice(0, 10);
     const toast = useToast();
@@ -33,7 +32,6 @@ export default function NewAppointmentForm({
 
     function disableOption(timeslot: string) {
         for (let i = 0; i < appointmentList.length; i++) {
-            console.log(appointmentList[i].date);
             if (appointmentList[i].date === appointment.date && appointmentList[i].time === timeslot) {
                 return true;
             }
@@ -42,7 +40,6 @@ export default function NewAppointmentForm({
     }
 
     async function scheduleAppointment() {
-        console.log(appointment);
         if (appointment.patientId === 0 || appointment.date === "" || appointment.time === "") {
             toast({
                 title: "Form incomplete! All fields need to be filled.",
@@ -66,7 +63,6 @@ export default function NewAppointmentForm({
                 window.location.reload();
             });
         }
-        console.log(appointment);
     }
 
     return (
