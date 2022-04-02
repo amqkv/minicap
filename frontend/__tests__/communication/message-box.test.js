@@ -60,22 +60,8 @@ describe("Test the message-box access", () => {
 });
 
 describe("Test rendering of different element on message box page", () => {
-    const doctorUser = {
-        patient_accountId: 51,
-        doctor_accountId: 109,
-        firstName: "TestFirstName",
-        lastName: "TestLastName",
-    };
-
     it("When signed in as a doctor", () => {
-        let wrapper = shallow(
-            <MessageBox
-                patient_accountId={doctorUser.patient_accountId}
-                doctor_accountId={doctorUser.doctor_accountId}
-                firstName={doctorUser.firstName}
-                lastName={doctorUser.lastName}
-            />
-        );
+        let wrapper = shallow(<MessageBox />);
         expect(wrapper.find(Input)).toHaveLength(1);
         expect(wrapper.find(Button)).toHaveLength(1);
     });

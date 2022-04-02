@@ -14,7 +14,7 @@ export async function getServerSideProps(context: NextPageContext) {
         return {
             props: {
                 session,
-                pageId: `Conversation with Dr. ${doctor.LastName}`,
+                pageId: `Conversation`,
                 patient_accountId: session?.user.AccountId,
                 doctor_accountId: doctor.AccountId,
                 doctorName: doctor.LastName,
@@ -26,7 +26,7 @@ export async function getServerSideProps(context: NextPageContext) {
     return {
         props: {
             session,
-            pageId: `Conversation with ${context.query?.patientFirstName} ${context.query?.patientLastName}`,
+            pageId: `Conversation`,
             patient_accountId: context.query?.patientAccountId,
             doctor_accountId: session?.user.AccountId,
             firstName: context.query?.patientFirstName,
