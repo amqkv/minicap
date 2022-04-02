@@ -119,3 +119,39 @@ describe("PATCH: update the priority of a patient as a doctor", () => {
         await request(app).patch("/doctors/updatePriority").send(data).expect(401);
     });
 });
+
+describe("Doctor's Patient Dashboard Info", () => {
+    it("Loads the data to be presented in the dashboard", async () => {
+        const userId = constants.DOCTOR_TEST_SUBJECTS.DOCTOR_INFO.AccountId;
+        await request(app)
+            .get(`/doctors/getPatientsDashboardInfo/${userId}`)
+            .expect("Content-Type", /json/)
+            .expect(200)
+            .then(response => {
+                expect(response.body).toEqual(
+                    expect.objectContaining({
+                        allPatientCnt: expect.any(Number),
+                        highTempPatientCnt: expect.any(Number),
+                    })
+                );
+            });
+    });
+});
+
+describe("Doctor Review Patient", () => {
+    it("Mark the patient status as reviewed", async () => {
+        const data = {
+            patientId: constants.DOCTOR_TEST_SUBJECTS.PATIENT_THREE.Patient_Id,
+        };
+        await request(app).patch("/doctors/reviewPatient").send(data).expect(200);
+    });
+    it("Fails to Mark the patient status as reviewed as the patient does not exists", async () => {
+        const data = {
+            patientId: constants.TEST_CONSTANTS.INVALID_ACCOUNT_ID,
+        };
+        await request(app).patch("/doctors/reviewPatient").send(data).expect(400);
+    });
+    it("Fails to Mark the patient status as reviewed since no data is sent", async () => {
+        await request(app).patch("/doctors/reviewPatient").expect(500);
+    });
+});
