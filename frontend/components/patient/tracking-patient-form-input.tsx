@@ -1,9 +1,9 @@
-import { Flex } from "@chakra-ui/react";
+import { CloseButton, Flex } from "@chakra-ui/react";
 import StandardInput from "../inputs/standard-input";
 
 export default function TrackPatientForm() {
     return (
-        <Flex >
+        <Flex>
             <StandardInput
                 style={{ width: "15%" }}
                 name="First Name"
@@ -24,6 +24,7 @@ export default function TrackPatientForm() {
                 placeholder="Enter Date of Contact"
                 label="Date of Contact"
             />
+            <CloseButton />
         </Flex>
     );
 }
