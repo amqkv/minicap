@@ -9,14 +9,13 @@ const { communication } = require("../../routes/communication");
 const Communication = require("../../models/communication");
 
 beforeAll(async () => {
-    // test DB
     await db.authenticate();
 });
 afterAll(async () => {
     // Delete messages created during test
     await Communication.destroy({
         where: {
-            Content: "shishkebab",
+            Content: TEST_CONSTANTS.MESSAGE_DATA_TEST.Content,
         },
     });
     // Closing the DB connection allows Jest to exit successfully.
@@ -64,18 +63,11 @@ describe("Web socket connection and functionalities", () => {
     });
 
     it("send message", async () => {
-        const messageData = {
-            Content: "shishkebab",
-            Doctor_AccountId: 109,
-            Patient_AccountId: 51,
-            Author_AccountId: 51,
-        };
         await io.on("connection", socket => {
             socket.on("send_message", arg => {
-                expect(arg).toEqual(messageData);
-                // done();
+                expect(arg).toEqual(TEST_CONSTANTS.MESSAGE_DATA_TEST);
             });
-            clientSocket.emit("send_message", messageData);
+            clientSocket.emit("send_message", TEST_CONSTANTS.MESSAGE_DATA_TEST);
         });
     });
 });

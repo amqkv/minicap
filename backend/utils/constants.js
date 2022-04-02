@@ -31,6 +31,12 @@ const TEST_CONSTANTS = {
     STATUS_TEST_ID: 2,
     // Patient for the review test
     STATUS_PATIENT_ID: 27,
+    MESSAGE_DATA_TEST: {
+        Content: "random_message_453212322446158",
+        Doctor_AccountId: 109,
+        Patient_AccountId: 51,
+        Author_AccountId: 51,
+    },
 };
 
 // Email used to send rejection to rejected users
