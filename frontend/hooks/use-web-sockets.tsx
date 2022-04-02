@@ -27,7 +27,6 @@ const useWebSockets = ({ patient_accountId, enabled }: Props) => {
         fetch(serverURL + `/communication/getMessage/${patient_accountId}`)
             .then(response => response.json())
             .then(pastMessages => {
-                console.log("past messages", pastMessages);
                 setMessageList(pastMessages);
             });
     }

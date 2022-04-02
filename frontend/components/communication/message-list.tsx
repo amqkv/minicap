@@ -37,7 +37,6 @@ const MessageList = ({ sessionId }: appProps) => {
     return (
         <Fragment>
             {isLoading && <Spinner />}
-            {isError && <p id="error-message"> There is an error </p>}
             {!!patientNames && (
                 <Box px={{ base: 0, sm: 1, md: 4, lg: 1 }} py={5}>
                     <Container my={2} py={2} bg="gray.300" borderRadius={7}>

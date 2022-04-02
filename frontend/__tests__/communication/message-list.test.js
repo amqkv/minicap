@@ -2,6 +2,7 @@ import React from "react";
 import { useSession } from "next-auth/react";
 import MessageListPage from "@frontend/pages/communication/message-list";
 import MessageList from "@frontend/components/communication/message-list";
+import UserRowCard from "@frontend/components/admin/user-row-card";
 import { USER_ROLES } from "@frontend/utils/constants";
 import { Spinner } from "@chakra-ui/react";
 import { shallow } from "enzyme";
@@ -77,7 +78,7 @@ describe("Test rendering of Message list", () => {
         //When
         const wrapper = shallow(<MessageList />);
         //Then
-        expect(wrapper.find("UserRowCard")).toHaveLength(2);
+        expect(wrapper.find(UserRowCard)).toHaveLength(2);
     });
     it("render spinner when loading", () => {
         //Given
@@ -90,5 +91,17 @@ describe("Test rendering of Message list", () => {
         const wrapper = shallow(<MessageList />);
         //Then
         expect(wrapper.find(Spinner)).toHaveLength(1);
+    });
+    it("render error", () => {
+        //Given
+        usePatientNameList.mockReturnValue({
+            patientNames: {},
+            isLoading: false,
+            isError: true,
+        });
+        //When
+        const wrapper = shallow(<MessageList />);
+        //Then
+        expect(wrapper.contains(<p> There is an error </p>)).toEqual(true);
     });
 });
