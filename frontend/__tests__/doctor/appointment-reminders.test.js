@@ -1,36 +1,16 @@
 import { shallow } from "enzyme";
 import AppointmentReminders from "@frontend/components/doctor/appointment-reminders";
 import { Box, Text, Flex, Center } from "@chakra-ui/react";
-import { APPOINTMENT_STATUS, SECTION } from "@frontend/models/appointment";
+import {
+    MOCK_APPOINTMENT,
+    MOCK_APPOINTMENT_TODAY,
+    MOCK_APPOINTMENT_TOMORROW,
+    MOCK_APPOINTMENT_YESTERDAY,
+    SECTION,
+} from "@frontend/models/appointment";
 import { Scrollbars } from "react-custom-scrollbars-2";
-import moment from "moment";
 
-describe("<AppointmentCalendar/>", () => {
-    const MOCK_APPOINTMENT = {
-        appointmentId: 0,
-        patientId: 0,
-        firstName: "Mock",
-        lastName: "Patient",
-        age: 0,
-        gender: "Female",
-        date: "2022-01-01",
-        time: "10:00 - 10:30",
-        status: APPOINTMENT_STATUS.CONFIRMED,
-    };
-    const MOCK_APPOINTMENT_TOMORROW = {
-        ...MOCK_APPOINTMENT,
-        date: moment().add(1, "days").format("YYYY-MM-DD"),
-        status: APPOINTMENT_STATUS.DECLINED,
-    };
-    const MOCK_APPOINTMENT_YESTERDAY = {
-        ...MOCK_APPOINTMENT,
-        date: moment().add(-1, "days").format("YYYY-MM-DD"),
-        status: APPOINTMENT_STATUS.PENDING,
-    };
-    const MOCK_APPOINTMENT_TODAY = {
-        ...MOCK_APPOINTMENT,
-        date: moment().format("YYYY-MM-DD"),
-    };
+describe("<AppointmentReminders/>", () => {
     const testAppointmentList = [
         MOCK_APPOINTMENT,
         MOCK_APPOINTMENT_TODAY,

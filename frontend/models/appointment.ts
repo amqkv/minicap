@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export interface Appointment {
     doctorId?: number;
     appointmentId: number;
@@ -57,3 +59,29 @@ export const APPOINTMENT_DETAILS = {
 };
 
 export const DEFAULT_APPOINTMENT = { patientId: 0, date: "", time: "" };
+
+export const MOCK_APPOINTMENT = {
+    appointmentId: 0,
+    patientId: 0,
+    firstName: "Mock",
+    lastName: "Patient",
+    age: 0,
+    gender: "Female",
+    date: "2022-01-01",
+    time: "10:00 - 10:30",
+    status: APPOINTMENT_STATUS.CONFIRMED,
+};
+export const MOCK_APPOINTMENT_TOMORROW = {
+    ...MOCK_APPOINTMENT,
+    date: moment().add(1, "days").format("YYYY-MM-DD"),
+    status: APPOINTMENT_STATUS.DECLINED,
+};
+export const MOCK_APPOINTMENT_YESTERDAY = {
+    ...MOCK_APPOINTMENT,
+    date: moment().add(-1, "days").format("YYYY-MM-DD"),
+    status: APPOINTMENT_STATUS.PENDING,
+};
+export const MOCK_APPOINTMENT_TODAY = {
+    ...MOCK_APPOINTMENT,
+    date: moment().format("YYYY-MM-DD"),
+};
