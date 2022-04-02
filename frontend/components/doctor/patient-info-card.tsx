@@ -12,7 +12,7 @@ export default function PatientInfoCard({ patient, clickHandler }: { patient: Pa
             borderWidth="2px"
             borderRadius="lg"
             overflow="hidden"
-            borderColor={!patient.status[0].isReviewed ? "red.100" : "gray.200"}
+            borderColor={!patient.isAllReviewed ? "red.100" : "gray.200"}
             shadow="md"
             mx={10}
             height="100%"

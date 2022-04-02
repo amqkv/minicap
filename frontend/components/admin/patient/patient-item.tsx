@@ -23,7 +23,8 @@ const PatientItem = ({ onPatientSelect, patientInfoSimple }: AppProps) => {
                 paddingStart={14}
                 py={3}
                 display={{ md: "flex" }}
-                onClick={onClickHandler}>
+                onClick={onClickHandler}
+                _hover={{ cursor: "pointer" }}>
                 <p className={classes.rowFont}>
                     {patientInfoSimple.lastName}, {patientInfoSimple.firstName}
                 </p>
