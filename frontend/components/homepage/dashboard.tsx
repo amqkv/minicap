@@ -10,10 +10,12 @@ export default function Dashboard({
     data,
     stats,
     statusFilled,
+    appointmentConfirmation,
 }: {
     data: unknown[];
     stats: { unassignedPatientsCount: number; pendingCount: number };
     statusFilled: boolean;
+    appointmentConfirmation: unknown[]; 
 }) {
     const { data: session } = useSession();
     const userRole = session?.user?.Role;

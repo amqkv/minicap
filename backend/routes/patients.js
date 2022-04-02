@@ -15,8 +15,12 @@ router.get("/isPositive/:accountId", (req, res) => {
     patientController.isPositive(req, res);
 });
 
-router.get("/getAppointmentForPatients/:patientId", (req, res) => {
+router.get("/getAppointmentForPatients/:accountId", (req, res) => {
     patientController.getAppointmentForPatients(req, res);
+});
+
+router.patch("/appointmentConfirmation", (req, res) => {
+    patientController.appointmentConfirmation(req, res);
 });
 
 module.exports = {

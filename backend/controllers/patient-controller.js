@@ -2,6 +2,7 @@ const RequiredDetails = require("../models/required-details");
 const Patient = require("../models/patient");
 const db = require("../config/database");
 const { QueryTypes } = require("sequelize");
+const Appointment = require("../models/appointment");
 
 async function getRequiredDetails(req, res) {
     const { PatientId } = await Patient.findOne({
@@ -47,19 +48,34 @@ async function isPositive(req, res) {
 }
 
 async function getAppointmentForPatients(req, res) {
+    const { PatientId } = await Patient.findOne({
+        raw: true,
+        where: { User_AccountId: req.params.accountId },
+    });
+    console.log(PatientId);
+
     const patientAppointment = await db.query(
         ` SELECT *
         FROM Appointment A
-        WHERE A.Patient_PatientId = ${req.params.patientId} AND 
-        A.Status = 'pending'`, 
+        WHERE A.Patient_PatientId = ${PatientId} AND 
+        A.Status = 'pending'`,
         { type: QueryTypes.SELECT }
     );
-    console.log("WE got the appointment");
     res.status(200).json(patientAppointment);
+}
+
+async function appointmentConfirmation(req, res) {
+    Appointment.update({ Status: req.body.confirm }, 
+        { where: { AppointmentId: req.body.appointmentId } })
+        .then(success => {
+            res.json("good job");
+        })
+        .catch(err => console.log(err));
 }
 
 module.exports = {
     getRequiredDetails,
     isPositive,
     getAppointmentForPatients,
+    appointmentConfirmation,
 };

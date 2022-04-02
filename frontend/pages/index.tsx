@@ -15,19 +15,24 @@ export const getServerSideProps: GetServerSideProps = async context => {
     let data: unknown[] = [];
     let userId = session?.user.AccountId;
     let statusOfTheDay = [];
+    let appointmentConfirmation = [];
     const today = moment().format().substring(0, 10);
     let statusFilled = true;
-
+    
     if (role === USER_ROLES.patient) {
         let response = await Promise.all([
             fetch(serverURL + "/status/getAllStatusChart/" + userId),
             fetch(serverURL + "/status/getAllStatus/" + userId),
+            fetch(serverURL + "/patients/getAppointmentForPatients/" + userId),
         ]);
-        let fetchData = await Promise.all([response[0].json(), response[1].json()]);
+        let fetchData = await Promise.all([response[0].json(), response[1].json(), response[2].json()]);
         data = fetchData[0];
         statusOfTheDay = fetchData[1];
+        appointmentConfirmation = fetchData[2];
+
         statusFilled = statusOfTheDay[0].StatusTime.substring(0, 10) === today;
     }
+
     let stats: { unassignedPatientsCount: number; pendingCount: number } = {
         unassignedPatientsCount: NaN,
         pendingCount: NaN,
@@ -48,6 +53,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
             data,
             statusFilled,
             stats,
+            appointmentConfirmation
         },
     };
 };
@@ -56,14 +62,16 @@ export default function Home({
     data,
     stats,
     statusFilled,
+    appointmentConfirmation,
 }: {
     data: unknown[];
     stats: { unassignedPatientsCount: number; pendingCount: number };
     statusFilled: boolean;
+    appointmentConfirmation: unknown[];
 }) {
     const { data: session } = useSession();
     if (session) {
-        return <Dashboard data={data} stats={stats} statusFilled={statusFilled} />;
+        return <Dashboard data={data} stats={stats} statusFilled={statusFilled} appointmentConfirmation={appointmentConfirmation} />;
     }
 
     return (
