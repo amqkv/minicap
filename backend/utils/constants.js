@@ -30,6 +30,9 @@ const TEST_CONSTANTS = {
     PATIENT_ACCOUNT: {
         AccountId: "1201", // constant-patient-main@dontmodify.com
     },
+    COVID_PATIENT: {
+        AccountId: "1191", // constant-covid-switch@dontmodify.com
+    },
     UPDATE_ROLE_ACCOUNT: {
         AccountId: "828", // jfupdatetest@test.com
     },
