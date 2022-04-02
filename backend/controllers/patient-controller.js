@@ -47,6 +47,7 @@ async function isPositive(req, res) {
     }
 }
 
+// return all pending appointment for a certain patient
 async function getAppointmentForPatients(req, res) {
     const { PatientId } = await Patient.findOne({
         raw: true,
@@ -64,11 +65,13 @@ async function getAppointmentForPatients(req, res) {
     res.status(200).json(patientAppointment);
 }
 
+// update appointment status for the patient
 async function appointmentConfirmation(req, res) {
     Appointment.update({ Status: req.body.confirm }, 
-        { where: { AppointmentId: req.body.appointmentId } })
+        { where: { AppointmentId: req.body.appointmentId } 
+    })
         .then(success => {
-            res.json("good job");
+            res.json("Appointment status updated");
         })
         .catch(err => console.log(err));
 }

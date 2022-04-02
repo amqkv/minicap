@@ -1,10 +1,20 @@
-import { Box, Button, Center, Flex, Heading, ListItem, UnorderedList, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, Center, Flex, Heading, ListItem, UnorderedList, useDisclosure, useToast } from "@chakra-ui/react";
 import Card from "./card";
 import { links, link } from "@frontend/components/homepage/dashboard-structure";
 import { useSession } from "next-auth/react";
 import { USER_ROLES } from "@frontend/utils/constants";
 import DashboardCharts from "@frontend/components/homepage/dashboard-charts";
 import PatientInfoModal from "@frontend/components/modal/modal";
+import ConfirmAppointment from "./confirm-appointment";
+
+export interface AppointmentInfo {
+    AppointmentId: number;
+    Date: string;
+    Time: string;
+    Doctor_DoctorId: number;
+    Patient_PatientId: number;
+    Status: string;
+}
 
 export default function Dashboard({
     data,
@@ -15,12 +25,15 @@ export default function Dashboard({
     data: unknown[];
     stats: { unassignedPatientsCount: number; pendingCount: number };
     statusFilled: boolean;
-    appointmentConfirmation: unknown[]; 
+    appointmentConfirmation: unknown[];
 }) {
     const { data: session } = useSession();
     const userRole = session?.user?.Role;
     const userName = session?.user?.FirstName + " " + session?.user?.LastName;
     const { onOpen, isOpen, onClose } = useDisclosure();
+    const appointmentList = appointmentConfirmation;
+    
+
 
     return (
         <>
@@ -54,8 +67,19 @@ export default function Dashboard({
                                         </UnorderedList>
                                     </Box>
                                     <Box flex="1">
-                                        <Heading size={'md'}>Your doctor has scheduled an appointment with you. Please confirm the appointment. </Heading>
-                                        <Button onClick={onOpen} marginTop={"5px"}>Confirm Appointment</Button>
+                                        {appointmentConfirmation.length ? (
+                                            <>
+                                                <Heading size={"md"}>
+                                                    Your doctor has scheduled an appointment with you. Please confirm
+                                                    the appointment.
+                                                </Heading>
+                                                <Button onClick={onOpen} marginTop={"5px"}>
+                                                    Confirm Appointment
+                                                </Button>
+                                            </>
+                                        ) : (
+                                            <></>
+                                        )}
                                     </Box>
                                 </Flex>
                             </Box>
@@ -75,7 +99,30 @@ export default function Dashboard({
                 </Flex>
                 {/* Appointment modal */}
                 <PatientInfoModal isOpen={isOpen} onClose={onClose}>
-                    <p> Hello </p>
+                    <Box p="3" mb={"5"}>
+                        <Heading size={"xl"} mb="3">
+                            Your doctor requests a meeting
+                        </Heading>
+                        <Heading size={"md"} mb="3">
+                            You may confirm or decline the appointment time
+                        </Heading>
+
+                        {/*TODO: fix any. appointment doesnt work? */}
+                        {appointmentList.map(( appointment: AppointmentInfo ) => {
+                            // formating
+                            let time = appointment.Time.replace("-", "to");
+                            let date = appointment.Date;
+                            console.log(appointment)
+                            return (
+                                <ConfirmAppointment
+                                    time={time}
+                                    date={date}
+                                    appointment={appointment}
+                                    appointmentId={appointment.AppointmentId}
+                                />
+                            );
+                        })}
+                    </Box>
                 </PatientInfoModal>
             </Box>
         </>
