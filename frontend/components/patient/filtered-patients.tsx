@@ -13,9 +13,9 @@ interface Option {
 }
 
 interface ListPatientsProps {
-    options: string[];
+    options?: string[];
     children?: ReactNode;
-    placerholderText?: string;
+    placeholderText?: string;
     sort: string;
     changeSort: (key: string) => void;
     ascending: boolean;
@@ -29,6 +29,7 @@ interface ListPatientsProps {
 const buttonProps = {
     variant: "outline",
     size: "lg",
+    marginBottom: "10px",
 };
 
 const possibleOptions = {
@@ -64,7 +65,7 @@ const possibleOptions = {
 };
 
 export default function ListPatients({
-    options,
+    options = [],
     children,
     sort,
     changeSort,
@@ -73,14 +74,14 @@ export default function ListPatients({
     filterValue,
     filterKey,
     changeFilter,
-    placerholderText,
+    placeholderText,
     legend,
 }: ListPatientsProps) {
     const buttons = options.map((filterOption: string) => {
         const { key, text, type, icon, value }: Option = (possibleOptions as any)[filterOption];
         if (type === "sort")
             return (
-                <Button key={key} {...buttonProps} onClick={() => changeSort(key)} marginBottom="10px">
+                <Button key={text} {...buttonProps} onClick={() => changeSort(key)}>
                     {text}
                     {sort === key && ascending ? (
                         <ArrowUpIcon marginLeft="10px" />
@@ -92,6 +93,7 @@ export default function ListPatients({
         else if (type === "filter" && value)
             return (
                 <Button
+                    key={text}
                     {...buttonProps}
                     onClick={() => changeFilter(key, value)}
                     background={filterKey === key && filterValue === value ? MAIN_COLOR : "white"}>
@@ -105,7 +107,7 @@ export default function ListPatients({
         <Box>
             <Box flex="1">
                 <Input
-                    placeholder={placerholderText}
+                    placeholder={placeholderText}
                     marginBottom="20px"
                     width="100%"
                     size="lg"

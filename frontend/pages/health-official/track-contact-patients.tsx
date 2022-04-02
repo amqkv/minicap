@@ -33,6 +33,7 @@ const UserListPage = ({ patients }: { patients: PatientBasicInformation[] }) => 
         filterValue,
         filterKey,
         changeFilter,
+        placeholder:'Enter a name or an email',
         options: ["alphabetical", "number", "date"],
     };
 

@@ -61,7 +61,7 @@ describe("<Dashboard />", () => {
         });
         const wrapper = shallow(<Dashboard data={mockData} />);
         expect(wrapper.find(Heading)).toHaveLength(2);
-        expect(wrapper.find(Card)).toHaveLength(3);
+        expect(wrapper.find(Card)).toHaveLength(4);
     });
 
     it("renders a <Dashboard /> component when ADMIN user is logged in", () => {

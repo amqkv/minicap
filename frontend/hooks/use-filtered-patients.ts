@@ -3,7 +3,7 @@ import { PatientBasicInformation } from "@frontend/models/patient";
 import { filter } from "@frontend/functions/sorting-filtering";
 
 export default function useFilteredPatients(patients: PatientBasicInformation[]) {
-    const [sort, setSort] = useState("firstName");
+    const [sort, setSort] = useState("lastName");
     const [ascending, setAscending] = useState(true);
     const [filterValue, setFilterValue] = useState("");
     const [filterKey, setFilterKey] = useState("");
