@@ -7,10 +7,14 @@ jest.mock("@chakra-ui/react", () => {
     // --> Original module
     const originalModule = jest.requireActual("@chakra-ui/react");
 
+    const fakeToast = { toast: jest.fn() };
+
     return {
         __esModule: true,
         ...originalModule,
-        useToast: jest.fn().mockImplementation(() => ({})),
+        useToast: jest.fn().mockImplementation(() => {
+            return fakeToast;
+        }),
     };
 });
 
