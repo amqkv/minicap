@@ -20,9 +20,10 @@ import {
     AccordionIcon,
     AccordionPanel,
     Center,
+    CloseButton,
 } from "@chakra-ui/react";
-import StandardInput from "@frontend/components/inputs/standard-input";
 import TrackPatientForm from "@frontend/components/patient/tracking-patient-form-input";
+import React, { useState } from "react";
 
 export async function getServerSideProps(context: NextPageContext) {
     const session = await getSession(context);
@@ -37,64 +38,36 @@ export async function getServerSideProps(context: NextPageContext) {
 }
 
 export default function PositivePatientsTrackerForm() {
-    return (
-        <Flex p={{ base: "0px", md: "50px" }} minWidth="100%">
-            <Accordion defaultIndex={[0]} allowMultiple size="100%" defaultIsOpen>
-                <AccordionItem >
-                    <h2>
-                        <AccordionButton>
-                            <Box flex="1" textAlign="left">
-                                Person 1
-                            </Box>
-                            <AccordionIcon />
-                        </AccordionButton>
-                    </h2>
-                    <AccordionPanel pb={4}>
-                        <form>
-                            <Flex >
-                                <TrackPatientForm />
-                            </Flex>
-                        </form>
-                    </AccordionPanel>
-                </AccordionItem>
+    const [components, setComponents] = useState([<TrackPatientForm />]);
 
-                <AccordionItem>
-                    <h2>
-                        <AccordionButton>
-                            <Box flex="1" textAlign="left">
-                                Person 2
-                            </Box>
-                            <AccordionIcon />
-                        </AccordionButton>
-                    </h2>
-                    <AccordionPanel pb={4}>
-                        <form>
-                            <Flex>
-                                <TrackPatientForm />
-                            </Flex>
-                        </form>
-                    </AccordionPanel>
-                </AccordionItem>
-                <Flex marginTop="20px" alignItems={"center"} justifyContent={"center"}>
-                    <Button
-                        w="15%"
-                        color={"white"}
-                        backgroundColor={MAIN_COLOR}
-                        _hover={{ opacity: "80%" }}
-                        type="submit"
-                        marginRight="15px">
-                        Add User
-                    </Button>
-                    <Button
-                        w="15%"
-                        color={"white"}
-                        backgroundColor={MAIN_COLOR}
-                        _hover={{ opacity: "80%" }}
-                        type="submit">
-                        Submit Form
-                    </Button>
-                </Flex>
-            </Accordion>
+    function addComponent() {
+        setComponents([...components, <TrackPatientForm />]);
+    }
+
+    // ??? no clue how to remove a component
+    function removeComponent() {}
+
+    return (
+        <Flex p={{ base: "0px", md: "50px" }} flexDirection="column">
+            {components.map((item, i) => (
+                <TrackPatientForm />
+            ))}
+
+            <Flex marginTop="20px" alignItems={"center"} justifyContent={"center"}>
+                <Button
+                    w="15%"
+                    color={"white"}
+                    backgroundColor={MAIN_COLOR}
+                    _hover={{ opacity: "80%" }}
+                    type="submit"
+                    marginRight="15px"
+                    onClick={addComponent}>
+                    Add User
+                </Button>
+                <Button w="15%" color={"white"} backgroundColor={MAIN_COLOR} _hover={{ opacity: "80%" }} type="submit">
+                    Submit Form
+                </Button>
+            </Flex>
         </Flex>
     );
 }
