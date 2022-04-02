@@ -43,6 +43,9 @@ const TEST_CONSTANTS = {
     STATUS_TEST_ID: 2,
     // Patient for the review test
     STATUS_PATIENT_ID: 27,
+    PATIENT_WITH_STATUS: {
+        AccountId: "51",
+    },
     INVALID_ACCOUNT_ID: "0",
 };
 
