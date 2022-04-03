@@ -1,3 +1,5 @@
+const { QueryTypes } = require("sequelize");
+const db = require("../config/database");
 const RequiredDetails = require("../models/required-details");
 const Patient = require("../models/patient");
 
@@ -59,8 +61,27 @@ async function isPositive(req, res) {
     }
 }
 
+async function getName(req, res) {
+    try {
+        const name = await db.query(
+            `SELECT U.FirstName as firstName, U.LastName as lastName
+            FROM Users U, Patient P
+            WHERE U.AccountId = P.User_AccountId AND P.PatientId = ${req.params.id}`,
+            {
+                raw: true,
+                type: QueryTypes.SELECT,
+            }
+        );
+        if (name[0].firstName === "") throw new Error();
+        res.status(200).json(name[0]);
+    } catch {
+        res.status(400).json(false);
+    }
+}
+
 module.exports = {
     getRequiredDetails,
-    //updateRequiredDetails,
+    // updateRequiredDetails,
     isPositive,
+    getName,
 };

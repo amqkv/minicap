@@ -1,3 +1,5 @@
+const WEBSITE_NAME = "CoCo Tracker";
+
 const ROLE = {
     ADMIN: "Admin",
     DOCTOR: "Doctor",
@@ -49,4 +51,5 @@ module.exports = {
     BOOLEANS,
     MOMENT_TIMEZONE_ADJUSTMENT,
     ADMIN_EMAIL_ACCOUNT,
+    WEBSITE_NAME,
 };

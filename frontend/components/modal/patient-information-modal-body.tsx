@@ -1,6 +1,8 @@
 import { Box, Flex, Heading, Divider, Image, Text } from "@chakra-ui/react";
+import { PatientBasicInformation } from "@frontend/models/patient";
 
-export default function PatientInformationModalBody({ patient }: any) {
+export default function PatientInformationModalBody({ patient }: { patient: PatientBasicInformation | null }) {
+    if (!patient) return null;
     return (
         <>
             <Box>
@@ -10,8 +12,8 @@ export default function PatientInformationModalBody({ patient }: any) {
                         <Heading>
                             {patient?.firstName} {patient?.lastName}
                         </Heading>
-                        <Text fontSize="md">Gender: {patient?.gender}</Text>
-                        <Text fontSize="md">Date of birth: {patient?.dob}</Text>
+                        {patient?.gender && <Text fontSize="md">Gender: {patient?.gender}</Text>}
+                        {patient?.dob && <Text fontSize="md">Date of birth: {patient?.dob}</Text>}
                         {/* <Text fontSize="md">Admitted on: TODO</Text> */}
                     </Box>
                 </Flex>
@@ -21,16 +23,22 @@ export default function PatientInformationModalBody({ patient }: any) {
                 <Heading as="h4" size="md" paddingBottom="5px">
                     More Information:
                 </Heading>
-                <Text fontSize="md" p="5px 0">
-                    Address: {patient?.address} {", "}
-                    {patient?.city} {patient?.postalCode}
-                </Text>
-                <Text fontSize="md" p="5px 0">
-                    Email: {patient?.email}
-                </Text>
-                <Text fontSize="md" p="5px 0">
-                    Telephone: {patient?.phoneNumber}
-                </Text>
+                {patient?.address && patient?.city && patient?.postalCode && (
+                    <Text fontSize="md" p="5px 0">
+                        Address: {patient?.address} {", "}
+                        {patient?.city} {patient?.postalCode}
+                    </Text>
+                )}
+                {patient?.email && (
+                    <Text fontSize="md" p="5px 0">
+                        Email: {patient?.email}
+                    </Text>
+                )}
+                {patient?.phoneNumber && (
+                    <Text fontSize="md" p="5px 0">
+                        Telephone: {patient?.phoneNumber}
+                    </Text>
+                )}
             </Box>
         </>
     );

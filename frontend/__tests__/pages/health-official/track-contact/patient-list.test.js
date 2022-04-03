@@ -20,7 +20,7 @@ describe("health official list of contactpage", () => {
                 },
             },
         });
-        const wrapper = shallow(<UserListPage patients={IMMIGRATION_OFFICER_MOCK_PATIENTS} />);
+        const wrapper = shallow(<UserListPage contacts={IMMIGRATION_OFFICER_MOCK_PATIENTS} />);
 
         expect(wrapper.find("p")).toHaveLength(1);
         expect(wrapper.find("p").text()).toBe("Access Denied");
@@ -34,14 +34,14 @@ describe("health official list of contactpage", () => {
                 },
             },
         });
-        const wrapper = shallow(<UserListPage patients={IMMIGRATION_OFFICER_MOCK_PATIENTS} />);
+        const wrapper = shallow(<UserListPage contacts={IMMIGRATION_OFFICER_MOCK_PATIENTS} />);
 
         expect(wrapper.find(Box)).toHaveLength(1);
         expect(wrapper.find(FilteredPatients)).toHaveLength(1);
         expect(wrapper.find(Text)).toHaveLength(2);
         expect(wrapper.find(Flex)).toHaveLength(3);
         expect(wrapper.find(Button)).toHaveLength(2);
-        expect(wrapper.find(Button).at(0).text()).toBe("Invalid Contact");
+        expect(wrapper.find(Button).at(0).text()).toBe("Delete Contact");
         expect(wrapper.find(Button).at(1).text()).toBe("Send Email");
         expect(wrapper.find(Divider)).toHaveLength(1);
         expect(wrapper.find(Modal)).toHaveLength(1);
@@ -56,11 +56,11 @@ describe("health official list of contactpage", () => {
                 },
             },
         });
-        const wrapper = shallow(<UserListPage patients={IMMIGRATION_OFFICER_MOCK_PATIENTS} />);
+        const wrapper = shallow(<UserListPage contacts={IMMIGRATION_OFFICER_MOCK_PATIENTS} id={566} />);
         expect(wrapper.find(Modal).prop("isOpen")).toBeFalsy();
         // index 0 is Flex for search input.
         const userRow = wrapper.find(Flex).at(0);
-        userRow.props().onClick();
+        userRow.props().onClick({});
         wrapper.update();
         expect(wrapper.find(Modal).prop("isOpen")).toBeTruthy();
     });

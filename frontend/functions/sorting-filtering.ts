@@ -14,10 +14,10 @@ export function filter({ searchText, arr, sort, filterValue, filterKey, ascendin
 
     function compare(a: any, b: any) {
         // filtered normally a to z
-        if (a[sort].toLowerCase() < b[sort].toLowerCase()) {
+        if (a[sort].toString().toLowerCase() < b[sort].toString().toLowerCase()) {
             return -1;
         }
-        if (a[sort].toLowerCase() > b[sort].toLowerCase()) {
+        if (a[sort].toString().toLowerCase() > b[sort].toString().toLowerCase()) {
             return 1;
         }
         return 0;
@@ -25,10 +25,10 @@ export function filter({ searchText, arr, sort, filterValue, filterKey, ascendin
 
     function compareReverse(a: any, b: any) {
         // filtered normally a to z
-        if (a[sort].toLowerCase() < b[sort].toLowerCase()) {
+        if (a[sort].toString().toLowerCase() < b[sort].toString().toLowerCase()) {
             return 1;
         }
-        if (a[sort].toLowerCase() > b[sort].toLowerCase()) {
+        if (a[sort].toString().toLowerCase() > b[sort].toString().toLowerCase()) {
             return -1;
         }
         return 0;

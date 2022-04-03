@@ -37,7 +37,7 @@ describe("health official list of contactpage", () => {
         expect(wrapper.find(Box)).toHaveLength(1);
         expect(wrapper.find(FilteredPatients)).toHaveLength(1);
         expect(wrapper.find(NavLink)).toHaveLength(2);
-        expect(wrapper.find(Text)).toHaveLength(6);
+        expect(wrapper.find(Text)).toHaveLength(4);
         expect(wrapper.find(Flex)).toHaveLength(2);
     });
 });

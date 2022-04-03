@@ -7,15 +7,19 @@ import inputStyling from "@frontend/components/inputs/input-styling";
 import FilteredPatients from "@frontend/components/patient/filtered-patients";
 import NavLink from "@frontend/components/navigation/navlink";
 import { PatientBasicInformation } from "@frontend/models/patient";
+import { serverURL } from "@frontend/config";
 
 export async function getServerSideProps(context: NextPageContext) {
     const session = await getSession(context);
+
+    const response = await fetch(serverURL + "/contact-person/getTrackContacts");
+    const patients: PatientBasicInformation[] = await response.json();
 
     return {
         props: {
             session,
             pageId: "List of Patients",
-            patients: [],
+            patients,
         },
     };
 }
@@ -33,15 +37,15 @@ const UserListPage = ({ patients }: { patients: PatientBasicInformation[] }) => 
         filterValue,
         filterKey,
         changeFilter,
-        placeholder:'Enter a name or an email',
-        options: ["alphabetical", "number", "date"],
+        placeholder: "Enter a name or an email",
+        options: ["alphabetical", "number"],
     };
 
     if (session?.user.Role === USER_ROLES.hOfficial) {
         return (
             <Box padding={{ base: " 5% 2%", md: "2% 15%" }}>
                 <FilteredPatients {...filteredPatientsListProps}>
-                    {filteredPatients.map(({ firstName, lastName, id, number, date }: PatientBasicInformation) => (
+                    {filteredPatients.map(({ firstName, lastName, id, number }: PatientBasicInformation) => (
                         <NavLink key={id} url={"/health-official/track-contact/" + id}>
                             <Flex key={id} {...inputStyling}>
                                 <Text fontSize="2xl" flex={1}>
@@ -49,9 +53,6 @@ const UserListPage = ({ patients }: { patients: PatientBasicInformation[] }) => 
                                 </Text>
                                 <Text fontSize="2xl" flex={1} textAlign="center">
                                     ({number})
-                                </Text>
-                                <Text fontSize="2xl" flex={1} textAlign="end">
-                                    {date}
                                 </Text>
                             </Flex>
                         </NavLink>

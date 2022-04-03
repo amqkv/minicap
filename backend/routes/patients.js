@@ -15,9 +15,13 @@ router.get("/getRequiredDetails/:accountId", (req, res) => {
 //     patientController.updateRequiredDetails(req, res);
 // });
 
-//know if the patient is positive or negative
+// know if the patient is positive or negative
 router.get("/isPositive/:accountId", (req, res) => {
     patientController.isPositive(req, res);
+});
+
+router.get("/getName/:id", (req, res) => {
+    patientController.getName(req, res);
 });
 
 module.exports = {
