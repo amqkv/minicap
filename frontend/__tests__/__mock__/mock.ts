@@ -137,7 +137,7 @@ export const STATUS_VALUES: StatusParameters = {
     statusTime: time,
 };
 
-export const MOCK_DATA = [
+export const MOCK_DATA_SYMPTOMS = [
     {
         Temperature: 37,
         StatusTime: "03/09/2022",

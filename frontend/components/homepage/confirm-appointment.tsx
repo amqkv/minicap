@@ -29,7 +29,14 @@ export default function ConfirmAppointment(appointment: appointmentFormat) {
             window.location.reload();
         })
         .catch(err => {
-            console.log(err);
+            toast({
+                title: "Appointment update error!",
+                description: "There was an issue. Try again.",
+                status: "error",
+                duration: 1000,
+                isClosable: true,
+            });
+            window.location.reload();
         })
     }
 
@@ -51,7 +58,14 @@ export default function ConfirmAppointment(appointment: appointmentFormat) {
             window.location.reload();
         })
         .catch(err => {
-            console.log(err);
+            toast({
+                title: "Appointment update error!",
+                description: "There was an issue. Try again.",
+                status: "error",
+                duration: 1000,
+                isClosable: true,
+            });
+            window.location.reload();
         })
     }
     

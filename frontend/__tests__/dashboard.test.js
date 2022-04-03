@@ -4,7 +4,7 @@ import { Heading } from "@chakra-ui/react";
 import Card from "@frontend/components/homepage/card";
 import { useSession } from "next-auth/react";
 import { USER_ROLES } from "@frontend/utils/constants";
-import { MOCK_DATA, MOCK_CONFIRMED_APPOINTMENT } from "@frontend/__tests__/__mock__/mock";
+import { MOCK_DATA_SYMPTOMS, MOCK_CONFIRMED_APPOINTMENT } from "@frontend/__tests__/__mock__/mock";
 jest.mock("next-auth/react");
 
 const unmockedFetch = global.fetch;
@@ -29,7 +29,7 @@ describe("<Dashboard />", () => {
                 },
             },
         });
-        const wrapper = shallow(<Dashboard data={MOCK_DATA} appointmentConfirmation={MOCK_CONFIRMED_APPOINTMENT} />);
+        const wrapper = shallow(<Dashboard data={MOCK_DATA_SYMPTOMS} appointmentConfirmation={MOCK_CONFIRMED_APPOINTMENT} />);
         expect(wrapper.find(Heading)).toHaveLength(5);
         expect(wrapper.find(Card)).toHaveLength(2);
     });

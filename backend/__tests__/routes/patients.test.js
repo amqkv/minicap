@@ -20,10 +20,10 @@ describe("Test get Patient details route ", () => {
     });
 
     // @todo ERROR CATCHING IN THIS ROUTE
-    it("connect to /getRequiredDetails/:AccountId with an invalid id", () => {
-        const url = `/patients/getRequiredDetails/${TEST_CONSTANTS.PATIENT_ACCOUNT.AccountId}`;
-        return expect(true).toBe(true);
-    });
+    // it("connect to /getRequiredDetails/:AccountId with an invalid id", () => {
+    //     const url = `/patients/getRequiredDetails/${TEST_CONSTANTS.PATIENT_ACCOUNT.AccountId}`;
+    //     return expect(true).toBe(true);
+    // });
 });
 
 describe("GET: get assigned doctor of current patient", () => {
@@ -60,26 +60,40 @@ describe("Test get patient hasCovid", () => {
 });
 
 describe("GET: Test getAppointmentForPatients route ", () => {
-    it("connect to /getAppointmentForPatients/:AccountId with valid patient id", () => {
+    it("connect to /getAppointmentForPatients/:AccountId with valid patient id", async () => {
         const url = "/patients/getAppointmentForPatients/" + TEST_CONSTANTS.PATIENT_ACCOUNT.AccountId;
-        return request(app).get(url).expect(200).expect("Content-Type", /json/);
-    });
-
-    it("connect to /getAppointmentForPatients/:AccountId with invalid patient id", () => {
-        const url = "/patients/getAppointmentForPatients/" + 1;
-        return expect(true).toBe(true);
+        const response = await request(app).get(url);
+        expect(response.body).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    AppointmentId: expect.any(Number),
+                    Patient_PatientId: expect.any(Number),
+                    Doctor_DoctorId: expect.any(Number),
+                    Date: expect.any(String),
+                    Time: expect.any(String),
+                    Status: expect.any(String),
+                }),
+            ])
+        );
     });
 });
 
 describe("GET: Test getConfirmedAppointments route ", () => {
-    it("connect to /getConfirmedAppointments/:AccountId with valid patient id", () => {
+    it("connect to /getConfirmedAppointments/:AccountId with valid patient id", async () => {
         const url = "/patients/getConfirmedAppointments/" + TEST_CONSTANTS.PATIENT_ACCOUNT.AccountId;
-        return request(app).get(url).expect(200).expect("Content-Type", /json/);
-    });
-
-    it("connect to /getConfirmedAppointments/:AccountId with invalid patient id", () => {
-        const url = "/patients/getConfirmedAppointments/" + 1;
-        return expect(true).toBe(true);
+        const response = await request(app).get(url);
+        expect(response.body).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    AppointmentId: expect.any(Number),
+                    Patient_PatientId: expect.any(Number),
+                    Doctor_DoctorId: expect.any(Number),
+                    Date: expect.any(String),
+                    Time: expect.any(String),
+                    Status: expect.any(String),
+                }),
+            ])
+        );
     });
 });
 
