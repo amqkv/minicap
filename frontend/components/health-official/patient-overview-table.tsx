@@ -1,12 +1,11 @@
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
-import { Patient } from "@frontend/models/patient";
+import { Patient, Patient_HealthOfficial } from "@frontend/models/patient";
 
-export default function PatientOverviewTable({ patientList }: { patientList: Patient[] }) {
-    const highTemperaturePatientList = patientList.filter(patient => patient.status[0].temperature.value >= 38);
-    const flaggedPatientList = patientList.filter(patient => patient.isPrioritized);
-    const malePatientList = patientList.filter(patient => patient.basicInformation.gender === "Male");
-    const femalePatientList = patientList.filter(patient => patient.basicInformation.gender === "Female");
-    const unreviewedPatientList: Patient[] = patientList.filter(patient => !patient.isAllReviewed);
+export default function PatientOverviewTable({ patientList }: { patientList: Patient_HealthOfficial[] }) {
+    const highTemperaturePatientList = patientList.filter(patient => patient?.status[0]?.temperature.value >= 38);
+    const flaggedPatientList = patientList.filter(patient => patient?.isPrioritized);
+    const malePatientList = patientList.filter(patient => patient?.gender === "Male");
+    const femalePatientList = patientList.filter(patient => patient?.gender === "Female");
 
     return (
         <Table colorScheme="red">
@@ -21,10 +20,6 @@ export default function PatientOverviewTable({ patientList }: { patientList: Pat
                 </Tr>
             </Thead>
             <Tbody>
-                <Tr>
-                    <Td>Unreviewed</Td>
-                    <Td isNumeric>{unreviewedPatientList.length}</Td>
-                </Tr>
                 <Tr>
                     <Td>High temperature</Td>
                     <Td isNumeric>{highTemperaturePatientList.length}</Td>

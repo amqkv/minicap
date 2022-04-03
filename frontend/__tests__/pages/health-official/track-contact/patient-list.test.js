@@ -60,8 +60,10 @@ describe("health official list of contactpage", () => {
         expect(wrapper.find(Modal).prop("isOpen")).toBeFalsy();
         // index 0 is Flex for search input.
         const userRow = wrapper.find(Flex).at(0);
+
         userRow.props().onClick({});
         wrapper.update();
+
         expect(wrapper.find(Modal).prop("isOpen")).toBeTruthy();
     });
 });

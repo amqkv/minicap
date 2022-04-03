@@ -5,6 +5,7 @@ import { Fragment, useState } from "react";
 import PatientList from "../list";
 import PatientItem from "./patient-item";
 import PatientModal from "./patient-modal";
+import { Scrollbars } from "react-custom-scrollbars-2";
 
 interface AppProps {
     sessionId: number;
@@ -44,63 +45,51 @@ const PatientLists = ({ sessionId }: AppProps) => {
             {isError && <p id="error-message"> There is an error </p>}
 
             {!isError && !isLoading && (
-                <Box px={{ base: 0, sm: 1, md: 4, lg: 1 }} py={5}>
-                    <Box
-                        overflowY={{ base: "auto", md: "scroll" }}
-                        overflowX={"hidden"}
-                        maxHeight="70vh"
-                        paddingX={4}
-                        sx={{
-                            "&::-webkit-scrollbar": {
-                                width: "5px",
-                                borderRadius: "8px",
-                                backgroundColor: `#D5D4D4`,
-                            },
-                            "&::-webkit-scrollbar-thumb": {
-                                backgroundColor: `#7A7777`,
-                            },
-                        }}>
+                <Box px={{ base: 0, sm: 1, md: 4, lg: 1 }} py={5} height={700}>
+                    <Box height={"100vh"} overflowX={"hidden"} maxHeight="70vh" paddingX={4}>
                         {/* Patient List created for each doctor */}
                         {/* First one at the top being the unassigned patients */}
-                        <PatientList
-                            style={{
-                                py: 2,
-                                m: 0,
-                                alignItems: "left",
-                            }}
-                            key={0}
-                            title="Unassigned Patients"
-                            length={unassignedPatientInfo.length}>
-                            {unassignedPatientInfo.map(item => (
-                                <PatientItem
-                                    onPatientSelect={patientSelectedHandler}
-                                    key={item.accountId}
-                                    patientInfoSimple={item}
-                                />
-                            ))}
-                        </PatientList>
+                        <Scrollbars autoHide>
+                            <PatientList
+                                style={{
+                                    py: 2,
+                                    m: 0,
+                                    alignItems: "left",
+                                }}
+                                key={0}
+                                title="Unassigned Patients"
+                                length={unassignedPatientInfo.length}>
+                                {unassignedPatientInfo.map(item => (
+                                    <PatientItem
+                                        onPatientSelect={patientSelectedHandler}
+                                        key={item.accountId}
+                                        patientInfoSimple={item}
+                                    />
+                                ))}
+                            </PatientList>
 
-                        {assignedPatientInfo.map(doctor => {
-                            return (
-                                <PatientList
-                                    style={{
-                                        py: 2,
-                                        m: 0,
-                                        alignItems: "left",
-                                    }}
-                                    key={doctor.accountId}
-                                    title={`${doctor.lastName}, ${doctor.firstName}`}
-                                    length={doctor.patients.length}>
-                                    {doctor.patients.map(item => (
-                                        <PatientItem
-                                            onPatientSelect={patientSelectedHandler}
-                                            key={item.accountId}
-                                            patientInfoSimple={item}
-                                        />
-                                    ))}
-                                </PatientList>
-                            );
-                        })}
+                            {assignedPatientInfo.map(doctor => {
+                                return (
+                                    <PatientList
+                                        style={{
+                                            py: 2,
+                                            m: 0,
+                                            alignItems: "left",
+                                        }}
+                                        key={doctor.accountId}
+                                        title={`${doctor.lastName}, ${doctor.firstName}`}
+                                        length={doctor.patients.length}>
+                                        {doctor.patients.map(item => (
+                                            <PatientItem
+                                                onPatientSelect={patientSelectedHandler}
+                                                key={item.accountId}
+                                                patientInfoSimple={item}
+                                            />
+                                        ))}
+                                    </PatientList>
+                                );
+                            })}
+                        </Scrollbars>
                     </Box>
                 </Box>
             )}

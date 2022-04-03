@@ -41,7 +41,7 @@ export const links: link[] = [
     },
     {
         label: "Appointments",
-        url: "#",
+        url: "doctor/appointments-overview",
         roleRequired: USER_ROLES.doctor,
         img: "https://imgur.com/eRLbmpq.png",
     },

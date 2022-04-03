@@ -1,10 +1,10 @@
 import { PieChartData, ScatterChartData, ScatterChartDataDetails } from "@frontend/models/chart-data";
-import { Patient, PatientStatus, StatusDataProps } from "@frontend/models/patient";
+import { Patient, PatientStatus, Patient_HealthOfficial, StatusDataProps } from "@frontend/models/patient";
 import { DAY } from "@frontend/utils/constants";
 import moment from "moment";
 
 // Extracting all statuses from patients object
-export function extractStatuses(patientList: Patient[]) {
+export function extractStatuses(patientList: Patient[] | Patient_HealthOfficial[]) {
     const statusesArr: PatientStatus[] = [];
     patientList.map(patient => {
         patient.status.map(status => {

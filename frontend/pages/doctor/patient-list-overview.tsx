@@ -142,7 +142,7 @@ export default function DoctorDashboard() {
                             </RadioGroup>
                         </Box>
 
-                        <SimpleGrid minChildWidth="400px" rowGap={5} columnGap={2}>
+                        <SimpleGrid templateColumns={"repeat(auto-fit, minmax(400px, 1fr))"} columnGap={2} rowGap={5}>
                             {/* Changed the way list are shown, otherwise these lists don't update on changes */}
                             {filterOption === FILTER_OPTIONS.NONE && (
                                 <PatientList
