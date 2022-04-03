@@ -1,5 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import Check from "../../public/svg/check-mark.svg";
+import Cross from "../../public/svg/cross.svg";
+
 import { useState } from "react";
 
 interface AppProps {
@@ -7,19 +9,19 @@ interface AppProps {
 
     color: string;
     onClicking: () => void;
-    isUnfillable?: string;
+    isUncheckable?: string;
 }
 
-const CheckMark = ({ isColored, color, onClicking, isUnfillable }: AppProps) => {
-    const [isFilled, setIsFilled] = useState(isColored);
+const CheckMark = ({ isColored, color, onClicking, isUncheckable }: AppProps) => {
+    const [isChecked, setIsChecked] = useState(isColored);
 
     const clickHandler = () => {
-        if (isUnfillable === "true") {
+        if (isUncheckable === "true") {
             onClicking();
-            setIsFilled(!isFilled);
-        } else if (isUnfillable === "false" && isFilled === false) {
+            setIsChecked(!isChecked);
+        } else if (isUncheckable === "false" && isChecked === false) {
             onClicking();
-            setIsFilled(true);
+            setIsChecked(true);
         } else {
             return;
         }
@@ -27,7 +29,8 @@ const CheckMark = ({ isColored, color, onClicking, isUnfillable }: AppProps) => 
 
     return (
         <Box onClick={clickHandler}>
-            <Check fill={isFilled ? color : "black"} />
+            {isChecked && <Check fill={color} />}
+            {!isChecked && <Cross fill={"#E53945"} />}
         </Box>
     );
 };
