@@ -50,6 +50,17 @@ const mockData = [
     },
 ];
 
+const mockAppointment = [
+    {
+        AppointmentId: 68,
+        Patient_PatientId: 522,
+        Doctor_DoctorId: 3,
+        Date: "2022-04-17",
+        Time: "11:30 - 12:00",
+        Status: "confirmed",
+    },
+];
+
 describe("<Dashboard />", () => {
     it("renders a <Dashboard /> component when PATIENT user is logged in", () => {
         useSession.mockReturnValue({
@@ -59,9 +70,9 @@ describe("<Dashboard />", () => {
                 },
             },
         });
-        const wrapper = shallow(<Dashboard data={mockData} />);
-        expect(wrapper.find(Heading)).toHaveLength(2);
-        expect(wrapper.find(Card)).toHaveLength(3);
+        const wrapper = shallow(<Dashboard data={mockData} appointmentConfirmation={mockAppointment} />);
+        expect(wrapper.find(Heading)).toHaveLength(5);
+        expect(wrapper.find(Card)).toHaveLength(2);
     });
 
     it("renders a <Dashboard /> component when ADMIN user is logged in", () => {
@@ -72,7 +83,7 @@ describe("<Dashboard />", () => {
                 },
             },
         });
-        const component = shallow(<Dashboard data={[]} />);
-        expect(component.find(Heading)).toHaveLength(1);
+        const component = shallow(<Dashboard data={[]} appointmentConfirmation={[]}/>);
+        expect(component.find(Heading)).toHaveLength(3);
     });
 });
