@@ -1,8 +1,8 @@
 import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 import { Box, Button, Flex,Icon,Spacer,Text, useToast  } from "@chakra-ui/react";
 import { serverURL } from "@frontend/config";
+import moment from "moment";
 
-// date:string, time:string
 export default function ConfirmAppointment(appointment: any) {
     const toast = useToast();
     
@@ -51,11 +51,20 @@ export default function ConfirmAppointment(appointment: any) {
         })
     }
 
+    const year = appointment.date.substring(0,4);
+    const month = appointment.date.substring(5,7);
+    const day = appointment.date.substring(8,10);
+
+
+    let newDate = new Date(year, month -1, day);
+    let date = newDate.toString().substring(4, 15)
+    console.log(date);
+
     return (
         <Flex borderWidth={2} borderColor={"blue.200"} borderRadius={5} py={2} px={4} my={2} mr={4}>
             <Flex alignItems="center">
                 <Text fontSize="md">
-                    {appointment.date} from {appointment.time}
+                    {date} from {appointment.time}
                 </Text>
             </Flex>
             <Spacer />

@@ -23,6 +23,12 @@ router.patch("/appointmentConfirmation", (req, res) => {
     patientController.appointmentConfirmation(req, res);
 });
 
+router.get("/getConfirmedAppointments/:accountId", (req, res) => {
+    patientController.getConfirmedAppointments(req, res);
+});
+
+
+
 module.exports = {
     router,
 };

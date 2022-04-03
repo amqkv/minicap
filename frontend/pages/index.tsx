@@ -18,18 +18,25 @@ export const getServerSideProps: GetServerSideProps = async context => {
     let appointmentConfirmation = [];
     const today = moment().format().substring(0, 10);
     let statusFilled = true;
-    
+    let incomingAppointments = [];
+
     if (role === USER_ROLES.patient) {
         let response = await Promise.all([
             fetch(serverURL + "/status/getAllStatusChart/" + userId),
             fetch(serverURL + "/status/getAllStatus/" + userId),
             fetch(serverURL + "/patients/getAppointmentForPatients/" + userId),
+            fetch(serverURL + "/patients/getConfirmedAppointments/" + userId),
         ]);
-        let fetchData = await Promise.all([response[0].json(), response[1].json(), response[2].json()]);
+        let fetchData = await Promise.all([
+            response[0].json(),
+            response[1].json(),
+            response[2].json(),
+            response[3].json(),
+        ]);
         data = fetchData[0];
         statusOfTheDay = fetchData[1];
         appointmentConfirmation = fetchData[2];
-
+        incomingAppointments = fetchData[3];
         statusFilled = statusOfTheDay[0].StatusTime.substring(0, 10) === today;
     }
 
@@ -53,7 +60,8 @@ export const getServerSideProps: GetServerSideProps = async context => {
             data,
             statusFilled,
             stats,
-            appointmentConfirmation
+            appointmentConfirmation,
+            incomingAppointments,
         },
     };
 };
@@ -63,15 +71,25 @@ export default function Home({
     stats,
     statusFilled,
     appointmentConfirmation,
+    incomingAppointments,
 }: {
     data: unknown[];
     stats: { unassignedPatientsCount: number; pendingCount: number };
     statusFilled: boolean;
     appointmentConfirmation: unknown[];
+    incomingAppointments: unknown[];
 }) {
     const { data: session } = useSession();
     if (session) {
-        return <Dashboard data={data} stats={stats} statusFilled={statusFilled} appointmentConfirmation={appointmentConfirmation} />;
+        return (
+            <Dashboard
+                data={data}
+                stats={stats}
+                statusFilled={statusFilled}
+                appointmentConfirmation={appointmentConfirmation}
+                incomingAppointments={incomingAppointments}
+            />
+        );
     }
 
     return (

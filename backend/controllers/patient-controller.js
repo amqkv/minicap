@@ -3,6 +3,7 @@ const Patient = require("../models/patient");
 const db = require("../config/database");
 const { QueryTypes } = require("sequelize");
 const Appointment = require("../models/appointment");
+const Moment = require("moment");
 
 async function getRequiredDetails(req, res) {
     const { PatientId } = await Patient.findOne({
@@ -53,8 +54,6 @@ async function getAppointmentForPatients(req, res) {
         raw: true,
         where: { User_AccountId: req.params.accountId },
     });
-    console.log(PatientId);
-
     const patientAppointment = await db.query(
         ` SELECT *
         FROM Appointment A
@@ -67,13 +66,38 @@ async function getAppointmentForPatients(req, res) {
 
 // update appointment status for the patient
 async function appointmentConfirmation(req, res) {
-    Appointment.update({ Status: req.body.confirm }, 
-        { where: { AppointmentId: req.body.appointmentId } 
-    })
+    Appointment.update({ Status: req.body.confirm }, { where: { AppointmentId: req.body.appointmentId } })
         .then(success => {
             res.json("Appointment status updated");
         })
         .catch(err => console.log(err));
+}
+
+// function to get incomming appointments
+async function getConfirmedAppointments(req, res) {
+    const { PatientId } = await Patient.findOne({
+        raw: true,
+        where: { User_AccountId: req.params.accountId },
+    });
+    const patientAppointment = await db.query(
+        ` SELECT *
+        FROM Appointment A
+        WHERE A.Patient_PatientId = ${PatientId} AND 
+        A.Status = 'confirmed'
+        ORDER BY Date ASC`,
+        { type: QueryTypes.SELECT }
+    );
+    const today = Moment().format("YYYY-MM-DD");
+
+    let incomingAppointments = [];
+    patientAppointment.map(appointment => {
+        let date = appointment.Date;
+        if (Moment(today).isBefore(date)) {
+            incomingAppointments.push(appointment);
+        }
+    });
+
+    res.status(200).json(incomingAppointments);
 }
 
 module.exports = {
@@ -81,4 +105,5 @@ module.exports = {
     isPositive,
     getAppointmentForPatients,
     appointmentConfirmation,
+    getConfirmedAppointments,
 };
