@@ -7,6 +7,7 @@ import {
     MOCK_APPOINTMENT_TOMORROW,
     MOCK_APPOINTMENT_YESTERDAY,
 } from "@frontend/models/appointment";
+
 const testAppointmentList = [
     MOCK_APPOINTMENT,
     MOCK_APPOINTMENT_TODAY,
