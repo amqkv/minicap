@@ -120,7 +120,23 @@ async function sendEmail(req, res) {
         if (error) {
             res.status(400).json(false);
         } else {
-            res.status(200).json(true);
+            ContactPerson.destroy({
+                attributes: [
+                    [Sequelize.col("FirstName"), "firstName"],
+                    [Sequelize.col("LastName"), "lastName"],
+                    [Sequelize.col("Email"), "email"],
+                    [Sequelize.col("Telephone"), "phoneNumber"],
+                    [Sequelize.col("DateOfContact"), "dateOfContact"],
+                ],
+                where: {
+                    Patient_PatientId: req.body.id,
+                    FirstName: req.body.firstName,
+                    LastName: req.body.lastName,
+                    Email: req.body.email,
+                    Telephone: req.body.phoneNumber,
+                    DateOfContact: req.body.dateOfContact,
+                },
+            }).then(() => res.status(200).json(true));
         }
     });
 }
