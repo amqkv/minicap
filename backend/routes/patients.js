@@ -10,7 +10,12 @@ router.get("/getRequiredDetails/:accountId", (req, res) => {
     patientController.getRequiredDetails(req, res);
 });
 
-//know if the patient is positive or negative
+// Get doctor assigned to patient
+router.get("/getAssignedDoctor/:accountId", (req, res) => {
+    patientController.getAssignedDoctor(req, res);
+});
+
+// know if the patient is positive or negative
 router.get("/isPositive/:accountId", (req, res) => {
     patientController.isPositive(req, res);
 });

@@ -18,6 +18,11 @@ router.get("/getPatientsInfo/:userId", (req, res) => {
     doctorController.getPatientsInfo(req, res);
 });
 
+// Get list of patients name of a doctor
+router.get("/getPatientsName/:userId", (req, res) => {
+    doctorController.getPatientsName(req, res);
+});
+
 router.get("/getPatientsDashboardInfo/:userId", (req, res) => {
     doctorController.getPatientsDashboardInfo(req, res);
 });

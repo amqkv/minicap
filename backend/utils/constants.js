@@ -18,6 +18,9 @@ const TEST_CONSTANTS = {
     PATIENT_ACCOUNT: {
         AccountId: "51",
     },
+    DOCTOR_ACCOUNT: {
+        AccountId: "239",
+    },
     UPDATE_ROLE_ACCOUNT: {
         AccountId: "828",
     },
@@ -28,6 +31,12 @@ const TEST_CONSTANTS = {
     STATUS_TEST_ID: 2,
     // Patient for the review test
     STATUS_PATIENT_ID: 27,
+    MESSAGE_DATA_TEST: {
+        Content: "random_message_453212322446158",
+        Doctor_AccountId: 109,
+        Patient_AccountId: 51,
+        Author_AccountId: 51,
+    },
 };
 
 // Email used to send rejection to rejected users
@@ -43,10 +52,14 @@ const BOOLEANS = {
 // Value to adjust the timezone linked to Moment
 const MOMENT_TIMEZONE_ADJUSTMENT = 5;
 
+// Client URL
+const CLIENT_URL = "http://localhost:3000";
+
 module.exports = {
     ROLE,
     TEST_CONSTANTS,
     BOOLEANS,
     MOMENT_TIMEZONE_ADJUSTMENT,
     ADMIN_EMAIL_ACCOUNT,
+    CLIENT_URL,
 };

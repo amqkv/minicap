@@ -20,3 +20,5 @@ export const BOOLEANS = {
 export const DAY = {
     ALL: "all",
 };
+
+export const SOCKET_URL = "http://localhost:3001";

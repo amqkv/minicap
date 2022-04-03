@@ -1,7 +1,7 @@
+const { QueryTypes } = require("sequelize");
 const RequiredDetails = require("../models/required-details");
 const Patient = require("../models/patient");
 const db = require("../config/database");
-const { QueryTypes } = require("sequelize");
 const Appointment = require("../models/appointment");
 const Moment = require("moment");
 
@@ -99,6 +99,29 @@ async function getConfirmedAppointments(req, res) {
 
     res.status(200).json(incomingAppointments);
 }
+// Get doctor associated to patient
+async function getAssignedDoctor(req, res) {
+    await db
+        .query(
+            `SELECT U.AccountId, U.FirstName, U.LastName 
+            FROM Doctor D, Patient P, Users U
+            WHERE P.User_AccountId='${req.params.accountId}' AND 
+            D.DoctorId = P.Doctor_DoctorId AND D.User_AccountId = U.AccountId`,
+            {
+                type: QueryTypes.SELECT,
+            }
+        )
+        .then(doctor => {
+            if (doctor.length === 0) {
+                return res.status(400).send("No doctor assigned. Failed to execute.");
+            }
+            return res.status(200).send(doctor[0]);
+        })
+        .catch(err => {
+            console.log("Error: ", err);
+            res.status(400).send("Error fetching doctor assigned to patient");
+        });
+}
 
 module.exports = {
     getRequiredDetails,
@@ -106,4 +129,5 @@ module.exports = {
     getAppointmentForPatients,
     appointmentConfirmation,
     getConfirmedAppointments,
+    getAssignedDoctor,
 };
