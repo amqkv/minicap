@@ -6,7 +6,6 @@ import { USER_ROLES } from "@frontend/utils/constants";
 import DashboardCharts from "@frontend/components/homepage/dashboard-charts";
 import PatientInfoModal from "@frontend/components/modal/modal";
 import ConfirmAppointment from "./confirm-appointment";
-import moment from "moment";
 
 export interface AppointmentInfo {
     AppointmentId: number;
@@ -27,8 +26,8 @@ export default function Dashboard({
     data: unknown[];
     stats: { unassignedPatientsCount: number; pendingCount: number };
     statusFilled: boolean;
-    appointmentConfirmation: unknown[];
-    incomingAppointments: unknown[];
+    appointmentConfirmation: AppointmentInfo[];
+    incomingAppointments: AppointmentInfo[];
 }) {
     const { data: session } = useSession();
     const userRole = session?.user?.Role;
@@ -111,8 +110,7 @@ export default function Dashboard({
                             You may confirm or decline the appointment time
                         </Heading>
 
-                        {/*TODO: fix any. AppointmentInfo doesnt work? */}
-                        {appointmentList.map(( appointment: any ) => {
+                        {appointmentList.map(( appointment: AppointmentInfo ) => {
                             // formating
                             let time = appointment.Time.replace("-", "to");
                             let date = appointment.Date;

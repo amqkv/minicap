@@ -2,11 +2,9 @@ import { useSession, getSession } from "next-auth/react";
 import { GetServerSideProps } from "next";
 import LoginLogoutButton from "@frontend/components/login-logout-button";
 import { Box, Img, Flex, Heading } from "@chakra-ui/react";
-import Dashboard from "@frontend/components/homepage/dashboard";
-
+import Dashboard, { AppointmentInfo } from "@frontend/components/homepage/dashboard";
 import { serverURL } from "@frontend/config";
 import { USER_ROLES } from "@frontend/utils/constants";
-import { promises } from "stream";
 import moment from "moment";
 
 export const getServerSideProps: GetServerSideProps = async context => {
@@ -76,8 +74,8 @@ export default function Home({
     data: unknown[];
     stats: { unassignedPatientsCount: number; pendingCount: number };
     statusFilled: boolean;
-    appointmentConfirmation: unknown[];
-    incomingAppointments: unknown[];
+    appointmentConfirmation: AppointmentInfo[];
+    incomingAppointments: AppointmentInfo[];
 }) {
     const { data: session } = useSession();
     if (session) {

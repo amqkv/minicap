@@ -50,15 +50,12 @@ export default function ConfirmAppointment(appointment: any) {
             console.log(err);
         })
     }
-
+    
     const year = appointment.date.substring(0,4);
     const month = appointment.date.substring(5,7);
     const day = appointment.date.substring(8,10);
-
-
     let newDate = new Date(year, month -1, day);
     let date = newDate.toString().substring(4, 15)
-    console.log(date);
 
     return (
         <Flex borderWidth={2} borderColor={"blue.200"} borderRadius={5} py={2} px={4} my={2} mr={4}>
