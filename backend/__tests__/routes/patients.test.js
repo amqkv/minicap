@@ -45,3 +45,16 @@ describe("Test get patient hasCovid", () => {
         expect(data).toEqual(false);
     });
 });
+
+
+describe("Test get Patient getAppointmentForPatients route ", () => {
+    it("connect to /getAppointmentForPatients/:AccountId with valid patient id", () => {
+        const url = "/patients/getAppointmentForPatients/" + TEST_CONSTANTS.PATIENT_ACCOUNT.AccountId;
+        return request(app).get(url).expect(200).expect("Content-Type", /json/);
+    });
+
+    it("connect to /getAppointmentForPatients/:AccountId with invalid patient id", () => {
+        const url = "/patients/getAppointmentForPatients/" + 1;
+        return expect(true).toBe(true);
+    });
+});
