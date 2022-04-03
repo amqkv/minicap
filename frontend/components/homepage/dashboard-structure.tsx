@@ -21,12 +21,6 @@ export const links: link[] = [
         roleRequired: USER_ROLES.patient,
         img: "https://imgur.com/gycpeKh.png",
     },
-    // {
-    //     label: "Appointments",
-    //     url: "#",
-    //     roleRequired: USER_ROLES.patient,
-    //     img: "https://imgur.com/eRLbmpq.png",
-    // },
     {
         label: "Patients",
         url: "doctor/patient-list-overview",
