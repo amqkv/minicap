@@ -1,4 +1,4 @@
-import { Box, Button, Flex, FormLabel, Heading, Select, useToast } from "@chakra-ui/react";
+import { Box, Button, Flex, FormLabel, Heading, Input, Select, useToast } from "@chakra-ui/react";
 import { serverURL } from "@frontend/config";
 import { Appointment, APPOINTMENT_TIMESLOTS, DEFAULT_APPOINTMENT } from "@frontend/models/appointment";
 import { PatientBasicInformation } from "@frontend/models/patient";
@@ -40,7 +40,7 @@ export default function NewAppointmentForm({
     }
 
     async function scheduleAppointment() {
-        if (appointment.patientId === 0 || appointment.date === "" || appointment.time === "") {
+        if (appointment.time === "" || appointment.date === "" || appointment.patientId === 0) {
             toast({
                 title: "Form incomplete! All fields need to be filled.",
                 description: "Please enter the necessary information.",
@@ -90,7 +90,7 @@ export default function NewAppointmentForm({
                     <FormLabel fontSize="lg" htmlFor="apt-date">
                         Date & time:&emsp;
                     </FormLabel>
-                    <input
+                    <Input
                         type="date"
                         name="apt-date"
                         onChange={e => pickDate(e.target.value)}

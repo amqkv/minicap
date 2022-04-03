@@ -68,7 +68,7 @@ export const MOCK_APPOINTMENT = {
     age: 0,
     gender: "Female",
     date: "2022-01-01",
-    time: "10:00 - 10:30",
+    time: "09:00 - 09:30",
     status: APPOINTMENT_STATUS.CONFIRMED,
 };
 export const MOCK_APPOINTMENT_TOMORROW = {
