@@ -50,6 +50,10 @@ const nextConfig = {
                 source: "/api/admin/reject-user-account",
                 destination: `${serverURL}/admins/reject-user-account`,
             },
+            {
+                source: "/api/patient/get-appointment",
+                destination: `${serverURL}/patients/getAppointmentForPatients`,
+            }
         ];
     },
     webpack(config) {

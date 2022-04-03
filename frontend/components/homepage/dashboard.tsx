@@ -64,7 +64,7 @@ export default function Dashboard({
                                                 If you have tested positive for Covid-19, please consult quarantine
                                                 information page for further instructions.
                                             </ListItem>
-                                            {incomingAppointments && (
+                                            {incomingAppointments.length != 0 && (
                                                 <ListItem>You have an appointment with your doctor on {incomingAppointments[0].Date} from {incomingAppointments[0].Time} </ListItem>
                                             )}
                                         </UnorderedList>
