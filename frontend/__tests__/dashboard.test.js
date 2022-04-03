@@ -29,7 +29,13 @@ describe("<Dashboard />", () => {
                 },
             },
         });
-        const wrapper = shallow(<Dashboard data={MOCK_DATA_SYMPTOMS} appointmentConfirmation={MOCK_CONFIRMED_APPOINTMENT} />);
+        const wrapper = shallow(
+            <Dashboard
+                data={MOCK_DATA_SYMPTOMS}
+                incomingAppointments={MOCK_CONFIRMED_APPOINTMENT}
+                appointmentConfirmation={MOCK_CONFIRMED_APPOINTMENT}
+            />
+        );
         expect(wrapper.find(Heading)).toHaveLength(5);
         expect(wrapper.find(Card)).toHaveLength(2);
     });
@@ -42,7 +48,7 @@ describe("<Dashboard />", () => {
                 },
             },
         });
-        const component = shallow(<Dashboard data={[]} appointmentConfirmation={[]}/>);
+        const component = shallow(<Dashboard data={[]} incomingAppointments={[]} appointmentConfirmation={[]} />);
         expect(component.find(Heading)).toHaveLength(3);
     });
 });
