@@ -33,3 +33,17 @@ describe("Rendering <PatientDetailsToProvideForm/>", () => {
     });
 });
 
+describe("onConfirm", () => {
+    it("Calls fetch", async () => {
+        const component = shallow(<ConfirmAppointment  appointment={mock_appointment}/>);
+        component.find(Button).at(0).simulate("click");
+    });
+});
+
+describe("onDecline", () => {
+    it("Calls fetch", async () => {
+        const component = shallow(<ConfirmAppointment  appointment={mock_appointment}/>);
+        component.find(Button).at(1).simulate("click");
+    });
+});
+
