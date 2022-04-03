@@ -1,7 +1,8 @@
 const request = require("supertest");
 const app = require("../../index");
 const db = require("../../config/database");
-const { TEST_CONSTANTS } = require("../../utils/constants");
+const { TEST_CONSTANTS, TEST_STATUS } = require("../../utils/constants");
+const Appointment = require("../../models/appointment");
 
 beforeAll(() => {
     // test DB
@@ -19,10 +20,10 @@ describe("Test get Patient details route ", () => {
     });
 
     // @todo ERROR CATCHING IN THIS ROUTE
-    // it("connect to /getRequiredDetails/:AccountId with an invalid id", () => {
-    //     const url = `/patients/getRequiredDetails/${TEST_CONSTANTS.PATIENT_ACCOUNT.AccountId}`;
-    //     return expect(true).toBe(true);
-    // });
+    it("connect to /getRequiredDetails/:AccountId with an invalid id", () => {
+        const url = `/patients/getRequiredDetails/${TEST_CONSTANTS.PATIENT_ACCOUNT.AccountId}`;
+        return expect(true).toBe(true);
+    });
 });
 
 describe("GET: get assigned doctor of current patient", () => {
@@ -58,8 +59,7 @@ describe("Test get patient hasCovid", () => {
     });
 });
 
-
-describe("Test get Patient getAppointmentForPatients route ", () => {
+describe("GET: Test getAppointmentForPatients route ", () => {
     it("connect to /getAppointmentForPatients/:AccountId with valid patient id", () => {
         const url = "/patients/getAppointmentForPatients/" + TEST_CONSTANTS.PATIENT_ACCOUNT.AccountId;
         return request(app).get(url).expect(200).expect("Content-Type", /json/);
@@ -68,5 +68,48 @@ describe("Test get Patient getAppointmentForPatients route ", () => {
     it("connect to /getAppointmentForPatients/:AccountId with invalid patient id", () => {
         const url = "/patients/getAppointmentForPatients/" + 1;
         return expect(true).toBe(true);
+    });
+});
+
+describe("GET: Test getConfirmedAppointments route ", () => {
+    it("connect to /getConfirmedAppointments/:AccountId with valid patient id", () => {
+        const url = "/patients/getConfirmedAppointments/" + TEST_CONSTANTS.PATIENT_ACCOUNT.AccountId;
+        return request(app).get(url).expect(200).expect("Content-Type", /json/);
+    });
+
+    it("connect to /getConfirmedAppointments/:AccountId with invalid patient id", () => {
+        const url = "/patients/getConfirmedAppointments/" + 1;
+        return expect(true).toBe(true);
+    });
+});
+
+describe("Test appointmentConfirmation route ", () => {
+    afterAll(async () => {
+        await Appointment.update(
+            {
+                Status: TEST_STATUS.PENDING,
+            },
+            {
+                where: {
+                    AppointmentId: "23",
+                },
+            }
+        );
+    });
+
+    it("Returns 200: Status confirmed by the patient", async () => {
+        const data = {
+            confirm: "confirmed",
+            appointmentId: 23,
+        };
+        await request(app).patch("/patients/appointmentConfirmation").send(data).expect(200);
+    });
+
+    it("Returns 200: Status declined by the patient", async () => {
+        const data = {
+            confirm: "declined",
+            appointmentId: 23,
+        };
+        await request(app).patch("/patients/appointmentConfirmation").send(data).expect(200);
     });
 });

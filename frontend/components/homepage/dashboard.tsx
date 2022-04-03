@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { USER_ROLES } from "@frontend/utils/constants";
 import DashboardCharts from "@frontend/components/homepage/dashboard-charts";
 import PatientInfoModal from "@frontend/components/modal/modal";
-import ConfirmAppointment from "./confirm-appointment";
+import ConfirmAppointment from "@frontend/components/homepage/confirm-appointment";
 
 export interface AppointmentInfo {
     AppointmentId: number;
@@ -118,7 +118,7 @@ export default function Dashboard({
                                 <ConfirmAppointment
                                     time={time}
                                     date={date}
-                                    appointment={appointment}
+                                    // appointment={appointment}
                                     appointmentId={appointment.AppointmentId}
                                 />
                             );

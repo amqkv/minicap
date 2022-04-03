@@ -68,9 +68,11 @@ async function getAppointmentForPatients(req, res) {
 async function appointmentConfirmation(req, res) {
     Appointment.update({ Status: req.body.confirm }, { where: { AppointmentId: req.body.appointmentId } })
         .then(success => {
-            res.json("Appointment status updated");
+            res.status(200).send("Appointment status updated.");
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            res.status(500).send(`Error: ${err}`);
+        });
 }
 
 // function to get incomming appointments
@@ -89,6 +91,7 @@ async function getConfirmedAppointments(req, res) {
     );
     const today = Moment().format("YYYY-MM-DD");
 
+    // find appointments in the future
     let incomingAppointments = [];
     patientAppointment.map(appointment => {
         let date = appointment.Date;
@@ -99,6 +102,7 @@ async function getConfirmedAppointments(req, res) {
 
     res.status(200).json(incomingAppointments);
 }
+
 // Get doctor associated to patient
 async function getAssignedDoctor(req, res) {
     await db

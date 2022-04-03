@@ -55,6 +55,13 @@ const MOMENT_TIMEZONE_ADJUSTMENT = 5;
 // Client URL
 const CLIENT_URL = "http://localhost:3000";
 
+// appointment status values
+const TEST_STATUS = {
+    CONFIRMED: "confirmed",
+    DECLINED: "declined",
+    PENDING: "pending"
+}
+
 module.exports = {
     ROLE,
     TEST_CONSTANTS,
@@ -62,4 +69,5 @@ module.exports = {
     MOMENT_TIMEZONE_ADJUSTMENT,
     ADMIN_EMAIL_ACCOUNT,
     CLIENT_URL,
+    TEST_STATUS,
 };

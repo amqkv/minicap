@@ -4,7 +4,7 @@ import { Heading } from "@chakra-ui/react";
 import Card from "@frontend/components/homepage/card";
 import { useSession } from "next-auth/react";
 import { USER_ROLES } from "@frontend/utils/constants";
-
+import { MOCK_DATA, MOCK_CONFIRMED_APPOINTMENT } from "@frontend/__tests__/__mock__/mock";
 jest.mock("next-auth/react");
 
 const unmockedFetch = global.fetch;
@@ -20,47 +20,6 @@ afterAll(() => {
     global.fetch = unmockedFetch;
 });
 
-const mockData = [
-    {
-        Temperature: 37,
-        StatusTime: "03/09/2022",
-        Weight: 70,
-        Symptoms: "Testing 1 ",
-        IsReviewed: true,
-        Patient_PatientId: 3,
-        StatusId: 198,
-    },
-    {
-        Temperature: 38,
-        StatusTime: "03/08/2022",
-        Weight: 70,
-        Symptoms: "Testing 2 ",
-        IsReviewed: true,
-        Patient_PatientId: 3,
-        StatusId: 113,
-    },
-    {
-        Temperature: 38,
-        StatusTime: "03/01/2022",
-        Weight: 70,
-        Symptoms: "Testing 3 ",
-        IsReviewed: true,
-        Patient_PatientId: 3,
-        StatusId: 264,
-    },
-];
-
-const mockAppointment = [
-    {
-        AppointmentId: 68,
-        Patient_PatientId: 522,
-        Doctor_DoctorId: 3,
-        Date: "2022-04-17",
-        Time: "11:30 - 12:00",
-        Status: "confirmed",
-    },
-];
-
 describe("<Dashboard />", () => {
     it("renders a <Dashboard /> component when PATIENT user is logged in", () => {
         useSession.mockReturnValue({
@@ -70,7 +29,7 @@ describe("<Dashboard />", () => {
                 },
             },
         });
-        const wrapper = shallow(<Dashboard data={mockData} appointmentConfirmation={mockAppointment} />);
+        const wrapper = shallow(<Dashboard data={MOCK_DATA} appointmentConfirmation={MOCK_CONFIRMED_APPOINTMENT} />);
         expect(wrapper.find(Heading)).toHaveLength(5);
         expect(wrapper.find(Card)).toHaveLength(2);
     });
