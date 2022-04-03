@@ -6,7 +6,6 @@ import UserListPage from "@frontend/pages/health-official/track-contact/[id]";
 import { Text, Flex, Box, Button, Divider } from "@chakra-ui/react";
 import Modal from "@frontend/components/modal/modal";
 import PatientInformationModalBody from "@frontend/components/modal/patient-information-modal-body";
-
 import FilteredPatients from "@frontend/components/patient/filtered-patients";
 
 jest.mock("next-auth/react");
@@ -61,7 +60,7 @@ describe("health official list of contactpage", () => {
         // index 0 is Flex for search input.
         const userRow = wrapper.find(Flex).at(0);
 
-        userRow.props().onClick({});
+        userRow.props().onClick();
         wrapper.update();
 
         expect(wrapper.find(Modal).prop("isOpen")).toBeTruthy();

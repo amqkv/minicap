@@ -113,7 +113,7 @@ async function sendEmail(req, res) {
         to: req.body.email,
         subject: `COVID-19 Contact `,
         html: `<h1>Hi ${req.body.firstName} ${req.body.lastName},</h1> 
-            <br> <h2>Unfortunately, you were in contact with ${patientName[0].firstName} ${patientName[0].lastName} on ${req.body.date}. You can sign up to ${constants.WEBSITE_NAME} for free consultation with a doctor.</h2>`,
+            <br> <h2>Unfortunately, you were in contact with ${patientName[0].firstName} ${patientName[0].lastName} on ${req.body.dateOfContact}. You can sign up to ${constants.WEBSITE_NAME} for free consultation with a doctor.</h2>`,
     };
 
     emailSender.emailTransporter.sendMail(mailOptions, error => {
