@@ -1,7 +1,8 @@
 const request = require("supertest");
 const app = require("../../index");
 const db = require("../../config/database");
-const { TEST_CONSTANTS } = require("../../utils/constants");
+const { TEST_CONSTANTS, TEST_STATUS } = require("../../utils/constants");
+const Appointment = require("../../models/appointment");
 
 beforeAll(() => {
     // test DB
@@ -55,5 +56,74 @@ describe("Test get patient hasCovid", () => {
             .expect("Content-Type", /json/)
             .then(response => response.body);
         expect(data).toEqual(false);
+    });
+});
+
+describe("GET: Test getAppointmentForPatients route ", () => {
+    it("connect to /getAppointmentForPatients/:AccountId with valid patient id", async () => {
+        const url = "/patients/getAppointmentForPatients/" + TEST_CONSTANTS.PATIENT_ACCOUNT.AccountId;
+        const response = await request(app).get(url);
+        expect(response.body).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    AppointmentId: expect.any(Number),
+                    Patient_PatientId: expect.any(Number),
+                    Doctor_DoctorId: expect.any(Number),
+                    Date: expect.any(String),
+                    Time: expect.any(String),
+                    Status: expect.any(String),
+                }),
+            ])
+        );
+    });
+});
+
+describe("GET: Test getConfirmedAppointments route ", () => {
+    it("connect to /getConfirmedAppointments/:AccountId with valid patient id", async () => {
+        const url = "/patients/getConfirmedAppointments/" + TEST_CONSTANTS.PATIENT_ACCOUNT.AccountId;
+        const response = await request(app).get(url);
+        expect(response.body).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    AppointmentId: expect.any(Number),
+                    Patient_PatientId: expect.any(Number),
+                    Doctor_DoctorId: expect.any(Number),
+                    Date: expect.any(String),
+                    Time: expect.any(String),
+                    Status: expect.any(String),
+                }),
+            ])
+        );
+    });
+});
+
+describe("Test appointmentConfirmation route ", () => {
+    afterAll(async () => {
+        await Appointment.update(
+            {
+                Status: TEST_STATUS.PENDING,
+            },
+            {
+                where: {
+                    AppointmentId: "23",
+                },
+            }
+        );
+    });
+
+    it("Returns 200: Status confirmed by the patient", async () => {
+        const data = {
+            confirm: "confirmed",
+            appointmentId: 23,
+        };
+        await request(app).patch("/patients/appointmentConfirmation").send(data).expect(200);
+    });
+
+    it("Returns 200: Status declined by the patient", async () => {
+        const data = {
+            confirm: "declined",
+            appointmentId: 23,
+        };
+        await request(app).patch("/patients/appointmentConfirmation").send(data).expect(200);
     });
 });

@@ -137,6 +137,64 @@ export const STATUS_VALUES: StatusParameters = {
     statusTime: time,
 };
 
-export const TEST_PATIENT_STATUS: any = {
-    
-}
+export const MOCK_DATA_SYMPTOMS = [
+    {
+        Temperature: 37,
+        StatusTime: "03/09/2022",
+        Weight: 70,
+        Symptoms: "Testing 1 ",
+        IsReviewed: true,
+        Patient_PatientId: 3,
+        StatusId: 198,
+    },
+    {
+        Temperature: 38,
+        StatusTime: "03/08/2022",
+        Weight: 70,
+        Symptoms: "Testing 2 ",
+        IsReviewed: true,
+        Patient_PatientId: 3,
+        StatusId: 113,
+    },
+    {
+        Temperature: 38,
+        StatusTime: "03/01/2022",
+        Weight: 70,
+        Symptoms: "Testing 3 ",
+        IsReviewed: true,
+        Patient_PatientId: 3,
+        StatusId: 264,
+    },
+];
+
+export const MOCK_CONFIRMED_APPOINTMENT = [
+    {
+        AppointmentId: 68,
+        Patient_PatientId: 522,
+        Doctor_DoctorId: 3,
+        Date: "2022-04-17",
+        Time: "11:30 - 12:00",
+        Status: "confirmed",
+    },
+];
+
+export const MOCK_PENDING_APPOINTMENT = [
+    {
+        AppointmentId: 68,
+        Patient_PatientId: 522,
+        Doctor_DoctorId: 3,
+        Date: "2022-04-17",
+        Time: "11:30 - 12:00",
+        Status: "pending",
+    },
+    {
+        AppointmentId: 69,
+        Patient_PatientId: 522,
+        Doctor_DoctorId: 3,
+        Date: "2022-06-17",
+        Time: "11:30 - 12:00",
+        Status: "pending",
+    }
+];
+
+

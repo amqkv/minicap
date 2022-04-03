@@ -17,3 +17,4 @@ export default function PatientInfoModal({ isOpen, onClose, children }: AppProps
         </Modal>
     );
 }
+

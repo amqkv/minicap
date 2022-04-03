@@ -22,9 +22,7 @@ export default function PatientStatus({
             unit: patient.status[statusIndex].symptoms.unit,
         },
     };
-    console.log(patient);
-    console.log(status);
-    console.log(statusIndex);
+   
     return (
         <Box m={1} align="center">
             {Object.keys(status).map(statusDetail => (
