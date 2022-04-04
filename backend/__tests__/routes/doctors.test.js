@@ -61,7 +61,7 @@ describe("GET: getting all patients of the current doctor", () => {
 
 describe("GET: get list of patient's name of current doctor", () => {
     it("Returns code 200 and patient list of names if user is a doctor", async () => {
-        const userId = constants.TEST_CONSTANTS.DOCTOR_ACCOUNT.AccountId;
+        const userId = TEST_CONSTANTS.DOCTOR_ACCOUNT.AccountId;
         await request(app).get(`/doctors/getPatientsName/${userId}`).expect(200);
     });
     it("Returns code 400 if user is not a doctor", async () => {
