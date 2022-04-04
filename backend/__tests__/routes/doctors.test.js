@@ -144,6 +144,14 @@ describe("GET: getAppointmentsAndPatients", () => {
     it("Returns code 200 and object of appointments & patients if user is a doctor", async () => {
         await request(app)
             .get(`/doctors/getAppointmentsAndPatients/${TEST_CONSTANTS.DOCTOR_ACCOUNT.AccountId}`)
-            .expect(200);
+            .expect(200)
+            .then(response => {
+                expect(response.body).toEqual(
+                    expect.objectContaining({
+                        appointmentList: expect.any(Array),
+                        patientList: expect.any(Array),
+                    })
+                );
+            });
     });
 });
