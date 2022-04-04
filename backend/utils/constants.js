@@ -25,12 +25,22 @@ const TEST_CONSTANTS = {
         AccountId: "828",
     },
     REJECTED_ACCOUNT: {
-        AccountId: "859",
+        AccountId: "1211",
+    },
+    APPOINTMENT_PATIENT_ACCOUNT: {
+        PatientId: "598",
+    },
+    INVALID_EMAIL_ACCOUNT: {
+        PatientId: "599",
     },
     // Status for the review test
     STATUS_TEST_ID: 2,
     // Patient for the review test
     STATUS_PATIENT_ID: 27,
+    // eslint-disable-next-line no-dupe-keys
+    DOCTOR_ACCOUNT: {
+        AccountId: "1202",
+    },
     MESSAGE_DATA_TEST: {
         Content: "random_message_453212322446158",
         Doctor_AccountId: 109,
@@ -59,8 +69,8 @@ const CLIENT_URL = "http://localhost:3000";
 const TEST_STATUS = {
     CONFIRMED: "confirmed",
     DECLINED: "declined",
-    PENDING: "pending"
-}
+    PENDING: "pending",
+};
 
 module.exports = {
     ROLE,

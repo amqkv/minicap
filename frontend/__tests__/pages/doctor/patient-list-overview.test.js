@@ -3,7 +3,7 @@ import PatientInfoModalContent from "@frontend/components/doctor/patient-info-mo
 import PatientListOverview from "@frontend/pages/doctor/patient-list-overview";
 import PatientInfoModal from "@frontend/components/modal/modal";
 import { DEFAULT_PATIENT, FILTER_OPTIONS } from "@frontend/models/patient";
-import { Box, SimpleGrid, Heading, RadioGroup, Text, Center, Input, Radio } from "@chakra-ui/react";
+import { Box, SimpleGrid, Heading, RadioGroup, Text, Input } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import { USER_ROLES } from "@frontend/utils/constants";
 import React from "react";
@@ -62,6 +62,7 @@ describe("onChange functions", () => {
     const component = shallow(<PatientListOverview patientList={patientList} />);
     it("onChange -> filterPatient + onSearch", () => {
         const mockEvent = {
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
             preventDefault: () => {},
             target: { value: "test" },
         };

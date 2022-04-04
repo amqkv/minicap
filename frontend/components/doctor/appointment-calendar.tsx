@@ -61,7 +61,7 @@ export default function AppointmentCalendar({ appointmentList }: { appointmentLi
             <Calendar
                 localizer={localizer}
                 events={transformToEvents()}
-                defaultView="week"
+                defaultView="month"
                 formats={formats}
                 defaultDate={today}
                 style={{ height: "650px", width: "1050px" }}
