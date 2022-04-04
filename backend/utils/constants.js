@@ -56,6 +56,13 @@ const TEST_CONSTANTS = {
         AccountId: "51",
     },
     INVALID_ACCOUNT_ID: "0",
+
+    MESSAGE_DATA_TEST: {
+        Content: "random_message_453212322446158",
+        Doctor_AccountId: 109,
+        Patient_AccountId: 51,
+        Author_AccountId: 51,
+    },
 };
 
 const DOCTOR_TEST_SUBJECTS = {
@@ -87,12 +94,6 @@ const DOCTOR_TEST_SUBJECTS = {
     // eslint-disable-next-line no-dupe-keys
     DOCTOR_ACCOUNT: {
         AccountId: "1202",
-    },
-    MESSAGE_DATA_TEST: {
-        Content: "random_message_453212322446158",
-        Doctor_AccountId: 109,
-        Patient_AccountId: 51,
-        Author_AccountId: 51,
     },
 };
 
