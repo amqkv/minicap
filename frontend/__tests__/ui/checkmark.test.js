@@ -11,7 +11,7 @@ describe("<CheckMark />", () => {
         //Given
         const click = jest.fn();
         //When
-        const wrapper = shallow(<CheckMark isColored={true} color="black" onClicking={click} isUnfillable="true" />);
+        const wrapper = shallow(<CheckMark isColored={true} color="black" onClicking={click} isUncheckable="true" />);
         wrapper.find(Box).at(0).simulate("click");
         //THEN
         expect(click.mock.calls).toHaveLength(1);
@@ -20,7 +20,7 @@ describe("<CheckMark />", () => {
         //Given
         const click = jest.fn();
         //When
-        const wrapper = shallow(<CheckMark isColored={false} color="black" onClicking={click} isUnfillable="false" />);
+        const wrapper = shallow(<CheckMark isColored={false} color="black" onClicking={click} isUncheckable="false" />);
         wrapper.find(Box).at(0).simulate("click");
         //THEN
         expect(click.mock.calls).toHaveLength(1);
@@ -29,7 +29,7 @@ describe("<CheckMark />", () => {
         //Given
         const click = jest.fn();
         //When
-        const wrapper = shallow(<CheckMark isColored={true} color="black" onClicking={click} isUnfillable="false" />);
+        const wrapper = shallow(<CheckMark isColored={true} color="black" onClicking={click} isUncheckable="false" />);
         wrapper.find(Box).at(0).simulate("click");
         //THEN
         expect(click.mock.calls).toHaveLength(0);

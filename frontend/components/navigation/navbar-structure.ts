@@ -29,6 +29,11 @@ export const links: link[] = [
         roleRequired: USER_ROLES.doctor,
     },
     {
+        text: "MESSAGES",
+        url: "/communication/message-list",
+        roleRequired: USER_ROLES.doctor,
+    },
+    {
         text: "APPOINTMENTS",
         url: "/doctor/appointments-overview",
         roleRequired: USER_ROLES.doctor,

@@ -29,6 +29,7 @@ const statusRouter = require("./routes/status").router;
 const patientsRouter = require("./routes/patients").router;
 const immigrationOfficerRouter = require("./routes/immigration-officer").router;
 const healthOfficialRouter = require("./routes/health-official").router;
+const communicationRouter = require("./routes/communication").router;
 
 // View engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -43,6 +44,7 @@ app.use("/status", statusRouter);
 app.use("/patients", patientsRouter);
 app.use("/immigration-officer", immigrationOfficerRouter);
 app.use("/health-official", healthOfficialRouter);
+app.use("/communication", communicationRouter);
 
 // test DB
 db.authenticate()

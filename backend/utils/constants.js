@@ -33,6 +33,9 @@ const TEST_CONSTANTS = {
     COVID_PATIENT: {
         AccountId: "1191", // constant-covid-switch@dontmodify.com
     },
+    DOCTOR_ACCOUNT: {
+        AccountId: "239",
+    },
     UPDATE_ROLE_ACCOUNT: {
         AccountId: "828", // jfupdatetest@test.com
     },
@@ -75,6 +78,12 @@ const DOCTOR_TEST_SUBJECTS = {
         Patient_Id: "588",
         Doctor_DoctorId: "18",
     },
+    MESSAGE_DATA_TEST: {
+        Content: "random_message_453212322446158",
+        Doctor_AccountId: 109,
+        Patient_AccountId: 51,
+        Author_AccountId: 51,
+    },
 };
 
 // Email used to send rejection to rejected users
@@ -90,6 +99,16 @@ const BOOLEANS = {
 // Value to adjust the timezone linked to Moment
 const MOMENT_TIMEZONE_ADJUSTMENT = 5;
 
+// Client URL
+const CLIENT_URL = "http://localhost:3000";
+
+// appointment status values
+const TEST_STATUS = {
+    CONFIRMED: "confirmed",
+    DECLINED: "declined",
+    PENDING: "pending",
+};
+
 module.exports = {
     ROLE,
     TEST_CONSTANTS,
@@ -97,4 +116,6 @@ module.exports = {
     MOMENT_TIMEZONE_ADJUSTMENT,
     ADMIN_EMAIL_ACCOUNT,
     DOCTOR_TEST_SUBJECTS,
+    CLIENT_URL,
+    TEST_STATUS,
 };

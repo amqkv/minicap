@@ -9,7 +9,7 @@ import { IconButton, Stack } from "@chakra-ui/react";
 
 jest.mock("next-auth/react");
 // Using DOCTOR ROLE to test standard rendering.
-const numberOfDoctorNavLinks = 3;
+const numberOfDoctorNavLinks = 4;
 
 describe("<Navbar />", () => {
     it("renders a <Logo /> component and a Home <NavLink> when the user isn't logged in", () => {
