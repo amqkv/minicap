@@ -22,6 +22,7 @@ describe("Test get Patient details route ", () => {
     it("connect to /getRequiredDetails/:AccountId with an invalid id", () => {
         const url = `/patients/getRequiredDetails/9999999999999999999999999999999`;
         return request(app).get(url).expect(400);
+    });
 });
 
 describe("GET: get assigned doctor of current patient", () => {
@@ -59,7 +60,7 @@ describe("Test get patient hasCovid", () => {
 
 describe("GET: Test getAppointmentForPatients route ", () => {
     it("connect to /getAppointmentForPatients/:AccountId with valid patient id", async () => {
-        const url = "/patients/getAppointmentForPatients/" + TEST_CONSTANTS.PATIENT_ACCOUNT.AccountId;
+        const url = `/patients/getAppointmentForPatients/${TEST_CONSTANTS.PATIENT_WITH_STATUS.AccountId}`;
         const response = await request(app).get(url);
         expect(response.body).toEqual(
             expect.arrayContaining([
@@ -78,7 +79,7 @@ describe("GET: Test getAppointmentForPatients route ", () => {
 
 describe("GET: Test getConfirmedAppointments route ", () => {
     it("connect to /getConfirmedAppointments/:AccountId with valid patient id", async () => {
-        const url = "/patients/getConfirmedAppointments/" + TEST_CONSTANTS.PATIENT_ACCOUNT.AccountId;
+        const url = `/patients/getConfirmedAppointments/${TEST_CONSTANTS.PATIENT_WITH_STATUS.AccountId}`;
         const response = await request(app).get(url);
         expect(response.body).toEqual(
             expect.arrayContaining([
