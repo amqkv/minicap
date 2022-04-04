@@ -44,17 +44,8 @@ export async function getServerSideProps(context: NextPageContext) {
 const UserListPage = ({ contacts, id }: { contacts: PatientBasicInformation[]; id: number }) => {
     const { data: session } = useSession();
     const { isOpen, modalClose, openModal, selectedPatient } = usePatientModal({});
-    const {
-        sort,
-        changeSort,
-        ascending,
-        filteredPatients,
-        setSearchText,
-        filterValue,
-        filterKey,
-        changeFilter,
-        setFilteredPatients,
-    } = useFilteredPatients(contacts);
+    const { sort, changeSort, ascending, filteredPatients, setSearchText, filterValue, filterKey, changeFilter } =
+        useFilteredPatients(contacts);
     const toast = useToast();
     const callPopup = (props: UseToastOptions) => toast({ ...props, id: "popup" });
 
@@ -73,7 +64,7 @@ const UserListPage = ({ contacts, id }: { contacts: PatientBasicInformation[]; i
         const i = contacts.indexOf(selectedPatient as PatientBasicInformation);
         if (i > -1) {
             contacts.splice(i, 1);
-            setFilteredPatients([...contacts]);
+            changeSort(sort);
         }
     }
 

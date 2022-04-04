@@ -44,6 +44,5 @@ export default function useFilteredPatients(patients: PatientBasicInformation[])
         filterValue,
         filterKey,
         changeFilter,
-        setFilteredPatients,
     };
 }
