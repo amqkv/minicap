@@ -6,8 +6,8 @@ import DropdownInput from "@frontend/components/inputs/dropdown-input";
 import { Button, Input, Select, InputRightElement, Textarea } from "@chakra-ui/react";
 import { WarningIcon } from "@chakra-ui/icons";
 import { USER_ROLES_SIGN_IN } from "@frontend/utils/constants";
-import PatientTextarea from "@frontend/components/inputs/patient-textarea-input"
-import UnitInput from "@frontend/components/inputs/unit-input"
+import PatientTextarea from "@frontend/components/inputs/patient-textarea-input";
+import UnitInput from "@frontend/components/inputs/unit-input";
 
 const baseProps = {
     name: "Dummy name",
@@ -43,7 +43,6 @@ describe("test the inputs in register <PasswordInput/>", () => {
         const wrapper = shallow(<PasswordInput {...baseProps} name="Password" error />);
         expect(wrapper.find(WarningIcon)).toHaveLength(1);
         expect(wrapper.find(InputRightElement)).toHaveLength(1);
-
     });
 
     it("render the error message when the error prop is passed", () => {
@@ -90,24 +89,12 @@ describe("test the inputs in forms to fill <PatientTextarea/>", () => {
 
 describe("test the inputs in forms to fill <UnitInput/>", () => {
     it("renders the input field", async () => {
-        const wrapper = shallow(<UnitInput {...baseProps} units={'lbs'} />);
+        const wrapper = shallow(<UnitInput {...baseProps} units={"lbs"} />);
         expect(wrapper.find(Input)).toHaveLength(1);
     });
 
     it("renders the warning icon on the input field when there is an error", async () => {
-        const wrapper = shallow(<UnitInput {...baseProps} units={'lbs'} error/>);
+        const wrapper = shallow(<UnitInput {...baseProps} units={"lbs"} error />);
         expect(wrapper.find(Input)).toHaveLength(1);
     });
 });
-
-// describe("test the inputs in register <StandardInput/>", () => {
-//     it("renders the standard input field", () => {
-//         const wrapper = render(<StandardInput {...baseProps} />);
-//         expect(wrapper.find("input")).toHaveLength(1);
-//     });
-
-//     it("render the error message when the error prop is passed", () => {
-//         const wrapper = shallow(<StandardInput {...baseProps} error />);
-//         expect(wrapper.find(WarningIcon)).toHaveLength(1);
-//     });
-// });

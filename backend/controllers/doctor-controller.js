@@ -218,7 +218,7 @@ async function updatePriority(req, res) {
         });
 }
 
-// Update the priority state of a patient
+// Update the review state of the patient's latest status
 async function reviewPatient(req, res) {
     await db
         .query(
@@ -233,7 +233,8 @@ async function reviewPatient(req, res) {
             }
         )
         .then(status => {
-            if (status[0]) {
+            // status is [ undefined, 1 ] when valid and [ undefined, 0 ] when there is an error based on the tests
+            if (status[1] === 1) {
                 res.status(200).send("Task completed successfully!");
             } else {
                 res.status(400).send("Failed to execute update.");

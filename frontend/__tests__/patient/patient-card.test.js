@@ -1,7 +1,6 @@
 import { shallow } from "enzyme";
 import PatientCard from "@frontend/components/forms/patient-card";
-import { Divider, Heading, Box, Text } from "@chakra-ui/react";
-import { DEFAULT_CARD_PATIENT } from "../__mock__/mock";
+import { Divider, Heading, Text } from "@chakra-ui/react";
 
 describe("<PatientCard />", () => {
     it("renders a <PatientCard /> component", () => {
@@ -15,5 +14,4 @@ describe("<PatientCard />", () => {
         expect(wrapper.find(Text).at(1).text()).toBe("Weight: 3 lbs");
         expect(wrapper.find(Text).at(2).text()).toBe("Symptoms: help");
     });
-
 });

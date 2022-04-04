@@ -30,12 +30,12 @@ afterAll(async () => {
 
 describe("GET: getting all status for this user", () => {
     it("Returns code 400 if user id is not associated to a user", () => {
-        const userId = 10000000;
+        const userId = TEST_CONSTANTS.INVALID_ACCOUNT_ID;
         return request(app).get(`/status/getAllStatus/${userId}`).expect(400);
     });
 
     it("Returns code 200 and array of status", async () => {
-        const userId = 51;
+        const userId = TEST_CONSTANTS.PATIENT_WITH_STATUS.AccountId;
         const response = await request(app).get(`/status/getAllStatus/${userId}`);
         expect(response.body).toEqual(
             expect.arrayContaining([
@@ -55,12 +55,12 @@ describe("GET: getting all status for this user", () => {
 
 describe("GET: getting all status for this user for charts", () => {
     it("Returns code 400 if user id is not associated to a user", () => {
-        const userId = 10000000;
+        const userId = TEST_CONSTANTS.INVALID_ACCOUNT_ID;
         return request(app).get(`/status/getAllStatusChart/${userId}`).expect(400);
     });
 
     it("Returns code 200 and array of status", async () => {
-        const userId = 51;
+        const userId = TEST_CONSTANTS.PATIENT_WITH_STATUS.AccountId;
         const response = await request(app).get(`/status/getAllStatusChart/${userId}`);
         expect(response.body).toEqual(
             expect.arrayContaining([

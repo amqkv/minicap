@@ -63,7 +63,7 @@ describe("<PatientList/>", () => {
 
         //THEN
 
-        expect(selectPatient.mock.calls.length).toBe(1);
-        expect(open.mock.calls.length).toBe(1);
+        expect(selectPatient.mock.calls).toHaveLength(1);
+        expect(open.mock.calls).toHaveLength(1);
     });
 });

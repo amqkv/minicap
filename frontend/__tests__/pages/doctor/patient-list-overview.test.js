@@ -61,9 +61,9 @@ describe("onChange functions", () => {
     });
     const component = shallow(<PatientListOverview patientList={patientList} />);
     it("onChange -> filterPatient + onSearch", () => {
+        const mockPreventDefault = jest.fn();
         const mockEvent = {
-            // eslint-disable-next-line @typescript-eslint/no-empty-function
-            preventDefault: () => {},
+            preventDefault: mockPreventDefault,
             target: { value: "test" },
         };
         let radiogroup = component.find(RadioGroup);
@@ -78,6 +78,7 @@ describe("onChange functions", () => {
             radiogroup.simulate("change", tag);
             component.update();
             component.find(Input).simulate("change", mockEvent);
+            expect(mockPreventDefault).toBeCalled();
             // @todo investigate function result expect statements
             // Where can the result of the filter be found? Can it be tested somehow?
         });

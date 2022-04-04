@@ -1,38 +1,42 @@
 const { QueryTypes } = require("sequelize");
+const Moment = require("moment");
 const RequiredDetails = require("../models/required-details");
 const Patient = require("../models/patient");
 const db = require("../config/database");
 const Appointment = require("../models/appointment");
-const Moment = require("moment");
 
 async function getRequiredDetails(req, res) {
-    const { PatientId } = await Patient.findOne({
+    await Patient.findOne({
         raw: true,
         where: { User_AccountId: req.params.accountId },
-    });
-
-    RequiredDetails.findAll({
-        raw: true,
-        where: {
-            Patient_PatientId: PatientId,
-        },
     })
-        .then(requiredDetails => {
-            // Renaming the detail names
-            const temp = [];
-            const keys = Object.keys(requiredDetails[0]);
-            for (let i = 1; i < keys.length; i++) {
-                if (keys[i].includes("Required")) {
-                    temp.push({
-                        [keys[i].replace("Required", "")]: requiredDetails[0][keys[i]],
-                    });
-                }
-            }
-            res.json(temp);
+        .then(async result => {
+            await RequiredDetails.findAll({
+                raw: true,
+                where: {
+                    Patient_PatientId: result.PatientId,
+                },
+            })
+                .then(requiredDetails => {
+                    // Renaming the detail names
+                    const temp = [];
+                    const keys = Object.keys(requiredDetails[0]);
+                    for (let i = 1; i < keys.length; i++) {
+                        if (keys[i].includes("Required")) {
+                            temp.push({
+                                [keys[i].replace("Required", "")]: requiredDetails[0][keys[i]],
+                            });
+                        }
+                    }
+                    res.json(temp);
+                })
+                .catch(err => {
+                    console.log(err);
+                    res.status(400).send("ERROR: Could not find details");
+                });
         })
-        .catch(err => {
-            console.log(err);
-            res.status(400).send("Could not find details");
+        .catch(() => {
+            res.status(400).send("ERROR: Cannot find patient");
         });
 }
 
@@ -67,7 +71,7 @@ async function getAppointmentForPatients(req, res) {
 // update appointment status for the patient
 async function appointmentConfirmation(req, res) {
     Appointment.update({ Status: req.body.confirm }, { where: { AppointmentId: req.body.appointmentId } })
-        .then(success => {
+        .then(() => {
             res.status(200).send("Appointment status updated.");
         })
         .catch(err => {
@@ -92,9 +96,9 @@ async function getConfirmedAppointments(req, res) {
     const today = Moment().format("YYYY-MM-DD");
 
     // find appointments in the future
-    let incomingAppointments = [];
+    const incomingAppointments = [];
     patientAppointment.map(appointment => {
-        let date = appointment.Date;
+        const date = appointment.Date;
         if (Moment(today).isBefore(date)) {
             incomingAppointments.push(appointment);
         }
