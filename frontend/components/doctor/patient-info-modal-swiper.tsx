@@ -35,6 +35,7 @@ const PatientInfoModalSwiper = ({ patient, onMutate }: AppProps) => {
 
         onMutate();
     };
+
     return (
         <div>
             <Carousel
@@ -45,7 +46,7 @@ const PatientInfoModalSwiper = ({ patient, onMutate }: AppProps) => {
                             type="button"
                             onClick={onClickHandler}
                             title={label}
-                            style={{ ...arrowStyles, left: 15 }}>
+                            style={{ ...arrowStyles, left: 1 }}>
                             <ChevronLeftIcon />
                         </button>
                     )
@@ -56,7 +57,7 @@ const PatientInfoModalSwiper = ({ patient, onMutate }: AppProps) => {
                             type="button"
                             onClick={onClickHandler}
                             title={label}
-                            style={{ ...arrowStyles, right: 15 }}>
+                            style={{ ...arrowStyles, right: 1 }}>
                             <ChevronRightIcon />
                         </button>
                     )
@@ -68,7 +69,7 @@ const PatientInfoModalSwiper = ({ patient, onMutate }: AppProps) => {
                     return (
                         <div key={index}>
                             <Center>
-                                <HStack align="center">
+                                <HStack>
                                     <Box>
                                         <CheckMark
                                             isColored={statusInfo.isReviewed}
@@ -76,7 +77,7 @@ const PatientInfoModalSwiper = ({ patient, onMutate }: AppProps) => {
                                             onClicking={() => {
                                                 reviewHandler(statusInfo.statusId);
                                             }}
-                                            isUnfillable={"false"}
+                                            isUncheckable={"false"}
                                         />
                                     </Box>
                                     <Box>

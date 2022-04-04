@@ -30,6 +30,7 @@ const patientsRouter = require("./routes/patients").router;
 const immigrationOfficerRouter = require("./routes/immigration-officer").router;
 const healthOfficialRouter = require("./routes/health-official").router;
 const contactPersonRouter = require("./routes/contact-person").router;
+const communicationRouter = require("./routes/communication").router;
 
 // View engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -45,6 +46,7 @@ app.use("/patients", patientsRouter);
 app.use("/immigration-officer", immigrationOfficerRouter);
 app.use("/health-official", healthOfficialRouter);
 app.use("/contact-person", contactPersonRouter);
+app.use("/communication", communicationRouter);
 
 // test DB
 db.authenticate()

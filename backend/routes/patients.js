@@ -10,10 +10,10 @@ router.get("/getRequiredDetails/:accountId", (req, res) => {
     patientController.getRequiredDetails(req, res);
 });
 
-// Update the required details list that the patient has to fill out
-// router.post("/:patientId/updateRequiredDetails", (req, res) => {
-//     patientController.updateRequiredDetails(req, res);
-// });
+// Get doctor assigned to patient
+router.get("/getAssignedDoctor/:accountId", (req, res) => {
+    patientController.getAssignedDoctor(req, res);
+});
 
 // know if the patient is positive or negative
 router.get("/isPositive/:accountId", (req, res) => {
@@ -23,6 +23,20 @@ router.get("/isPositive/:accountId", (req, res) => {
 router.get("/getName/:id", (req, res) => {
     patientController.getName(req, res);
 });
+
+router.get("/getAppointmentForPatients/:accountId", (req, res) => {
+    patientController.getAppointmentForPatients(req, res);
+});
+
+router.patch("/appointmentConfirmation", (req, res) => {
+    patientController.appointmentConfirmation(req, res);
+});
+
+router.get("/getConfirmedAppointments/:accountId", (req, res) => {
+    patientController.getConfirmedAppointments(req, res);
+});
+
+
 
 module.exports = {
     router,

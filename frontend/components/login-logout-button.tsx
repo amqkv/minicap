@@ -11,7 +11,7 @@ function LoginLogoutButton({}) {
             _hover={{ opacity: "90%" }}
             size="sm"
             color="white"
-            onClick={() => (session ? signOut({callbackUrl: "/"}) : signIn())}>
+            onClick={() => (session ? signOut({ callbackUrl: "/" }) : signIn())}>
             {session ? "Sign Out" : "Get Started Here"}
         </Button>
     );
