@@ -52,7 +52,7 @@ export default function PatientDetailsToProvideForm({ requiredDetails, patientId
 
     return (
         <Box>
-            <Stack spacing={5} direction="row">
+            <Stack spacing={5} direction={["column", "column", "row", "row"]}>
                 <CheckboxGroup defaultValue={getCheckedBoxes(requiredDetails)}>
                     {Object.entries(requiredDetails).map(requiredDetail => {
                         const detailName = requiredDetail[0];

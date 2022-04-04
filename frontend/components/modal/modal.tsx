@@ -9,9 +9,9 @@ interface AppProps {
 
 export default function PatientInfoModal({ isOpen, onClose, children }: AppProps) {
     return (
-        <Modal isOpen={isOpen} onClose={onClose} isCentered>
+        <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
-            <ModalContent p={1} px={5} pt={5} minW={{ md: "600px", base: "100vw" }}>
+            <ModalContent p={1} px={5} pt={5} minW={{ base: "300", md: "600px" }}>
                 {children}
             </ModalContent>
         </Modal>

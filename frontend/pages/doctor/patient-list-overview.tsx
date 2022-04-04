@@ -186,11 +186,11 @@ export default function DoctorDashboard() {
                             )}
                         </SimpleGrid>
                     </Box>
-                    <PatientInfoModal isOpen={isOpen} onClose={onClose}>
-                        <PatientInfoModalContent patient={selectedPatient} onMutate={mutate} onClose={onClose} />
-                    </PatientInfoModal>
                 </>
             )}
+            <PatientInfoModal isOpen={isOpen} onClose={onClose}>
+                <PatientInfoModalContent patient={selectedPatient} onMutate={mutate} onClose={onClose} />
+            </PatientInfoModal>
         </>
     );
 }
