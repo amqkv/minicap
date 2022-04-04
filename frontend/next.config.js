@@ -23,6 +23,10 @@ const nextConfig = {
                 destination: `${serverURL}/doctors/getPatientsInfo/:userId`,
             },
             {
+                source: "/doctors/get-patients-name/:userId",
+                destination: `${serverURL}/doctors/getPatientsName/:userId`,
+            },
+            {
                 source: "/api/status/review-status",
                 destination: `${serverURL}/status/review-status`,
             },
@@ -44,8 +48,12 @@ const nextConfig = {
             },
             {
                 source: "/api/admin/reject-user-account",
-                destination: `http://localhost:3001/admins/reject-user-account`,
+                destination: `${serverURL}/admins/reject-user-account`,
             },
+            {
+                source: "/api/patient/get-appointment",
+                destination: `${serverURL}/patients/getAppointmentForPatients`,
+            }
         ];
     },
     webpack(config) {

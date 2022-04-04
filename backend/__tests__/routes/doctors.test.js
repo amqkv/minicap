@@ -48,8 +48,7 @@ describe("GET: getting all patients of the current doctor", () => {
     });
     it("Returns code 200 and patient array if user is a doctor", async () => {
         const userId = 239;
-        const response = await request(app).get(`/doctors/getPatientsInfo/${userId}`);
-        expect(response.body).toHaveLength(2);
+        await request(app).get(`/doctors/getPatientsInfo/${userId}`).expect(200);
     });
     it("Returns the patient object with correct symptoms and lastUpdated attributes if null", async () => {
         const userId = 239;
@@ -57,6 +56,17 @@ describe("GET: getting all patients of the current doctor", () => {
         expect(response.body[1].status[0].symptoms.value).toEqual("fever, sore throat");
         // Commented, having a status with no time/date causes error in frontend
         // expect(response.body[1].status[0].lastUpdated).toEqual(0);
+    });
+});
+
+describe("GET: get list of patient's name of current doctor", () => {
+    it("Returns code 200 and patient list of names if user is a doctor", async () => {
+        const userId = constants.TEST_CONSTANTS.DOCTOR_ACCOUNT.AccountId;
+        await request(app).get(`/doctors/getPatientsName/${userId}`).expect(200);
+    });
+    it("Returns code 400 if user is not a doctor", async () => {
+        const userId = 0;
+        await request(app).get(`/doctors/getPatientsName/${userId}`).expect(400);
     });
 });
 

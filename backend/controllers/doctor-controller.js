@@ -145,6 +145,29 @@ async function getPatientsInfo(req, res) {
     }
 }
 
+// Get list of patient's names of current doctor
+async function getPatientsName(req, res) {
+    await db
+        .query(
+            `SELECT U.AccountId, U.FirstName, U.LastName 
+                FROM Doctor D, Patient P, Users U
+                WHERE D.User_AccountId='${req.params.userId}' AND D.DoctorId = P.Doctor_DoctorId AND P.User_AccountId = U.AccountId`,
+            {
+                type: QueryTypes.SELECT,
+            }
+        )
+        .then(patients => {
+            if (patients.length === 0) {
+                return res.status(400).send("User is not a doctor. Failed to execute.");
+            }
+            return res.status(200).send(patients);
+        })
+        .catch(err => {
+            console.log("Get List of Patients Name Error: ", err);
+            res.status(400).send("Error fetching list of patient's names");
+        });
+}
+
 async function getPatientsDashboardInfo(req, res) {
     await db
         .query(
@@ -316,6 +339,7 @@ async function makeAppointment(req, res) {
 module.exports = {
     updateRequiredDetails,
     getPatientsInfo,
+    getPatientsName,
     getPatientsDashboardInfo,
     updatePriority,
     reviewPatient,
