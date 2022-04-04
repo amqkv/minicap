@@ -1,4 +1,4 @@
-import { Box, Button, Center, Flex, Heading, ListItem, UnorderedList, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, Center, Flex, Heading, ListItem, Stack, UnorderedList, useDisclosure } from "@chakra-ui/react";
 import Card from "./card";
 import { links, link } from "@frontend/components/homepage/dashboard-structure";
 import { useSession } from "next-auth/react";
@@ -34,7 +34,7 @@ export default function Dashboard({
     const userName = session?.user?.FirstName + " " + session?.user?.LastName;
     const { onOpen, isOpen, onClose } = useDisclosure();
     const appointmentList = appointmentConfirmation;
-    
+
     return (
         <>
             <Box>
@@ -65,7 +65,10 @@ export default function Dashboard({
                                                 information page for further instructions.
                                             </ListItem>
                                             {incomingAppointments.length != 0 && (
-                                                <ListItem>You have an appointment with your doctor on {incomingAppointments[0].Date} from {incomingAppointments[0].Time} </ListItem>
+                                                <ListItem>
+                                                    You have an appointment with your doctor on{" "}
+                                                    {incomingAppointments[0].Date} from {incomingAppointments[0].Time}{" "}
+                                                </ListItem>
                                             )}
                                         </UnorderedList>
                                     </Box>
@@ -89,13 +92,15 @@ export default function Dashboard({
                         )}
 
                         <Center>
-                            <Flex flexWrap={"wrap"}>
-                                <DashboardCharts role={userRole} data={data} stats={stats} />
+                            <Flex>
+                                <Stack direction={["column", "row"]}>
+                                    <DashboardCharts role={userRole} data={data} stats={stats} />
 
-                                {links.map(({ label, url, roleRequired, img }: link) => {
-                                    const renderCard = roleRequired === userRole || !roleRequired;
-                                    return renderCard && <Card key={label} label={label} image={img} url={url} />;
-                                })}
+                                    {links.map(({ label, url, roleRequired, img }: link) => {
+                                        const renderCard = roleRequired === userRole || !roleRequired;
+                                        return renderCard && <Card key={label} label={label} image={img} url={url} />;
+                                    })}
+                                </Stack>
                             </Flex>
                         </Center>
                     </Box>
@@ -110,10 +115,10 @@ export default function Dashboard({
                             You may confirm or decline the appointment time
                         </Heading>
 
-                        {appointmentList.map(( appointment: AppointmentInfo ) => {
+                        {appointmentList.map((appointment: AppointmentInfo) => {
                             // formating
-                            let time = appointment.Time.replace("-", "to");
-                            let date = appointment.Date;
+                            const time = appointment.Time.replace("-", "to");
+                            const date = appointment.Date;
                             return (
                                 <ConfirmAppointment
                                     time={time}

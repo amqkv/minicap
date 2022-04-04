@@ -113,8 +113,8 @@ export default function PatientFormToFill({ requiredDetails, pastConditions, sta
                         </form>
                     </Box>
 
-                    <Box ml={"20px"}>
-                        <Chart data={chartData} w={650} h={500} />
+                    <Box ml={"5px"}>
+                        <Chart data={chartData} w={300} h={500} />
                     </Box>
                 </SimpleGrid>
 
