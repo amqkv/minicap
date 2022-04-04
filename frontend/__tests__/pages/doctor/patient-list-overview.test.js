@@ -3,7 +3,7 @@ import PatientInfoModalContent from "@frontend/components/doctor/patient-info-mo
 import PatientListOverview from "@frontend/pages/doctor/patient-list-overview";
 import PatientInfoModal from "@frontend/components/modal/modal";
 import { DEFAULT_PATIENT, FILTER_OPTIONS } from "@frontend/models/patient";
-import { Box, SimpleGrid, Heading, RadioGroup, Text, Center, Input, Radio } from "@chakra-ui/react";
+import { Box, SimpleGrid, Heading, RadioGroup, Text, Input } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import { USER_ROLES } from "@frontend/utils/constants";
 import React from "react";
@@ -61,8 +61,9 @@ describe("onChange functions", () => {
     });
     const component = shallow(<PatientListOverview patientList={patientList} />);
     it("onChange -> filterPatient + onSearch", () => {
+        const mockPreventDefault = jest.fn();
         const mockEvent = {
-            preventDefault: () => {},
+            preventDefault: mockPreventDefault,
             target: { value: "test" },
         };
         let radiogroup = component.find(RadioGroup);
@@ -77,6 +78,7 @@ describe("onChange functions", () => {
             radiogroup.simulate("change", tag);
             component.update();
             component.find(Input).simulate("change", mockEvent);
+            expect(mockPreventDefault).toBeCalled();
             // @todo investigate function result expect statements
             // Where can the result of the filter be found? Can it be tested somehow?
         });

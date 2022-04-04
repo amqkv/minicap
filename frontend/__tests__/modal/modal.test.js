@@ -5,7 +5,11 @@ import { Modal } from "@chakra-ui/react";
 describe("<Modal/>", () => {
     it("renders a <Modal /> component", () => {
         const wrapper = shallow(
-            <PatientInfoModal isOpen onClose={() => {}}>
+            <PatientInfoModal
+                isOpen
+                onClose={() => {
+                    return;
+                }}>
                 <p>hello</p>
             </PatientInfoModal>
         );

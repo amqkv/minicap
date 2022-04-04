@@ -3,6 +3,24 @@ import PatientDetailsToProvideForm from "@frontend/components/forms/patient-deta
 import { REQUIRED_DETAILS } from "@frontend/__tests__/__mock__/mock";
 import { Box, Flex, Button, Stack, CheckboxGroup, Checkbox } from "@chakra-ui/react";
 
+jest.mock("@chakra-ui/react", () => {
+    // --> Original module
+    const originalModule = jest.requireActual("@chakra-ui/react");
+
+    const fakeToast = { toast: jest.fn() };
+
+    return {
+        __esModule: true,
+        ...originalModule,
+        useToast: jest.fn().mockImplementation(() => {
+            return fakeToast;
+        }),
+    };
+});
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const mockToast = require("@chakra-ui/react").useToast;
+
 const unmockedFetch = global.fetch;
 
 beforeAll(() => {
@@ -37,13 +55,13 @@ describe("Rendering <PatientDetailsToProvideForm/>", () => {
         expect(wrapper.find(Button)).toHaveLength(1);
     });
 });
-
 describe("onSave", () => {
     it("Calls fetch", async () => {
         const component = shallow(<PatientDetailsToProvideForm requiredDetails={REQUIRED_DETAILS} />);
 
         component.find(Checkbox).at(2).simulate("click");
         await component.find(Button).at(0).simulate("click");
+        expect(mockToast).toBeCalled();
     });
     it("Calls setCheckedItems", async () => {
         const component = shallow(<PatientDetailsToProvideForm requiredDetails={REQUIRED_DETAILS} />);

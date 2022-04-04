@@ -1,12 +1,10 @@
-
 import {
     validPassword,
     validEmail,
     validPhoneNumber,
     validPostalCode,
-    allFieldsFilled,
     validIntegerField,
-} from '@frontend/functions/validation';
+} from "@frontend/functions/validation";
 
 describe("validate password function", () => {
     it("accepts a valid password with 1 capital, 1 symbol, 1 number and of length 8 at least", () => {
@@ -25,11 +23,10 @@ describe("validate password function", () => {
 });
 
 describe("validate email function", () => {
-    it("accepts a valid email with @ sign and ", () => {
+    it("accepts a valid email with @ sign and", () => {
         expect(validEmail("kelvin12@gmail.com")).toBe(true);
         expect(validEmail("kelvin@hotmail.com")).toBe(true);
         expect(validEmail("kelvin@live.concordia.com")).toBe(true);
-
     });
 
     it("refuses an invalid email", () => {
@@ -40,13 +37,11 @@ describe("validate email function", () => {
     });
 });
 
-
 describe("validate phone number function", () => {
     it("accepts a valid phonenumber", () => {
         expect(validPhoneNumber("123 456 7890")).toBe(true);
         expect(validPhoneNumber("123456 7890")).toBe(true);
         expect(validPhoneNumber("1234567890")).toBe(true);
-
     });
 
     it("refuses an invalid phone number", () => {
@@ -55,7 +50,6 @@ describe("validate phone number function", () => {
         expect(validPhoneNumber("12345678-90")).toBe(false);
     });
 });
-
 
 describe("validate postal code function", () => {
     it("accepts a valid postal code", () => {
@@ -83,4 +77,3 @@ describe("validate integer function", () => {
         expect(validIntegerField("-1324")).toBe(false);
     });
 });
-

@@ -69,9 +69,13 @@ describe("immigration officer find users page", () => {
                 },
             },
         });
+        const setState = jest.fn();
+        const useStateSpy = jest.spyOn(React, "useState");
+        useStateSpy.mockImplementation(init => [init, setState]);
         const wrapper = shallow(<UserList patients={IMMIGRATION_OFFICER_MOCK_PATIENTS} />);
         const inputBox = shallow(wrapper.find(Input).get(0));
         inputBox.simulate("change", { target: { value: "a" } });
+        expect(setState).toBeCalledWith("a");
     });
 });
 
