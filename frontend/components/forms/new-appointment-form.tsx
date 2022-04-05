@@ -1,4 +1,4 @@
-import { Box, Button, Flex, FormLabel, Heading, Select, useToast, Stack } from "@chakra-ui/react";
+import { Box, Button, Flex, FormLabel, Heading, Select, useToast, Stack, Input } from "@chakra-ui/react";
 import { serverURL } from "@frontend/config";
 import { Appointment, APPOINTMENT_TIMESLOTS, DEFAULT_APPOINTMENT } from "@frontend/models/appointment";
 import { PatientBasicInformation } from "@frontend/models/patient";
@@ -92,7 +92,7 @@ export default function NewAppointmentForm({
                         <FormLabel fontSize="lg" htmlFor="apt-date">
                             Date & time:&emsp;
                         </FormLabel>
-                        <input
+                        <Input
                             type="date"
                             name="apt-date"
                             onChange={e => pickDate(e.target.value)}

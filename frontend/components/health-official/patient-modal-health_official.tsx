@@ -45,8 +45,8 @@ export default function PatientInformationModalBody({ patient }: AppProps) {
 
                 <Center>
                     {patient.status.length !== 0 && (
-                        <Box mt={4}>
-                            <LineChart data={formatPatientStatusData(patient.status)} w={400} h={300} />
+                        <Box mt={4} width={["100vw"]}>
+                            <LineChart data={formatPatientStatusData(patient.status)} w={300} h={300} />
                         </Box>
                     )}
                 </Center>

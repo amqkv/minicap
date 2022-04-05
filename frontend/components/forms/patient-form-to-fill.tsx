@@ -79,11 +79,11 @@ export default function PatientFormToFill({ requiredDetails, pastConditions, sta
     }
     return (
         <>
-            <Box paddingLeft={"20px"}>
+            <Box paddingLeft={[5, 5, "20px"]}>
                 <Heading size="lg">Your Doctor: Dr Sawkon Di Zenoots</Heading>
                 <Heading size="lg">Today's Condition</Heading>
-                <SimpleGrid minChildWidth="400px" rowGap={5} columnGap={1}>
-                    <Box w={{ sm: "100%", base: "100%", md: "80%" }} paddingLeft={"50px"}>
+                <SimpleGrid minChildWidth="300px" rowGap={5} columnGap={1}>
+                    <Box w={{ sm: "100%", base: "100%", md: "80%" }} paddingLeft={[0, 10, "50px"]}>
                         <form onSubmit={handlePatientForm}>
                             <Heading size="md" margin={"30px 0 10px 20px"}>
                                 Please fill out the following field for your doctor:
@@ -113,7 +113,7 @@ export default function PatientFormToFill({ requiredDetails, pastConditions, sta
                         </form>
                     </Box>
 
-                    <Box ml={"5px"}>
+                    <Box ml={"5px"} width={["90vw", "90vw", 800]}>
                         <Chart data={chartData} w={300} h={500} />
                     </Box>
                 </SimpleGrid>
