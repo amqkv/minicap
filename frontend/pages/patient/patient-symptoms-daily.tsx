@@ -7,13 +7,8 @@ import { serverURL } from "@frontend/config/index";
 import { NextPageContext } from "next";
 
 function getFieldsForPatient(requiredDetails: requiredDetails[]) {
-<<<<<<< HEAD
-    let temp: object = {};
-    requiredDetails.map((detail: requiredDetails) => {
-=======
     let temp: any = {};
     requiredDetails.map(detail => {
->>>>>>> eefe58faa51d02b5c04cc5117516402d0c27578f
         temp = { ...temp, ...detail };
     });
     return temp as requiredDetails[];

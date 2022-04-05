@@ -40,12 +40,6 @@ export function filter({ searchText, arr, sort, filterValue, filterKey, ascendin
             patient.firstName?.toLowerCase().includes(lowerCaseSearchtext) ||
             patient.lastName?.toLowerCase().includes(lowerCaseSearchtext) ||
             patient.email?.toLowerCase().includes(lowerCaseSearchtext) ||
-            // commenting this here because we may want to fitler by city, address etc, but right now, our database has dumb info like Donk City.
-            //so yeah the fitlering is a bit messed up if we leep it
-            // patient.phoneNumber?.toLowerCase().includes(lowerCaseSearchtext) ||
-            // patient.address?.toLowerCase().includes(lowerCaseSearchtext) ||
-            // patient.postalCode?.toLowerCase().includes(lowerCaseSearchtext) ||
-            // patient.city?.toLowerCase().includes(lowerCaseSearchtext) ||
             (patient.firstName + " " + patient.lastName).toLowerCase().includes(lowerCaseSearchtext)
         ) {
             if (filterKey === "") {

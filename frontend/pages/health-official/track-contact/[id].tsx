@@ -17,9 +17,33 @@ import {
     sendEmailTrackPersonFailure,
     sendEmailTrackPersonSuccess,
 } from "@frontend/utils/popups";
-import deleteContactPerson from "@frontend/functions/delete-contact-person";
-import sendEmailContactPerson from "@frontend/functions/send-email-contact-person";
 import { ContactPerson } from "@frontend/components/patient/types/contact-person";
+
+export async function sendEmailContactPerson(person: ContactPerson, id: number) {
+    return await fetch(serverURL + "/contact-person/sendEmail", {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            ...person,
+            id,
+        }),
+    });
+}
+
+export async function deleteContactPerson(person: ContactPerson, id: number) {
+    return await fetch(serverURL + "/contact-person/deleteTrackContacts", {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            ...person,
+            id,
+        }),
+    });
+}
 
 export async function getServerSideProps(context: NextPageContext) {
     const session = await getSession(context);

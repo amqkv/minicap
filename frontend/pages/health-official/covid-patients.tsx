@@ -5,7 +5,7 @@ import Legend from "@frontend/components/legend";
 import { serverURL } from "@frontend/config/index";
 import { Flex, Text, Box, Divider, Select } from "@chakra-ui/react";
 import Circle from "@frontend/components/circle";
-import { Patient, PatientBasicInformation, Patient_HealthOfficial } from "@frontend/models/patient";
+import { PatientBasicInformation, Patient_HealthOfficial } from "@frontend/models/patient";
 import Modal from "@frontend/components/modal/modal";
 import { successfulToast, unsuccessfulToast } from "@frontend/utils/popups";
 import useFilteredPatients from "@frontend/hooks/use-filtered-patients";
@@ -14,7 +14,6 @@ import inputStyling from "@frontend/components/inputs/input-styling";
 import changeCovidStatus from "@frontend/functions/change-patient-covid-status";
 import PatientInformationModalBody from "@frontend/components/modal/patient-information-modal-body";
 import FilteredPatients from "@frontend/components/patient/filtered-patients";
-import PatientChartsOverview from "@frontend/components/health-official/patient-charts-overview";
 
 export async function getServerSideProps(context: NextPageContext) {
     const response = await fetch(serverURL + "/health-official/findUserStatus");

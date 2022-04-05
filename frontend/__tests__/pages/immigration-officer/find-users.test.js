@@ -9,6 +9,7 @@ import { Input, Flex, Button } from "@chakra-ui/react";
 import CovidPatients from "@frontend/pages/health-official/covid-patients";
 import PatientInformationModalBody from "@frontend/components/modal/patient-information-modal-body";
 import FilteredPatients from "@frontend/components/patient/filtered-patients";
+import { filter } from "@frontend/functions/sorting-filtering.ts";
 
 jest.mock("next-auth/react");
 
