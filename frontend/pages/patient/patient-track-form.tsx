@@ -51,9 +51,15 @@ export default function PositivePatientsTrackerForm({ hasCovid }: { hasCovid: bo
     const callPopup = (props: UseToastOptions) => toast({ ...props, id: "popup" });
 
     const handleChange = (i: number, e: React.ChangeEvent<HTMLInputElement>) => {
+        console.log(e);
+        console.log(e.target.name);
+        console.log(e.target.value);
         const newFormValues = [...formValues];
         newFormValues[i][e.target.name as keyof ContactPerson] = e.target.value;
+        console.log(formValues);
+        console.log(newFormValues);
         setFormValues(newFormValues);
+        console.log(formValues);
     };
 
     // adding new line for user to input a new user
@@ -74,18 +80,18 @@ export default function PositivePatientsTrackerForm({ hasCovid }: { hasCovid: bo
         try {
             if (!toast.isActive("popup")) {
                 const success = await postTrackContacts(formValues, session?.user.AccountId);
-                console.log(success);
                 if (success) {
-                    console.log("in if");
-                    setFormValues([]);
-                    console.log("setform has been called");
+                    console.log("success");
+                    // console.log(formValues);
+                    setFormValues([]); // clears form data
+                    // console.log(formValues);
+                    console.log("calling popup");
                     callPopup(trackPersonSuccess);
                 } else {
                     throw "error";
                 }
             }
         } catch {
-            console.log("in catch");
             callPopup(trackPersonFailure);
         }
     };

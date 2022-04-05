@@ -1,15 +1,16 @@
 import { useSession } from "next-auth/react";
 import { USER_ROLES } from "@frontend/utils/constants";
 import TrackPatientForm from "@frontend/components/patient/tracking-patient-form-input";
-import { Button, Accordion, AccordionItem, AccordionButton, AccordionPanel, CloseButton } from "@chakra-ui/react";
+import { Button, Accordion, AccordionItem, AccordionButton, AccordionPanel, CloseButton, Box } from "@chakra-ui/react";
 import PositivePatientsTrackerForm from "@frontend/pages/patient/patient-track-form";
 import { shallow } from "enzyme";
 import TrackContacts from "@frontend/functions/track-contacts";
+import { trackPersonSuccess, trackPersonFailure } from "@frontend/utils/popups";
 
 jest.mock("next-auth/react");
 jest.mock("@frontend/functions/track-contacts");
 
-// // toast
+// toast
 // jest.mock("@chakra-ui/react", () => {
 //     // --> Original module
 //     const originalModule = jest.requireActual("@chakra-ui/react");
@@ -24,9 +25,6 @@ jest.mock("@frontend/functions/track-contacts");
 //         }),
 //     };
 // });
-
-// // eslint-disable-next-line @typescript-eslint/no-var-requires
-// const mockToast = require("@chakra-ui/react").useToast;
 
 describe("patient tracking form page", () => {
     it("doesn't allow access if the user isn't a patient", () => {
@@ -59,7 +57,7 @@ describe("patient tracking form page", () => {
         expect(wrapper.find(CloseButton)).toHaveLength(1);
         expect(wrapper.find(Button)).toHaveLength(2);
     });
-    it("renders properly if the user is a patient and clicks on the add user button ", () => {
+    it("renders properly if the user is a patient and clicks on the add user button", () => {
         useSession.mockReturnValue({
             data: {
                 user: {
@@ -79,7 +77,7 @@ describe("patient tracking form page", () => {
         expect(wrapper.find(CloseButton)).toHaveLength(2);
         expect(wrapper.find(Button)).toHaveLength(2);
     });
-    it("renders properly if the user is a patient and clicks on the X button to remove a user ", () => {
+    it("renders properly if the user is a patient and clicks on the X button to remove a user", () => {
         useSession.mockReturnValue({
             data: {
                 user: {
@@ -109,39 +107,42 @@ describe("patient tracking form page", () => {
             },
         });
         const mockEvent = {
-            preventDefault: () => {
-                return;
-            },
             target: {
-                value: [
-                    {
-                        firstName: "Testing",
-                        lastName: "Patient",
-                        email: "testingemail123@gmail.com",
-                        phoneNumber: "514-111-1111",
-                        dateOfContact: "2022/04/05",
-                    },
-                ],
+                name: { firstName, lastName },
+                value: { firstName: "valueIpass", lastName: "value2" },
+                firstName: "Testing",
+                lastName: "Patient",
+                email: "testingemail123@gmail.com",
+                phoneNumber: "514-111-1111",
+                dateOfContact: "2022/04/05",
             },
         };
 
-        const setState = jest.fn();
+        const setStateMock = jest.fn();
         const useStateSpy = jest.spyOn(React, "useState");
-        useStateSpy.mockImplementation(init => [init, setState]);
+        useStateSpy.mockImplementation(init => [init, setStateMock]);
 
         TrackContacts.mockReturnValue(true);
 
         // wrapper - enzyme
         const wrapper = shallow(<PositivePatientsTrackerForm hasCovid={true} />);
-        //console.log(wrapper.debug());
+
+        // check if the data is registered in input -> handleChange
+        // wrapper.find(Button).at(1).simulate("change", mockEvent);
+        // wrapper.update();
+        // console.log(wrapper.find(TrackPatientForm).values);
+        wrapper.find(TrackPatientForm).simulate("change", 0, mockEvent);
+        wrapper.update();
         wrapper.find(Button).at(1).simulate("click", mockEvent);
         wrapper.update();
-        console.log(mockEvent);
-        console.log(mockEvent.target);
-        const dataStructure = { firstName: "", lastName: "", email: "", phoneNumber: "", dateOfContact: "" };
-        expect(setState).toBeCalled();
-        expect(setState).toBeCalledWith(mockEvent.target.value);
-        // wrapper.find(CloseButton).at(0).simulate("click");
-        // wrapper.update();
+        wrapper.find(Button).at(1).simulate("click", mockEvent);
+        wrapper.update();
+        // console.log(wrapper.debug());
+        // console.log(wrapper.find(TrackPatientForm).values);
+        // check if hook is called -> backend
+        expect(TrackContacts).toBeCalled(); // might have to come back and test for failure
+
+        // check if submit clears the data after its done -> onSubmit
+        expect(React.useState).toBeCalled();
     });
 });
