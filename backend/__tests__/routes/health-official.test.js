@@ -13,10 +13,17 @@ afterAll(async () => {
 });
 
 describe("PATCH: list of patients from the database", () => {
-    it("Returns code 200 after a good request", () => {
+    afterAll(() => {
+        const resetData = {
+            covidChange: true,
+            id: TEST_CONSTANTS.COVID_PATIENT.AccountId,
+        };
+        return request(app).patch("/health-official/updatePatientStatus").send(resetData);
+    });
+    it("Update Patient COVID status: Returns code 200 after a good request", () => {
         const data = {
             covidChange: true,
-            id: TEST_CONSTANTS.PATIENT_ACCOUNT.AccountId,
+            id: TEST_CONSTANTS.COVID_PATIENT.AccountId,
         };
         return request(app)
             .patch("/health-official/updatePatientStatus")
@@ -28,7 +35,7 @@ describe("PATCH: list of patients from the database", () => {
             });
     });
 
-    it("Returns code 400 after a bad request", () => {
+    it("Update Patient COVID status: Returns code 400 after a bad request", () => {
         const data = {
             covidChange: false,
         };

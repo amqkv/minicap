@@ -34,17 +34,17 @@ describe("Rendering <PatientDetailsToProvideForm/>", () => {
 });
 
 // TOFIX: unknown test failure. 
-// describe("onConfirm", () => {
-//     it("Calls fetch", async () => {
-//         const component = shallow(<ConfirmAppointment  appointment={mock_appointment}/>);
-//         component.find(Button).at(0).simulate("click");
-//     });
-// });
+describe("onConfirm", () => {
+    it("Calls fetch", async () => {
+        const component = shallow(<ConfirmAppointment  appointment={mock_appointment}/>);
+        component.find(Button).at(0).simulate("click");
+    });
+});
 
-// describe("onDecline", () => {
-//     it("Calls fetch", async () => {
-//         const component = shallow(<ConfirmAppointment  appointment={mock_appointment}/>);
-//         component.find(Button).at(1).simulate("click");
-//     });
-// });
+describe("onDecline", () => {
+    it("Calls fetch", async () => {
+        const component = shallow(<ConfirmAppointment  appointment={mock_appointment}/>);
+        component.find(Button).at(1).simulate("click");
+    });
+});
 

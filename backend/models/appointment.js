@@ -32,4 +32,8 @@ const Appointment = db.define(
     }
 );
 
+<<<<<<< HEAD
 module.exports = Appointment;
+=======
+module.exports = Appointment;
+>>>>>>> 96248b7a15152a0628224310a069897fd7845bf3

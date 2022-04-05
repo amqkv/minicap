@@ -18,7 +18,7 @@ afterAll(() => {
 });
 
 describe("<PatientInfoModalSwiper/>", () => {
-    it("renders swiper with content ", () => {
+    it("renders swiper with content", () => {
         //GIVEN
         const patient = DEFAULT_PATIENT;
         //WHEN
@@ -38,6 +38,6 @@ describe("<PatientInfoModalSwiper/>", () => {
         //THEN
         await wrapper.find(CheckMark).at(0).dive().find("Box").at(0).simulate("click");
         // expect(wrapper.find(CheckMark).at(0).dive().find("Box"));
-        expect(mutate.mock.calls.length).toBe(1);
+        expect(mutate.mock.calls).toHaveLength(1);
     });
 });

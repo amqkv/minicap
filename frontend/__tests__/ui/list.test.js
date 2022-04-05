@@ -2,7 +2,7 @@ import List from "@frontend/components/admin/list";
 import { shallow } from "enzyme";
 
 describe("Test UI List", () => {
-    it("Render with title and length ", () => {
+    it("Render with title and length", () => {
         //Given
         const title = "Hello";
         const length = 4;

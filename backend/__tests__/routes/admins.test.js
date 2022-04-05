@@ -2,7 +2,7 @@ const request = require("supertest");
 const app = require("../../index");
 const db = require("../../config/database");
 const User = require("../../models/user");
-const { TEST_CONSTANTS, BOOLEANS } = require("../../utils/constants");
+const { TEST_CONSTANTS, BOOLEANS, ROLE } = require("../../utils/constants");
 
 beforeAll(() => {
     // test DB
@@ -31,47 +31,55 @@ describe("Test the test admin route ", () => {
 describe("PATCH: Assign a patient to a doctor", () => {
     it("Patient has been assigned to a doctor", () => {
         const data = {
-            accountId: "17",
-            patientId: "7",
-            doctor_doctorId: "3",
+            accountId: TEST_CONSTANTS.TESTER_ADMIN.AccountId,
+            patientId: TEST_CONSTANTS.DOCTOR_ASSIGN_ADMIN_TEST.Patient_Id,
+            doctor_doctorId: TEST_CONSTANTS.DOCTOR_ASSIGN_ADMIN_TEST.Doctor_Id,
+        };
+        return request(app).patch("/admins/assign-patient-doctor").send(data).expect(200);
+    });
+    it("Patient has been un-assigned from doctor", () => {
+        const data = {
+            accountId: TEST_CONSTANTS.TESTER_ADMIN.AccountId,
+            patientId: TEST_CONSTANTS.DOCTOR_ASSIGN_ADMIN_TEST.Patient_Id,
+            doctor_doctorId: TEST_CONSTANTS.DOCTOR_ASSIGN_ADMIN_TEST.Doctor_Id,
         };
         return request(app).patch("/admins/assign-patient-doctor").send(data).expect(200);
     });
 
     it("PatientId not found", () => {
         const data = {
-            accountId: "17",
-            patientId: "0",
-            doctor_doctorId: "3",
+            accountId: TEST_CONSTANTS.TESTER_ADMIN.AccountId,
+            patientId: TEST_CONSTANTS.INVALID_ACCOUNT_ID,
+            doctor_doctorId: TEST_CONSTANTS.DOCTOR_ASSIGN_ADMIN_TEST.Doctor_Id,
         };
         return request(app).patch("/admins/assign-patient-doctor").send(data).expect(400);
     });
 
     it("DoctorId not found", () => {
         const data = {
-            accountId: "17",
-            patientId: "3",
-            doctor_doctorId: "0",
+            accountId: TEST_CONSTANTS.TESTER_ADMIN.accountId,
+            patientId: TEST_CONSTANTS.DOCTOR_ASSIGN_ADMIN_TEST.Patient_Id,
+            doctor_doctorId: TEST_CONSTANTS.INVALID_ACCOUNT_ID,
         };
         return request(app).patch("/admins/assign-patient-doctor").send(data).expect(400);
     });
 
     it("User is not signed in", () => {
         const data = {
-            accountId: "0",
-            patientId: "3",
-            doctor_doctorId: "3",
+            accountId: TEST_CONSTANTS.INVALID_ACCOUNT_ID,
+            patientId: TEST_CONSTANTS.DOCTOR_ASSIGN_ADMIN_TEST.Patient_Id,
+            doctor_doctorId: TEST_CONSTANTS.DOCTOR_ASSIGN_ADMIN_TEST.Doctor_Id,
         };
         return request(app).patch("/admins/assign-patient-doctor").send(data).expect(403);
     });
 
     it("AccountId is not an admin", () => {
         const data = {
-            accountId: "51",
-            patientId: "3",
-            doctor_doctorId: "3",
+            accountId: TEST_CONSTANTS.PATIENT_ACCOUNT,
+            patientId: TEST_CONSTANTS.DOCTOR_ASSIGN_ADMIN_TEST.Patient_Id,
+            doctor_doctorId: TEST_CONSTANTS.DOCTOR_ASSIGN_ADMIN_TEST.Doctor_Id,
         };
-        return request(app).patch("/admins/assign-patient-doctor").send(data).expect(401);
+        return request(app).patch("/admins/assign-patient-doctor").send(data).expect(403);
     });
 });
 
@@ -80,7 +88,7 @@ describe("PATCH: Update user role", () => {
     afterEach(async () => {
         await User.update(
             {
-                Role: "Patient",
+                Role: ROLE.PATIENT,
             },
             {
                 where: {
@@ -92,30 +100,30 @@ describe("PATCH: Update user role", () => {
 
     it("Update successfuly the role of a user as an Admin", () => {
         const data = {
-            accountId: "17",
+            accountId: TEST_CONSTANTS.TESTER_ADMIN.AccountId,
             userId: TEST_CONSTANTS.UPDATE_ROLE_ACCOUNT.AccountId,
-            oldRole: "Patient",
-            newRole: "HealthOfficial",
+            oldRole: ROLE.PATIENT,
+            newRole: ROLE.HEALTH_OFFICIAL,
         };
         return request(app).patch("/admins/update-role").send(data).expect(200);
     });
 
     it("Attempt to update to the same role as an Admin", () => {
         const data = {
-            accountId: "17",
+            accountId: TEST_CONSTANTS.TESTER_ADMIN.AccountId,
             userId: TEST_CONSTANTS.UPDATE_ROLE_ACCOUNT.AccountId,
-            oldRole: "Patient",
-            newRole: "Patient",
+            oldRole: ROLE.PATIENT,
+            newRole: ROLE.PATIENT,
         };
         return request(app).patch("/admins/update-role").send(data).expect(200);
     });
 
     it("Attempt to update a non-existing user as an Admin", () => {
         const data = {
-            accountId: "17",
-            userId: "0",
-            oldRole: "Patient",
-            newRole: "HealthOfficial",
+            accountId: TEST_CONSTANTS.TESTER_ADMIN.AccountId,
+            userId: TEST_CONSTANTS.INVALID_ACCOUNT_ID,
+            oldRole: ROLE.PATIENT,
+            newRole: ROLE.IMMIGRATION_OFFICER,
         };
         return request(app).patch("/admins/update-role").send(data).expect(400);
     });
@@ -123,19 +131,19 @@ describe("PATCH: Update user role", () => {
     it("Attempt to update a non-existing user as a Non-Admin", () => {
         const data = {
             accountId: TEST_CONSTANTS.UPDATE_ROLE_ACCOUNT.AccountId,
-            userId: TEST_CONSTANTS.UPDATE_ROLE_ACCOUNT.AccountId,
-            oldRole: "Patient",
-            newRole: "HealthOfficial",
+            userId: TEST_CONSTANTS.INVALID_ACCOUNT_ID,
+            oldRole: ROLE.PATIENT,
+            newRole: ROLE.IMMIGRATION_OFFICER,
         };
         return request(app).patch("/admins/update-role").send(data).expect(401);
     });
 
     it("Attempt to update a non-existing user as a Non-existing user", () => {
         const data = {
-            accountId: "0",
-            userId: TEST_CONSTANTS.UPDATE_ROLE_ACCOUNT.AccountId,
-            oldRole: "Patient",
-            newRole: "HealthOfficial",
+            accountId: TEST_CONSTANTS.INVALID_ACCOUNT_ID,
+            userId: TEST_CONSTANTS.INVALID_ACCOUNT_ID,
+            oldRole: ROLE.PATIENT,
+            newRole: ROLE.IMMIGRATION_OFFICER,
         };
         return request(app).patch("/admins/update-role").send(data).expect(403);
     });
@@ -199,7 +207,7 @@ describe("Reject User Account", () => {
     it("Attempts to reject a non-existing account as ADMIN", () => {
         const data = {
             accountId: TEST_CONSTANTS.TESTER_ADMIN.AccountId,
-            userId: 0,
+            userId: TEST_CONSTANTS.INVALID_ACCOUNT_ID,
             rejectedFlag: BOOLEANS.FALSE,
         };
         return request(app).patch("/admins/reject-user-account").send(data).expect(400);

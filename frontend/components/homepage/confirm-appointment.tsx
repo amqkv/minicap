@@ -28,16 +28,9 @@ export default function ConfirmAppointment(appointment: appointmentFormat) {
             });
             window.location.reload();
         })
-        .catch(err => {
-            toast({
-                title: "Appointment update error!",
-                description: "There was an issue. Try again.",
-                status: "error",
-                duration: 1000,
-                isClosable: true,
-            });
-            window.location.reload();
-        })
+        .catch(e => {
+            console.log(e);
+        });
     }
 
     async function onDecline() {
@@ -57,16 +50,9 @@ export default function ConfirmAppointment(appointment: appointmentFormat) {
             });
             window.location.reload();
         })
-        .catch(err => {
-            toast({
-                title: "Appointment update error!",
-                description: "There was an issue. Try again.",
-                status: "error",
-                duration: 1000,
-                isClosable: true,
-            });
-            window.location.reload();
-        })
+        .catch(e => {
+            console.log(e);
+        });
     }
     
    const year = appointment.date ? appointment.date.substring(0,4) : '';

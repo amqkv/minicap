@@ -6,7 +6,7 @@ import Legend from "@frontend/components/legend";
 import { serverURL } from "@frontend/config/index";
 import { Flex, Text, Box, Input, Divider, Select, Button } from "@chakra-ui/react";
 import Circle from "@frontend/components/circle";
-import { Patient, PatientBasicInformation, Patient_HealthOfficial } from "@frontend/models/patient";
+import { PatientBasicInformation, Patient_HealthOfficial } from "@frontend/models/patient";
 import Modal from "@frontend/components/modal/modal";
 import { successfulToast, unsuccessfulToast } from "@frontend/utils/popups";
 import { ArrowUpIcon, ArrowDownIcon } from "@chakra-ui/icons";
@@ -52,9 +52,16 @@ const CovidPatients = ({ patients }: { patients: Patient_HealthOfficial[] }) => 
     } = useFilteredPatients(patients);
 
     async function changeStatus() {
+        let ok;
         const { hasCovid, firstName, lastName, id } = selectedPatient || {};
         const covidChange = !hasCovid;
-        const { ok } = await changeCovidStatus(covidChange, id);
+        await changeCovidStatus(covidChange, id).then(response => {
+            setSelectedPatient({ ...selectedPatient, hasCovid: covidChange });
+            patients.map(patient => {
+                if (id === patient.id) patient.hasCovid = covidChange;
+            });
+            ok = response;
+        });
         if (ok) {
             setSelectedPatient({ ...selectedPatient, hasCovid: covidChange });
             patients.map(patient => {
@@ -146,6 +153,7 @@ const CovidPatients = ({ patients }: { patients: Patient_HealthOfficial[] }) => 
                             value={selectedPatient?.hasCovid?.toString()}
                             icon={<Circle color={selectedPatient?.hasCovid ? "red" : "green"} diameter={24} />}
                             onChange={changeStatus}>
+                            {" "}
                             <option value={true.toString()}>Positive</option>
                             <option value={false.toString()}>Negative</option>
                         </Select>

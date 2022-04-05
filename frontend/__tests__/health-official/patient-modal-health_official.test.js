@@ -1,6 +1,6 @@
 import { shallow } from "enzyme";
 import PatientInformationModalBody from "@frontend/components/health-official/patient-modal-health_official";
-import { DEFAULT_PAST_CONDITIONS, IMMIGRATION_OFFICER_MOCK_PATIENTS } from "@frontend/__tests__/__mock__/mock";
+import { IMMIGRATION_OFFICER_MOCK_PATIENTS } from "@frontend/__tests__/__mock__/mock";
 import { Image, Heading, Text, Box } from "@chakra-ui/react";
 
 describe("<PatientInformationModalBody/>", () => {

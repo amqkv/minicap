@@ -1,6 +1,16 @@
 {
     // plugin for typescript eslint rules
     "plugins": ["@typescript-eslint"],
-    // Added prettier in the extends to disable eslint rules that would interfer with prettier
-    "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended", "prettier"]
+    // Added prettier in the extends to disable eslint rules that would interfere with prettier
+    "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended", "plugin:jest/recommended", "prettier"],
+    "env": {
+        "jest/globals": true
+    },
+    "rules": {
+        "jest/no-disabled-tests": "warn",
+        "jest/no-focused-tests": "error",
+        "jest/no-identical-title": "error",
+        "jest/prefer-to-have-length": "warn",
+        "jest/valid-expect": "error"
+    }
 }

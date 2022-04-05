@@ -218,7 +218,7 @@ async function updatePriority(req, res) {
         });
 }
 
-// Update the priority state of a patient
+// Update the review state of the patient's latest status
 async function reviewPatient(req, res) {
     await db
         .query(
@@ -233,7 +233,8 @@ async function reviewPatient(req, res) {
             }
         )
         .then(status => {
-            if (status[0]) {
+            // status is [ undefined, 1 ] when valid and [ undefined, 0 ] when there is an error based on the tests
+            if (status[1] === 1) {
                 res.status(200).send("Task completed successfully!");
             } else {
                 res.status(400).send("Failed to execute update.");
@@ -242,61 +243,6 @@ async function reviewPatient(req, res) {
         .catch(err => {
             console.log("[Update Priority] Error: ", err);
             res.status(500).send("Failed to execute priority update.");
-        });
-}
-async function sendAppointmentEmail(req, res) {
-    await db
-        .query(
-            `SELECT patient.p_email, patient.p_firstName, patient.p_lastName, doctor.d_firstName, doctor.d_lastName
-                FROM (SELECT U.Email AS p_email, U.FirstName AS p_firstName, U.LastName AS p_lastName
-                        FROM Users U, Patient P
-                        WHERE P.PatientId=${req.body.patientId} AND 
-                            P.User_AccountId=U.AccountId) AS patient, 
-                    (SELECT FirstName AS d_firstName, LastName AS d_lastName
-                        FROM Users
-                        WHERE AccountId=${req.params.userId}) AS doctor`,
-            {
-                type: QueryTypes.SELECT,
-            }
-        )
-        .then(userInfo => {
-            const mailOptions = {
-                from: constants.ADMIN_EMAIL_ACCOUNT,
-                to: userInfo[0].p_email,
-                subject: `New Appointment Scheduled`,
-                html: `<p>Hello <b>${userInfo[0].p_firstName} ${userInfo[0].p_lastName}</b>,</p>
-                 <p>You have a new scheduled appointment with Doctor <b>${userInfo[0].d_firstName} ${userInfo[0].d_lastName}</b>.</p>
-                <p>Please head over your Appointments dashboard to view the details of your appointment and to confirm/decline.</p>`,
-            };
-            emailSender.emailTransporter.sendMail(mailOptions, error => {
-                if (error) {
-                    console.log("Email error: ", error);
-                    res.status(400).send("Failed to send email");
-                } else {
-                    res.status(200).send("Email successfully sent!");
-                }
-            });
-        });
-}
-
-async function makeAppointment(req, res) {
-    await db
-        .query(
-            `INSERT INTO Appointment(Patient_PatientId, Doctor_DoctorId, Date, Time, Status)
-                        SELECT ${req.body.patientId} , DoctorId, '${req.body.date}' , '${req.body.time}', 'pending'
-                            FROM Doctor
-                            WHERE User_AccountId=${req.params.userId}`,
-            {
-                type: QueryTypes.INSERT,
-            }
-        )
-        .then(() => {
-            sendAppointmentEmail(req, res);
-            res.status(200).send("Appointment successfully made!");
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(404).send("Could not create appointment.");
         });
 }
 
@@ -341,6 +287,56 @@ async function getAppointmentsAndPatients(req, res) {
         .catch(err => console.log(err));
 }
 
+async function makeAppointment(req, res) {
+    await db
+        .query(
+            `INSERT INTO Appointment(Patient_PatientId, Doctor_DoctorId, Date, Time, Status)
+                        SELECT ${req.body.patientId} , DoctorId, '${req.body.date}' , '${req.body.time}', 'pending'
+                            FROM Doctor
+                            WHERE User_AccountId=${req.params.userId}`,
+            {
+                type: QueryTypes.INSERT,
+            }
+        )
+        .then(async () => {
+            await db
+                .query(
+                    `SELECT patient.p_email, patient.p_firstName, patient.p_lastName, doctor.d_firstName, doctor.d_lastName
+                    FROM (SELECT U.Email AS p_email, U.FirstName AS p_firstName, U.LastName AS p_lastName
+                            FROM Users U, Patient P
+                            WHERE P.PatientId=${req.body.patientId} AND 
+                                P.User_AccountId=U.AccountId) AS patient, 
+                        (SELECT FirstName AS d_firstName, LastName AS d_lastName
+                            FROM Users
+                            WHERE AccountId=${req.params.userId}) AS doctor`,
+                    {
+                        type: QueryTypes.SELECT,
+                    }
+                )
+                .then(userInfo => {
+                    const mailOptions = {
+                        from: constants.ADMIN_EMAIL_ACCOUNT,
+                        to: userInfo[0].p_email,
+                        subject: `New Appointment Scheduled`,
+                        html: `<p>Hello <b>${userInfo[0].p_firstName} ${userInfo[0].p_lastName}</b>,</p>
+                     <p>You have a new scheduled appointment with Doctor <b>${userInfo[0].d_firstName} ${userInfo[0].d_lastName}</b>.</p>
+                    <p>Please head over your Appointments dashboard to view the details of your appointment and to confirm/decline.</p>`,
+                    };
+                    emailSender.emailTransporter.sendMail(mailOptions, error => {
+                        if (error) {
+                            console.log("Email error: ", error);
+                            res.status(400).send("Failed to send email");
+                        }
+                    });
+                    res.status(200).send("Appointment successfully made!");
+                });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(404).send("Could not create appointment.");
+        });
+}
+
 module.exports = {
     updateRequiredDetails,
     getPatientsInfo,
@@ -350,5 +346,4 @@ module.exports = {
     reviewPatient,
     makeAppointment,
     getAppointmentsAndPatients,
-    sendAppointmentEmail,
 };
