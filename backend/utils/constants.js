@@ -117,13 +117,8 @@ const CLIENT_URL = "http://localhost:3000";
 const TEST_STATUS = {
     CONFIRMED: "confirmed",
     DECLINED: "declined",
-<<<<<<< HEAD
-    PENDING: "pending"
-}
-=======
     PENDING: "pending",
 };
->>>>>>> 96248b7a15152a0628224310a069897fd7845bf3
 
 module.exports = {
     ROLE,

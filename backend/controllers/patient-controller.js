@@ -4,10 +4,6 @@ const RequiredDetails = require("../models/required-details");
 const Patient = require("../models/patient");
 const db = require("../config/database");
 const Appointment = require("../models/appointment");
-<<<<<<< HEAD
-const Moment = require("moment");
-=======
->>>>>>> 96248b7a15152a0628224310a069897fd7845bf3
 
 async function getRequiredDetails(req, res) {
     await Patient.findOne({
@@ -75,11 +71,7 @@ async function getAppointmentForPatients(req, res) {
 // update appointment status for the patient
 async function appointmentConfirmation(req, res) {
     Appointment.update({ Status: req.body.confirm }, { where: { AppointmentId: req.body.appointmentId } })
-<<<<<<< HEAD
-        .then(success => {
-=======
         .then(() => {
->>>>>>> 96248b7a15152a0628224310a069897fd7845bf3
             res.status(200).send("Appointment status updated.");
         })
         .catch(err => {
@@ -104,15 +96,9 @@ async function getConfirmedAppointments(req, res) {
     const today = Moment().format("YYYY-MM-DD");
 
     // find appointments in the future
-<<<<<<< HEAD
-    let incomingAppointments = [];
-    patientAppointment.map(appointment => {
-        let date = appointment.Date;
-=======
     const incomingAppointments = [];
     patientAppointment.map(appointment => {
         const date = appointment.Date;
->>>>>>> 96248b7a15152a0628224310a069897fd7845bf3
         if (Moment(today).isBefore(date)) {
             incomingAppointments.push(appointment);
         }
