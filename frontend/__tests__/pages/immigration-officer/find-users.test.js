@@ -60,4 +60,49 @@ describe("immigration officer find users page", () => {
         wrapper.update();
         expect(wrapper.find(Modal).prop("isOpen")).toBeTruthy();
     });
+<<<<<<< HEAD
 });
+=======
+    it("Simulate onChange event on the filter bar", () => {
+        useSession.mockReturnValue({
+            data: {
+                user: {
+                    Role: USER_ROLES.iOfficer,
+                },
+            },
+        });
+        const setState = jest.fn();
+        const useStateSpy = jest.spyOn(React, "useState");
+        useStateSpy.mockImplementation(init => [init, setState]);
+        const wrapper = shallow(<UserList patients={IMMIGRATION_OFFICER_MOCK_PATIENTS} />);
+        const inputBox = shallow(wrapper.find(Input).get(0));
+        inputBox.simulate("change", { target: { value: "a" } });
+        expect(setState).toBeCalledWith("a");
+    });
+});
+
+describe("filter function", () => {
+    it("filters properly", () => {
+        //sort alphabetically and do not click on button for positive or negative filter
+        expect(
+            filter({
+                searchText: "bing bong",
+                arr: IMMIGRATION_OFFICER_MOCK_PATIENTS,
+                alphabeticalSort: true,
+                positivesOnly: false,
+                negativesOnly: false,
+            })
+        ).toStrictEqual([IMMIGRATION_OFFICER_MOCK_PATIENTS[0]]);
+        // no search, look for all patients that are positive
+        expect(
+            filter({
+                searchText: "",
+                arr: IMMIGRATION_OFFICER_MOCK_PATIENTS,
+                alphabeticalSort: true,
+                positivesOnly: true,
+                negativesOnly: false,
+            })
+        ).toStrictEqual([IMMIGRATION_OFFICER_MOCK_PATIENTS[1]]);
+    });
+});
+>>>>>>> eefe58faa51d02b5c04cc5117516402d0c27578f

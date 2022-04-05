@@ -7,8 +7,13 @@ import { serverURL } from "@frontend/config/index";
 import { NextPageContext } from "next";
 
 function getFieldsForPatient(requiredDetails: requiredDetails[]) {
+<<<<<<< HEAD
     let temp: object = {};
     requiredDetails.map((detail: requiredDetails) => {
+=======
+    let temp: any = {};
+    requiredDetails.map(detail => {
+>>>>>>> eefe58faa51d02b5c04cc5117516402d0c27578f
         temp = { ...temp, ...detail };
     });
     return temp as requiredDetails[];
@@ -34,7 +39,9 @@ export async function getServerSideProps(context: NextPageContext) {
             requiredDetails = getFieldsForPatient(fetchData[0]);
             pastConditions = fetchData[1];
             statusChartData = fetchData[2];
-        } catch {}
+        } catch {
+            console.log("There was an error loading the data.");
+        }
     }
 
     return {
@@ -49,7 +56,6 @@ export async function getServerSideProps(context: NextPageContext) {
 
 export default function PatientSymptomsDaily(props: PatientsFormsToFill) {
     const { data: session } = useSession();
-
     if (session?.user.Role === USER_ROLES.patient && props.requiredDetails) {
         return <PatientFormToFill {...props} />;
     } else if (session?.user.Role === USER_ROLES.patient) {

@@ -5,7 +5,7 @@ import { shallow } from "enzyme";
 import { Text } from "@chakra-ui/react";
 
 describe("<PatientInfoModalSwiper/>", () => {
-    it("renders swiper with content ", () => {
+    it("renders swiper with content", () => {
         //GIVEN
         const patient = DEFAULT_PATIENT;
         //WHEN
@@ -14,7 +14,7 @@ describe("<PatientInfoModalSwiper/>", () => {
         //THEN
         expect(wrapper.find(PatientStatus)).toHaveLength(1);
     });
-    it("renders message if no statuses ", () => {
+    it("renders message if no statuses", () => {
         //GIVEN
         const patient = DEFAULT_PATIENT;
         patient.status = [];

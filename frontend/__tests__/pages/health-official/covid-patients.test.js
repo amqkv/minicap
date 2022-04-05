@@ -1,3 +1,4 @@
+import React from "react";
 import { useSession } from "next-auth/react";
 import { shallow } from "enzyme";
 import { USER_ROLES } from "@frontend/utils/constants";
@@ -60,4 +61,47 @@ describe("health official covid patients page", () => {
         wrapper.update();
         expect(wrapper.find(Modal).prop("isOpen")).toBeTruthy();
     });
+<<<<<<< HEAD
+=======
+    it("Simulate onChange event on the filter bar", () => {
+        useSession.mockReturnValue({
+            data: {
+                user: {
+                    Role: USER_ROLES.hOfficial,
+                },
+            },
+        });
+        const setState = jest.fn();
+        const useStateSpy = jest.spyOn(React, "useState");
+        useStateSpy.mockImplementation(init => [init, setState]);
+        const wrapper = shallow(<CovidPatients patients={IMMIGRATION_OFFICER_MOCK_PATIENTS} />);
+        const inputBox = shallow(wrapper.find(Input).get(0));
+        inputBox.simulate("change", { target: { value: "a" } });
+        expect(setState).toBeCalledWith("a");
+    });
+});
+
+describe("filter function", () => {
+    it("filters properly", () => {
+        expect(
+            filter({
+                searchText: "bing bong",
+                arr: IMMIGRATION_OFFICER_MOCK_PATIENTS,
+                alphabeticalSort: true,
+                positivesOnly: false,
+                negativesOnly: false,
+            })
+        ).toStrictEqual([IMMIGRATION_OFFICER_MOCK_PATIENTS[0]]);
+
+        expect(
+            filter({
+                searchText: "",
+                arr: IMMIGRATION_OFFICER_MOCK_PATIENTS,
+                alphabeticalSort: true,
+                positivesOnly: true,
+                negativesOnly: false,
+            })
+        ).toStrictEqual([IMMIGRATION_OFFICER_MOCK_PATIENTS[1]]);
+    });
+>>>>>>> eefe58faa51d02b5c04cc5117516402d0c27578f
 });

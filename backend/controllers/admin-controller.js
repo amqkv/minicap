@@ -266,7 +266,7 @@ async function getDashboardStats(req, res) {
                 pendingCount: counts[1],
             });
         });
-} 
+}
 
 module.exports = {
     updateRole,
@@ -274,5 +274,5 @@ module.exports = {
     confirmAccount,
     rejectAccount,
     getPatientsDoctors,
-    getDashboardStats
+    getDashboardStats,
 };

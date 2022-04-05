@@ -6,7 +6,6 @@ import {
 } from "@frontend/functions/data-transform-chart";
 import { DEFAULT_PATIENT } from "@frontend/models/patient";
 import { DAY } from "@frontend/utils/constants";
-import moment from "moment";
 
 describe("extractStatuses", () => {
     it("Extract the statuses from all patients", () => {
@@ -170,7 +169,7 @@ describe("transformWeightTempData", () => {
 });
 
 describe("formatPatientStatusData", () => {
-    it("It returns the status history in the correct format", () => {
+    it("Returns the status history in the correct format", () => {
         const mockStatus = [
             {
                 weight: { value: 10, unit: "" },

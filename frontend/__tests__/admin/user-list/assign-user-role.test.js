@@ -94,7 +94,7 @@ describe("Test rendering of User list", () => {
 
         expect(wrapper.find(Spinner)).toHaveLength(1);
     });
-    it("render spinner when loading", () => {
+    it("Error loading data", () => {
         //Given
         useRole.mockReturnValue({
             userRoles: {},

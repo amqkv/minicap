@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 jest.mock("next/router");
 jest.mock("next-auth/react");
 
-describe("", () => {
+describe("Tests the login/logout button", () => {
     it("renders the login button", () => {
         useSession.mockReturnValue({});
         useRouter.mockReturnValue({});
@@ -35,7 +35,11 @@ describe("", () => {
                 user: {},
             },
         });
-        useRouter.mockReturnValue({ push: () => {} });
+        useRouter.mockReturnValue({
+            push: () => {
+                return;
+            },
+        });
 
         const signOutButton = shallow(<LoginLogoutButton />);
         signOutButton.props().onClick();
