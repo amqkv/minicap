@@ -55,9 +55,7 @@ describe("GET: getting all patients of the current doctor", () => {
     it("Returns the patient object with correct symptoms and lastUpdated attributes if null", async () => {
         const userId = DOCTOR_TEST_SUBJECTS.DOCTOR_INFO.AccountId;
         const response = await request(app).get(`/doctors/getPatientsInfo/${userId}`);
-        expect(response.body[1].status[0].symptoms.value).toEqual(
-            "some very test specific symptoms where we check the string"
-        );
+        expect(response.body[1].status[0].symptoms.value).toEqual("test test");
         // Commented, having a status with no time/date causes error in frontend
         // expect(response.body[1].status[0].lastUpdated).toEqual(0);
     });
