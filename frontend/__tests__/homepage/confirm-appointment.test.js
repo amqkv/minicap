@@ -1,5 +1,5 @@
 import { shallow } from "enzyme";
-import { Button, Text } from "@chakra-ui/react";
+import { Button, Text, Icon } from "@chakra-ui/react";
 import ConfirmAppointment from "@frontend/components/homepage/confirm-appointment";
 
 const unmockedFetch = global.fetch;
@@ -38,6 +38,7 @@ describe("onConfirm", () => {
     it("Calls fetch", async () => {
         const wrapper = shallow(<ConfirmAppointment  appointment={mock_appointment}/>);
         expect(wrapper.find(Button)).toHaveLength(2);
+        expect(wrapper.find(Icon)).toHaveLength(2);
         expect(wrapper.find(Text).at(0).text()).toBe("Nov 30 1899 from ");
         wrapper.find(Button).at(0).simulate("click");
     });
@@ -47,6 +48,7 @@ describe("onDecline", () => {
     it("Calls fetch", async () => {
         const wrapper = shallow(<ConfirmAppointment  appointment={mock_appointment}/>);
         wrapper.find(Button).at(1).simulate("click");
+        expect(wrapper.find(Icon)).toHaveLength(2);
         expect(wrapper.find(Button)).toHaveLength(2);
         expect(wrapper.find(Text).at(0).text()).toBe("Nov 30 1899 from ");
     });
