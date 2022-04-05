@@ -8,13 +8,13 @@ export default function PatientInfoCard({ patient, clickHandler }: { patient: Pa
         <Box
             maxW="sm"
             minH="250px"
-            minW="400px"
+            minW={[300, 350, 350, 400]}
             borderWidth="2px"
             borderRadius="lg"
             overflow="hidden"
             borderColor={!patient.isAllReviewed ? "red.100" : "gray.200"}
             shadow="md"
-            mx={10}
+            mx={5}
             height="100%"
             px="6"
             py="4"

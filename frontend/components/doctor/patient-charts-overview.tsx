@@ -23,7 +23,7 @@ export default function PatientChartsOverview({ patientList }: { patientList: Pa
     }
 
     return (
-        <SimpleGrid minChildWidth="400px" rowGap={5} columnGap={2}>
+        <SimpleGrid minChildWidth="300px" rowGap={5} columnGap={2}>
             <Box m={10} mt={5}>
                 <Table patientList={patientList} />
             </Box>
@@ -42,7 +42,7 @@ export default function PatientChartsOverview({ patientList }: { patientList: Pa
                                 statuses={extractStatuses(patientList)}
                                 title="All patients' symptoms"
                                 h={250}
-                                w={500}
+                                w={300}
                                 day={pieChartDate}
                             />
                             <Center height="40px">
@@ -63,7 +63,7 @@ export default function PatientChartsOverview({ patientList }: { patientList: Pa
                                 statuses={extractStatuses(patientList)}
                                 title="All patients' symptoms"
                                 h={250}
-                                w={500}
+                                w={300}
                                 day={DAY.ALL}
                             />
                         </TabPanel>
@@ -86,7 +86,7 @@ export default function PatientChartsOverview({ patientList }: { patientList: Pa
                                 day={scatterChartDate}
                                 title={"Patients' Temperature and Weight Today"}
                                 h={275}
-                                w={400}
+                                w={300}
                             />
                             <Center>
                                 <label htmlFor="WeightTempDate">Date picked:&emsp;</label>
@@ -108,7 +108,7 @@ export default function PatientChartsOverview({ patientList }: { patientList: Pa
                                 day={DAY.ALL}
                                 title={"Patients' Temperature and Weight of All Time"}
                                 h={275}
-                                w={400}
+                                w={300}
                             />
                         </TabPanel>
                     </TabPanels>

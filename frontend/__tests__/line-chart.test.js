@@ -36,9 +36,6 @@ const mockData = [
 describe("<LineChart/>", () => {
     const wrapper = shallow(<Chart data={mockData} w={300} h={300} />);
 
-    it("Renders all the Box components", () => {
-        expect(wrapper.find(Box)).toHaveLength(1);
-    });
     it("Renders all the XAxis components", () => {
         expect(wrapper.find(XAxis)).toHaveLength(1);
     });

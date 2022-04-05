@@ -19,7 +19,7 @@ describe("List of filtered patients", () => {
 
         const wrapper = shallow(<FilteredPatients setSearchText={dummyFunction}></FilteredPatients>);
         wrapper.find(Input).simulate("change", { target: { value: "dummy" } });
-        expect(dummyFunction).toHaveBeenCalled();
+        expect(dummyFunction).toHaveBeenCalledWith("dummy");
     });
 
     it("renders children properly", () => {

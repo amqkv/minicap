@@ -6,10 +6,12 @@ import { IMMIGRATION_OFFICER_MOCK_PATIENTS } from "@frontend/__tests__/__mock__/
 import CovidPatients from "@frontend/pages/health-official/covid-patients";
 import Circle from "@frontend/components/circle";
 import Modal from "@frontend/components/modal/modal";
-import { Select, Text, Flex, Box } from "@chakra-ui/react";
+import { Select, Text, Flex, Box, Input } from "@chakra-ui/react";
 import PatientInformationModalBody from "@frontend/components/modal/patient-information-modal-body";
 import FilteredPatients from "@frontend/components/patient/filtered-patients";
+import changeCovidStatus from "@frontend/functions/change-patient-covid-status";
 
+jest.mock("@frontend/functions/change-patient-covid-status");
 jest.mock("next-auth/react");
 
 describe("health official covid patients page", () => {
@@ -60,45 +62,9 @@ describe("health official covid patients page", () => {
         userRow.props().onClick();
         wrapper.update();
         expect(wrapper.find(Modal).prop("isOpen")).toBeTruthy();
-    });
-    it("Simulate onChange event on the filter bar", () => {
-        useSession.mockReturnValue({
-            data: {
-                user: {
-                    Role: USER_ROLES.hOfficial,
-                },
-            },
-        });
-        const setState = jest.fn();
-        const useStateSpy = jest.spyOn(React, "useState");
-        useStateSpy.mockImplementation(init => [init, setState]);
-        const wrapper = shallow(<CovidPatients patients={IMMIGRATION_OFFICER_MOCK_PATIENTS} />);
-        const inputBox = shallow(wrapper.find(Input).get(0));
-        inputBox.simulate("change", { target: { value: "a" } });
-        expect(setState).toBeCalledWith("a");
-    });
-});
+        changeCovidStatus.mockResolvedValue(true);
 
-describe("filter function", () => {
-    it("filters properly", () => {
-        expect(
-            filter({
-                searchText: "bing bong",
-                arr: IMMIGRATION_OFFICER_MOCK_PATIENTS,
-                alphabeticalSort: true,
-                positivesOnly: false,
-                negativesOnly: false,
-            })
-        ).toStrictEqual([IMMIGRATION_OFFICER_MOCK_PATIENTS[0]]);
-
-        expect(
-            filter({
-                searchText: "",
-                arr: IMMIGRATION_OFFICER_MOCK_PATIENTS,
-                alphabeticalSort: true,
-                positivesOnly: true,
-                negativesOnly: false,
-            })
-        ).toStrictEqual([IMMIGRATION_OFFICER_MOCK_PATIENTS[1]]);
+        wrapper.find(Select).simulate("change");
+        expect(changeCovidStatus).toBeCalledTimes(1);
     });
 });

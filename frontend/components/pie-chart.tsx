@@ -2,7 +2,7 @@ import { Box, Center, Text } from "@chakra-ui/react";
 import { transformSymptomsData } from "@frontend/functions/data-transform-chart";
 import { PieChartLabel } from "@frontend/models/chart-data";
 import { PatientStatus } from "@frontend/models/patient";
-import { PieChart, Pie, Cell, Legend } from "recharts";
+import { PieChart, Pie, Cell, Legend, ResponsiveContainer } from "recharts";
 
 interface ChartProps {
     statuses: PatientStatus[];
@@ -29,7 +29,7 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
 export default function Chart({ statuses, title, h, w, day }: ChartProps) {
     const data = transformSymptomsData(statuses, day);
     return (
-        <Box minW={400} minH={200}>
+        <Box minW={350} minH={200}>
             {data.length ? (
                 <Box>
                     <Center>
@@ -38,21 +38,23 @@ export default function Chart({ statuses, title, h, w, day }: ChartProps) {
                         </Text>
                     </Center>
                     <Center>
-                        <PieChart width={w} height={h}>
-                            <Legend layout="vertical" verticalAlign="top" align="right" />
-                            <Pie
-                                data={data}
-                                isAnimationActive={false}
-                                // cx="45%"
-                                label={renderCustomizedLabel}
-                                outerRadius={80}
-                                fill="#8884d8"
-                                dataKey="value">
-                                {data.map((entry, index) => (
-                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                ))}
-                            </Pie>
-                        </PieChart>
+                        <ResponsiveContainer minWidth={w} minHeight={h}>
+                            <PieChart>
+                                <Legend layout="vertical" verticalAlign="top" align="right" />
+                                <Pie
+                                    data={data}
+                                    isAnimationActive={false}
+                                    // cx="45%"
+                                    label={renderCustomizedLabel}
+                                    outerRadius={80}
+                                    fill="#8884d8"
+                                    dataKey="value">
+                                    {data.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                    ))}
+                                </Pie>
+                            </PieChart>
+                        </ResponsiveContainer>
                     </Center>
                 </Box>
             ) : (

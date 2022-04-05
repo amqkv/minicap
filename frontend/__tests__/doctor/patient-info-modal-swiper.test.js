@@ -1,3 +1,4 @@
+import { Checkbox } from "@chakra-ui/react";
 import PatientInfoModalSwiper from "@frontend/components/doctor/patient-info-modal-swiper";
 import PatientStatus from "@frontend/components/doctor/patient-status";
 import CheckMark from "@frontend/components/UI/checkmark";
@@ -36,8 +37,37 @@ describe("<PatientInfoModalSwiper/>", () => {
         const wrapper = shallow(<PatientInfoModalSwiper patient={patient} onMutate={mutate} />);
 
         //THEN
-        await wrapper.find(CheckMark).at(0).dive().find("Box").at(0).simulate("click");
-        // expect(wrapper.find(CheckMark).at(0).dive().find("Box"));
+        await wrapper
+            .find(CheckMark)
+            .at(0)
+            .dive()
+            .find(Checkbox)
+            .at(0)
+            .simulate("change", { target: { checked: true } });
         expect(mutate.mock.calls).toHaveLength(1);
+    });
+    it("checks the click simulation", async () => {
+        //GIVEN
+        global.fetch = jest.fn().mockImplementationOnce(() =>
+            Promise.reject({
+                status: 400,
+                json: () => Promise.resolve({ success: false, error: "Something bad happened" }),
+            })
+        );
+
+        const patient = DEFAULT_PATIENT;
+        const mutate = jest.fn();
+        //WHEN
+        const wrapper = shallow(<PatientInfoModalSwiper patient={patient} onMutate={mutate} />);
+
+        //THEN
+        await wrapper
+            .find(CheckMark)
+            .at(0)
+            .dive()
+            .find(Checkbox)
+            .at(0)
+            .simulate("change", { target: { checked: true } });
+        expect(mutate.mock.calls).toHaveLength(0);
     });
 });

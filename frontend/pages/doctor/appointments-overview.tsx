@@ -81,7 +81,7 @@ export default function AppointmentsOverview({
                     <AppointmentCalendar appointmentList={appointmentList} />
                 </Box>
                 {/* Legend */}
-                <Box flex="1" h={650} minW={450}>
+                <Box flex="1" h={650} minW={300}>
                     <Box fontSize="lg" flex="1" h="10vh" mt={4} mb={4}>
                         <Text>
                             <MinusIcon w={6} h={6} color="green.200" mr={3} /> Confirmed

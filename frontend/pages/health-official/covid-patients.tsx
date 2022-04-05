@@ -30,11 +30,6 @@ export async function getServerSideProps(context: NextPageContext) {
 }
 const toastId = "covid";
 
-const buttonProps = {
-    variant: "outline",
-    size: "lg",
-};
-
 const CovidPatients = ({ patients }: { patients: Patient_HealthOfficial[] }) => {
     const { data: session } = useSession();
     const { isOpen, modalClose, openModal, selectedPatient, setSelectedPatient, toast } = usePatientModal({ toastId });
@@ -54,9 +49,18 @@ const CovidPatients = ({ patients }: { patients: Patient_HealthOfficial[] }) => 
     };
 
     async function changeStatus() {
+        let ok;
         const { hasCovid, firstName, lastName, id } = selectedPatient || {};
         const covidChange = !hasCovid;
-        const { ok } = await changeCovidStatus(covidChange, id);
+        await changeCovidStatus(covidChange, id)
+            .then(response => {
+                setSelectedPatient({ ...selectedPatient, hasCovid: covidChange });
+                patients.map(patient => {
+                    if (id === patient.id) patient.hasCovid = covidChange;
+                });
+                ok = response;
+            })
+            .catch();
         if (ok) {
             setSelectedPatient({ ...selectedPatient, hasCovid: covidChange });
             patients.map(patient => {
@@ -100,6 +104,7 @@ const CovidPatients = ({ patients }: { patients: Patient_HealthOfficial[] }) => 
                             value={selectedPatient?.hasCovid?.toString()}
                             icon={<Circle color={selectedPatient?.hasCovid ? "red" : "green"} diameter={24} />}
                             onChange={changeStatus}>
+                            {" "}
                             <option value={true.toString()}>Positive</option>
                             <option value={false.toString()}>Negative</option>
                         </Select>

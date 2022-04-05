@@ -1,4 +1,4 @@
-import { Box, Button, Center, Flex, Heading, ListItem, UnorderedList, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, Center, Flex, Heading, ListItem, Stack, UnorderedList, useDisclosure } from "@chakra-ui/react";
 import Card from "./card";
 import { links, link } from "@frontend/components/homepage/dashboard-structure";
 import { useSession } from "next-auth/react";
@@ -34,7 +34,7 @@ export default function Dashboard({
     const userName = session?.user?.FirstName + " " + session?.user?.LastName;
     const { onOpen, isOpen, onClose } = useDisclosure();
     const appointmentList = appointmentConfirmation;
-    
+
     return (
         <>
             <Box>
@@ -47,8 +47,8 @@ export default function Dashboard({
                         {session?.user?.Role === USER_ROLES.patient && (
                             <Box margin={"20px 0px 30px 10%"}>
                                 <Heading size={"lg"}>Announcement:</Heading>
-                                <Flex>
-                                    <Box flex="1">
+                                <Stack direction={["column", "column", "row", "row"]}>
+                                    <Box flex={1}>
                                         <UnorderedList marginTop={"20px"}>
                                             <ListItem>You have 0 new message.</ListItem>
                                             {!statusFilled && (
@@ -65,11 +65,14 @@ export default function Dashboard({
                                                 information page for further instructions.
                                             </ListItem>
                                             {incomingAppointments.length != 0 && (
-                                                <ListItem>You have an appointment with your doctor on {incomingAppointments[0].Date} from {incomingAppointments[0].Time} </ListItem>
+                                                <ListItem>
+                                                    You have an appointment with your doctor on{" "}
+                                                    {incomingAppointments[0].Date} from {incomingAppointments[0].Time}{" "}
+                                                </ListItem>
                                             )}
                                         </UnorderedList>
                                     </Box>
-                                    <Box flex="1">
+                                    <Box flex={1}>
                                         {appointmentConfirmation.length ? (
                                             <>
                                                 <Heading size={"md"}>
@@ -84,19 +87,20 @@ export default function Dashboard({
                                             <></>
                                         )}
                                     </Box>
-                                </Flex>
+                                </Stack>
                             </Box>
                         )}
 
                         <Center>
-                            <Flex flexWrap={"wrap"}>
-                                <DashboardCharts role={userRole} data={data} stats={stats} />
-                                <Flex flexWrap={"wrap"} flex={1}>
+                            <Flex>
+                                <Stack direction={["column", "row"]}>
+                                    <DashboardCharts role={userRole} data={data} stats={stats} />
+
                                     {links.map(({ label, url, roleRequired, img }: link) => {
                                         const renderCard = roleRequired === userRole || !roleRequired;
                                         return renderCard && <Card key={label} label={label} image={img} url={url} />;
                                     })}
-                                </Flex>
+                                </Stack>
                             </Flex>
                         </Center>
                     </Box>
@@ -111,10 +115,10 @@ export default function Dashboard({
                             You may confirm or decline the appointment time
                         </Heading>
 
-                        {appointmentList.map(( appointment: AppointmentInfo ) => {
+                        {appointmentList.map((appointment: AppointmentInfo) => {
                             // formating
-                            let time = appointment.Time.replace("-", "to");
-                            let date = appointment.Date;
+                            const time = appointment.Time.replace("-", "to");
+                            const date = appointment.Date;
                             return (
                                 <ConfirmAppointment
                                     time={time}

@@ -1,21 +1,31 @@
-import { Box, Heading, List, ListItem, useBreakpointValue, Stat, StatLabel, StatNumber, StatGroup } from "@chakra-ui/react";
+import {
+    Box,
+    Heading,
+    List,
+    ListItem,
+    useBreakpointValue,
+    Stat,
+    StatLabel,
+    StatNumber,
+    StatGroup,
+} from "@chakra-ui/react";
 import { USER_ROLES } from "@frontend/utils/constants";
 import { BarChart, CartesianGrid, YAxis, Tooltip, Legend, Bar } from "recharts";
 import Chart from "@frontend/components/line-chart";
 interface DashboardChartsProps {
     role: string | undefined;
     data?: unknown[];
-    stats?: { unassignedPatientsCount: Number; pendingCount: Number };
+    stats?: { unassignedPatientsCount: number; pendingCount: number };
 }
 
-export default function DashboardCharts({ role, data, stats  }: DashboardChartsProps) {
-    const size = useBreakpointValue({ base: 300, md: 700 });
+export default function DashboardCharts({ role, data, stats }: DashboardChartsProps) {
+    const size = useBreakpointValue({ base: 300, md: 400 });
 
     if (data) {
         switch (role) {
             case USER_ROLES.patient:
                 return (
-                    <Box flex="0.5" margin={"10px 10px 0px 50px"} w={{ sm: "50%", base: "60%" }}>
+                    <Box margin={"10px 10px 0px 50px"} w={{ base: "300" }} h={{ base: "300" }}>
                         <Heading size={"lg"}>Your Status Chart:</Heading>
                         <Chart data={data} w={size} h={size} />
                     </Box>
