@@ -1,4 +1,4 @@
-import { Box, Button, Flex, FormLabel, Heading, Input, Select, useToast } from "@chakra-ui/react";
+import { Box, Button, Flex, FormLabel, Heading, Select, useToast, Stack, Input } from "@chakra-ui/react";
 import { serverURL } from "@frontend/config";
 import { Appointment, APPOINTMENT_TIMESLOTS, DEFAULT_APPOINTMENT } from "@frontend/models/appointment";
 import { PatientBasicInformation } from "@frontend/models/patient";
@@ -86,32 +86,35 @@ export default function NewAppointmentForm({
                         ))}
                     </Select>
                 </Flex>
+
                 <Flex my={3}>
-                    <FormLabel fontSize="lg" htmlFor="apt-date">
-                        Date & time:&emsp;
-                    </FormLabel>
-                    <Input
-                        type="date"
-                        name="apt-date"
-                        onChange={e => pickDate(e.target.value)}
-                        style={datePickerStyle}
-                        min={today}
-                    />
-                    <FormLabel mx={3} fontSize="lg" htmlFor="apt-time">
-                        at
-                    </FormLabel>
-                    <Select
-                        flex="3.65"
-                        placeholder="Pick a time"
-                        name="apt-time"
-                        maxWidth={150}
-                        onChange={e => selectTime(e.target.value)}>
-                        {APPOINTMENT_TIMESLOTS.map(timeslot => (
-                            <option key={timeslot} value={timeslot} disabled={disableOption(timeslot)}>
-                                {timeslot}
-                            </option>
-                        ))}
-                    </Select>
+                    <Stack direction={["column", "column", "row", "row"]} align="stretch" minW={300}>
+                        <FormLabel fontSize="lg" htmlFor="apt-date">
+                            Date & time:&emsp;
+                        </FormLabel>
+                        <Input
+                            type="date"
+                            name="apt-date"
+                            onChange={e => pickDate(e.target.value)}
+                            style={datePickerStyle}
+                            min={today}
+                        />
+                        <FormLabel mx={3} fontSize="lg" htmlFor="apt-time">
+                            at
+                        </FormLabel>
+                        <Select
+                            flex="3.65"
+                            placeholder="Pick a time"
+                            name="apt-time"
+                            maxWidth={[300, 300, 150, 150]}
+                            onChange={e => selectTime(e.target.value)}>
+                            {APPOINTMENT_TIMESLOTS.map(timeslot => (
+                                <option key={timeslot} value={timeslot} disabled={disableOption(timeslot)}>
+                                    {timeslot}
+                                </option>
+                            ))}
+                        </Select>
+                    </Stack>
                 </Flex>
                 <Flex justifyContent="flex-end">
                     <Button onClick={scheduleAppointment} colorScheme="red">

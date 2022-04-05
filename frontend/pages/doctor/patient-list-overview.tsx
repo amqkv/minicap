@@ -129,7 +129,7 @@ export default function DoctorDashboard() {
                                 onChange={e => filterPatients(e)}
                                 value={filterOption}
                                 colorScheme={"red"}>
-                                <Stack direction="row">
+                                <Stack direction={["column", "column", "row", "row"]}>
                                     <Text>
                                         <b>Filter by:</b> &nbsp;
                                     </Text>
@@ -142,7 +142,7 @@ export default function DoctorDashboard() {
                             </RadioGroup>
                         </Box>
 
-                        <SimpleGrid templateColumns={"repeat(auto-fit, minmax(400px, 1fr))"} columnGap={2} rowGap={5}>
+                        <SimpleGrid templateColumns={"repeat(auto-fit, minmax(370px, 1fr))"} columnGap={5} rowGap={5}>
                             {/* Changed the way list are shown, otherwise these lists don't update on changes */}
                             {filterOption === FILTER_OPTIONS.NONE && (
                                 <PatientList
@@ -186,11 +186,11 @@ export default function DoctorDashboard() {
                             )}
                         </SimpleGrid>
                     </Box>
-                    <PatientInfoModal isOpen={isOpen} onClose={onClose}>
-                        <PatientInfoModalContent patient={selectedPatient} onMutate={mutate} onClose={onClose} />
-                    </PatientInfoModal>
                 </>
             )}
+            <PatientInfoModal isOpen={isOpen} onClose={onClose}>
+                <PatientInfoModalContent patient={selectedPatient} onMutate={mutate} onClose={onClose} />
+            </PatientInfoModal>
         </>
     );
 }
