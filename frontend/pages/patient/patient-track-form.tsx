@@ -56,11 +56,13 @@ export default function PositivePatientsTrackerForm({ hasCovid }: { hasCovid: bo
         setFormValues(newFormValues);
     };
 
+    // adding new line for user to input a new user
     const addFormFields = () => {
         setFormValues([...formValues, { firstName: "", lastName: "", email: "", phoneNumber: "", dateOfContact: "" }]);
         setAccordionIndex(formValues.length);
     };
 
+    // remove a line for user to input information
     const removeFormFields = (i: number) => {
         const newFormValues = [...formValues];
         newFormValues.splice(i, 1);
@@ -72,14 +74,18 @@ export default function PositivePatientsTrackerForm({ hasCovid }: { hasCovid: bo
         try {
             if (!toast.isActive("popup")) {
                 const success = await postTrackContacts(formValues, session?.user.AccountId);
+                console.log(success);
                 if (success) {
+                    console.log("in if");
                     setFormValues([]);
+                    console.log("setform has been called");
                     callPopup(trackPersonSuccess);
                 } else {
                     throw "error";
                 }
             }
         } catch {
+            console.log("in catch");
             callPopup(trackPersonFailure);
         }
     };

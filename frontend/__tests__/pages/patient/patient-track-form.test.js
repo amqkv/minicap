@@ -4,8 +4,29 @@ import TrackPatientForm from "@frontend/components/patient/tracking-patient-form
 import { Button, Accordion, AccordionItem, AccordionButton, AccordionPanel, CloseButton } from "@chakra-ui/react";
 import PositivePatientsTrackerForm from "@frontend/pages/patient/patient-track-form";
 import { shallow } from "enzyme";
+import TrackContacts from "@frontend/functions/track-contacts";
 
 jest.mock("next-auth/react");
+jest.mock("@frontend/functions/track-contacts");
+
+// // toast
+// jest.mock("@chakra-ui/react", () => {
+//     // --> Original module
+//     const originalModule = jest.requireActual("@chakra-ui/react");
+
+//     const fakeToast = { toast: jest.fn() };
+
+//     return {
+//         __esModule: true,
+//         ...originalModule,
+//         useToast: jest.fn().mockImplementation(() => {
+//             return fakeToast;
+//         }),
+//     };
+// });
+
+// // eslint-disable-next-line @typescript-eslint/no-var-requires
+// const mockToast = require("@chakra-ui/react").useToast;
 
 describe("patient tracking form page", () => {
     it("doesn't allow access if the user isn't a patient", () => {
@@ -88,20 +109,38 @@ describe("patient tracking form page", () => {
             },
         });
         const mockEvent = {
-            preventDefault: () => {},
-            target: [
-                { value: "Testing" },
-                { value: "Patient" },
-                { value: "testingemail123@gmail.com" },
-                { value: "514-111-1111" },
-                { value: "Today" },
-            ],
+            preventDefault: () => {
+                return;
+            },
+            target: {
+                value: [
+                    {
+                        firstName: "Testing",
+                        lastName: "Patient",
+                        email: "testingemail123@gmail.com",
+                        phoneNumber: "514-111-1111",
+                        dateOfContact: "2022/04/05",
+                    },
+                ],
+            },
         };
+
+        const setState = jest.fn();
+        const useStateSpy = jest.spyOn(React, "useState");
+        useStateSpy.mockImplementation(init => [init, setState]);
+
+        TrackContacts.mockReturnValue(true);
 
         // wrapper - enzyme
         const wrapper = shallow(<PositivePatientsTrackerForm hasCovid={true} />);
-        console.log(wrapper.debug());
-        wrapper.find(Button).at(1).simulate("click");
+        //console.log(wrapper.debug());
+        wrapper.find(Button).at(1).simulate("click", mockEvent);
+        wrapper.update();
+        console.log(mockEvent);
+        console.log(mockEvent.target);
+        const dataStructure = { firstName: "", lastName: "", email: "", phoneNumber: "", dateOfContact: "" };
+        expect(setState).toBeCalled();
+        expect(setState).toBeCalledWith(mockEvent.target.value);
         // wrapper.find(CloseButton).at(0).simulate("click");
         // wrapper.update();
     });

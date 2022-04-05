@@ -5,7 +5,7 @@ import { IMMIGRATION_OFFICER_MOCK_PATIENTS } from "@frontend/__tests__/__mock__/
 import UserList from "@frontend/pages/immigration-officer/find-users";
 import Circle from "@frontend/components/circle";
 import Modal from "@frontend/components/modal/modal";
-import { Flex, Text, Box } from "@chakra-ui/react";
+import { Input, Flex, Button } from "@chakra-ui/react";
 import CovidPatients from "@frontend/pages/health-official/covid-patients";
 import PatientInformationModalBody from "@frontend/components/modal/patient-information-modal-body";
 import FilteredPatients from "@frontend/components/patient/filtered-patients";
@@ -60,9 +60,6 @@ describe("immigration officer find users page", () => {
         wrapper.update();
         expect(wrapper.find(Modal).prop("isOpen")).toBeTruthy();
     });
-<<<<<<< HEAD
-});
-=======
     it("Simulate onChange event on the filter bar", () => {
         useSession.mockReturnValue({
             data: {
@@ -105,4 +102,3 @@ describe("filter function", () => {
         ).toStrictEqual([IMMIGRATION_OFFICER_MOCK_PATIENTS[1]]);
     });
 });
->>>>>>> eefe58faa51d02b5c04cc5117516402d0c27578f
