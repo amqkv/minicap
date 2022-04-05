@@ -1,4 +1,4 @@
-import { Modal, ModalContent, ModalOverlay } from "@chakra-ui/react";
+import { Modal, ModalContent, ModalOverlay, ModalCloseButton, ModalHeader } from "@chakra-ui/react";
 import { ReactNode } from "react";
 
 interface AppProps {
@@ -12,6 +12,11 @@ export default function PatientInfoModal({ isOpen, onClose, children }: AppProps
         <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
             <ModalContent p={1} px={5} pt={5} minW={{ base: "300", md: "600px" }}>
+                <ModalHeader>
+                    <ModalCloseButton />
+                </ModalHeader>
+                <br />
+
                 {children}
             </ModalContent>
         </Modal>

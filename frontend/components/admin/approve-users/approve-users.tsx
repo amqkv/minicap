@@ -22,35 +22,33 @@ export default function ApproveUsers(sessionId: number) {
             {isLoading && <Spinner />}
             {!!users && (
                 <Center>
-                    <Box py={5}>
-                        <Container>
-                            <List spacing={10}>
-                                <UserList
-                                    style={{
-                                        minHeight: "26vh",
-                                        maxHeight: "auto",
-                                        py: 2,
-                                        m: 0,
-                                        alignItems: "left",
-                                        height: "650px",
-                                        width: "55vh",
-                                    }}
-                                    key="1"
-                                    title="Pending Users"
-                                    length={users["Users"].length}>
-                                    <Scrollbars autoHide>
-                                        {users["Users"].map((item: UserInfoSimple) => (
-                                            <ApproveUsersRowCard
-                                                key={item.AccountId}
-                                                session={sessionId}
-                                                userInfoSimple={item}
-                                            />
-                                        ))}
-                                    </Scrollbars>
-                                </UserList>
-                            </List>
-                        </Container>
-                    </Box>
+                    <Container px={0}>
+                        <List spacing={10}>
+                            <UserList
+                                style={{
+                                    minHeight: "26vh",
+                                    maxHeight: "auto",
+                                    py: 2,
+                                    m: 0,
+                                    alignItems: "left",
+                                    height: "650px",
+                                    width: ["100vw", "55vh"],
+                                }}
+                                key="1"
+                                title="Pending Users"
+                                length={users["Users"].length}>
+                                <Scrollbars autoHide>
+                                    {users["Users"].map((item: UserInfoSimple) => (
+                                        <ApproveUsersRowCard
+                                            key={item.AccountId}
+                                            session={sessionId}
+                                            userInfoSimple={item}
+                                        />
+                                    ))}
+                                </Scrollbars>
+                            </UserList>
+                        </List>
+                    </Container>
                 </Center>
             )}
         </Fragment>

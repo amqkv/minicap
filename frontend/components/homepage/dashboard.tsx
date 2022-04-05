@@ -47,8 +47,8 @@ export default function Dashboard({
                         {session?.user?.Role === USER_ROLES.patient && (
                             <Box margin={"20px 0px 30px 10%"}>
                                 <Heading size={"lg"}>Announcement:</Heading>
-                                <Flex>
-                                    <Box flex="1">
+                                <Stack direction={["column", "column", "row", "row"]}>
+                                    <Box flex={1}>
                                         <UnorderedList marginTop={"20px"}>
                                             <ListItem>You have 0 new message.</ListItem>
                                             {!statusFilled && (
@@ -72,7 +72,7 @@ export default function Dashboard({
                                             )}
                                         </UnorderedList>
                                     </Box>
-                                    <Box flex="1">
+                                    <Box flex={1}>
                                         {appointmentConfirmation.length ? (
                                             <>
                                                 <Heading size={"md"}>
@@ -87,7 +87,7 @@ export default function Dashboard({
                                             <></>
                                         )}
                                     </Box>
-                                </Flex>
+                                </Stack>
                             </Box>
                         )}
 
