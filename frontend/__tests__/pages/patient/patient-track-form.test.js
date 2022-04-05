@@ -1,30 +1,14 @@
 import { useSession } from "next-auth/react";
 import { USER_ROLES } from "@frontend/utils/constants";
 import TrackPatientForm from "@frontend/components/patient/tracking-patient-form-input";
-import { Button, Accordion, AccordionItem, AccordionButton, AccordionPanel, CloseButton, Box } from "@chakra-ui/react";
+import { Button, Accordion, AccordionItem, AccordionButton, AccordionPanel, CloseButton } from "@chakra-ui/react";
 import PositivePatientsTrackerForm from "@frontend/pages/patient/patient-track-form";
 import { shallow } from "enzyme";
 import TrackContacts from "@frontend/functions/track-contacts";
-import { trackPersonSuccess, trackPersonFailure } from "@frontend/utils/popups";
+import StandardInput from "@frontend/components/inputs/standard-input";
 
 jest.mock("next-auth/react");
 jest.mock("@frontend/functions/track-contacts");
-
-// toast
-// jest.mock("@chakra-ui/react", () => {
-//     // --> Original module
-//     const originalModule = jest.requireActual("@chakra-ui/react");
-
-//     const fakeToast = { toast: jest.fn() };
-
-//     return {
-//         __esModule: true,
-//         ...originalModule,
-//         useToast: jest.fn().mockImplementation(() => {
-//             return fakeToast;
-//         }),
-//     };
-// });
 
 describe("patient tracking form page", () => {
     it("doesn't allow access if the user isn't a patient", () => {
@@ -108,41 +92,70 @@ describe("patient tracking form page", () => {
         });
         const mockEvent = {
             target: {
-                name: { firstName, lastName },
-                value: { firstName: "valueIpass", lastName: "value2" },
-                firstName: "Testing",
-                lastName: "Patient",
-                email: "testingemail123@gmail.com",
-                phoneNumber: "514-111-1111",
-                dateOfContact: "2022/04/05",
+                name: "firstName",
+                value: "valueIpass",
+                // firstName: "Testing",
+                // lastName: "Patient",
+                // email: "testingemail123@gmail.com",
+                // phoneNumber: "514-111-1111",
+                // dateOfContact: "2022/04/05",
             },
         };
+        const firstName = {
+            target: {
+                name: "firstName",
+                value: "first",
+            },
+        };
+        const lastName = {
+            target: {
+                name: "lastName",
+                value: "last",
+            },
+        };
+        const email = {
+            target: {
+                name: "email",
+                value: "testingemail123@gmail.com",
+            },
+        };
+        const phone = {
+            target: {
+                name: "phoneNumber",
+                value: "514-111-1111",
+            },
+        };
+        const dateOfContact = {
+            target: {
+                name: "dateOfContact",
+                value: "2022/04/05",
+            },
+        };
+        const mockData = [firstName, lastName, email, phone, dateOfContact];
 
         const setStateMock = jest.fn();
         const useStateSpy = jest.spyOn(React, "useState");
         useStateSpy.mockImplementation(init => [init, setStateMock]);
 
-        TrackContacts.mockReturnValue(true);
-
         // wrapper - enzyme
         const wrapper = shallow(<PositivePatientsTrackerForm hasCovid={true} />);
 
-        // check if the data is registered in input -> handleChange
-        // wrapper.find(Button).at(1).simulate("change", mockEvent);
-        // wrapper.update();
-        // console.log(wrapper.find(TrackPatientForm).values);
-        wrapper.find(TrackPatientForm).simulate("change", 0, mockEvent);
-        wrapper.update();
-        wrapper.find(Button).at(1).simulate("click", mockEvent);
-        wrapper.update();
-        wrapper.find(Button).at(1).simulate("click", mockEvent);
-        wrapper.update();
-        // console.log(wrapper.debug());
-        // console.log(wrapper.find(TrackPatientForm).values);
-        // check if hook is called -> backend
-        expect(TrackContacts).toBeCalled(); // might have to come back and test for failure
+        TrackContacts.mockReturnValue(true);
 
-        // check if submit clears the data after its done -> onSubmit
-        expect(React.useState).toBeCalled();
+        // check if the data is registered in input -> handleChange
+        function loopInputs(item, key, mockData) {
+            wrapper.find(TrackPatientForm).simulate("change", 0, item);
+            wrapper.update();
+            expect(wrapper.find(TrackPatientForm).dive().find(StandardInput).at(key).props().inputProps.value).toBe(
+                mockData[key].target.value
+            );
+        }
+        mockData.forEach(loopInputs);
+        wrapper.find(Button).at(1).simulate("click", mockEvent);
+        wrapper.update();
+        wrapper.find(Button).at(1).simulate("click");
+        wrapper.update();
+        // check if hook is called -> backend
+        expect(TrackContacts).toBeCalledTimes(2);
     });
 });
