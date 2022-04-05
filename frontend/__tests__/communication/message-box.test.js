@@ -65,12 +65,12 @@ describe("Test rendering of different element on message box page", () => {
         useSession.mockReturnValue({
             data: {
                 user: {
-                    AccountId: 109,
+                    AccountId: 1,
                     Role: USER_ROLES.doctor,
                 },
             },
         });
-        let wrapper = shallow(<MessageBox patient_accountId="51" />);
+        let wrapper = shallow(<MessageBox patient_accountId="2" />);
         expect(wrapper.find(Input)).toHaveLength(1);
         expect(wrapper.find(Button)).toHaveLength(1);
     });
@@ -89,7 +89,7 @@ describe("Test rendering of different element on message box page", () => {
     it("Send message", () => {
         const mockEvent = {
             preventDefault: mockPreventDefault,
-            target: [{ value: "allo" }],
+            target: [{ value: "test" }],
         };
         const component = shallow(<MessageBox />);
         component.find("form").simulate("submit", mockEvent);
