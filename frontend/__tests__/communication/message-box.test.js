@@ -7,6 +7,7 @@ import { shallow } from "enzyme";
 import { Button, Input } from "@chakra-ui/react";
 
 jest.mock("next-auth/react");
+const mockPreventDefault = jest.fn();
 
 describe("Test the message-box access", () => {
     it("PATIENT session", () => {
@@ -61,8 +62,38 @@ describe("Test the message-box access", () => {
 
 describe("Test rendering of different element on message box page", () => {
     it("When signed in as a doctor", () => {
-        let wrapper = shallow(<MessageBox />);
+        useSession.mockReturnValue({
+            data: {
+                user: {
+                    AccountId: 109,
+                    Role: USER_ROLES.doctor,
+                },
+            },
+        });
+        let wrapper = shallow(<MessageBox patient_accountId="51" />);
         expect(wrapper.find(Input)).toHaveLength(1);
         expect(wrapper.find(Button)).toHaveLength(1);
+    });
+    it("When signed in as a patient", () => {
+        useSession.mockReturnValue({
+            data: {
+                user: {
+                    Role: USER_ROLES.patient,
+                },
+            },
+        });
+        let wrapper = shallow(<MessageBox doctor_accountId="109" />);
+        expect(wrapper.find(Input)).toHaveLength(1);
+        expect(wrapper.find(Button)).toHaveLength(1);
+    });
+    it("Send message", () => {
+        const mockEvent = {
+            preventDefault: mockPreventDefault,
+            target: [{ value: "allo" }],
+        };
+        const component = shallow(<MessageBox />);
+        component.find("form").simulate("submit", mockEvent);
+        component.update();
+        expect(mockPreventDefault).toBeCalled();
     });
 });
