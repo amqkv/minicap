@@ -1,37 +1,32 @@
-import { Box } from "@chakra-ui/react";
-import Check from "../../public/svg/check-mark.svg";
-import Cross from "../../public/svg/cross.svg";
+import { Checkbox, Text } from "@chakra-ui/react";
 
 import { useState } from "react";
 
 interface AppProps {
     isColored: boolean;
-
-    color: string;
     onClicking: () => void;
-    isUncheckable?: string;
+    isUncheckable: boolean;
 }
 
-const CheckMark = ({ isColored, color, onClicking, isUncheckable }: AppProps) => {
+const CheckMark = ({ isColored, onClicking, isUncheckable }: AppProps) => {
     const [isChecked, setIsChecked] = useState(isColored);
 
     const clickHandler = () => {
-        if (isUncheckable === "true") {
-            onClicking();
-            setIsChecked(!isChecked);
-        } else if (isUncheckable === "false" && isChecked === false) {
-            onClicking();
-            setIsChecked(true);
-        } else {
-            return;
-        }
+        onClicking();
+        setIsChecked(!isChecked);
     };
 
     return (
-        <Box onClick={clickHandler}>
-            {isChecked && <Check fill={color} />}
-            {!isChecked && <Cross fill={"#E53945"} />}
-        </Box>
+        <Checkbox
+            size="lg"
+            colorScheme="green"
+            onChange={clickHandler}
+            defaultChecked={isChecked}
+            isReadOnly={!isUncheckable && isChecked ? true : false}>
+            <Text fontSize="sm">
+                <b>Mark as Reviewed</b>
+            </Text>
+        </Checkbox>
     );
 };
 

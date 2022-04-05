@@ -1,7 +1,15 @@
 import { Box, Text, Flex, Center } from "@chakra-ui/react";
 import { Patient } from "@frontend/models/patient";
 
-export default function PatientStatus({ patient, statusIndex }: { patient: Patient; statusIndex: number }) {
+export default function PatientStatus({
+    patient,
+    statusIndex,
+    alignPassed = "center",
+}: {
+    patient: Patient;
+    statusIndex: number;
+    alignPassed?: string;
+}) {
     const status: { [key: string]: { value: string | number; unit: string } } = {
         weight: {
             value: patient.status[statusIndex].weight.value,
@@ -22,7 +30,7 @@ export default function PatientStatus({ patient, statusIndex }: { patient: Patie
         symptoms: patient.requiredDetails.symptoms,
     };
     return (
-        <Box m={1} align="center">
+        <Box m={1} align={alignPassed}>
             {Object.keys(patient.status[statusIndex]).map(statusDetail =>
                 requiredDetails[statusDetail] ? (
                     <Text fontSize="sm" key={statusDetail} width="250px">

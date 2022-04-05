@@ -1,6 +1,6 @@
 import PatientStatus from "./patient-status";
 
-import { Box, Center, HStack } from "@chakra-ui/react";
+import { Box, Center, VStack, useToast } from "@chakra-ui/react";
 import CheckMark from "../UI/checkmark";
 import { CSSProperties } from "react";
 import { Patient } from "@frontend/models/patient";
@@ -22,6 +22,7 @@ const arrowStyles: CSSProperties = {
     borderRadius: "5px",
 };
 const PatientInfoModalSwiper = ({ patient, onMutate }: AppProps) => {
+    const toast = useToast();
     const reviewHandler = async (statusIdGiven: number) => {
         await fetch("/api/status/review-status", {
             method: "PATCH",
@@ -31,9 +32,27 @@ const PatientInfoModalSwiper = ({ patient, onMutate }: AppProps) => {
             body: JSON.stringify({
                 statusId: statusIdGiven,
             }),
-        });
-
-        onMutate();
+        })
+            .then(() => {
+                toast({
+                    title: "Success",
+                    description: "This status has been set as reviewed",
+                    status: "success",
+                    duration: 3000,
+                    isClosable: true,
+                });
+                onMutate();
+            })
+            .catch(err => {
+                console.log(err);
+                toast({
+                    title: "Error!",
+                    description: "Something went wrong while trying to review the status. Please try again later.",
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                });
+            });
     };
 
     return (
@@ -69,21 +88,18 @@ const PatientInfoModalSwiper = ({ patient, onMutate }: AppProps) => {
                     return (
                         <div key={index}>
                             <Center>
-                                <HStack>
+                                <VStack>
                                     <Box>
+                                        <PatientStatus patient={patient} statusIndex={index} alignPassed="left" />
                                         <CheckMark
                                             isColored={statusInfo.isReviewed}
-                                            color="#1F9D00"
                                             onClicking={() => {
                                                 reviewHandler(statusInfo.statusId);
                                             }}
-                                            isUncheckable={"false"}
+                                            isUncheckable={false}
                                         />
                                     </Box>
-                                    <Box>
-                                        <PatientStatus patient={patient} statusIndex={index} />
-                                    </Box>
-                                </HStack>
+                                </VStack>
                             </Center>
                         </div>
                     );
