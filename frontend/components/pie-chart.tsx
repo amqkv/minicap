@@ -30,13 +30,13 @@ export default function Chart({ statuses, title, h, w, day }: ChartProps) {
     const data = transformSymptomsData(statuses, day);
     return (
         <Box minW={350} minH={200}>
+            <Center>
+                <Text my={2} mb={4} fontSize="lg">
+                    {title}
+                </Text>
+            </Center>
             {data.length ? (
                 <Box>
-                    <Center>
-                        <Text my={2} mb={4} fontSize="lg">
-                            {title}
-                        </Text>
-                    </Center>
                     <Center>
                         <ResponsiveContainer minWidth={w} minHeight={h}>
                             <PieChart>
