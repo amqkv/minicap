@@ -12,8 +12,9 @@ import useFilteredPatients from "@frontend/hooks/use-filtered-patients";
 import usePatientModal from "@frontend/hooks/use-patient-modal";
 import inputStyling from "@frontend/components/inputs/input-styling";
 import changeCovidStatus from "@frontend/functions/change-patient-covid-status";
-import PatientInformationModalBody from "@frontend/components/modal/patient-information-modal-body";
 import FilteredPatients from "@frontend/components/patient/filtered-patients";
+import PatientChartsOverview from "@frontend/components/health-official/patient-charts-overview";
+import PatientInformationModalBody from "@frontend/components/health-official/patient-modal-health_official";
 
 export async function getServerSideProps(context: NextPageContext) {
     const response = await fetch(serverURL + "/health-official/findUserStatus");
@@ -77,6 +78,7 @@ const CovidPatients = ({ patients }: { patients: Patient_HealthOfficial[] }) => 
     if (session?.user.Role === USER_ROLES.hOfficial) {
         return (
             <Box padding={{ base: " 5% 2%", md: "2% 15%" }}>
+                <PatientChartsOverview patientList={filteredPatients as Patient_HealthOfficial[]} />
                 <FilteredPatients {...filteredPatientsListProps}>
                     {filteredPatients.map((patient: PatientBasicInformation) => (
                         <Flex key={patient.id} {...inputStyling} onClick={() => openModal(patient)}>

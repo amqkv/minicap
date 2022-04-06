@@ -43,6 +43,7 @@ export default function PatientInformationModalBody({ patient }: AppProps) {
 
                 <PatientStatusSwiper patient={patient} />
 
+                <Divider color="black" backgroundColor="black" height={"1px"} margin="5px 0" />
                 <Center>
                     {patient.status.length !== 0 && (
                         <Box mt={4} width={["100vw"]}>
