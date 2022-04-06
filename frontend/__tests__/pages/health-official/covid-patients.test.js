@@ -7,7 +7,7 @@ import CovidPatients from "@frontend/pages/health-official/covid-patients";
 import Circle from "@frontend/components/circle";
 import Modal from "@frontend/components/modal/modal";
 import { Select, Text, Flex, Box, Input } from "@chakra-ui/react";
-import PatientInformationModalBody from "@frontend/components/modal/patient-information-modal-body";
+import PatientInformationModalBody from "@frontend/components/health-official/patient-modal-health_official";
 import FilteredPatients from "@frontend/components/patient/filtered-patients";
 import changeCovidStatus from "@frontend/functions/change-patient-covid-status";
 
