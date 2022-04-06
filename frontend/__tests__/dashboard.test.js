@@ -37,7 +37,7 @@ describe("<Dashboard />", () => {
             />
         );
         expect(wrapper.find(Heading)).toHaveLength(5);
-        expect(wrapper.find(Card)).toHaveLength(2);
+        expect(wrapper.find(Card)).toHaveLength(3);
     });
 
     it("renders a <Dashboard /> component when ADMIN user is logged in", () => {

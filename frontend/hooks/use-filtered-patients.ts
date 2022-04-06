@@ -3,37 +3,46 @@ import { PatientBasicInformation } from "@frontend/models/patient";
 import { filter } from "@frontend/functions/sorting-filtering";
 
 export default function useFilteredPatients(patients: PatientBasicInformation[]) {
-    const [alphabeticalSort, setAlphabeticalSort] = useState(true);
-    const [positivesOnly, setPositivesOnly] = useState(false);
-    const [negativesOnly, setNegativesOnly] = useState(false);
+    const [sort, setSort] = useState("lastName");
+    const [ascending, setAscending] = useState(true);
+    const [filterValue, setFilterValue] = useState("");
+    const [filterKey, setFilterKey] = useState("");
     const [searchText, setSearchText] = useState("");
     const [filteredPatients, setFilteredPatients] = useState(patients);
 
     // to make sure the filters functions properly
     // if the positive button is activated, then the negative button should disable, vice-versa
-    function positiveNegativeFilter(clickedButton: boolean) {
-        if (clickedButton) {
-            setPositivesOnly(!positivesOnly);
-            setNegativesOnly(false);
+    function changeFilter(key: string, value: string) {
+        if (filterKey === key) {
+            setFilterKey("");
         } else {
-            setPositivesOnly(false);
-            setNegativesOnly(!negativesOnly);
+            setFilterValue(value);
+            setFilterKey(key);
+        }
+    }
+
+    function changeSort(sortKey: string) {
+        if (sort === sortKey) {
+            setAscending(!ascending);
+        } else {
+            setSort(sortKey);
+            setAscending(true);
         }
     }
 
     useEffect(() => {
-        setFilteredPatients(filter({ searchText, arr: patients, alphabeticalSort, positivesOnly, negativesOnly }));
-    }, [searchText, alphabeticalSort, positivesOnly, negativesOnly]);
+        setFilteredPatients(filter({ searchText, arr: patients, sort, filterValue, filterKey, ascending }));
+    }, [searchText, sort, patients, ascending, filterValue, filterKey]);
 
     // return everything needed
     return {
-        alphabeticalSort,
-        setAlphabeticalSort,
+        sort,
+        changeSort,
+        ascending,
         filteredPatients,
-        positivesOnly,
-        negativesOnly,
-        searchText,
         setSearchText,
-        positiveNegativeFilter,
+        filterValue,
+        filterKey,
+        changeFilter,
     };
 }

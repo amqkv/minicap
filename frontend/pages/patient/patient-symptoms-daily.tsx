@@ -11,13 +11,13 @@ function getFieldsForPatient(requiredDetails: requiredDetails[]) {
     requiredDetails.map(detail => {
         temp = { ...temp, ...detail };
     });
-    return temp;
+    return temp as requiredDetails[];
 }
 
 export async function getServerSideProps(context: NextPageContext) {
     const session = await getSession(context);
     const userId = session?.user.AccountId;
-    let requiredDetails: requiredDetails | null = null;
+    let requiredDetails: requiredDetails[] | null = null;
     let pastConditions = [];
     let statusChartData = [];
 

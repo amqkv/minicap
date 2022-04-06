@@ -52,6 +52,24 @@ async function isPositive(req, res) {
     }
 }
 
+async function getName(req, res) {
+    try {
+        const name = await db.query(
+            `SELECT U.FirstName as firstName, U.LastName as lastName
+            FROM Users U, Patient P
+            WHERE U.AccountId = P.User_AccountId AND P.PatientId = ${req.params.id}`,
+            {
+                raw: true,
+                type: QueryTypes.SELECT,
+            }
+        );
+        if (name[0].firstName === "") throw new Error();
+        res.status(200).json(name[0]);
+    } catch {
+        res.status(400).json(false);
+    }
+}
+
 // return all pending appointment for a certain patient
 async function getAppointmentForPatients(req, res) {
     const { PatientId } = await Patient.findOne({
@@ -133,6 +151,7 @@ async function getAssignedDoctor(req, res) {
 
 module.exports = {
     getRequiredDetails,
+    getName,
     isPositive,
     getAppointmentForPatients,
     appointmentConfirmation,

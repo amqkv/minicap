@@ -1,16 +1,18 @@
 import { UseToastOptions } from "@chakra-ui/react";
 
 //signin & register popups
-const errorPopupBase: UseToastOptions = {
+export const errorPopupBase: UseToastOptions = {
     title: "Error!",
     status: "error",
     isClosable: true,
+    duration: 3000,
     position: "top",
 };
-const successPopupBase: UseToastOptions = {
+export const successPopupBase: UseToastOptions = {
     title: "Success!",
     status: "success",
     isClosable: true,
+    duration: 3000,
     position: "top",
 };
 
@@ -51,5 +53,32 @@ export function unsuccessfulToast({ firstName, lastName }: toastInterface) {
         ...errorPopupBase,
         description: `Updating ${firstName} ${lastName}'s COVID status has failed`,
         title: "Unsuccessful COVID Status Changed",
+    };
+}
+
+export const trackPersonSuccess = { ...successPopupBase, description: "Your form was successfully submitted!" };
+
+export const trackPersonFailure = {
+    ...errorPopupBase,
+    description: "There was an error with your form. Please try again.",
+};
+
+export function deleteTrackPersonSuccess(firstName: string | undefined, lastName: string | undefined) {
+    return { ...successPopupBase, description: firstName + " " + lastName + " was successfully deleted!" };
+}
+export function deleteTrackPersonFailure(firstName: string | undefined, lastName: string | undefined) {
+    return {
+        ...errorPopupBase,
+        description: firstName + " " + lastName + " was unsuccessfully deleted! Please try again.",
+    };
+}
+
+export function sendEmailTrackPersonSuccess(firstName: string | undefined, lastName: string | undefined) {
+    return { ...successPopupBase, description: firstName + " " + lastName + " was successfully notified by email!" };
+}
+export function sendEmailTrackPersonFailure(firstName: string | undefined, lastName: string | undefined) {
+    return {
+        ...errorPopupBase,
+        description: firstName + " " + lastName + " was unsuccessfully notified by email! Please try again.",
     };
 }

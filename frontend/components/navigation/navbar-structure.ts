@@ -49,13 +49,23 @@ export const links: link[] = [
         roleRequired: USER_ROLES.iOfficer,
     },
     {
-        text: "COVID PATIENTS",
+        text: "ALL PATIENTS",
         url: "/health-official/covid-patients",
         roleRequired: USER_ROLES.hOfficial,
     },
     {
         text: "QUARANTINE INFORMATION",
         url: "/patient/quarantine",
+        roleRequired: USER_ROLES.patient,
+    },
+    {
+        text: "TRACK/NOTIFY COVID CONTACTS",
+        url: "/health-official/track-contact-patients",
+        roleRequired: USER_ROLES.hOfficial,
+    },
+    {
+        text: "PATIENTS TRACKING FORM",
+        url: "/patient/patient-track-form",
         roleRequired: USER_ROLES.patient,
     },
 ];

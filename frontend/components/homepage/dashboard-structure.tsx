@@ -40,7 +40,7 @@ export const links: link[] = [
         img: "https://imgur.com/eRLbmpq.png",
     },
     {
-        label: "Covid Patients",
+        label: "All Patients",
         url: "/health-official/covid-patients",
         roleRequired: USER_ROLES.hOfficial,
         img: "https://imgur.com/eRLbmpq.png",
@@ -69,5 +69,17 @@ export const links: link[] = [
         url: "/admin/approve-users",
         roleRequired: USER_ROLES.admin,
         img: "https://imgur.com/DkXs8lt.png",
+    },
+    {
+        label: "Track/Notify COVID Contact",
+        url: "/health-official/track-contact-patients",
+        roleRequired: USER_ROLES.hOfficial,
+        img: "https://imgur.com/DkXs8lt.png",
+    },
+    {
+        label: "Patients Tracking Form",
+        url: "/patient/patient-track-form",
+        roleRequired: USER_ROLES.patient,
+        img: "https://imgur.com/DkXs8lt.png", // will probably change this image to have a less confusing ui
     },
 ];

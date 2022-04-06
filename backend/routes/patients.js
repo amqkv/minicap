@@ -20,6 +20,10 @@ router.get("/isPositive/:accountId", (req, res) => {
     patientController.isPositive(req, res);
 });
 
+router.get("/getName/:id", (req, res) => {
+    patientController.getName(req, res);
+});
+
 router.get("/getAppointmentForPatients/:accountId", (req, res) => {
     patientController.getAppointmentForPatients(req, res);
 });
