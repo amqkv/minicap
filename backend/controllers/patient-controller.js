@@ -151,7 +151,6 @@ async function getAssignedDoctor(req, res) {
 
 module.exports = {
     getRequiredDetails,
-    // updateRequiredDetails,
     getName,
     isPositive,
     getAppointmentForPatients,
