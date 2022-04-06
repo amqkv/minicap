@@ -98,6 +98,7 @@ export default function NewAppointmentForm({
                             onChange={e => pickDate(e.target.value)}
                             style={datePickerStyle}
                             min={today}
+                            maxW={175}
                         />
                         <FormLabel mx={3} fontSize="lg" htmlFor="apt-time">
                             at
@@ -106,7 +107,7 @@ export default function NewAppointmentForm({
                             flex="3.65"
                             placeholder="Pick a time"
                             name="apt-time"
-                            maxWidth={[300, 300, 150, 150]}
+                            maxWidth={[300, 300, 175, 175]}
                             onChange={e => selectTime(e.target.value)}>
                             {APPOINTMENT_TIMESLOTS.map(timeslot => (
                                 <option key={timeslot} value={timeslot} disabled={disableOption(timeslot)}>
