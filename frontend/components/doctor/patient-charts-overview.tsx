@@ -40,7 +40,7 @@ export default function PatientChartsOverview({ patientList }: { patientList: Pa
                         <TabPanel>
                             <PieChart
                                 statuses={extractStatuses(patientList)}
-                                title="All patients' symptoms"
+                                title="Patients' Symptoms"
                                 h={250}
                                 w={300}
                                 day={pieChartDate}
@@ -61,7 +61,7 @@ export default function PatientChartsOverview({ patientList }: { patientList: Pa
                         <TabPanel>
                             <PieChart
                                 statuses={extractStatuses(patientList)}
-                                title="All patients' symptoms"
+                                title="Patients' Symptoms of All Time"
                                 h={250}
                                 w={300}
                                 day={DAY.ALL}
@@ -84,7 +84,7 @@ export default function PatientChartsOverview({ patientList }: { patientList: Pa
                                 statuses={extractStatuses(patientList)}
                                 transformDataFn={transformWeightTempData}
                                 day={scatterChartDate}
-                                title={"Patients' Temperature and Weight Today"}
+                                title={"Patients' Temperature and Weight"}
                                 h={275}
                                 w={300}
                             />

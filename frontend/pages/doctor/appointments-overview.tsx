@@ -62,7 +62,7 @@ export default function AppointmentsOverview({
                 `${appointment.date} ${appointment.time.substring(0, appointment.time.indexOf(" "))}`,
                 "YYYY-MM-DD HH:mm"
             );
-            if (appointmentDate.isBefore()) {
+            if (appointmentDate.isBefore() && appointmentDate.isSame(new Date(), "week")) {
                 pastAppointments.push(appointment);
             } else if (appointmentDate.isAfter()) {
                 upcomingAppointments.push(appointment);
@@ -90,7 +90,7 @@ export default function AppointmentsOverview({
                             <MinusIcon w={6} h={6} color="orange.200" mr={3} /> Pending
                         </Text>
                         <Text flex="1">
-                            <MinusIcon w={6} h={6} color="red.200" mr={3} /> Denied
+                            <MinusIcon w={6} h={6} color="red.200" mr={3} /> Declined
                         </Text>
                     </Box>
                     <Box h={{ sm: "800", lg: "600" }}>

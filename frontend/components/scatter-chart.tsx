@@ -19,11 +19,11 @@ export default function Chart({ statuses, transformDataFn, day, title, h, w }: C
     const data = transformDataFn(statuses, day);
     return (
         <Box>
+            <Center>
+                <Text fontSize="lg">{title}</Text>
+            </Center>
             {data.data.length ? (
                 <Box>
-                    <Center>
-                        <Text fontSize="lg">{title}</Text>
-                    </Center>
                     <Center>
                         <ScatterChart
                             width={w}
