@@ -6,12 +6,13 @@ import Dashboard, { AppointmentInfo } from "@frontend/components/homepage/dashbo
 import { serverURL } from "@frontend/config";
 import { USER_ROLES } from "@frontend/utils/constants";
 import moment from "moment";
+import VisitorPicture from "@frontend/utils/pictures/visitor.png";
 
 export const getServerSideProps: GetServerSideProps = async context => {
     const session = await getSession(context);
     const role = session?.user.Role;
     let data: unknown[] = [];
-    let userId = session?.user.AccountId;
+    const userId = session?.user.AccountId;
     let statusOfTheDay = [];
     let appointmentConfirmation = [];
     const today = moment().format().substring(0, 10);
@@ -19,13 +20,13 @@ export const getServerSideProps: GetServerSideProps = async context => {
     let incomingAppointments = [];
 
     if (role === USER_ROLES.patient) {
-        let response = await Promise.all([
+        const response = await Promise.all([
             fetch(serverURL + "/status/getAllStatusChart/" + userId),
             fetch(serverURL + "/status/getAllStatus/" + userId),
             fetch(serverURL + "/patients/getAppointmentForPatients/" + userId),
             fetch(serverURL + "/patients/getConfirmedAppointments/" + userId),
         ]);
-        let fetchData = await Promise.all([
+        const fetchData = await Promise.all([
             response[0].json(),
             response[1].json(),
             response[2].json(),
@@ -105,7 +106,7 @@ export default function Home({
             </Box>
 
             <Box w="50%" h="100%" p="20px" display={{ base: "none", md: "initial" }}>
-                <Img src="https://imgur.com/omMyzrd.png" w="100%" h="100%" alt="Visitor picture" />
+                <Img src="https://i.imgur.com/hyFbfVn.png" w="100%" h="100%" alt="Visitor picture" />
             </Box>
         </Flex>
     );

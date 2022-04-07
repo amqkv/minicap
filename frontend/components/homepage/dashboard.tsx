@@ -41,75 +41,80 @@ export default function Dashboard({
                 <Heading paddingLeft={"50px"}>
                     Welcome {userRole} {userName}
                 </Heading>
-
-                <Flex flexWrap={"wrap"}>
-                    <Stack direction={["column", "column", "row", "row"]}>
-                        <Box flex={1}>
-                            {session?.user?.Role === USER_ROLES.patient && (
-                                <Box margin={"20px 0px 30px 10%"}>
-                                    <Heading size={"lg"}>Announcement:</Heading>
-                                    <Stack direction={["column", "column", "row", "row"]}>
-                                        <Box flex={1}>
-                                            <UnorderedList marginTop={"20px"}>
-                                                <ListItem>You have 0 new message.</ListItem>
-                                                {!statusFilled && (
-                                                    <ListItem color="red">
-                                                        You have not filled Today's status. Please fill it as soon as
-                                                        possible.
-                                                    </ListItem>
-                                                )}
-                                                <ListItem>
-                                                    You can add or update today's status when clicking on forms.
-                                                </ListItem>
-                                                <ListItem>
-                                                    If you have tested positive for Covid-19, please consult quarantine
-                                                    information page for further instructions.
-                                                </ListItem>
-                                                {incomingAppointments.length != 0 && (
+                <Center>
+                    <Flex flexWrap={"wrap"}>
+                        <Stack direction={["column", "column", "row", "row"]}>
+                            <Box flex={1}>
+                                {session?.user?.Role === USER_ROLES.patient && (
+                                    <Box margin={"20px 0px 30px 10%"}>
+                                        <Heading size={"lg"}>Announcement:</Heading>
+                                        <Stack direction={["column", "column", "row", "row"]}>
+                                            <Box flex={1}>
+                                                <UnorderedList marginTop={"20px"}>
+                                                    <ListItem>You have 0 new message.</ListItem>
+                                                    {!statusFilled && (
+                                                        <ListItem color="red">
+                                                            You have not filled Today&apos;s status. Please fill it as
+                                                            soon as possible.
+                                                        </ListItem>
+                                                    )}
                                                     <ListItem>
-                                                        You have an appointment with your doctor on{" "}
-                                                        {incomingAppointments[0].Date} from{" "}
-                                                        {incomingAppointments[0].Time}{" "}
+                                                        You can add or update today&apos;s status when clicking on
+                                                        forms.
                                                     </ListItem>
+                                                    <ListItem>
+                                                        If you have tested positive for Covid-19, please consult
+                                                        quarantine information page for further instructions.
+                                                    </ListItem>
+                                                    {incomingAppointments.length != 0 && (
+                                                        <ListItem>
+                                                            You have an appointment with your doctor on{" "}
+                                                            {incomingAppointments[0].Date} from{" "}
+                                                            {incomingAppointments[0].Time}{" "}
+                                                        </ListItem>
+                                                    )}
+                                                </UnorderedList>
+                                            </Box>
+                                            <Box flex={1}>
+                                                {appointmentConfirmation.length ? (
+                                                    <>
+                                                        <Heading size={"md"}>
+                                                            Your doctor has scheduled an appointment with you. Please
+                                                            confirm the appointment.
+                                                        </Heading>
+                                                        <Button onClick={onOpen} marginTop={"5px"}>
+                                                            Confirm Appointment
+                                                        </Button>
+                                                    </>
+                                                ) : (
+                                                    <></>
                                                 )}
-                                            </UnorderedList>
-                                        </Box>
-                                        <Box flex={1}>
-                                            {appointmentConfirmation.length ? (
-                                                <>
-                                                    <Heading size={"md"}>
-                                                        Your doctor has scheduled an appointment with you. Please
-                                                        confirm the appointment.
-                                                    </Heading>
-                                                    <Button onClick={onOpen} marginTop={"5px"}>
-                                                        Confirm Appointment
-                                                    </Button>
-                                                </>
-                                            ) : (
-                                                <></>
-                                            )}
-                                        </Box>
-                                    </Stack>
-                                </Box>
-                            )}
+                                            </Box>
+                                        </Stack>
+                                    </Box>
+                                )}
 
-                            <Center>
-                                <Flex>
-                                    <Stack direction={["column", "row"]}>
-                                        <DashboardCharts role={userRole} data={data} stats={stats} />
+                                <Center>
+                                    <Flex>
+                                        <Stack direction={["column", "row"]}>
+                                            <DashboardCharts role={userRole} data={data} stats={stats} />
 
-                                        {links.map(({ label, url, roleRequired, img }: link) => {
-                                            const renderCard = roleRequired === userRole || !roleRequired;
-                                            return (
-                                                renderCard && <Card key={label} label={label} image={img} url={url} />
-                                            );
-                                        })}
-                                    </Stack>
-                                </Flex>
-                            </Center>
-                        </Box>
-                    </Stack>
-                </Flex>
+                                            {links.map(({ label, url, roleRequired, img }: link) => {
+                                                const renderCard = roleRequired === userRole || !roleRequired;
+                                                return (
+                                                    renderCard && (
+                                                        <Card key={label} label={label} image={img} url={url} />
+                                                    )
+                                                );
+                                            })}
+                                        </Stack>
+                                    </Flex>
+                                </Center>
+                            </Box>
+                        </Stack>
+                    </Flex>
+                </Center>
+
                 {/* Appointment modal */}
                 <PatientInfoModal isOpen={isOpen} onClose={onClose}>
                     <Box p="3" mb={"5"}>
@@ -126,6 +131,7 @@ export default function Dashboard({
                             const date = appointment.Date;
                             return (
                                 <ConfirmAppointment
+                                    key={appointment.AppointmentId}
                                     time={time}
                                     date={date}
                                     // appointment={appointment}

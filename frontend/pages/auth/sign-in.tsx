@@ -14,6 +14,7 @@ import {
     TabPanels,
     useToast,
     UseToastOptions,
+    Center,
 } from "@chakra-ui/react";
 import { MAIN_COLOR, USER_ROLES_SIGN_IN } from "@frontend/utils/constants";
 import PasswordInput from "@frontend/components/inputs/password-input";
@@ -135,8 +136,14 @@ export default function SignIn({ csrfToken }: { csrfToken: string }) {
 
     return (
         <Flex p={{ base: "0px", md: "50px" }}>
-            <Box w="55%" h="100%" p="20px" display={{ base: "none", md: "initial" }}>
-                <Img src="https://i.imgur.com/DAXn8BT.png" w="100%" alt="Login picture" />
+            <Box w="55%" display={{ base: "none", md: "initial" }}>
+                <Center>
+                    <Img
+                        src="https://i.imgur.com/Agrmciy.png"
+                        h={{ md: "500", lg: "600", xl: "800" }}
+                        alt="Login picture"
+                    />
+                </Center>
             </Box>
 
             <Box w={{ base: "100%", md: "45%" }} h="100%" p={{ base: "5px", md: "20px" }}>
