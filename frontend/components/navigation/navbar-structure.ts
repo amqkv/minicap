@@ -44,6 +44,11 @@ export const links: link[] = [
         roleRequired: USER_ROLES.patient,
     },
     {
+        text: "MESSAGES",
+        url: "/communication/message-box",
+        roleRequired: USER_ROLES.patient,
+    },
+    {
         text: "SEARCH FOR USER",
         url: "/immigration-officer/find-users",
         roleRequired: USER_ROLES.iOfficer,
