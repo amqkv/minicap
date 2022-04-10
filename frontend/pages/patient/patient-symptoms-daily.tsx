@@ -42,7 +42,6 @@ export async function getServerSideProps(context: NextPageContext) {
             pastConditions = fetchData[1];
             statusChartData = fetchData[2];
             assignedDoctor = fetchData[3];
-            console.log("doctor", assignedDoctor);
         } catch {
             console.log("There was an error loading the data.");
         }

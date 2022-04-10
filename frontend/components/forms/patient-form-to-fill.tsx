@@ -31,7 +31,6 @@ export default function PatientFormToFill({
     const { data: session } = useSession();
     const userId = session?.user?.AccountId;
     const chartData = statusChartData;
-    console.log("doctorrrr", assignedDoctor.LastName);
     // function to send data to backend and create new status
     async function handlePatientForm(event: any) {
         event.preventDefault();
