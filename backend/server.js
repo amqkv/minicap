@@ -15,8 +15,9 @@ const io = new socketio.Server(server, {
 // Socket functionality
 communication(io);
 
-const port = 3001;
+const host = "0.0.0.0";
+const port = process.env.PORT || 3001;
 
-server.listen(port, () => {
+server.listen(port, host, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });

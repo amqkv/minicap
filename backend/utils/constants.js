@@ -113,7 +113,8 @@ const BOOLEANS = {
 const MOMENT_TIMEZONE_ADJUSTMENT = 5;
 
 // Client URL
-const CLIENT_URL = "http://localhost:3000";
+const dev = process.env.NODE_ENV !== "production";
+const CLIENT_URL = dev ? "http://localhost:3000" : "https://coco-tracker.vercel.app";
 
 // appointment status values
 const TEST_STATUS = {

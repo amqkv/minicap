@@ -1,9 +1,13 @@
 /** @type {import('next').NextConfig} */
 //  Can't import from config , put the serverURL as a constant
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const serverURL = "http://localhost:3001";
+const dev = process.env.NODE_ENV !== "production";
+const serverURL = dev ? "http://localhost:3001" : "https://coco-tracker-api.herokuapp.com";
 const nextConfig = {
     reactStrictMode: true,
+    eslint: {
+        ignoreDuringBuilds: true,
+    },
     async rewrites() {
         return [
             {
@@ -53,7 +57,7 @@ const nextConfig = {
             {
                 source: "/api/patient/get-appointment",
                 destination: `${serverURL}/patients/getAppointmentForPatients`,
-            }
+            },
         ];
     },
     webpack(config) {

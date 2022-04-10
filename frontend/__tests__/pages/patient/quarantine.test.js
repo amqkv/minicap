@@ -22,20 +22,6 @@ describe("<Quarantine />", () => {
         expect(wrapper.find("p").text()).toBe("Access Denied");
     });
 
-    it("does not renders page, access denied because the user doesn't have covid", () => {
-        useSession.mockReturnValue({
-            data: {
-                user: {
-                    Role: USER_ROLES.patient,
-                },
-            },
-        });
-
-        const wrapper = shallow(<Quarantine hasCovid={false} />);
-        expect(wrapper.find("p")).toHaveLength(1);
-        expect(wrapper.find("p").text()).toBe("Access Denied");
-    });
-
     it("renders page full of information related to quarantining using various text boxes and an accordion component", () => {
         useSession.mockReturnValue({
             data: {

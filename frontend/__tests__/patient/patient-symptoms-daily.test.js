@@ -1,7 +1,7 @@
 import { shallow } from "enzyme";
 import { Button, Heading } from "@chakra-ui/react";
 import PatientFormsToFill from "@frontend/components/forms/patient-form-to-fill";
-import { DEFAULT_REQUIRED_DETAILS, DEFAULT_PAST_CONDITIONS } from "../__mock__/mock";
+import { DEFAULT_REQUIRED_DETAILS, DEFAULT_PAST_CONDITIONS, DEFAULT_ASSIGNED_DOCTOR } from "../__mock__/mock";
 import { useSession } from "next-auth/react";
 import { USER_ROLES } from "@frontend/utils/constants";
 
@@ -22,7 +22,11 @@ describe("test patient's form", () => {
 
     it("renders a <PatientFormsToFill /> component", () => {
         const wrapper = shallow(
-            <PatientFormsToFill requiredDetails={DEFAULT_REQUIRED_DETAILS} pastConditions={DEFAULT_PAST_CONDITIONS} />
+            <PatientFormsToFill
+                requiredDetails={DEFAULT_REQUIRED_DETAILS}
+                pastConditions={DEFAULT_PAST_CONDITIONS}
+                assignedDoctor={DEFAULT_ASSIGNED_DOCTOR}
+            />
         );
         expect(wrapper.find(Heading)).toHaveLength(4);
         expect(wrapper.find(Button)).toHaveLength(1);
@@ -34,7 +38,11 @@ describe("test patient's form", () => {
             target: [{ value: "temperature" }, { value: "weight" }, { value: "symptoms" }],
         };
         const component = shallow(
-            <PatientFormsToFill requiredDetails={DEFAULT_REQUIRED_DETAILS} pastConditions={DEFAULT_PAST_CONDITIONS} />
+            <PatientFormsToFill
+                requiredDetails={DEFAULT_REQUIRED_DETAILS}
+                pastConditions={DEFAULT_PAST_CONDITIONS}
+                assignedDoctor={DEFAULT_ASSIGNED_DOCTOR}
+            />
         );
         component.find("form").simulate("submit", mockEvent);
         component.update();
@@ -46,7 +54,11 @@ describe("test patient's form", () => {
             target: [{ value: 3 }, { value: 3 }, { value: "" }],
         };
         const component = shallow(
-            <PatientFormsToFill requiredDetails={DEFAULT_REQUIRED_DETAILS} pastConditions={DEFAULT_PAST_CONDITIONS} />
+            <PatientFormsToFill
+                requiredDetails={DEFAULT_REQUIRED_DETAILS}
+                pastConditions={DEFAULT_PAST_CONDITIONS}
+                assignedDoctor={DEFAULT_ASSIGNED_DOCTOR}
+            />
         );
         component.find("form").simulate("submit", mockEvent);
         component.update();
@@ -58,7 +70,11 @@ describe("test patient's form", () => {
             target: [{ value: 3 }, { value: 3 }, { value: "symptoms" }],
         };
         const component = shallow(
-            <PatientFormsToFill requiredDetails={DEFAULT_REQUIRED_DETAILS} pastConditions={DEFAULT_PAST_CONDITIONS} />
+            <PatientFormsToFill
+                requiredDetails={DEFAULT_REQUIRED_DETAILS}
+                pastConditions={DEFAULT_PAST_CONDITIONS}
+                assignedDoctor={DEFAULT_ASSIGNED_DOCTOR}
+            />
         );
         component.find("form").simulate("submit", mockEvent);
         component.update();
@@ -75,7 +91,11 @@ describe("test patient's form", () => {
             Temperature: true,
         };
         const component = shallow(
-            <PatientFormsToFill requiredDetails={REQUIRED_DETAILS} pastConditions={DEFAULT_PAST_CONDITIONS} />
+            <PatientFormsToFill
+                requiredDetails={REQUIRED_DETAILS}
+                pastConditions={DEFAULT_PAST_CONDITIONS}
+                assignedDoctor={DEFAULT_ASSIGNED_DOCTOR}
+            />
         );
         component.find("form").simulate("submit", mockEvent);
         component.update();
@@ -91,7 +111,11 @@ describe("test patient's form", () => {
             Symptoms: true,
         };
         const component = shallow(
-            <PatientFormsToFill requiredDetails={REQUIRED_DETAILS} pastConditions={DEFAULT_PAST_CONDITIONS} />
+            <PatientFormsToFill
+                requiredDetails={REQUIRED_DETAILS}
+                pastConditions={DEFAULT_PAST_CONDITIONS}
+                assignedDoctor={DEFAULT_ASSIGNED_DOCTOR}
+            />
         );
         component.find("form").simulate("submit", mockEvent);
         component.update();
@@ -107,7 +131,11 @@ describe("test patient's form", () => {
             Symptoms: true,
         };
         const component = shallow(
-            <PatientFormsToFill requiredDetails={REQUIRED_DETAILS} pastConditions={DEFAULT_PAST_CONDITIONS} />
+            <PatientFormsToFill
+                requiredDetails={REQUIRED_DETAILS}
+                pastConditions={DEFAULT_PAST_CONDITIONS}
+                assignedDoctor={DEFAULT_ASSIGNED_DOCTOR}
+            />
         );
         component.find("form").simulate("submit", mockEvent);
         component.update();
@@ -122,7 +150,11 @@ describe("test patient's form", () => {
             Temperature: true,
         };
         const component = shallow(
-            <PatientFormsToFill requiredDetails={REQUIRED_DETAILS} pastConditions={DEFAULT_PAST_CONDITIONS} />
+            <PatientFormsToFill
+                requiredDetails={REQUIRED_DETAILS}
+                pastConditions={DEFAULT_PAST_CONDITIONS}
+                assignedDoctor={DEFAULT_ASSIGNED_DOCTOR}
+            />
         );
         component.find("form").simulate("submit", mockEvent);
         component.update();
@@ -137,7 +169,11 @@ describe("test patient's form", () => {
             Weight: true,
         };
         const component = shallow(
-            <PatientFormsToFill requiredDetails={REQUIRED_DETAILS} pastConditions={DEFAULT_PAST_CONDITIONS} />
+            <PatientFormsToFill
+                requiredDetails={REQUIRED_DETAILS}
+                pastConditions={DEFAULT_PAST_CONDITIONS}
+                assignedDoctor={DEFAULT_ASSIGNED_DOCTOR}
+            />
         );
         component.find("form").simulate("submit", mockEvent);
         component.update();
@@ -152,7 +188,11 @@ describe("test patient's form", () => {
             Symptoms: true,
         };
         const component = shallow(
-            <PatientFormsToFill requiredDetails={REQUIRED_DETAILS} pastConditions={DEFAULT_PAST_CONDITIONS} />
+            <PatientFormsToFill
+                requiredDetails={REQUIRED_DETAILS}
+                pastConditions={DEFAULT_PAST_CONDITIONS}
+                assignedDoctor={DEFAULT_ASSIGNED_DOCTOR}
+            />
         );
         component.find("form").simulate("submit", mockEvent);
         component.update();

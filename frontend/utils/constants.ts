@@ -21,4 +21,5 @@ export const DAY = {
     ALL: "all",
 };
 
-export const SOCKET_URL = "http://localhost:3001";
+const dev = process.env.NODE_ENV !== "production";
+export const SOCKET_URL = dev ? "http://localhost:3001" : "https://coco-tracker-api.herokuapp.com";

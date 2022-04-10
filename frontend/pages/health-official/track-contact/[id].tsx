@@ -45,7 +45,7 @@ export async function deleteContactPerson(person: ContactPerson, id: number) {
     });
 }
 
-export async function getServerSideProps(context: NextPageContext) {
+export async function getServerSideProps(context: any) {
     const session = await getSession(context);
     const id = context.params.id;
 

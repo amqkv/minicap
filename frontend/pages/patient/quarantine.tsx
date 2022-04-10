@@ -1,7 +1,6 @@
 import { useSession, getSession } from "next-auth/react";
 import { MAIN_COLOR, USER_ROLES } from "@frontend/utils/constants";
 import { GetServerSideProps } from "next";
-import { serverURL } from "@frontend/config/index";
 import {
     Box,
     Heading,
@@ -17,17 +16,10 @@ import { otherLinks } from "@frontend/utils/quarantine-constants";
 
 export const getServerSideProps: GetServerSideProps = async context => {
     const session = await getSession(context);
-    const accountId = session?.user.AccountId;
-    let hasCovid = false;
-
-    try {
-        hasCovid = await (await fetch(serverURL + "/patients/isPositive/" + accountId)).json();
-    } catch {}
 
     return {
         props: {
             session,
-            hasCovid,
             pageId: "COVID-19: How to quarantine or isolate at home",
         },
     };
@@ -35,7 +27,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
 
 //we just stole everything from https://www.canada.ca/en/public-health/services/diseases/2019-novel-coronavirus-infection/prevention-risks/quarantine-isolate-home.html
 
-export default function Quarantine({ hasCovid }: { hasCovid: boolean }) {
+export default function Quarantine() {
     const { data: session } = useSession();
     const linkStyling = { padding: "0px", textDecoration: "underline" };
     const hoverColor = { color: MAIN_COLOR };
@@ -47,7 +39,7 @@ export default function Quarantine({ hasCovid }: { hasCovid: boolean }) {
     const headingSize = "lg";
 
     // display the page only if the patient has covid
-    if (session?.user.Role === USER_ROLES.patient && hasCovid) {
+    if (session?.user.Role === USER_ROLES.patient) {
         return (
             <Box margin={{ base: paddingList, md: "5% 15%" }} paddingBottom={paddingSection}>
                 <Text fontSize={fontSize} paddingBottom={paddingList}>

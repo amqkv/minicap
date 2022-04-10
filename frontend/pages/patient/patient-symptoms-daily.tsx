@@ -20,6 +20,7 @@ export async function getServerSideProps(context: NextPageContext) {
     let requiredDetails: requiredDetails[] | null = null;
     let pastConditions = [];
     let statusChartData = [];
+    let assignedDoctor = [];
 
     if (session?.user.Role === USER_ROLES.patient) {
         try {
@@ -27,13 +28,20 @@ export async function getServerSideProps(context: NextPageContext) {
                 await fetch(serverURL + "/patients/getRequiredDetails/" + userId),
                 await fetch(serverURL + "/status/getAllStatus/" + userId),
                 await fetch(serverURL + "/status/getAllStatusChart/" + userId),
+                await fetch(serverURL + "/patients/getAssignedDoctor/" + userId),
             ]);
 
-            const fetchData = await Promise.all([response[0].json(), response[1].json(), response[2].json()]);
+            const fetchData = await Promise.all([
+                response[0].json(),
+                response[1].json(),
+                response[2].json(),
+                response[3].json(),
+            ]);
 
             requiredDetails = getFieldsForPatient(fetchData[0]);
             pastConditions = fetchData[1];
             statusChartData = fetchData[2];
+            assignedDoctor = fetchData[3];
         } catch {
             console.log("There was an error loading the data.");
         }
@@ -45,6 +53,7 @@ export async function getServerSideProps(context: NextPageContext) {
             pastConditions,
             requiredDetails,
             statusChartData,
+            assignedDoctor,
         },
     };
 }
