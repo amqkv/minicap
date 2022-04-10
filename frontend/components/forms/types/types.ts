@@ -6,8 +6,15 @@ export interface requiredDetails {
     Temperature: boolean;
 }
 
+export interface doctorInfo {
+    Doctor_AccountId: number;
+    FirstName: string;
+    LastName: string;
+}
+
 export interface PatientsFormsToFill {
     requiredDetails: requiredDetails;
     pastConditions: pastConditionsProps[];
-    statusChartData: pastConditionsProps[]
+    statusChartData: pastConditionsProps[];
+    assignedDoctor: doctorInfo;
 }

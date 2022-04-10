@@ -14,14 +14,12 @@ import { PatientsFormsToFill } from "./types/types";
 import Chart from "@frontend/components/line-chart";
 import { DEFAULT_STATUS } from "@frontend/models/patient";
 
-export interface doctorInfoProps {
-    LastName: string;
-}
-
-export default function PatientFormToFill(
-    { requiredDetails, pastConditions, statusChartData }: PatientsFormsToFill,
-    doctorName: doctorInfoProps
-) {
+export default function PatientFormToFill({
+    requiredDetails,
+    pastConditions,
+    statusChartData,
+    assignedDoctor,
+}: PatientsFormsToFill) {
     // initialize constants
     const router = useRouter();
     const { Temperature: temperature, Weight: weight, Symptoms: symptoms } = requiredDetails;
@@ -33,7 +31,7 @@ export default function PatientFormToFill(
     const { data: session } = useSession();
     const userId = session?.user?.AccountId;
     const chartData = statusChartData;
-
+    console.log("doctorrrr", assignedDoctor.LastName);
     // function to send data to backend and create new status
     async function handlePatientForm(event: any) {
         event.preventDefault();
@@ -87,7 +85,7 @@ export default function PatientFormToFill(
     return (
         <>
             <Box paddingLeft={[5, 5, "20px"]}>
-                <Heading size="lg">Your Doctor: Dr. {doctorName.LastName}</Heading>
+                <Heading size="lg">Your Doctor: Dr. {assignedDoctor.LastName}</Heading>
                 <br />
                 <Heading size="lg">Today's Condition</Heading>
                 <SimpleGrid minChildWidth="300px" rowGap={5} columnGap={1}>
