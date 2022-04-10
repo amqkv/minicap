@@ -29,6 +29,12 @@ export const DEFAULT_PAST_CONDITIONS = [
     },
 ];
 
+export const DEFAULT_ASSIGNED_DOCTOR = {
+    Doctor_AccountId: 109,
+    FirstName: "Firstname",
+    LastName: "Lastname",
+};
+
 export const IMMIGRATION_OFFICER_MOCK_PATIENTS = [
     {
         firstName: "Bing Bong",
@@ -194,7 +200,5 @@ export const MOCK_PENDING_APPOINTMENT = [
         Date: "2022-06-17",
         Time: "11:30 - 12:00",
         Status: "pending",
-    }
+    },
 ];
-
-
