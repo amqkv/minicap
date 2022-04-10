@@ -17,30 +17,22 @@ import {
 } from "@chakra-ui/react";
 import TrackPatientForm from "@frontend/components/patient/tracking-patient-form-input";
 import React, { useState } from "react";
-import { serverURL } from "@frontend/config";
 import { ContactPerson } from "@frontend/components/patient/types/contact-person";
 import postTrackContacts from "@frontend/functions/track-contacts";
 import { trackPersonSuccess, trackPersonFailure } from "@frontend/utils/popups";
 
 export async function getServerSideProps(context: NextPageContext) {
     const session = await getSession(context);
-    const accountId = session?.user.AccountId;
-    let hasCovid = false;
-
-    try {
-        hasCovid = await (await fetch(serverURL + "/patients/isPositive/" + accountId)).json();
-    } catch {}
 
     return {
         props: {
             session,
-            hasCovid,
             pageId: "People you've been in contact with",
         },
     };
 }
 
-export default function PositivePatientsTrackerForm({ hasCovid }: { hasCovid: boolean }) {
+export default function PositivePatientsTrackerForm() {
     const { data: session } = useSession();
     const [accordionIndex, setAccordionIndex] = useState(0);
 
@@ -86,7 +78,7 @@ export default function PositivePatientsTrackerForm({ hasCovid }: { hasCovid: bo
         }
     };
 
-    if (session?.user.Role === USER_ROLES.patient && hasCovid) {
+    if (session?.user.Role === USER_ROLES.patient) {
         return (
             <Flex p={{ base: "15px 0", md: "50px" }} flexDirection="column" position="relative">
                 <Accordion allowToggle index={accordionIndex} onChange={e => setAccordionIndex(e as number)}>

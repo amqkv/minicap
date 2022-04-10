@@ -14,7 +14,14 @@ import { PatientsFormsToFill } from "./types/types";
 import Chart from "@frontend/components/line-chart";
 import { DEFAULT_STATUS } from "@frontend/models/patient";
 
-export default function PatientFormToFill({ requiredDetails, pastConditions, statusChartData }: PatientsFormsToFill) {
+export interface doctorInfoProps {
+    LastName: string;
+}
+
+export default function PatientFormToFill(
+    { requiredDetails, pastConditions, statusChartData }: PatientsFormsToFill,
+    doctorName: doctorInfoProps
+) {
     // initialize constants
     const router = useRouter();
     const { Temperature: temperature, Weight: weight, Symptoms: symptoms } = requiredDetails;
@@ -80,7 +87,8 @@ export default function PatientFormToFill({ requiredDetails, pastConditions, sta
     return (
         <>
             <Box paddingLeft={[5, 5, "20px"]}>
-                <Heading size="lg">Your Doctor: Dr Sawkon Di Zenoots</Heading>
+                <Heading size="lg">Your Doctor: Dr. {doctorName.LastName}</Heading>
+                <br />
                 <Heading size="lg">Today's Condition</Heading>
                 <SimpleGrid minChildWidth="300px" rowGap={5} columnGap={1}>
                     <Box w={{ sm: "100%", base: "100%", md: "80%" }} paddingLeft={[0, 10, "50px"]}>
