@@ -84,7 +84,9 @@ export default function PatientFormToFill({
     return (
         <>
             <Box paddingLeft={[5, 5, "20px"]}>
-                <Heading size="lg">Your Doctor: Dr. {assignedDoctor.LastName}</Heading>
+                <Heading size="lg">
+                    Your Doctor: Dr. {assignedDoctor.FirstName} {assignedDoctor.LastName}
+                </Heading>
                 <br />
                 <Heading size="lg">Today's Condition</Heading>
                 <SimpleGrid minChildWidth="300px" rowGap={5} columnGap={1}>
