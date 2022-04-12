@@ -97,10 +97,13 @@ export default function Home({
             flexDirection={{ base: "column", md: "row" }}
             alignItems="center">
             <Box background="white.100" w={{ base: "100%", md: "50%" }} p={{ base: "15% 10%", md: "20px" }} rounded={6}>
-                <Heading mb={8}>Some description</Heading>
+                <Heading mb={8}> Welcome to CoCo Tracker!</Heading>
                 <p>
-                    Some more description here lmao badabing badaboom hehe hihi hoho Ideally long enough to take 3-4
-                    lines like this So that it looks legit and better lololololololollolollololol
+                    Within this application, you may track your current status or manage your appointments with your
+                    doctor with ease! You can even commmunicate with them using our built-in messaging system. If you
+                    are using this application as an official role such as a Doctor, Health Official, Immigration
+                    Officier, or Administrator, then please receive confirmation from your organization after
+                    signing-up. Thank you for choosing CoCo Tracker!
                 </p>
                 <LoginLogoutButton />
             </Box>
