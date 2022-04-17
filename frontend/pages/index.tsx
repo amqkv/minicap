@@ -1,12 +1,12 @@
 import { useSession, getSession } from "next-auth/react";
 import { GetServerSideProps } from "next";
 import LoginLogoutButton from "@frontend/components/login-logout-button";
-import { Box, Img, Flex, Heading } from "@chakra-ui/react";
+import { Box, Img, Flex, Heading, Text, UnorderedList, ListItem, ListIcon } from "@chakra-ui/react";
 import Dashboard, { AppointmentInfo } from "@frontend/components/homepage/dashboard";
 import { serverURL } from "@frontend/config";
 import { USER_ROLES } from "@frontend/utils/constants";
 import moment from "moment";
-import VisitorPicture from "@frontend/utils/pictures/visitor.png";
+import CheckIcon from "@chakra-ui/icons";
 
 export const getServerSideProps: GetServerSideProps = async context => {
     const session = await getSession(context);
@@ -92,19 +92,31 @@ export default function Home({
     }
 
     return (
-        <Flex
-            padding={{ base: "5% 0%", md: "0 10%" }}
-            flexDirection={{ base: "column", md: "row" }}
-            alignItems="center">
+        <Flex padding={{ base: "5% 0%", md: "0 8%" }} flexDirection={{ base: "column", md: "row" }} alignItems="center">
             <Box background="white.100" w={{ base: "100%", md: "50%" }} p={{ base: "15% 10%", md: "20px" }} rounded={6}>
-                <Heading mb={8}> Welcome to CoCo Tracker!</Heading>
-                <p>
-                    Within this application, you may track your current status or manage your appointments with your
-                    doctor with ease! You can even commmunicate with them using our built-in messaging system. If you
-                    are using this application as an official role such as a Doctor, Health Official, Immigration
-                    Officier, or Administrator, then please receive confirmation from your organization after
-                    signing-up. Thank you for choosing CoCo Tracker!
-                </p>
+                <Heading mb={4}> Welcome to CoCo Tracker!</Heading>
+                <Box>
+                    <Text fontSize="xl" mb={3} color="#474747">
+                        Tracking your potential Covid symptoms has become easier than ever!
+                    </Text>
+                    <Text fontSize="lg" mb={2}>
+                        With CoCo Tracker, can have access to an array of health services at your fingertips:
+                    </Text>
+                    <UnorderedList spacing={2} fontSize="lg" mb={4}>
+                        <ListItem>Easily monitor your symptoms</ListItem>
+                        <ListItem>Direct communication with your doctor via our built-in messaging system</ListItem>
+                        <ListItem>Appointment management</ListItem>
+                        <ListItem>Many more!</ListItem>
+                    </UnorderedList>
+                    <Text fontSize="sm" as="em" color="#5e5e5e">
+                        *If you are using this application as an official role such as a Doctor, Health Official,
+                        Immigration Officier, or Administrator, then please receive confirmation from your organization
+                        after signing up.
+                    </Text>
+                    <Text fontSize="lg" mt={4} mb={4}>
+                        Thank you for choosing CoCo Tracker!
+                    </Text>
+                </Box>
                 <LoginLogoutButton />
             </Box>
 
