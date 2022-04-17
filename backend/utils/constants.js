@@ -110,7 +110,7 @@ const BOOLEANS = {
 };
 
 // Value to adjust the timezone linked to Moment
-const MOMENT_TIMEZONE_ADJUSTMENT = 5;
+const MOMENT_TIMEZONE_ADJUSTMENT = 4;
 
 // Client URL
 const dev = process.env.NODE_ENV !== "production";
