@@ -25,8 +25,16 @@ export default function DashboardCharts({ role, data, stats }: DashboardChartsPr
         switch (role) {
             case USER_ROLES.patient:
                 return (
-                    <Box margin={"10px 10px 0px 50px"} w={{ base: "300", md: 500 }} h={{ base: "300" }}>
-                        <Heading size={"lg"}>Your Status Chart:</Heading>
+                    <Box
+                        marginTop={"10px"}
+                        marginRight={"10px"}
+                        marginBottom={["40px", 0]}
+                        marginLeft={["5px", "50px"]}
+                        w={{ base: "300", md: 500 }}
+                        h={{ base: "300" }}>
+                        <Heading size={"lg"} marginBottom={[0, "25px"]}>
+                            Your Status Chart:
+                        </Heading>
                         <Chart data={data} w={size} h={size} />
                     </Box>
                 );

@@ -44,9 +44,13 @@ export default function Dashboard({
                 <Center>
                     <Flex flexWrap={"wrap"}>
                         <Stack direction={["column", "column", "row", "row"]}>
-                            <Box flex={1}>
+                            <Box flex={1} marginX={[4, 0]}>
                                 {session?.user?.Role === USER_ROLES.patient && (
-                                    <Box margin={"20px 0px 30px 10%"}>
+                                    <Box
+                                        marginTop={"20px"}
+                                        marginRight={"0"}
+                                        marginBottom={"10px"}
+                                        marginLeft={["0", "10%"]}>
                                         <Heading size={"lg"}>Announcement:</Heading>
                                         <Stack direction={["column", "column", "row", "row"]}>
                                             <Box flex={1}>
