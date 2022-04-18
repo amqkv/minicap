@@ -83,16 +83,21 @@ export default function PatientFormToFill({
     }
     return (
         <>
-            <Box paddingLeft={[5, 5, "20px"]}>
+            <Box paddingLeft={[0, 5, "20px"]} marginX={[3, 0, 0]}>
                 <Heading size="lg">
                     Your Doctor: Dr. {assignedDoctor.FirstName} {assignedDoctor.LastName}
                 </Heading>
                 <br />
-                <Heading size="lg">Today's Condition</Heading>
+                <Heading size="lg">Today&apos;s Condition</Heading>
                 <SimpleGrid minChildWidth="300px" rowGap={5} columnGap={1}>
                     <Box w={{ sm: "100%", base: "100%", md: "80%" }} paddingLeft={[0, 10, "50px"]}>
                         <form onSubmit={handlePatientForm}>
-                            <Heading size="md" margin={"30px 0 10px 20px"}>
+                            <Heading
+                                size="md"
+                                marginTop={"30px"}
+                                marginRight={"0px"}
+                                marginBottom={"10px"}
+                                marginLeft={["5px", "20px"]}>
                                 Please fill out the following field for your doctor:
                             </Heading>
 
@@ -106,8 +111,13 @@ export default function PatientFormToFill({
                             )}
                             {weight && <PatientInputs error={weightError} label="Weight" units="lbs" name={"weight"} />}
                             {symptoms && <PatientTextarea label="Symptoms" units="" name={"symptoms"} />}
-                            <Text margin="0 0 10px 30px">
-                                (Please separate the symptoms with a comma (e.g., "fever, headache, sore throat"))
+                            <Text
+                                marginTop={"0px"}
+                                marginRight={"0px"}
+                                marginBottom={"10px"}
+                                marginLeft={["10px", "30px"]}>
+                                (Please separate the symptoms with a comma (e.g., &quot;fever, headache, sore
+                                throat&quot;))
                             </Text>
                             <Button
                                 colorScheme="pink"
@@ -120,12 +130,12 @@ export default function PatientFormToFill({
                         </form>
                     </Box>
 
-                    <Box ml={"5px"} width={["90vw", "90vw", 800]}>
-                        <Chart data={chartData} w={300} h={500} />
+                    <Box ml={[0, "5px"]} width={["93vw", "90vw", 430, 800]} height={[300, 300, 450, 500]}>
+                        <Chart data={chartData} w={280} h={300} />
                     </Box>
                 </SimpleGrid>
 
-                <Heading margin={"30px"}>Previous Day's Conditions</Heading>
+                <Heading margin={"30px"}>Previous Day&apos;s Conditions</Heading>
                 <SimpleGrid minChildWidth="300px" rowGap={2} spacing={"20px"}>
                     {pastConditions.map(
                         ({

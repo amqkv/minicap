@@ -134,7 +134,7 @@ export default function PatientInfoModalContent({
                 </Box>
                 <PatientInfoModalSwiper patient={patient} onMutate={onMutate} />
                 <Center mt={4} mb={4}>
-                    <Button id="review-all-button" backgroundColor={"#FF4545BD"} onClick={reviewAllHandler}>
+                    <Button id="review-all-button" colorScheme="red" onClick={reviewAllHandler}>
                         Mark all as Reviewed and Close
                     </Button>
                 </Center>
@@ -146,8 +146,8 @@ export default function PatientInfoModalContent({
                     </Heading>
                 </Center>
                 <Center>
-                    <Box mt={4}>
-                        <LineChart data={formatPatientStatusData(patient.status)} w={400} h={300} />
+                    <Box mt={4} width={[350, 500]}>
+                        <LineChart data={formatPatientStatusData(patient.status)} w={350} h={300} />
                     </Box>
                 </Center>
             </Box>

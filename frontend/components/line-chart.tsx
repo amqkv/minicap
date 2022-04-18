@@ -16,9 +16,9 @@ export default function Chart({ data, w, h }: ChartProps) {
     return (
         <ResponsiveContainer minWidth={w} minHeight={h}>
             <LineChart data={data}>
-                <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="StatusTime" />
                 <YAxis />
+                <CartesianGrid strokeDasharray="3 3" />
                 <Tooltip />
                 <Legend />
                 <Line type="monotone" dataKey="Temperature" stroke="#8884d8" activeDot={{ r: 4 }} />
